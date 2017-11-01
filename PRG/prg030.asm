@@ -4854,34 +4854,34 @@ PRG030_9AA5:
 
 TileLayoutPage_ByTileset:
     ; A000 page selected per-Level_Tileset...
-    .byte BANK(Tile_Layout_TS0)     ; 0 - Map [11]
-    .byte BANK(Tile_Layout_TS1)     ; 1 - Plains [15]
-    .byte BANK(Tile_Layout_TS2)     ; 2 - Mini fortress style [21]
-    .byte BANK(Tile_Layout_TS3)     ; 3 - Hills style [16]
-    .byte BANK(Tile_Layout_TS4_TS12)    ; 4 - High-Up style [17]
-    .byte BANK(Tile_Layout_TS5_TS11_TS13)   ; 5 - pipe world plant infestation [19]
-    .byte BANK(Tile_Layout_TS6_TS7_TS8) ; 6 - Water world [18]
-    .byte BANK(Tile_Layout_TS6_TS7_TS8) ; 7 - Toad house [18]
-    .byte BANK(Tile_Layout_TS6_TS7_TS8) ; 8 - Vertical pipe maze [18]
-    .byte BANK(Tile_Layout_TS9)     ; 9 - desert level [20]
-    .byte BANK(Tile_Layout_TS10)        ; 10 - airship [23]
-    .byte BANK(Tile_Layout_TS5_TS11_TS13)   ; 11 - Giant World [19]
-    .byte BANK(Tile_Layout_TS4_TS12)    ; 12 - ice level [17]
-    .byte BANK(Tile_Layout_TS5_TS11_TS13)   ; 13 - coin heaven / sky level [19]
-    .byte BANK(Tile_Layout_TS14)        ; 14 - underground [13]
+    .byte 11                ; 0     Tile_Layout_TS0             Map [11]
+    .byte 15                ; 1     Tile_Layout_TS1             Plains [15]
+    .byte 21                ; 2     Tile_Layout_TS2             Mini fortress style [21]
+    .byte 16                ; 3     Tile_Layout_TS3             Hills style [16]
+    .byte 17                ; 4     Tile_Layout_TS4_TS12        High-Up style [17]
+    .byte 19                ; 5     Tile_Layout_TS5_TS11_TS13   pipe world plant infestation [19]
+    .byte 18                ; 6     Tile_Layout_TS6_TS7_TS8     Water world [18]
+    .byte 18                ; 7     Tile_Layout_TS6_TS7_TS8     Toad house [18]
+    .byte 18                ; 8     Tile_Layout_TS6_TS7_TS8     Vertical pipe maze [18]
+    .byte 20                ; 9     Tile_Layout_TS9             desert level [20]
+    .byte 23                ; 10    Tile_Layout_TS10            airship [23]
+    .byte 19                ; 11    Tile_Layout_TS5_TS11_TS13   Giant World [19]
+    .byte 17                ; 12    Tile_Layout_TS4_TS12        ice level [17]
+    .byte 19                ; 13    Tile_Layout_TS5_TS11_TS13   coin heaven / sky level [19]
+    .byte 13                ; 14    Tile_Layout_TS14            underground [13]
 
     ; THESE VALUES ARE WRONG!  Appears that they were not maintained?
     ; It doesn't matter because these specialized cases go where they need to anyway!
-    .byte 23                ; 15 - bonus game intro (WRONG: Should be 22)
-    .byte 23                ; 16 - spade game sliders (WRONG: Should be 22)
-    .byte 23                ; 17 - N-spade (WRONG: Should be 22)
-    .byte 16                ; 18 - 2P Vs (WRONG: Should be 14)
+    .byte 23                ; 15                                bonus game intro (WRONG: Should be 22)
+    .byte 23                ; 16                                spade game sliders (WRONG: Should be 22)
+    .byte 23                ; 17                                N-spade (WRONG: Should be 22)
+    .byte 16                ; 18                                2P Vs (WRONG: Should be 14)
 
     ; CORRECT VALUES:
-    ;.byte BANK(Tile_Layout_TS15_TS16_TS17) ; 15 - bonus game intro [22]
-    ;.byte BANK(Tile_Layout_TS15_TS16_TS17) ; 16 - spade game sliders [22]
-    ;.byte BANK(Tile_Layout_TS15_TS16_TS17) ; 17 - N-spade [22]
-    ;.byte BANK(Tile_Layout_TS18)       ; 18 - 2P Vs [14]
+    ;.byte 22               ; 15    Tile_Layout_TS15_TS16_TS17  bonus game intro [22]
+    ;.byte 22               ; 16    Tile_Layout_TS15_TS16_TS17  spade game sliders [22]
+    ;.byte 22               ; 17    Tile_Layout_TS15_TS16_TS17  N-spade [22]
+    ;.byte 14               ; 18    Tile_Layout_TS18            2P Vs [14]
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Scroll_Dirty_Update
