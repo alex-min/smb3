@@ -1,3 +1,3 @@
-	.byte $00	; Unknown purpose
+    .byte $00   ; Unknown purpose
 
-	.byte $FF	; Terminator
+    .byte $FF   ; Terminator
