@@ -434,20 +434,19 @@ PRG009_A1EA:
 
 
     ; This calculates the correct value for the Vs_EnemySetByGameType table by enemy set (2P Vs Enemy Set -> VsES)
-VsES    .func (\1 - Vs_5EnemySets) / 5
 Vs_EnemySetByGameType:
-    .byte VsES(VsES_SpinyAll)   ;  0: Spiny Only
-    .byte VsES(VsES_FFlyAll)    ;  1: Fighter Fly Only
-    .byte VsES(VsES_SpinyFFly)  ;  2: Spiny and Fighter Fly
-    .byte VsES(VsES_SpinyAll)   ;  3: Static coins (ENEMY SET NOT USED)
-    .byte VsES(VsES_SpinySStep) ;  4: Spiny and Sidestepper
-    .byte VsES(VsES_FFlySStep)  ;  5: Fighter Fly and Sidestepper
-    .byte VsES(VsES_SStepAll)   ;  6: Sidestepper Only
-    .byte VsES(VsES_SpinyAll)   ;  7: Coin Fountain
-    .byte VsES(VsES_SpinyAll)   ;  8: Spiny Only
-    .byte VsES(VsES_FFlyAll)    ;  9: Fighter Fly Only
-    .byte VsES(VsES_SStepAll)   ; 10: Sidestepper Only
-    .byte VsES(VsES_SpinyAll)   ; 11: Ladder and [?] blocks (ENEMY SET NOT USED)
+    .byte (VsES_SpinyAll - Vs_5EnemySets) / 5   ;  0: Spiny Only
+    .byte (VsES_FFlyAll - Vs_5EnemySets) / 5    ;  1: Fighter Fly Only
+    .byte (VsES_SpinyFFly - Vs_5EnemySets) / 5  ;  2: Spiny and Fighter Fly
+    .byte (VsES_SpinyAll - Vs_5EnemySets) / 5   ;  3: Static coins (ENEMY SET NOT USED)
+    .byte (VsES_SpinySStep - Vs_5EnemySets) / 5 ;  4: Spiny and Sidestepper
+    .byte (VsES_FFlySStep - Vs_5EnemySets) / 5  ;  5: Fighter Fly and Sidestepper
+    .byte (VsES_SStepAll - Vs_5EnemySets) / 5   ;  6: Sidestepper Only
+    .byte (VsES_SpinyAll - Vs_5EnemySets) / 5   ;  7: Coin Fountain
+    .byte (VsES_SpinyAll - Vs_5EnemySets) / 5   ;  8: Spiny Only
+    .byte (VsES_FFlyAll - Vs_5EnemySets) / 5    ;  9: Fighter Fly Only
+    .byte (VsES_SStepAll - Vs_5EnemySets) / 5   ; 10: Sidestepper Only
+    .byte (VsES_SpinyAll - Vs_5EnemySets) / 5   ; 11: Ladder and [?] blocks (ENEMY SET NOT USED)
 
 
 Vs_2PVsInit:
@@ -3460,20 +3459,19 @@ Vs_ObjectPalette:
 
 
     ; Base sprite pattern for objects
-Vs_PatIdx:  .func \1 - Vs_ObjPatterns
 Vs_ObjectBasePatIndex:
-    .byte Vs_PatIdx(Vs_PatSpiny)    ; Spiny
-    .byte Vs_PatIdx(Vs_PatSpiny)
-    .byte Vs_PatIdx(Vs_PatSStep)    ; Sidestepper
-    .byte Vs_PatIdx(Vs_PatFFly) ; Fighter Fly
-    .byte Vs_PatIdx(Vs_PatFBall)    ; Horizontal Fireball
-    .byte Vs_PatIdx(Vs_PatFBall)    ; Game Ender Fireball
-    .byte Vs_PatIdx(Vs_PatFBall)    ; Fountain Fireball
-    .byte Vs_PatIdx(Vs_PatCoin) ; Coin
-    .byte Vs_PatIdx(Vs_PatMush) ; Mushroom card
-    .byte Vs_PatIdx(Vs_PatFlower)   ; Flower card
-    .byte Vs_PatIdx(Vs_PatStar) ; Star card
-    .byte Vs_PatIdx(Vs_PatKBlock)   ; Kicked block (from [?] block match)
+    .byte Vs_PatSpiny - Vs_ObjPatterns    ; Spiny
+    .byte Vs_PatSpiny - Vs_ObjPatterns
+    .byte Vs_PatSStep - Vs_ObjPatterns    ; Sidestepper
+    .byte Vs_PatFFly - Vs_ObjPatterns ; Fighter Fly
+    .byte Vs_PatFBall - Vs_ObjPatterns    ; Horizontal Fireball
+    .byte Vs_PatFBall - Vs_ObjPatterns    ; Game Ender Fireball
+    .byte Vs_PatFBall - Vs_ObjPatterns    ; Fountain Fireball
+    .byte Vs_PatCoin - Vs_ObjPatterns ; Coin
+    .byte Vs_PatMush - Vs_ObjPatterns ; Mushroom card
+    .byte Vs_PatFlower - Vs_ObjPatterns   ; Flower card
+    .byte Vs_PatStar - Vs_ObjPatterns ; Star card
+    .byte Vs_PatKBlock - Vs_ObjPatterns   ; Kicked block (from [?] block match)
 
     ; 0 = Sprites unchanged
     ; 1 = Mirror both on odd frame
@@ -3552,7 +3550,7 @@ PRG009_B122:
     LDA Vs_FireballBaseAnimCnt,Y
     STA Vs_ObjectAnimCnt,X
 
-    LDX #Vs_PatIdx(Vs_PatFBall2)     ; Fireball base pattern index
+    LDX #Vs_PatFBall2 - Vs_ObjPatterns     ; Fireball base pattern index
     LDA #SPR_PAL3    ; Fireball palette
 
     JMP PRG009_B13F  ; Jump to PRG009_B13F
@@ -3618,7 +3616,7 @@ PRG009_B15D:
     INC <Temp_Var4
 
     ; Alternate flipped Spiny pattern index
-    LDA #Vs_PatIdx(Vs_PatSpinyFlip)
+    LDA #Vs_PatSpinyFlip - Vs_ObjPatterns
     STA <Temp_Var2
 
 PRG009_B17E:
@@ -5249,16 +5247,15 @@ AScroll_VelAccel:   .byte $00, $01, -$01, -$01
 
     ; This points to the starting offset into AScroll_MovementLoop
     ; Indexed by (Level_AScrlLoopSel - 2), next value up is terminating value
-ASML    .func \1 - AScroll_MovementLoop
 AScroll_MovementLoopStart:
-    .byte ASML(ASML_0)      ; 0 (Level_AScrlLoopSel = 2)
-    .byte ASML(ASML_Battleship) ; 1 (Level_AScrlLoopSel = 3) Battleship uses as the "idle" at the end of its scrolling
-    .byte ASML(ASML_Airship)    ; 2 (Level_AScrlLoopSel = 4) Airship/Coin Ship uses this as the "idle" at the end of its scrolling
-    .byte ASML(ASML_3)      ; 3 (Level_AScrlLoopSel = 5)
-    .byte ASML(ASML_4)      ; 4 (Level_AScrlLoopSel = 6)
-    .byte ASML(ASML_5)      ; 5 (Level_AScrlLoopSel = 7)
-    .byte ASML(ASML_6)      ; 6 (Level_AScrlLoopSel = 8)
-    .byte ASML(ASML_Terminator) ; Terminator
+    .byte ASML_0 - AScroll_MovementLoop      ; 0 (Level_AScrlLoopSel = 2)
+    .byte ASML_Battleship - AScroll_MovementLoop ; 1 (Level_AScrlLoopSel = 3) Battleship uses as the "idle" at the end of its scrolling
+    .byte ASML_Airship - AScroll_MovementLoop    ; 2 (Level_AScrlLoopSel = 4) Airship/Coin Ship uses this as the "idle" at the end of its scrolling
+    .byte ASML_3 - AScroll_MovementLoop      ; 3 (Level_AScrlLoopSel = 5)
+    .byte ASML_4 - AScroll_MovementLoop      ; 4 (Level_AScrlLoopSel = 6)
+    .byte ASML_5 - AScroll_MovementLoop      ; 5 (Level_AScrlLoopSel = 7)
+    .byte ASML_6 - AScroll_MovementLoop      ; 6 (Level_AScrlLoopSel = 8)
+    .byte ASML_Terminator - AScroll_MovementLoop ; Terminator
 
     .byte $00
 

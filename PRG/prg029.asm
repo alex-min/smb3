@@ -267,19 +267,18 @@ M12ASegData23:
     ; - 3 * 81 = 243, which fits the 1 byte offset
     ; But, for some reason, everything is off by 4?  The SPPF function below compensates for this, and
     ; PRG029_CF1E loads from 4 bytes shy of the proper address.  Maybe this was a mistake?
-SPPF .func ((\1 - SPPF_Table + 4) / 2)  ; The offsets
 SPPF_Offsets:
-    .byte SPPF(PF00), SPPF(PF01), SPPF(PF02), SPPF(PF03), SPPF(PF04), SPPF(PF05), SPPF(PF06), SPPF(PF07)
-    .byte SPPF(PF08), SPPF(PF09), SPPF(PF0A), SPPF(PF0B), SPPF(PF0C), SPPF(PF0D), SPPF(PF0E), SPPF(PF0F)
-    .byte SPPF(PF10), SPPF(PF11), SPPF(PF12), SPPF(PF13), SPPF(PF14), SPPF(PF15), SPPF(PF16), SPPF(PF17)
-    .byte SPPF(PF18), SPPF(PF19), SPPF(PF1A), SPPF(PF1B), SPPF(PF1C), SPPF(PF1D), SPPF(PF1E), SPPF(PF1F)
-    .byte SPPF(PF20), SPPF(PF21), SPPF(PF22), SPPF(PF23), SPPF(PF24), SPPF(PF25), SPPF(PF26), SPPF(PF27)
-    .byte SPPF(PF28), SPPF(PF29), SPPF(PF2A), SPPF(PF2B), SPPF(PF2C), SPPF(PF2D), SPPF(PF2E), SPPF(PF2F)
-    .byte SPPF(PF30), SPPF(PF31), SPPF(PF32), SPPF(PF33), SPPF(PF34), SPPF(PF35), SPPF(PF36), SPPF(PF37)
-    .byte SPPF(PF38), SPPF(PF39), SPPF(PF3A), SPPF(PF3B), SPPF(PF3C), SPPF(PF3D), SPPF(PF3E), SPPF(PF3F)
-    .byte SPPF(PF40), SPPF(PF41), SPPF(PF42), SPPF(PF43), SPPF(PF44), SPPF(PF45), SPPF(PF46), SPPF(PF47)
-    .byte SPPF(PF48), SPPF(PF49), SPPF(PF4A), SPPF(PF4B), SPPF(PF4C), SPPF(PF4D), SPPF(PF4E), SPPF(PF4F)
-    .byte SPPF(PF50)
+    .byte (PF00 - SPPF_Table + 4) / 2, (PF01 - SPPF_Table + 4) / 2, (PF02 - SPPF_Table + 4) / 2, (PF03 - SPPF_Table + 4) / 2, (PF04 - SPPF_Table + 4) / 2, (PF05 - SPPF_Table + 4) / 2, (PF06 - SPPF_Table + 4) / 2, (PF07 - SPPF_Table + 4) / 2
+    .byte (PF08 - SPPF_Table + 4) / 2, (PF09 - SPPF_Table + 4) / 2, (PF0A - SPPF_Table + 4) / 2, (PF0B - SPPF_Table + 4) / 2, (PF0C - SPPF_Table + 4) / 2, (PF0D - SPPF_Table + 4) / 2, (PF0E - SPPF_Table + 4) / 2, (PF0F - SPPF_Table + 4) / 2
+    .byte (PF10 - SPPF_Table + 4) / 2, (PF11 - SPPF_Table + 4) / 2, (PF12 - SPPF_Table + 4) / 2, (PF13 - SPPF_Table + 4) / 2, (PF14 - SPPF_Table + 4) / 2, (PF15 - SPPF_Table + 4) / 2, (PF16 - SPPF_Table + 4) / 2, (PF17 - SPPF_Table + 4) / 2
+    .byte (PF18 - SPPF_Table + 4) / 2, (PF19 - SPPF_Table + 4) / 2, (PF1A - SPPF_Table + 4) / 2, (PF1B - SPPF_Table + 4) / 2, (PF1C - SPPF_Table + 4) / 2, (PF1D - SPPF_Table + 4) / 2, (PF1E - SPPF_Table + 4) / 2, (PF1F - SPPF_Table + 4) / 2
+    .byte (PF20 - SPPF_Table + 4) / 2, (PF21 - SPPF_Table + 4) / 2, (PF22 - SPPF_Table + 4) / 2, (PF23 - SPPF_Table + 4) / 2, (PF24 - SPPF_Table + 4) / 2, (PF25 - SPPF_Table + 4) / 2, (PF26 - SPPF_Table + 4) / 2, (PF27 - SPPF_Table + 4) / 2
+    .byte (PF28 - SPPF_Table + 4) / 2, (PF29 - SPPF_Table + 4) / 2, (PF2A - SPPF_Table + 4) / 2, (PF2B - SPPF_Table + 4) / 2, (PF2C - SPPF_Table + 4) / 2, (PF2D - SPPF_Table + 4) / 2, (PF2E - SPPF_Table + 4) / 2, (PF2F - SPPF_Table + 4) / 2
+    .byte (PF30 - SPPF_Table + 4) / 2, (PF31 - SPPF_Table + 4) / 2, (PF32 - SPPF_Table + 4) / 2, (PF33 - SPPF_Table + 4) / 2, (PF34 - SPPF_Table + 4) / 2, (PF35 - SPPF_Table + 4) / 2, (PF36 - SPPF_Table + 4) / 2, (PF37 - SPPF_Table + 4) / 2
+    .byte (PF38 - SPPF_Table + 4) / 2, (PF39 - SPPF_Table + 4) / 2, (PF3A - SPPF_Table + 4) / 2, (PF3B - SPPF_Table + 4) / 2, (PF3C - SPPF_Table + 4) / 2, (PF3D - SPPF_Table + 4) / 2, (PF3E - SPPF_Table + 4) / 2, (PF3F - SPPF_Table + 4) / 2
+    .byte (PF40 - SPPF_Table + 4) / 2, (PF41 - SPPF_Table + 4) / 2, (PF42 - SPPF_Table + 4) / 2, (PF43 - SPPF_Table + 4) / 2, (PF44 - SPPF_Table + 4) / 2, (PF45 - SPPF_Table + 4) / 2, (PF46 - SPPF_Table + 4) / 2, (PF47 - SPPF_Table + 4) / 2
+    .byte (PF48 - SPPF_Table + 4) / 2, (PF49 - SPPF_Table + 4) / 2, (PF4A - SPPF_Table + 4) / 2, (PF4B - SPPF_Table + 4) / 2, (PF4C - SPPF_Table + 4) / 2, (PF4D - SPPF_Table + 4) / 2, (PF4E - SPPF_Table + 4) / 2, (PF4F - SPPF_Table + 4) / 2
+    .byte (PF50 - SPPF_Table + 4) / 2
 
     ; The six Patterns per Player_Frame to start each of the six Player sprites with!
     ; Note the order is the three patterns for the three sprites that make the upper
@@ -2817,16 +2816,14 @@ PRG029_DE0E:
     RTS      ; Return
 
     ; Change Big Buffer Command offset
-CBIG_BCOff .func \1 - Chng4Way_90Degrees
-
     ; Get initial offset to proper set of commands to be used
 CBig_Offsets:
-    .byte CBIG_BCOff(Chng4Way_90Degrees)    ; 4-way cannon at 90 degrees
-    .byte CBIG_BCOff(Chng4Way_45Degrees)    ; 4-way cannon at 45 degrees
+    .byte Chng4Way_90Degrees - Chng4Way_90Degrees    ; 4-way cannon at 90 degrees
+    .byte Chng4Way_45Degrees - Chng4Way_90Degrees    ; 4-way cannon at 45 degrees
 
-    .byte CBIG_BCOff(CBig_GiantBlock_BrickBust) ; GiantBlock_BrickBust
-    .byte CBIG_BCOff(CBig_GiantBlock_BlockHit)  ; GiantBlock_BlockHit
-    .byte CBIG_BCOff(CBig_GiantBlock_BrickRestore)  ; GiantBlock_BrickRestore
+    .byte CBig_GiantBlock_BrickBust - Chng4Way_90Degrees ; GiantBlock_BrickBust
+    .byte CBig_GiantBlock_BlockHit - Chng4Way_90Degrees  ; GiantBlock_BlockHit
+    .byte CBig_GiantBlock_BrickRestore - Chng4Way_90Degrees  ; GiantBlock_BrickRestore
 
 Chng4Way_90Degrees:
     .byte $00, $00, $04, $FF, $A6, $A7, $FF

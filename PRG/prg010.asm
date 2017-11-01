@@ -1614,17 +1614,16 @@ FortressFX_W6:  .byte $08, $09, $0A, $00
 FortressFX_W7:  .byte $0B, $0C, $00, $00
 FortressFX_W8:  .byte $0D, $0E, $0F, $10
 
-FFX_Off .func   (\1 - FortressFX_W1)
 
 FortressFXBase_ByWorld:
-    .byte FFX_Off(FortressFX_W1)    ; World 1
-    .byte FFX_Off(FortressFX_W2)    ; World 2
-    .byte FFX_Off(FortressFX_W3)    ; World 3
-    .byte FFX_Off(FortressFX_W4)    ; World 4
-    .byte FFX_Off(FortressFX_W5)    ; World 5
-    .byte FFX_Off(FortressFX_W6)    ; World 6
-    .byte FFX_Off(FortressFX_W7)    ; World 7
-    .byte FFX_Off(FortressFX_W8)    ; World 8
+    .byte FortressFX_W1 - FortressFX_W1    ; World 1
+    .byte FortressFX_W2 - FortressFX_W1    ; World 2
+    .byte FortressFX_W3 - FortressFX_W1    ; World 3
+    .byte FortressFX_W4 - FortressFX_W1    ; World 4
+    .byte FortressFX_W5 - FortressFX_W1    ; World 5
+    .byte FortressFX_W6 - FortressFX_W1    ; World 6
+    .byte FortressFX_W7 - FortressFX_W1    ; World 7
+    .byte FortressFX_W8 - FortressFX_W1    ; World 8
 
     ; Kept going in the series... how many worlds did they think they'd need??
     .byte $20, $24, $28, $2C, $30, $34, $38, $3C, $40

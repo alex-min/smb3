@@ -3099,8 +3099,6 @@ LEVEL3_VSCROLL_LOCKED   = %01000000 ; Locks either high (0) or low ($EF) dependi
 LEVEL3_PIPENOTEXIT  = %10000000
 
 
-; BG pattern bank index
-LEVEL4_BGBANK_INDEX .func (\1 & %00011111)
 
 ; Level initial action
 LEVEL4_INITACT_NOTHING  = %00000000 ; Do nothing

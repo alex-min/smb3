@@ -4878,16 +4878,15 @@ Level_ActionTiles_Range:
 
 
     ; Offset fix applied to the selected "action tile" set
-LATR_Off .func (\1 - LATR_GNote)
 Level_ActionTiles_OffFix:
     ; Tiles activated anytime
-    .byte LATR_Off(LATR_GNote), LATR_Off(LATR_HNote), LATR_Off(LATR_Notes), LATR_Off(LATR_Woodblocks)
+    .byte LATR_GNote - LATR_GNote, LATR_HNote - LATR_GNote, LATR_Notes - LATR_GNote, LATR_Woodblocks - LATR_GNote
 
     ; Tiles activated only when Player is moving upward
-    .byte LATR_Off(LATR_QBlocks), LATR_Off(LATR_InvisCoin), LATR_Off(LATR_InvisNote)
+    .byte LATR_QBlocks - LATR_GNote, LATR_InvisCoin - LATR_GNote, LATR_InvisNote - LATR_GNote
 
     ; And in the desert only... (UNUSED, would be a breakable tile in a pipeworks structure!)
-    .byte LATR_Off(LATR_PWrksJct)
+    .byte LATR_PWrksJct - LATR_GNote
 
 
     ; This defines the base tile index for "action tiles", tiles which, when the

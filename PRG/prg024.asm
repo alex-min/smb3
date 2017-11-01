@@ -2573,17 +2573,16 @@ PRG024_AD9C:
     RTS      ; Return
 
 
-T_SP_Off .func \1-Title_SpritePattern   ; "Title SpritePattern Offset"
 
     ; Index into Title_SpritePattern for all of Mario/Luigi's complex frames
 Title_SpritePatternIndex:
-    .byte T_SP_Off(T_SP_00), T_SP_Off(T_SP_01), T_SP_Off(T_SP_02), T_SP_Off(T_SP_03)
-    .byte T_SP_Off(T_SP_04), T_SP_Off(T_SP_05), T_SP_Off(T_SP_06), T_SP_Off(T_SP_07)
-    .byte T_SP_Off(T_SP_08), T_SP_Off(T_SP_09), T_SP_Off(T_SP_0A), T_SP_Off(T_SP_0B)
-    .byte T_SP_Off(T_SP_0C), T_SP_Off(T_SP_0D), T_SP_Off(T_SP_0E), T_SP_Off(T_SP_0F)
-    .byte T_SP_Off(T_SP_10), T_SP_Off(T_SP_11), T_SP_Off(T_SP_12), T_SP_Off(T_SP_13)
-    .byte T_SP_Off(T_SP_14), T_SP_Off(T_SP_15), T_SP_Off(T_SP_16), T_SP_Off(T_SP_17)
-    .byte T_SP_Off(T_SP_18), T_SP_Off(T_SP_19), T_SP_Off(T_SP_1A), T_SP_Off(T_SP_1B)
+    .byte T_SP_00 - Title_SpritePattern, T_SP_01 - Title_SpritePattern, T_SP_02 - Title_SpritePattern, T_SP_03 - Title_SpritePattern
+    .byte T_SP_04 - Title_SpritePattern, T_SP_05 - Title_SpritePattern, T_SP_06 - Title_SpritePattern, T_SP_07 - Title_SpritePattern
+    .byte T_SP_08 - Title_SpritePattern, T_SP_09 - Title_SpritePattern, T_SP_0A - Title_SpritePattern, T_SP_0B - Title_SpritePattern
+    .byte T_SP_0C - Title_SpritePattern, T_SP_0D - Title_SpritePattern, T_SP_0E - Title_SpritePattern, T_SP_0F - Title_SpritePattern
+    .byte T_SP_10 - Title_SpritePattern, T_SP_11 - Title_SpritePattern, T_SP_12 - Title_SpritePattern, T_SP_13 - Title_SpritePattern
+    .byte T_SP_14 - Title_SpritePattern, T_SP_15 - Title_SpritePattern, T_SP_16 - Title_SpritePattern, T_SP_17 - Title_SpritePattern
+    .byte T_SP_18 - Title_SpritePattern, T_SP_19 - Title_SpritePattern, T_SP_1A - Title_SpritePattern, T_SP_1B - Title_SpritePattern
 
     ; Block of patterns, based on offsets from Title_SpritePatternIndex
     ; For use with Mario/Luigi's sprites
