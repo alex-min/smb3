@@ -605,7 +605,7 @@ PRG002_A30C:
 GiantBlockCtl_DebrisXOff:   .byte $00, $10, $00, $10
 GiantBlockCtl_DebrisYOff:   .byte $00, $00, $10, $10
 GiantBlockCtl_DebrisXVel:   .byte -$10, $10, -$10, $10
-GiantBlockCtl_DebrisYVel    .byte -$40, -$40, -$28, -$28
+GiantBlockCtl_DebrisYVel:   .byte -$40, -$40, -$28, -$28
 
 PRG002_A325:
     ; Set like Player bounced up

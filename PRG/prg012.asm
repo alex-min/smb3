@@ -134,7 +134,7 @@ Map_Complete_Bits:
 
 Map_Removable_Tiles:
     .byte TILE_ROCKBREAKH, TILE_ROCKBREAKV, TILE_LOCKVERT, TILE_FORT, TILE_ALTFORT, TILE_ALTLOCK, TILE_LOCKHORZ, TILE_RIVERVERT
-MRT_END ; marker to calculate size -- allows user expansion of Map_Removable_Tiles
+MRT_END: ; marker to calculate size -- allows user expansion of Map_Removable_Tiles
 
 Map_RemoveTo_Tiles:
     ; These specify tiles that coorespond to the tile placed when the above is removed
@@ -146,7 +146,7 @@ Map_Completable_Tiles:
     ; These tiles are simply marked with the M/L
     ; NOTE: The Dancing Flower is a "completable tile"...
     .byte TILE_TOADHOUSE, TILE_SPADEBONUS, TILE_HANDTRAP, TILE_DANCINGFLOWER, TILE_ALTTOADHOUSE
-MCT_END ; marker to calculate size -- allows user expansion of Map_Completable_Tiles
+MCT_END: ; marker to calculate size -- allows user expansion of Map_Completable_Tiles
 
 Map_CompleteByML_Tiles:
     .byte TILE_MARIOCOMP_P, TILE_LUIGICOMP_P, TILE_MARIOCOMP_O, TILE_LUIGICOMP_O

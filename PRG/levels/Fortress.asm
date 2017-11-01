@@ -18,7 +18,7 @@ W5F1L:      .include "PRG/levels/Fortress/5-F1"     ; World 5 ground Fortress ma
 W5F1_AltL:  .include "PRG/levels/Fortress/5-F1A"    ; World 5 ground Fortress bonus / boss rooms
 EmptyFortL: .include "PRG/levels/Fortress/Empty"    ; Empty/unused
 W7F2L:      .include "PRG/levels/Fortress/7-F2"     ; World 7 2nd Fortress
-W7F2_AltL   .include "PRG/levels/Fortress/7-F2A"    ; World 7 2nd Fortress boss room
+W7F2_AltL:  .include "PRG/levels/Fortress/7-F2A"    ; World 7 2nd Fortress boss room
 W6F3L:      .include "PRG/levels/Fortress/6-F3"     ; World 6 third fortress
 W6F3_AltL:  .include "PRG/levels/Fortress/6-F3A"    ; World 6 third fortress "Boo room"
 W6F1L:      .include "PRG/levels/Fortress/6-F1"     ; World 6 first fortress

@@ -313,7 +313,7 @@ PF16:   .byte $0B, $0D, $F1, $0F, $29, $2B
 PF17:   .byte $2D, $2F, $F1, $19, $1B, $1D
 PF18:   .byte $2D, $2F, $F1, $A9, $AB, $F1
 PF19:   .byte $2D, $2F, $F1, $A9, $AD, $F1
-PF1A    .byte $01, $03, $05, $07, $09, $0B
+PF1A:   .byte $01, $03, $05, $07, $09, $0B
 PF1B:   .byte $0D, $0F, $39, $3B, $3D, $3F
 PF1C:   .byte $19, $1B, $1D, $1F, $21, $23
 PF1D:   .byte $25, $27, $29, $2B, $2D, $2F
