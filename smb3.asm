@@ -1,7 +1,8 @@
-    .inesprg 16  ; 16x 16KB PRG code (32 banks of 8KB)
-    .ineschr 16  ; 16x  8KB CHR data (128 banks of 1KB)
-    .inesmap 4   ; mapper 4 = MMC3, 8KB PRG, 1/2KB CHR bank swapping
-    .inesmir 0   ; background mirroring
+    .db "NES", $1a ;identification of the iNES header
+    .db 16 ;number of 16KB PRG-ROM pages
+    .db 16 ;number of 8KB CHR-ROM pages
+    .db $40|0 ;mapper 4 and mirroring
+    .dsb 9, $00 ;clear the remaining bytes
 
 ; Verifies:
 ; \$[0-9A-F][0-9A-F][0-9A-F][0-9A-F]
