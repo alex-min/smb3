@@ -125,14 +125,14 @@ W802O:      .include "PRG/objects/8-2.asm"  ; 8-2
 W105O:      .include "PRG/objects/1-5.asm"  ; 1-5
 W308O:      .include "PRG/objects/3-8.asm"  ; 3-8
 W40F_BonusO:    .include "PRG/objects/4-FBonus.asm" ; World 4 Fortress Bonus area
-BigQBlock1O:    .include "PRG/objects/BigQ1"    ; World 1's Big [?] block area (empty)
-BigQBlock2O:    .include "PRG/objects/BigQ2"    ; World 2's Big [?] block area
-BigQBlock3O:    .include "PRG/objects/BigQ3"    ; World 3's Big [?] block area
-BigQBlock4O:    .include "PRG/objects/BigQ4"    ; World 4's Big [?] block area
-BigQBlock5O:    .include "PRG/objects/BigQ5"    ; World 5's Big [?] block area
-BigQBlock6O:    .include "PRG/objects/BigQ6"    ; World 6's Big [?] block area
-BigQBlock7O:    .include "PRG/objects/BigQ7"    ; World 7's Big [?] block area
-BigQBlock8O:    .include "PRG/objects/BigQ8"    ; World 8's Big [?] block area
+BigQBlock1O:    .include "PRG/objects/BigQ1.asm"    ; World 1's Big [?] block area (empty)
+BigQBlock2O:    .include "PRG/objects/BigQ2.asm"    ; World 2's Big [?] block area
+BigQBlock3O:    .include "PRG/objects/BigQ3.asm"    ; World 3's Big [?] block area
+BigQBlock4O:    .include "PRG/objects/BigQ4.asm"    ; World 4's Big [?] block area
+BigQBlock5O:    .include "PRG/objects/BigQ5.asm"    ; World 5's Big [?] block area
+BigQBlock6O:    .include "PRG/objects/BigQ6.asm"    ; World 6's Big [?] block area
+BigQBlock7O:    .include "PRG/objects/BigQ7.asm"    ; World 7's Big [?] block area
+BigQBlock8O:    .include "PRG/objects/BigQ8.asm"    ; World 8's Big [?] block area
 W304O:      .include "PRG/objects/3-4.asm"  ; 3-4
 W608O:      .include "PRG/objects/6-8.asm"  ; 6-8
 W302O:      .include "PRG/objects/3-2.asm"  ; 3-2
@@ -248,25 +248,25 @@ W80F_AltO:  .include "PRG/objects/8-FA.asm"
 W8BCO:      .include "PRG/objects/Bowser.asm"
 W8BC_AltO:  .include "PRG/objects/BowserA.asm"
 _D637:      .include "PRG/objects/D637.asm"
-WAirship_IntroO:    .include "PRG/objects/WAIntro"  ; Any Airship run, jump, catch anchor intro
-W4Airship_BossO:    .include "PRG/objects/W4ABoss"  ; World 4 Airship boss room
-W5AirshipO: .include "PRG/objects/W5A"          ; World 5 Airship
-W1AirshipO: .include "PRG/objects/W1A"          ; World 1 Airship
-W2AirshipO: .include "PRG/objects/W2A"          ; World 2 Airship
-W3AirshipO: .include "PRG/objects/W3A"          ; World 3 Airship
-W4AirshipO: .include "PRG/objects/W4A"          ; World 4 Airship
-W6AirshipO: .include "PRG/objects/W6A"          ; World 6 Airship
-W7AirshipO: .include "PRG/objects/W7A"          ; World 7 Airship
-W8AirshipO: .include "PRG/objects/W8A"          ; World 8 Airship
+WAirship_IntroO:    .include "PRG/objects/WAIntro.asm"  ; Any Airship run, jump, catch anchor intro
+W4Airship_BossO:    .include "PRG/objects/W4ABoss.asm"  ; World 4 Airship boss room
+W5AirshipO: .include "PRG/objects/W5A.asm"          ; World 5 Airship
+W1AirshipO: .include "PRG/objects/W1A.asm"          ; World 1 Airship
+W2AirshipO: .include "PRG/objects/W2A.asm"          ; World 2 Airship
+W3AirshipO: .include "PRG/objects/W3A.asm"          ; World 3 Airship
+W4AirshipO: .include "PRG/objects/W4A.asm"          ; World 4 Airship
+W6AirshipO: .include "PRG/objects/W6A.asm"          ; World 6 Airship
+W7AirshipO: .include "PRG/objects/W7A.asm"          ; World 7 Airship
+W8AirshipO: .include "PRG/objects/W8A.asm"          ; World 8 Airship
 W8BSO:      .include "PRG/objects/W8Ship.asm"       ; World 8 Battleship
 W8T2O:      .include "PRG/objects/W8Tank2.asm"      ; World 8 Tank 2
 W8T1O:      .include "PRG/objects/W8Tank1.asm"      ; World 8 Tank 1
-W1Airship_BossO:    .include "PRG/objects/W1ABoss"  ; World 1 Airship boss room
-W2Airship_BossO:    .include "PRG/objects/W2ABoss"  ; World 2 Airship boss room
-W3Airship_BossO:    .include "PRG/objects/W3ABoss"  ; World 3 Airship boss room
-W5Airship_BossO:    .include "PRG/objects/W5ABoss"  ; World 5 Airship boss room
-W6Airship_BossO:    .include "PRG/objects/W6ABoss"  ; World 6 Airship boss room
-W7Airship_BossO:    .include "PRG/objects/W7ABoss"  ; World 7 Airship boss room
+W1Airship_BossO:    .include "PRG/objects/W1ABoss.asm"  ; World 1 Airship boss room
+W2Airship_BossO:    .include "PRG/objects/W2ABoss.asm"  ; World 2 Airship boss room
+W3Airship_BossO:    .include "PRG/objects/W3ABoss.asm"  ; World 3 Airship boss room
+W5Airship_BossO:    .include "PRG/objects/W5ABoss.asm"  ; World 5 Airship boss room
+W6Airship_BossO:    .include "PRG/objects/W6ABoss.asm"  ; World 6 Airship boss room
+W7Airship_BossO:    .include "PRG/objects/W7ABoss.asm"  ; World 7 Airship boss room
 CoinShipO:      .include "PRG/objects/CoinShip.asm" ; Coin Ship
 CoinShip_BossO:     .include "PRG/objects/CoinBoss.asm" ; Coin Ship boss
 W8Tank2_BossO:      .include "PRG/objects/W8Tank2B.asm"

@@ -354,17 +354,17 @@ LeveLoad_FixedSizeGen_TS14:
 
     ; These are duplicated from the 'Plains' bank (PRG015) and don't belong here!
     ; Don't try to use these, and make sure you delete them...
-    .include "PRG/levels/Plains/1-1Bonus"   ; 1-1 Bonus room
-    .include "PRG/levels/Plains/7-5"        ; 7-5
-    .include "PRG/levels/Plains/3-8End"     ; 3-8 Exit
-    .include "PRG/levels/Plains/5-3End"     ; 5-3 Exit
-    .include "PRG/levels/Plains/Unused2E"   ; "Unused level 2" exit
-    .include "PRG/levels/Plains/Generic4"   ; Generic Exit for World 4 only
-    .include "PRG/levels/Plains/W3HBD"      ; World 3 Hammer Bro battle area (out of water)
-    .include "PRG/levels/Plains/W3HBC"      ; World 3 Hammer Bro battle area (in water, with powerup)
-    .include "PRG/levels/Plains/WxHBx"      ; ?? Unknown Hammer Bro battle area
-    .include "PRG/levels/Plains/1-4End"     ; 1-4 Exit pipe
-    .include "PRG/levels/Plains/3-3"        ; 3-3
-    .include "PRG/levels/Plains/3-3End"     ; 3-3 Exit
+    .include "PRG/levels/Plains/1-1Bonus.asm"   ; 1-1 Bonus room
+    .include "PRG/levels/Plains/7-5.asm"        ; 7-5
+    .include "PRG/levels/Plains/3-8End.asm"     ; 3-8 Exit
+    .include "PRG/levels/Plains/5-3End.asm"     ; 5-3 Exit
+    .include "PRG/levels/Plains/Unused2E.asm"   ; "Unused level 2" exit
+    .include "PRG/levels/Plains/Generic4.asm"   ; Generic Exit for World 4 only
+    .include "PRG/levels/Plains/W3HBD.asm"      ; World 3 Hammer Bro battle area (out of water)
+    .include "PRG/levels/Plains/W3HBC.asm"      ; World 3 Hammer Bro battle area (in water, with powerup)
+    .include "PRG/levels/Plains/WxHBx.asm"      ; ?? Unknown Hammer Bro battle area
+    .include "PRG/levels/Plains/1-4End.asm"     ; 1-4 Exit pipe
+    .include "PRG/levels/Plains/3-3.asm"        ; 3-3
+    .include "PRG/levels/Plains/3-3End.asm"     ; 3-3 Exit
 
 ; Rest of ROM bank was empty
