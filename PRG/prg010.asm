@@ -3941,7 +3941,7 @@ PRG010_D535:
     ; END UNUSED SPACE
 
     ; ASSEMBLER BOUNDARY CHECK, END OF $D800
-.Bound_D800:    BoundCheck .Bound_D800, $D800, PRG010: ROM encroaching DMC space
+Bound_D800:    BoundCheck Bound_D800, $D800, PRG010: ROM encroaching DMC space
     org $D800   ; <-- Modify to suit, but must align to an address evenly divisible by $40 (assembler needs an ALIGN directive!)
 DMC07:
     .byte $4A, $53, $55, $55, $55, $55, $55, $55, $55, $55, $AB, $4A, $55, $AA, $DA, $EE
