@@ -332,7 +332,6 @@ MMC3_IRQENABLE  = $E001 ; Enables IRQ generation
 ; ZERO PAGE RAM COMMON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Common use zero page RAM.  Bytes in $75-$F3 are context-dependent
-    .data       ; SB: Using .data instead of .zp to export labels
     .org $00
 
 ; For clarification, none of the other "Temp" vars are damaged by NMI,
@@ -891,7 +890,6 @@ BoundZP_Game:  BoundCheck BoundZP_Game, $F4, Zero Page Gameplay Context
 ; The debug flag in particular is pretty precariously placed, and under some kind of heavy call stack, seems like
 ; there's risk it could be set by accident... but I guess this never happens... ?
 
-    .data
     .org $0100
 
     Update_Select:  .ds 1       ; Changes which path of "update routines" are selected; $00 = ??, $20 = Title Screen, $40 = Spade Game, $80 = Vertical level, $A0 = 32 pixel partition, $C0 = Normal
@@ -903,7 +901,6 @@ BoundZP_Game:  BoundCheck BoundZP_Game, $F4, Zero Page Gameplay Context
 
 
 ; Main NES SRAM begin
-    .data   ; SB: Using .data instead of .bss to export labels
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $2xx SPRITE RAM
@@ -2209,7 +2206,6 @@ Bound_0800:    BoundCheck Bound_0800, $0800, $07xx RAM
 ; 2P Vs just utilizes a chunk where no tiles will ever exist in 2P Mode
 
 ; 2P Vs Only
-    .data
     .org $6800
 
     Vs_MemStart:            ; Should be at "top"; this point and 512 bytes forward are cleared at start of 2P Vs
@@ -2963,7 +2959,6 @@ Bound_8000:    BoundCheck Bound_8000, $8000, MMC3 SRAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $7A01-$7A11 MMC3 SRAM as Cinematic for Wand Return (Post-Airship)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .data
     .org $7A01
 ; This uses the same space as most of the Auto Scroll data, I'm annoyed that I have to make a section for this
 
@@ -2989,8 +2984,6 @@ Bound_8000:    BoundCheck Bound_8000, $8000, MMC3 SRAM
 
     ; ASSEMBLER BOUNDARY CHECK, END OF $7A12
 Bound_7A12:    BoundCheck Bound_7A12, $7A12, Wand Return Cinematic Vars
-
-    .code
 
 ; The objects are broken up into groups of 36 IDs across 5 ROM banks (1 - 5)
 ; These lookup table addresses are common, even though their banks are not,
