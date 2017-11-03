@@ -37,8 +37,8 @@ Vs_CardAwardLives:
     LDY #$01     ; Y = 1
 
 PRG009_A026:
-    STY <Temp_Var1   ; Temp_Var1 = Y (Player index)
-    STX <Temp_Var2   ; Temp_Var2 = X (Player's card index, offset into Inventory_Cards)
+    STY Temp_Var1   ; Temp_Var1 = Y (Player index)
+    STX Temp_Var2   ; Temp_Var2 = X (Player's card index, offset into Inventory_Cards)
 
     ; Basically looking to see if Player has three cards; if so, jump to PRG009_A03E
     LDA Inventory_Cards,X
@@ -72,7 +72,7 @@ PRG009_A03E:
 
     TAY         ; Result -> 'Y'
 
-    LDX <Temp_Var1       ; X = Temp_Var1
+    LDX Temp_Var1       ; X = Temp_Var1
 
     ; Technically this just plays the "1-up" sound, but it could have been
     ; used to play different sounds for card triples or something.
@@ -106,7 +106,7 @@ PRG009_A03E:
     PLA      ; Restore awarded lives value
     BEQ PRG009_A08F  ; If no award (shouldn't happen??), jump to PRG009_A08F (RTS)
 
-    LDX <Temp_Var2   ; X = Temp_Var2
+    LDX Temp_Var2   ; X = Temp_Var2
 
     ; Clear Player's cards
     LDA #$00
@@ -126,7 +126,7 @@ Vs_xUp_SprRAMOff:   .byte $B0, $B8  ; Sprite RAM offset for the "x Up"
 Vs_DrawxUps:
     LDX #$01     ; X = 1
 PRG009_A09E:
-    STX <Temp_Var1   ; X -> Temp_Var1
+    STX Temp_Var1   ; X -> Temp_Var1
 
     JSR Vs_xUpDraw   ; Draw "x Up"
 
@@ -150,10 +150,10 @@ PRG009_A0B5:
     RTS      ; Return
 
 PRG009_A0B6:
-    LDA <Vs_IsPaused
+    LDA Vs_IsPaused
     BNE PRG009_A0C2  ; If 2P Vs is paused, jump to PRG009_A0C2
 
-    LDA <Counter_1
+    LDA Counter_1
     LSR A
     BCC PRG009_A0C2  ; Every other tick, jump to PRG009_A0C2
 
@@ -193,7 +193,7 @@ PRG009_A0C2:
     LDA Vs_xUpPattern_R-1,X ; -1 because "0 lives" isn't valid
     STA Sprite_RAM+$05,Y
 
-    LDX <Temp_Var1   ; Restore 'X'
+    LDX Temp_Var1   ; Restore 'X'
 
     RTS      ; Return
 
@@ -222,18 +222,18 @@ Card_Patterns:  .byte $E7, $E9, $EB
 Vs_DrawPlayerCards:
     ; Temp_Var1 = 0 (Sprite RAM offset for cards)
     LDA #$00
-    STA <Temp_Var1
+    STA Temp_Var1
 
     ; Temp_Var2 = 2 (current card of Player)
     LDA #$02
-    STA <Temp_Var2
+    STA Temp_Var2
 
 PRG009_A10E:
     LDX #$02     ; X = 2 (3 cards to draw)
 PRG009_A110:
-    LDY <Temp_Var2   ; Y = Temp_Var2 (current card of Player)
+    LDY Temp_Var2   ; Y = Temp_Var2 (current card of Player)
 
-    STX <Temp_Var4   ; Backup 'X'
+    STX Temp_Var4   ; Backup 'X'
 
     LDA Inventory_Cards,Y
     BEQ PRG009_A165  ; If this card slot is empty, jump to PRG009_A165
@@ -242,7 +242,7 @@ PRG009_A110:
 
     LDA Card_Patterns-1,Y    ; Get pattern for this card (-1 since 0 is empty)
 
-    LDY <Temp_Var1       ; Y = Temp_Var1 (Sprite RAM offset for cards)
+    LDY Temp_Var1       ; Y = Temp_Var1 (Sprite RAM offset for cards)
 
     ; Set left and right card sprites to this pattern
     STA Sprite_RAM+$D1,Y
@@ -283,7 +283,7 @@ PRG009_A146:
     ORA #SPR_HFLIP
     STA Sprite_RAM+$D6,Y
 
-    LDX <Temp_Var4   ; Restore 'X'
+    LDX Temp_Var4   ; Restore 'X'
 
     LDA #16      ; A = 16   ; Mario card base X
 
@@ -305,25 +305,25 @@ PRG009_A158:
 PRG009_A165:
 
     ; Temp_Var1 += 8 (two sprites over)
-    LDA <Temp_Var1
+    LDA Temp_Var1
     ADD #$08
-    STA <Temp_Var1
+    STA Temp_Var1
 
-    DEC <Temp_Var2   ; Temp_Var2-- (Player's previous card)
+    DEC Temp_Var2   ; Temp_Var2-- (Player's previous card)
 
     DEX      ; X--
     BPL PRG009_A110  ; While X >= 0, loop
 
-    LDY <Temp_Var2   ; Y = Temp_Var2
+    LDY Temp_Var2   ; Y = Temp_Var2
     BPL PRG009_A180  ; If Temp_Var2 >= 0 (only happens at the end of Luigi's cards), jump to PRG009_A180 (RTS)
 
     ; Temp_Var1 = $18 (Luigi's card base sprite offset)
     LDA #$18
-    STA <Temp_Var1
+    STA Temp_Var1
 
     ; Set Temp_Var2 as offset to Luigi's last card
     LDY #(Inventory_Cards2 - Inventory_Cards + 2)
-    STY <Temp_Var2
+    STY Temp_Var2
 
     JMP PRG009_A10E  ; Jump to PRG009_A10E
 
@@ -351,7 +351,7 @@ PRG009_A188:
     CPY #(Vs_PlayerCoinStatCmds_End - Vs_PlayerCoinStatCmds)
     BNE PRG009_A188 ; While not the last byte of command data, loop!
 
-    LDY <Temp_Var16  ; Y = Temp_Var16 (current Player index)
+    LDY Temp_Var16  ; Y = Temp_Var16 (current Player index)
     LDA Vs_PlayerCoinStatBaseVRAM,Y  ; Get base VRAM offset for coin
     ADD Vs_PlayerCoins,Y     ; Offset to specific coin they just got
     STA Graphics_Buffer-4,X  ; Set this as the VRAM low
@@ -370,14 +370,14 @@ Vs_2PVsPauseHandler:
     LDA SndCur_Pause
     BNE PRG009_A1DC  ; If playing pause sound, jump to PRG009_A1DC
 
-    LDA <Controller1Press
+    LDA Controller1Press
     AND #PAD_START
     BEQ PRG009_A1DC  ; If Player 1 is not pressing START, jump to PRG009_A1DC
 
     ; Toggle Vs_IsPaused
-    LDA <Vs_IsPaused
+    LDA Vs_IsPaused
     EOR #$01
-    STA <Vs_IsPaused
+    STA Vs_IsPaused
 
     BNE PRG009_A1CC  ; If paused, jump to PRG009_A1CC
 
@@ -412,7 +412,7 @@ PRG009_A1D3:
     BPL PRG009_A1D3  ; While X >= 0, loop
 
 PRG009_A1DC:
-    LDA <Vs_IsPaused
+    LDA Vs_IsPaused
     BEQ PRG009_A1EA  ; If 2P Vs is paused, jump to PRG009_A1EA
 
     ; Set all halt timers to $FF
@@ -462,7 +462,7 @@ PRG009_A204:
     BNE PRG009_A204 ; While Y <> 0, loop
 
     ; Seed Vs_Random
-    LDA <Counter_1
+    LDA Counter_1
     ORA #$91
     STA Vs_Random
 
@@ -505,14 +505,14 @@ Vs_HideCoins:
     LDX #$0d    ; X = $0D
 PRG009_A25B:
     TXA
-    STA <Temp_Var1,X
+    STA Temp_Var1,X
     DEX      ; X--
     BPL PRG009_A25B  ; While X >= 0, loop!
 
     ; Temp_Var15/16 = $FF
     LDA #$ff
-    STA <Temp_Var15
-    STA <Temp_Var16
+    STA Temp_Var15
+    STA Temp_Var16
 
     LDX #$04     ; X = 4
 PRG009_A269:
@@ -635,7 +635,7 @@ Vs_GameCoins:
     RTS      ; Return
 
 Vs_UNKGAME:
-    LDA <Counter_1
+    LDA Counter_1
     AND #$07
     BNE PRG009_A327  ; 1:8 ticks proceed, otherwise jump to PRG009_A327
 
@@ -653,12 +653,12 @@ PRG009_A327:
 
 
 Vs_FountainSpray:
-    LDA <Counter_1
+    LDA Counter_1
     AND #$07            ; 7:8 ticks...
     ORA Vs_PlayerHaltTimer      ; ... if Mario is halted ...
     ORA Vs_PlayerHaltTimer+1    ; ... if Luigi is halted ...
     ORA Vs_TimeToExit       ; ... if we're exiting ...
-    ORA <Vs_IsPaused        ; ... or the game is paused ...
+    ORA Vs_IsPaused        ; ... or the game is paused ...
     BNE PRG009_A343         ; ... jump to PRG009_A343 (RTS)
 
     LDX #$09     ; X = 9
@@ -736,7 +736,7 @@ Vs_PlayerPopCard:
 PRG009_A38E:
 
     ; card offset -> Temp_Var1
-    STY <Temp_Var1
+    STY Temp_Var1
 
     LDA Inventory_Cards,Y
     BNE PRG009_A39D  ; If Player has a card in this slot, jump to PRG009_A39D
@@ -777,7 +777,7 @@ PRG009_A3AD:
     ; Vs_ObjectState = 1 (Normal operation)
     INC Vs_ObjectState,X
 
-    LDY <Temp_Var1   ; Y = Temp_Var1
+    LDY Temp_Var1   ; Y = Temp_Var1
 
     ; Player lost this card
     LDA #$00
@@ -991,7 +991,7 @@ VsPlayer_Normal:
     LDA Vs_PlayerBumpTimer
     BNE PRG009_A4CF  ; If Vs_PlayerBumpTimer <> 0, jump to PRG009_A4CF
 
-    LDA <Controller1,X
+    LDA Controller1,X
     AND #(PAD_UP | PAD_DOWN)
     BEQ PRG009_A4CF  ; If Player is not pressing up or down, jump to PRG009_A4CF
 
@@ -1019,7 +1019,7 @@ PRG009_A4CF:
 
     ; Player not climbing ladder...
 
-    LDA <Controller1,X
+    LDA Controller1,X
     BEQ PRG009_A4D8  ; If Player not pressing anything, jump to PRG009_A4D8
 
     ; Vs_PlayerFlashInv = 0
@@ -1046,7 +1046,7 @@ PRG009_A4E4:
     NOP
 
 PRG009_A4EA:
-    LDA <Controller1,X
+    LDA Controller1,X
     AND #(PAD_LEFT | PAD_RIGHT)
     BEQ PRG009_A546  ; If Player is not pressing left or right, jump to PRG009_A546
 
@@ -1060,7 +1060,7 @@ PRG009_A4EA:
 
     ; Player pushed right
 
-    LDA <Controller1,X
+    LDA Controller1,X
     AND #PAD_B
     BEQ PRG009_A509  ; If Player did not push B, jump to PRG009_A509
 
@@ -1098,7 +1098,7 @@ PRG009_A51E:
 
     ; Player pushed left
 
-    LDA <Controller1,X
+    LDA Controller1,X
     AND #PAD_B
     BEQ PRG009_A531  ; If Player did not push B, jump to PRG009_A531
 
@@ -1213,7 +1213,7 @@ PRG009_A5AD:
 
     ; No POW block occuring
 
-    LDA <Controller1Press,X
+    LDA Controller1Press,X
     BPL PRG009_A5D1  ; If Player is NOT pressing A, jump to PRG009_A5D1
 
     ; Play jump sound!
@@ -1241,7 +1241,7 @@ PRG009_A5CE:
     STA Vs_PlayerYVel,X  ; Set Player's Y velocity
 
 PRG009_A5D1:
-    LDA <Controller1,X
+    LDA Controller1,X
     AND #(PAD_LEFT | PAD_RIGHT)
     BNE PRG009_A5ED  ; If Player is pressing left or right, jump to PRG009_A5ED
 
@@ -1282,7 +1282,7 @@ PRG009_A5FD:
     AND Vs_PlayerDetStat,X
     BEQ PRG009_A610  ; If Player is not moving in direction they're blocked in, jump to PRG009_A610
 
-    AND <Controller1,X
+    AND Controller1,X
     BEQ PRG009_A60A  ; If Player is not pressing the same direction as the direction they're blocked in, jump to PRG009_A60A
 
     ; Player is pushing against their blocking direction...
@@ -1349,7 +1349,7 @@ PRG009_A650:
 
     ; Player is moving upward...
 
-    LDY <Controller1,X
+    LDY Controller1,X
     BMI PRG009_A65C  ; If Player is pressing A, jump to PRG009_A65C
 
 PRG009_A659:
@@ -1467,7 +1467,7 @@ PRG009_A6D5:
 
 
 VsPlayer_Climbing:
-    LDA <Controller1,X
+    LDA Controller1,X
     AND #(PAD_UP | PAD_DOWN)
     BEQ PRG009_A6FE  ; If Player is pressing neither up nor down, jump to PRG009_A6FE
 
@@ -1491,18 +1491,18 @@ PRG009_A6F6:
     STA Vs_PlayerX,X    ; Update Player X
 
 PRG009_A6FE:
-    LDA <Controller1,X
+    LDA Controller1,X
     AND #(PAD_UP | PAD_DOWN)
     BEQ PRG009_A734  ; If Player is pressing neither up nor down, jump to PRG009_A734
 
     ; Player is pressing UP or DOWN...
 
-    STA <Temp_Var1       ; Store whichever is the case -> Temp_Var1
+    STA Temp_Var1       ; Store whichever is the case -> Temp_Var1
 
     AND Vs_PlayerDetStat,X
     BNE PRG009_A754  ; If Player is blocked in the direction they want to go, jump to PRG009_A754
 
-    LDA <Temp_Var1
+    LDA Temp_Var1
     CMP #PAD_UP
     BNE PRG009_A72E  ; If Player is not pressing UP, jump to PRG009_A72E
 
@@ -1531,16 +1531,16 @@ PRG009_A72E:
     INC Vs_PlayerClimbFrame,X    ; Vs_PlayerClimbFrame++
 
 PRG009_A734:
-    LDA <Controller1,X
+    LDA Controller1,X
     AND #(PAD_LEFT | PAD_RIGHT)
-    STA <Temp_Var1   ; Player pressing left/right -> Temp_Var1
+    STA Temp_Var1   ; Player pressing left/right -> Temp_Var1
 
     ; Player is pressing left/right while on the ladder...
 
     AND Vs_PlayerDetStat,X
     BNE PRG009_A74D  ; If Player is being blocked in the direction they want to go, jump to PRG009_A74D
 
-    LSR <Temp_Var1
+    LSR Temp_Var1
     BCC PRG009_A746  ; If Player is not pressing RIGHT, jump to PRG009_A746
 
     ; Player is pressing RIGHT...
@@ -1548,7 +1548,7 @@ PRG009_A734:
     INC Vs_PlayerX,X     ; Player X ++ (climb to the right)
 
 PRG009_A746:
-    LSR <Temp_Var1
+    LSR Temp_Var1
     BCC PRG009_A74D  ; If Player is not pressing LEFT, jump to PRG009_A74D
 
     DEC Vs_PlayerX,X     ; Player X -- (climb to the left)
@@ -1685,7 +1685,7 @@ Vs_DetStatLoopUnderHit:
 Vs_CollideAgainstWorld:
     ; Temp_Var14 = player/object detection status bits
     LDA Vs_PlayerDetStat,X
-    STA <Temp_Var14
+    STA Temp_Var14
 
     ; Clear all Player/object detection info
     LDA #$00
@@ -1695,12 +1695,12 @@ Vs_CollideAgainstWorld:
 
     LDY #(Vs_DetStatLoop_End - Vs_DetStatLoop - 1)
 PRG009_A7E4:
-    STY <Temp_Var16  ; Backup 'Y'
+    STY Temp_Var16  ; Backup 'Y'
 
     LDA Vs_PlayerY,X    ; Get Player/Object's Y
     ADD Vs_DetStatLoopYOff,Y    ; Y offset for this loop
     AND #$f0        ; Align to grid
-    STA <Temp_Var1      ; -> Temp_Var1
+    STA Temp_Var1      ; -> Temp_Var1
 
     CPX #$02
     BLT PRG009_A801  ; If X < 2 (Player, not object), jump to PRG009_A801
@@ -1717,11 +1717,11 @@ PRG009_A7E4:
 PRG009_A801:
     LDA Vs_PlayerX,X     ; Get Player/Object's X
     ADD Vs_DetStatLoopXOff,Y     ; Apply X offset for this loop
-    STA <Temp_Var2       ; -> Temp_Var2
+    STA Temp_Var2       ; -> Temp_Var2
 
     JSR Vs_GetTileAndCheckSolid  ; Get appropriate tile near Player/Object
 
-    LDY <Temp_Var16  ; Y = Temp_Var16 (loop index)
+    LDY Temp_Var16  ; Y = Temp_Var16 (loop index)
 
     BGE PRG009_A814  ; If tile >= the solid tile in this quadrant, jump to PRG009_A814
 
@@ -1757,7 +1757,7 @@ PRG009_A828:
     CMP #11
     BEQ PRG009_A865  ; If Map_2PVsGame = 11 ([?] block game), jump to PRG009_A865
 
-    LDY <Temp_Var3   ; Y = Temp_Var3 (last detected tile offset)
+    LDY Temp_Var3   ; Y = Temp_Var3 (last detected tile offset)
 
     ; Block was hit; remove it temporarily
     LDA #TILE18_BOUNCEDBLOCK
@@ -1804,11 +1804,11 @@ PRG009_A868:
     CMP #$03
     BEQ PRG009_A8E7  ; If Vs_PlayerState = 3 (ladder climbing), jump to PRG009_A8E7
 
-    LDA <Temp_Var14  ; Get detection status
+    LDA Temp_Var14  ; Get detection status
     AND #$04
     BEQ PRG009_A8E7  ; If Player is not on floor, jump to PRG009_A8E7
 
-    LDA <Controller1Press,X
+    LDA Controller1Press,X
     AND #PAD_B
     BEQ PRG009_A8E7  ; If Player is NOT pressing B, jump to PRG009_A8E7
 
@@ -1823,7 +1823,7 @@ PRG009_A868:
     ORA #SND_PLAYERKICK
     STA Sound_QPlayer
 
-    LDY <Temp_Var3   ; Y = Temp_Var3 (last detected tile offset)
+    LDY Temp_Var3   ; Y = Temp_Var3 (last detected tile offset)
 
     ; Clear the [?] block from tile memory
     LDA #$00
@@ -1841,7 +1841,7 @@ PRG009_A8A3:
 
     LDX #$06     ; X = 6 on failure
 PRG009_A8AD:
-    STX <Temp_Var1       ; Object index -> Temp_Var1
+    STX Temp_Var1       ; Object index -> Temp_Var1
 
     JSR Vs_PrepareNewObject  ; Prepare new object
 
@@ -1852,12 +1852,12 @@ PRG009_A8AD:
     STA Vs_ObjectId,X
 
     ; Set kicked block Y
-    LDA <Temp_Var3   ; A = Temp_Var3 (last detected tile offset)
+    LDA Temp_Var3   ; A = Temp_Var3 (last detected tile offset)
     AND #$f0     ; Keep just the row
     STA Vs_ObjectsY,X
 
     ; Set kicked block X
-    LDA <Temp_Var3
+    LDA Temp_Var3
     ASL A
     ASL A
     ASL A
@@ -1878,7 +1878,7 @@ PRG009_A8AD:
     LDY #-$10    ; Y = -$10 (kick to the left)
 
 PRG009_A8DE:
-    LDX <Temp_Var1   ; X = object index
+    LDX Temp_Var1   ; X = object index
 
     ; Set kicked block X velocity
     TYA
@@ -1905,7 +1905,7 @@ PRG009_A8EA:
 
     ; Player is moving downward...
 
-    LDY <Temp_Var3   ; Y = Temp_Var3 (last detected tile offset)
+    LDY Temp_Var3   ; Y = Temp_Var3 (last detected tile offset)
 
     LDA Vs_PlayerTileL,X     ; Grab the tile beneath the Player's feet
     CMP #TILE18_BOUNCEDBLOCK
@@ -1916,7 +1916,7 @@ PRG009_A8EA:
     STA Vs_PlayerTileL,X
 
 PRG009_A907:
-    LDY <Temp_Var16  ; Y = Temp_Var16 (loop index)
+    LDY Temp_Var16  ; Y = Temp_Var16 (loop index)
 
     ; Set correct bit for this impact style
     LDA Vs_PlayerDetStat,X
@@ -1933,11 +1933,11 @@ PRG009_A907:
     BEQ PRG009_A928  ; If Vs_ObjectId = 1 (lost object ??? has bad jump address ???), jump to PRG009_A928
 
 PRG009_A91D:
-    LDY <Temp_Var3   ; Y = Temp_Var3 (last detected tile offset)
+    LDY Temp_Var3   ; Y = Temp_Var3 (last detected tile offset)
 
     LDA Tile_Mem,Y   ; Get tile
 
-    LDY <Temp_Var16  ; Y = Temp_Var16 (loop index)
+    LDY Temp_Var16  ; Y = Temp_Var16 (loop index)
 
     CMP #TILE18_BOUNCEDBLOCK
     BNE PRG009_A931  ; If this is not a bounced block, jump to PRG009_A931
@@ -1952,7 +1952,7 @@ PRG009_A931:
     CPY #$02
     BGE PRG009_A944  ; If Y >= 2 (not detecting a ceiling hit), jump to PRG009_A944
 
-    LDY <Temp_Var3   ; Y = Temp_Var3 (last detected tile offset)
+    LDY Temp_Var3   ; Y = Temp_Var3 (last detected tile offset)
 
     LDA Vs_PlayerTileU,X
     CMP #TILE18_LADDER
@@ -1963,7 +1963,7 @@ PRG009_A931:
     STA Vs_PlayerTileU,X
 
 PRG009_A944:
-    LDY <Temp_Var16  ; Y = Temp_Var16 (loop index)
+    LDY Temp_Var16  ; Y = Temp_Var16 (loop index)
 
     DEY      ; Y--
     BMI PRG009_A94C  ; If Y < 0, jump to PRG009_A94C (RTS)
@@ -1980,19 +1980,19 @@ Vs_EraseLastTile:
 
     ; Temp_Var4/5 = VRAM High/Low addresses
     LDA #%00001000  ; Will become $20 and some change when done
-    STA <Temp_Var4  ; -> Temp_Var4
-    LDA <Temp_Var3  ; A = Temp_Var3 (last detected tile offset)
+    STA Temp_Var4  ; -> Temp_Var4
+    LDA Temp_Var3  ; A = Temp_Var3 (last detected tile offset)
     AND #$f0    ; Just the "row" value
     ASL A       ; Bit 7 -> carry
-    ROL <Temp_Var4  ; %0001000a
+    ROL Temp_Var4  ; %0001000a
     ASL A       ; Bit 7 (old 6) -> carry
-    ROL <Temp_Var4  ; %001000ab
-    STA <Temp_Var5  ; -> Temp_Var5
+    ROL Temp_Var4  ; %001000ab
+    STA Temp_Var5  ; -> Temp_Var5
 
-    LDA <Temp_Var3  ; A = Temp_Var3 (last detected tile offset)
+    LDA Temp_Var3  ; A = Temp_Var3 (last detected tile offset)
     ASL A       ; Shift left
     AND #%00011111  ; Mask out column value, left shifted
-    ADD <Temp_Var5  ; Add Temp_Var5
+    ADD Temp_Var5  ; Add Temp_Var5
 
     ; Set VRAM low addresses
     STA Graphics_Buffer+$01,Y   ; Upper row
@@ -2000,7 +2000,7 @@ Vs_EraseLastTile:
     STA Graphics_Buffer+$05,Y   ; Lower row
 
     ; Set VRAM high addresses
-    LDA <Temp_Var4
+    LDA Temp_Var4
     STA Graphics_Buffer+$00,Y   ; Upper row
     STA Graphics_Buffer+$04,Y   ; Lower row
 
@@ -2030,24 +2030,24 @@ Vs_EraseLastTile:
 Vs_GetTileAndCheckSolid:
 
     ; Calculate a row/column offset
-    LDA <Temp_Var2
+    LDA Temp_Var2
     LSR A
     LSR A
     LSR A
     LSR A
-    ORA <Temp_Var1
+    ORA Temp_Var1
     TAY      ; -> 'Y'
-    STY <Temp_Var3   ; -> Temp_Var3
+    STY Temp_Var3   ; -> Temp_Var3
 
     LDA Tile_Mem,Y   ; Get tile here
     PHA      ; Save it
 
     ; Calculate tile quadrant
     ASL A
-    ROL <Temp_Var15
+    ROL Temp_Var15
     ASL A
-    ROL <Temp_Var15
-    LDA <Temp_Var15
+    ROL Temp_Var15
+    LDA Temp_Var15
     AND #$03
     TAY      ; -> 'Y'
 
@@ -2091,7 +2091,7 @@ Vs_PlayerDraw:
     LDA Vs_PlayerFlashInv,X
     BEQ PRG009_A9E3  ; If Player is flashing invincible, jump to PRG009_A9E3
 
-    LDA <Counter_1
+    LDA Counter_1
     AND #$02
     BNE PRG009_AA4D  ; 2 ticks on, 2 ticks off; jump to PRG009_AA4D (RTS)
 
@@ -2388,13 +2388,13 @@ Vs_CheckBoxCollision:
 
     LDX #$01     ; X = 1 (do both bounding boxes)
 PRG009_AB51:
-    LDA <Temp_Var5,X
-    SUB <Temp_Var1,X
-    ADD <Temp_Var7,X
-    STA <Temp_Var9
-    LDA <Temp_Var3,X
-    ADD <Temp_Var7,X
-    CMP <Temp_Var9
+    LDA Temp_Var5,X
+    SUB Temp_Var1,X
+    ADD Temp_Var7,X
+    STA Temp_Var9
+    LDA Temp_Var3,X
+    ADD Temp_Var7,X
+    CMP Temp_Var9
     BCC PRG009_AB67  ; If did not impact, jump to PRG009_AB67
 
     DEX      ; X--
@@ -2908,7 +2908,7 @@ PRG009_AE10:
 
     LDX Vs_ObjectBasePatIndex,Y  ; X = pattern index
 
-    LDA <Counter_1
+    LDA Counter_1
     LSR A
     LSR A
     AND #$03     ; A = 0 to 3 by counter
@@ -3181,7 +3181,7 @@ PRG009_AF64:
     STA Vs_ObjectYVel,X
 
     ; Vs_ObjectAnimCnt = current counter value
-    LDA <Counter_1
+    LDA Counter_1
     STA Vs_ObjectAnimCnt,X
 
 PRG009_AF7C:
@@ -3564,8 +3564,8 @@ PRG009_B139:
 
 PRG009_B13F:
     ; A/X -> Temp_Var1/2
-    STA <Temp_Var1  ; Sprite attribute
-    STX <Temp_Var2  ; Sprite base pattern index
+    STA Temp_Var1  ; Sprite attribute
+    STX Temp_Var2  ; Sprite base pattern index
 
     LDX Vs_CurIndex  ; X = restore object index
 
@@ -3579,20 +3579,20 @@ PRG009_B14C:
 
     ; Temp_Var5 = active draw style
     LDA Vs_ObjectDrawStyle,Y
-    STA <Temp_Var5
+    STA Temp_Var5
 
     LDA Vs_ObjectIsLast,X
     BEQ PRG009_B15D  ; If this is not the last object, jump to PRG009_B15D
 
     ; Last enemy turns blue
     LDA #SPR_PAL2
-    STA <Temp_Var1
+    STA Temp_Var1
 
 PRG009_B15D:
 
     ; Temp_Var4 = Object's Y
     LDA Vs_ObjectsY,X
-    STA <Temp_Var4
+    STA Temp_Var4
 
     LDY #0      ; Y = 0 (additional attributes)
 
@@ -3612,12 +3612,12 @@ PRG009_B15D:
     ; Spiny only...
 
     ; Temp_Var4 (Object Y) += 2 (Flipped over Spiny is wedged into the ground a little)
-    INC <Temp_Var4
-    INC <Temp_Var4
+    INC Temp_Var4
+    INC Temp_Var4
 
     ; Alternate flipped Spiny pattern index
     LDA #Vs_PatSpinyFlip - Vs_ObjPatterns
-    STA <Temp_Var2
+    STA Temp_Var2
 
 PRG009_B17E:
     LDY #SPR_VFLIP  ; Flipped over!
@@ -3627,9 +3627,9 @@ PRG009_B180:
     BEQ PRG009_B18D  ; If Vs_ObjectPipeTimer = 0, jump to PRG009_B18D
 
     ; Temp_Var4 (Object Y) -= 3 (slight step up when going in to the pipe)
-    DEC <Temp_Var4
-    DEC <Temp_Var4
-    DEC <Temp_Var4
+    DEC Temp_Var4
+    DEC Temp_Var4
+    DEC Temp_Var4
 
     LDY #SPR_BEHINDBG   ; Entering pipe, go behind BG
 
@@ -3648,7 +3648,7 @@ PRG009_B18D:
     TAY
 
 PRG009_B19F:
-    STY <Temp_Var3       ; Sprite attributes -> Temp_Var3
+    STY Temp_Var3       ; Sprite attributes -> Temp_Var3
 
     LDY Vs_ObjectSprRAMOff   ; Y = Sprite RAM Offset
 
@@ -3666,11 +3666,11 @@ PRG009_B19F:
     STA Vs_ObjectXOff
 
     ; Left/right Sprite Y
-    LDA <Temp_Var4
+    LDA Temp_Var4
     STA Sprite_RAM+$00,Y
     STA Sprite_RAM+$04,Y
 
-    LDA <Temp_Var5
+    LDA Temp_Var5
     AND #$01
     BEQ PRG009_B1D9  ; If this is not draw style 1 (Flip both on odd frame), jump to PRG009_B1D9
 
@@ -3705,14 +3705,14 @@ PRG009_B1D9:
     LDA #SPR_HFLIP   ; Otherwise, we need to flip
 
 PRG009_B1E3:
-    ORA <Temp_Var1   ; Combine flip attribute with palette
-    ORA <Temp_Var3   ; Combine other decided attributes from above
+    ORA Temp_Var1   ; Combine flip attribute with palette
+    ORA Temp_Var3   ; Combine other decided attributes from above
 
     ; Set left/right sprite attributes
     STA Sprite_RAM+$02,Y
     STA Sprite_RAM+$06,Y
 
-    LDA <Temp_Var5
+    LDA Temp_Var5
     AND #$02
     BEQ PRG009_B200  ; If this is not draw style 2, jump to PRG009_B200
 
@@ -3730,7 +3730,7 @@ PRG009_B200:
 
     LDA Vs_ObjectIsAngry,X
 
-    LDX <Temp_Var2   ; X = Temp_Var2 (base pattern index)
+    LDX Temp_Var2   ; X = Temp_Var2 (base pattern index)
 
     AND #$01
     BNE PRG009_B225  ; If Sidestepper is angry, jump to PRG009_B225
@@ -3740,7 +3740,7 @@ PRG009_B212:
 
     ; Not a Sidestepper...
 
-    LDA <Temp_Var5
+    LDA Temp_Var5
     AND #$01
     BEQ PRG009_B21C  ; If this is not draw style 1, jump to PRG009_B21C
 
@@ -3753,7 +3753,7 @@ PRG009_B21C:
     LDA Vs_ObjectAnimCnt,X   ; A = animation counter
 
 PRG009_B21F:
-    LDX <Temp_Var2   ; X = Temp_Var2 (base pattern index)
+    LDX Temp_Var2   ; X = Temp_Var2 (base pattern index)
 
     AND #$08
     BEQ PRG009_B227  ; 8 ticks on, 8 ticks off; jump to PRG009_B227
@@ -3795,7 +3795,7 @@ Vs_ObjectBumpOffOthers:
 
     ; This limits how intensely we run this routine
     TXA
-    ADD <Counter_1
+    ADD Counter_1
     LSR A
     BCC PRG009_B264  ; If carry not set, jump to PRG009_B264 (RTS)
 
@@ -3805,19 +3805,19 @@ Vs_ObjectBumpOffOthers:
 
     DEY      ; Y-- (consider previous object)
 
-    STY <Temp_Var16  ; Temp_Var16 = index of previous object
+    STY Temp_Var16  ; Temp_Var16 = index of previous object
 
 PRG009_B25D:
     JSR Vs_ObjectBumpOffEachother    ; Bump off eachother if one runs into the other
 
-    DEC <Temp_Var16  ; Temp_Var16--
+    DEC Temp_Var16  ; Temp_Var16--
     BPL PRG009_B25D  ; While objects remain, loop!
 
 PRG009_B264:
     RTS      ; Return
 
 Vs_ObjectBumpOffEachother:
-    LDY <Temp_Var16     ; Y = Temp_Var16
+    LDY Temp_Var16     ; Y = Temp_Var16
 
     LDA Vs_ObjectId,Y
     CMP #VSOBJID_FIREBALL_HORZ
@@ -3847,7 +3847,7 @@ PRG009_B286:
     BNE PRG009_B30B  ; If timer 3 not expired, jump to PRG009_B30B
 
 PRG009_B290:
-    LDX <Temp_Var16  ; X = the other object's index
+    LDX Temp_Var16  ; X = the other object's index
 
     ; Calculate other object's bounding box
     LDY #$04     ; Y = 4 (secondary bounding box)
@@ -3861,7 +3861,7 @@ PRG009_B290:
     JSR Vs_CheckBoxCollision
     BCC PRG009_B30B  ; If no collision occurred, jump to PRG009_B30B
 
-    LDY <Temp_Var16      ; Y = Temp_Var16 (the other object's index)
+    LDY Temp_Var16      ; Y = Temp_Var16 (the other object's index)
 
     LDA Vs_ObjectDetStat,X
     AND Vs_ObjectDetStat,Y
@@ -3925,12 +3925,12 @@ PRG009_B2F5:
     BMI PRG009_B306  ; If objects are moving the same direction, jump to PRG009_B306
 
     ; Make OTHER object turn around
-    LDX <Temp_Var16
+    LDX Temp_Var16
     JSR Vs_ObjectReverseXVel
 
 PRG009_B306:
     ; Restore Y as other object's index and X as main object's index
-    LDY <Temp_Var16
+    LDY Temp_Var16
     LDX Vs_CurIndex
 
 PRG009_B30B:
@@ -4015,7 +4015,7 @@ PRG009_B365:
 
     ; This limits how intensely we run this routine
     TXA
-    ADD <Counter_1
+    ADD Counter_1
     LSR A
     BCS PRG009_B34C  ; If carry set, jump to PRG009_B34C (RTS)
 
@@ -4028,9 +4028,9 @@ PRG009_B365:
 
 PRG009_B378:
     LDA #$01
-    STA <Temp_Var16  ; Temp_Var16 = 1 (both Players)
+    STA Temp_Var16  ; Temp_Var16 = 1 (both Players)
 PRG009_B37C:
-    LDX <Temp_Var16      ; X = current Player index
+    LDX Temp_Var16      ; X = current Player index
 
     LDA Vs_PlayerState,X
     CMP #$01
@@ -4054,7 +4054,7 @@ PRG009_B38D:
     JSR VsPlayer_CalcObjBoundBox
 
     JSR Vs_CheckBoxCollision
-    LDY <Temp_Var16  ; Y = Temp_Var16 (current player index)
+    LDY Temp_Var16  ; Y = Temp_Var16 (current player index)
     BCC PRG009_B38A  ; If Player and objecta are not touching, jump to PRG009_B38A
 
     LDA Vs_ObjectId,X
@@ -4141,7 +4141,7 @@ PRG009_B3FC:
     DEY      ; Y--
     BPL PRG009_B3FC  ; While Y >= 0, loop!
 
-    LDA <Temp_Var16
+    LDA Temp_Var16
     EOR #$01
     TAY  ; Y = opposite Player index
 
@@ -4149,7 +4149,7 @@ PRG009_B3FC:
     LDA #$ff
     STA Vs_PlayerHaltTimer,Y
 
-    LDY <Temp_Var16  ; Y = killed Player index
+    LDY Temp_Var16  ; Y = killed Player index
 
     ; Set impacted object's Vs_ObjectAnimCnt = $20
     LDA #$20
@@ -4193,7 +4193,7 @@ PRG009_B43B:
     JSR PRG009_ACC2  ; Partial re-init
 
 PRG009_B443:
-    DEC <Temp_Var16  ; Temp_Var16--
+    DEC Temp_Var16  ; Temp_Var16--
     BMI PRG009_B44A  ; If done, jump to PRG009_B44A
     JMP PRG009_B37C  ; Otherwise, loop!
 
@@ -4222,7 +4222,7 @@ PRG009_B460:
     LDA Vs_ObjectKickedXVel,Y
     STA Vs_ObjectXVel,X
 
-    LDY <Temp_Var16  ; Y = current Player index
+    LDY Temp_Var16  ; Y = current Player index
 
     ; Set object to Dying state
     LDA #$03
@@ -4283,7 +4283,7 @@ PRG009_B4AF:
 
 PRG009_B4B2:
     LDX Vs_CurIndex  ; Restore X as object index
-    LDY <Temp_Var16  ; Y = current Player index
+    LDY Temp_Var16  ; Y = current Player index
 
     ; Set kicking frame
     LDA #$05
@@ -4304,7 +4304,7 @@ Vs_GrabCardObject:
     ORA #SND_MAPBONUSAPPEAR
     STA Sound_QMap
 
-    LDY <Temp_Var16  ; Y = Temp_Var16 (Player index)
+    LDY Temp_Var16  ; Y = Temp_Var16 (Player index)
 
     ; Flash picked up card
     LDA #$40
@@ -4312,7 +4312,7 @@ Vs_GrabCardObject:
 
     LDY #$00     ; Y = 0 (Mario's cards)
 
-    LDA <Temp_Var16
+    LDA Temp_Var16
     BEQ PRG009_B4DF  ; If this is Mario, jump to PRG009_B4DF
 
     LDY #(Inventory_Cards2 - Inventory_Cards)   ; Offset to Luigi's cards
@@ -4406,7 +4406,7 @@ PRG009_B53C:
 
 
 PRG009_B543:
-    LDA <Counter_1
+    LDA Counter_1
     AND #$01
     BNE PRG009_B54C  ; Every other tick, jump to PRG009_B54C
 
@@ -4424,7 +4424,7 @@ PRG009_B54C:
     LSR A   ; Divide by 32
     TAY      ; Y = 0 to 2
 
-    LDA <Counter_1
+    LDA Counter_1
     AND PRG009_B4F5,Y
     BEQ PRG009_B568  ; If masked value = 0, jump to PRG009_B568
 
@@ -4501,7 +4501,7 @@ PRG009_B5B5:
 
     INC Vs_ObjectYVel,X  ; Y Vel ++ (gravity
 
-    LDA <Counter_1
+    LDA Counter_1
     AND #$01
     BNE PRG009_B5D1  ; Every other tick, jump to PRG009_B5D1
 
@@ -4540,7 +4540,7 @@ Vs_UpdateAndDrawPOW:
 
     ; Temp_Var1 = Vs_POWBlockCnt
     LDA Vs_POWBlockCnt
-    STA <Temp_Var1
+    STA Temp_Var1
 
     BEQ PRG009_B5F5  ; If Vs_POWBlockCnt = 0, jump to PRG009_B5F5
 
@@ -4551,7 +4551,7 @@ Vs_UpdateAndDrawPOW:
 
     ; Shake vertical scroll
     LDA Vs_POWVertShakes,Y
-    STA <Vert_Scroll
+    STA Vert_Scroll
 
 PRG009_B5F5:
     LDA Vs_POWHits
@@ -4560,7 +4560,7 @@ PRG009_B5F5:
 
     ; Set POW block sprite Ys
     LDA #Vs_POW_Y
-    SUB <Vert_Scroll
+    SUB Vert_Scroll
     STA Sprite_RAM+$10
     STA Sprite_RAM+$14
 
@@ -4601,14 +4601,14 @@ PRG009_B62D:
 
     ; Calculate POW block's bounding box
     LDA #Vs_POW_Y
-    STA <Temp_Var5
+    STA Temp_Var5
     LDA #Vs_POW_X
-    STA <Temp_Var6
+    STA Temp_Var6
     LDA #16
-    STA <Temp_Var8
+    STA Temp_Var8
     LDY Vs_POWHits
     SUB Vs_POWHeight,Y
-    STA <Temp_Var7
+    STA Temp_Var7
 
     JSR Vs_CheckBoxCollision
     BCC PRG009_B6AD  ; If Player and POW block are not touching, jump to PRG009_B6AD
@@ -4870,7 +4870,7 @@ PRG009_B7BA:
     RTS      ; Return
 
 Vs_BumpBlockUpdateAndDraw:
-    LDA <Vs_IsPaused     ; If the game is paused...
+    LDA Vs_IsPaused     ; If the game is paused...
     ORA Vs_PlayerHaltTimer   ; ... Mario is halted ...
     ORA Vs_PlayerHaltTimer+1 ; ... Luigi is halted ...
     ORA Vs_TimeToExit    ; ... or game is exiting ...
@@ -4918,13 +4918,13 @@ Vs_RestoreBlockHitTile:
 
     ; Patterns to restore hit bounce block
     LDA #$02
-    STA <Temp_Var13
+    STA Temp_Var13
     LDA #$03
-    STA <Temp_Var14
+    STA Temp_Var14
     LDA #$12
-    STA <Temp_Var15
+    STA Temp_Var15
     LDA #$13
-    STA <Temp_Var16
+    STA Temp_Var16
 
 
     JMP PRG009_B822  ; Jump to PRG009_B822
@@ -4934,17 +4934,17 @@ Vs_EraseBlockHitTile:
 
     ; Temp_Var13 to 16 = $FF (patterns to erase hit bounce block)
     LDA #$ff
-    STA <Temp_Var13
-    STA <Temp_Var14
-    STA <Temp_Var15
-    STA <Temp_Var16
+    STA Temp_Var13
+    STA Temp_Var14
+    STA Temp_Var15
+    STA Temp_Var16
 
 PRG009_B822:
     LDY Graphics_BufCnt  ; Y = current graphics buffer counter
 
     ; Temp_Var4 = 8
     LDA #$08
-    STA <Temp_Var4
+    STA Temp_Var4
 
     LDA Vs_PlayerBlkHit,X
     PHA      ; Save Tile_Mem offset to block that was hit
@@ -4952,16 +4952,16 @@ PRG009_B822:
     ; Temp_Var4/5 = VRAM High/Low addresses
     AND #$f0    ; Just the "row" value
     ASL A       ; Bit 7 -> carry
-    ROL <Temp_Var4  ; %0001000a
+    ROL Temp_Var4  ; %0001000a
     ASL A       ; Bit 7 (old 6) -> carry
-    ROL <Temp_Var4  ; %001000ab
-    STA <Temp_Var5  ; -> Temp_Var5
+    ROL Temp_Var4  ; %001000ab
+    STA Temp_Var5  ; -> Temp_Var5
 
     PLA      ; Restore Tile_Mem offset
 
     ASL A       ; Shift left
     AND #%00011111  ; Mask out column value, left shifted
-    ADD <Temp_Var5  ; Add Temp_Var5
+    ADD Temp_Var5  ; Add Temp_Var5
 
     ; Set VRAM low addresses
     STA Graphics_Buffer+$01,Y   ; Upper row
@@ -4969,7 +4969,7 @@ PRG009_B822:
     STA Graphics_Buffer+$06,Y   ; Lower row
 
     ; Set VRAM high addresses
-    LDA <Temp_Var4
+    LDA Temp_Var4
     STA Graphics_Buffer+$00,Y   ; Upper row
     STA Graphics_Buffer+$05,Y   ; Lower row
 
@@ -4979,13 +4979,13 @@ PRG009_B822:
     STA Graphics_Buffer+$07,Y   ; Lower row
 
     ; Four patterns that make up the block
-    LDA <Temp_Var13
+    LDA Temp_Var13
     STA Graphics_Buffer+$03,Y
-    LDA <Temp_Var14
+    LDA Temp_Var14
     STA Graphics_Buffer+$04,Y
-    LDA <Temp_Var15
+    LDA Temp_Var15
     STA Graphics_Buffer+$08,Y
-    LDA <Temp_Var16
+    LDA Temp_Var16
     STA Graphics_Buffer+$09,Y
 
     ; Terminator
@@ -5119,7 +5119,7 @@ PRG009_B8F9:
 AutoScroll_Do:
     LDA Player_SuitLost ; If Player is NOT losing their power up ...
     ORA Player_Grow     ; ... and Player is NOT growing from a mushroom ...
-    ORA <Player_HaltGame    ; ... and the gameplay is NOT halted ...
+    ORA Player_HaltGame    ; ... and the gameplay is NOT halted ...
     BEQ PRG009_B917  ; ... then jump to PRG009_B917
 
     ; Gameplay is stopped for some reason
@@ -5514,7 +5514,7 @@ AScroll_MovePlayer:
     LDA #ASCONFIG_ENABLE
     STA Level_AScrlConfig
 
-    LDY <Player_InAir
+    LDY Player_InAir
     BNE PRG009_BCC0  ; If Player is mid air, jump to PRG009_BCC0
 
     LDA Level_AScrlLimitSel
@@ -5523,11 +5523,11 @@ AScroll_MovePlayer:
 
     ; World 8 tanks only...
 
-    LDA <Player_YHi
+    LDA Player_YHi
     CMP #$01
     BNE PRG009_BCBC  ; If Player is not low, jump to PRG009_BCBC
 
-    LDA <Player_Y
+    LDA Player_Y
     CMP #112
     BGE PRG009_BCBD  ; If Player Y >= 112, jump to PRG009_BCBD
 
@@ -5538,7 +5538,7 @@ PRG009_BCBD:
     STY World8Tank_OnTank    ; Player is standing on the tank (as opposed to the ground)
 
 PRG009_BCC0:
-    LDA <Player_SpriteX
+    LDA Player_SpriteX
     CMP #16
     BLT PRG009_BCCA  ; If Player is pressed against the left, jump to PRG009_BCCA
 
@@ -5551,13 +5551,13 @@ PRG009_BCCA:
 
     LDA Level_AScrlHVel ; Get the horizontal scroll velocity
     CLC
-    SBC <Player_XVel    ; Difference against Player's X velocity
-    EOR <Player_SpriteX ; Check sign of difference against Player's Sprite X
+    SBC Player_XVel    ; Difference against Player's X velocity
+    EOR Player_SpriteX ; Check sign of difference against Player's Sprite X
     BMI PRG009_BCF1     ; Basically determines if Player should be pushed by the scroll; if not, jump to PRG009_BCF1
 
     ; Set Player's X velocity same as auto scroll horizontal velocity
     LDA Level_AScrlHVel
-    STA <Player_XVel
+    STA Player_XVel
 
     ; Player_XVelFrac = 0
     LDA #$00
@@ -5575,13 +5575,13 @@ PRG009_BCE0:
     ; World8Tank_OnTank is set....
 
     ; Move Player along as scroll occurs; simulates that the tank is rolling at the Player
-    LDA <Player_X
+    LDA Player_X
     ADD Level_AScrlHVelCarry
-    STA <Player_X
+    STA Player_X
 
     BCC PRG009_BCF1  ; If no carry, jump to PRG009_BCF1
 
-    INC <Player_XHi  ; Apply carry
+    INC Player_XHi  ; Apply carry
 
 PRG009_BCF1:
 
@@ -5592,7 +5592,7 @@ PRG009_BCF1:
     AND #$01    ; Masks 0/1
     STA Level_AScrlSclLastDir   ; -> Level_AScrlSclLastDir
 
-    LDA <Player_XVel
+    LDA Player_XVel
     BEQ PRG009_BD1D  ; If Player is not moving horizontally, jump to PRG009_BD1D (RTS)
 
     EOR Level_AScrlHVel
@@ -5609,11 +5609,11 @@ PRG009_BCF1:
 PRG009_BD0E:
 
     ; Apply carry to Player's X
-    ADD <Player_X
-    STA <Player_X
+    ADD Player_X
+    STA Player_X
     TYA
-    ADC <Player_XHi
-    STA <Player_XHi
+    ADC Player_XHi
+    STA Player_XHi
 
     ; Player_XVelFrac = 0
     LDA #$00
@@ -5630,12 +5630,12 @@ AutoScroll_BooRoom:
     LDA Level_AScrlLoopSel
     BNE PRG009_BD37  ; If Level_AScrlLoopSel <> 0, jump to PRG009_BD37
 
-    LDA <Vert_Scroll
+    LDA Vert_Scroll
     CMP #$ef
     BNE PRG009_BD1D  ; If vertical scroll <> $EF (bottom), jump to PRG009_BD1D (RTS)
 
     ; Auto scroll and vertical scroll set together
-    LDA <Vert_Scroll
+    LDA Vert_Scroll
     STA Level_AScrlPosV
 
     INC Level_AScrlLoopSel   ; Level_AScrlLoopSel++
@@ -5669,7 +5669,7 @@ PRG009_BD54:
 PRG009_BD57:
     JSR AutoScroll_ApplyVVel     ; Apply auto scroll vertical velocity
 
-    LDA <Counter_1
+    LDA Counter_1
     AND #$07
     BNE PRG009_BD6A  ; 1:8 ticks proceed, otherwise jump to PRG009_BD6A
 
@@ -5698,7 +5698,7 @@ AutoScroll_SpikeCeiling:
 
     JSR AutoScroll_ApplyVVel     ; Apply auto scroll vertical velocity
 
-    LDA <Counter_1
+    LDA Counter_1
     AND #$07
     BNE PRG009_BD95  ; 1:8 ticks proceed, otherwise jump to PRG009_BD95
 
@@ -5767,60 +5767,60 @@ PRG009_BDD0:
 
     LDA #6   ; A = 6
 
-    LDY <Player_Suit
+    LDY Player_Suit
     BNE PRG009_BDDB  ; If Player is not small, jump to PRG009_BDDB
 
     LDA #18  ; A = 18
 
 PRG009_BDDB:
-    ADC <Player_Y   ; Offset to Player's feet
+    ADC Player_Y   ; Offset to Player's feet
     AND #$f0    ; Align to tile grid
-    STA <Temp_Var9  ; -> Temp_Var9
+    STA Temp_Var9  ; -> Temp_Var9
 
-    LDA <Player_YHi
+    LDA Player_YHi
     ADC #$00    ; Apply carry
     AND #$01    ; 0/1 only valid values in non-vertical level
-    STA <Temp_Var3  ; -> Temp_Var3
+    STA Temp_Var3  ; -> Temp_Var3
 
     ; Temp_Var10 = Player X + 8
-    LDA <Player_X
+    LDA Player_X
     ADD #$08
-    STA <Temp_Var10
+    STA Temp_Var10
 
-    LDA <Player_XHi
+    LDA Player_XHi
     ADC #$00     ; Apply carry
     ASL A        ; Multiply by 2 for Tile_Mem_Addr index
     TAY      ; -> 'Y'
 
     ; Set Temp_Var1/2 to point to tile
     LDA Tile_Mem_Addr,Y
-    STA <Temp_Var1
+    STA Temp_Var1
     LDA Tile_Mem_Addr+1,Y
-    ADD <Temp_Var3
-    STA <Temp_Var2
+    ADD Temp_Var3
+    STA Temp_Var2
 
     ; Compute row/column offset
-    LDA <Temp_Var10
+    LDA Temp_Var10
     LSR A
     LSR A
     LSR A
     LSR A
-    ORA <Temp_Var9
+    ORA Temp_Var9
     TAY ; -> 'Y'
 
     LDA [Temp_Var1],Y   ; Get tile
-    STA <Temp_Var1      ; -> Temp_Var1
+    STA Temp_Var1      ; -> Temp_Var1
 
     LDY Level_TilesetIdx        ; Y = level tileset index
     LDA MuncherJelectroSet,Y    ; Get Muncher/Jelectro tile
-    CMP <Temp_Var1
+    CMP Temp_Var1
     BEQ PRG009_BE28     ; If this is the Muncher/Jelectro, jump to PRG009_BE28
 
     LDA SpikesEnable,Y
     CMP #$ff
     BEQ PRG009_BE2B     ; If there's no spikes here, jump to PRG009_BE2B
 
-    SUB <Temp_Var1
+    SUB Temp_Var1
     CMP #$02
     BGE PRG009_BE2B     ; If this is not the spike tile, jump to PRG009_BE2B
 
@@ -5851,7 +5851,7 @@ ASFloat_VertLimit:
 AutoScroll_Floating:
     JSR AutoScroll_ApplyVVel     ; Apply auto scroll vertical velocity
 
-    LDA <Counter_1
+    LDA Counter_1
     AND #$07
     BNE PRG009_BE5C  ; 1:8 ticks proceed, otherwise jump to  PRG009_BE5C
 
@@ -5898,13 +5898,13 @@ Setup32PixPartWater:
     LDA Player_IsDucking
     BNE PRG009_BE93  ; If Player is ducking, jump to PRG009_BE93
 
-    LDA <Player_Suit
+    LDA Player_Suit
     BEQ PRG009_BE93  ; If Player is small, jump to PRG009_BE93
 
     INY      ; Y = 1
 
 PRG009_BE93:
-    LDA <Player_SpriteY
+    LDA Player_SpriteY
     CMP Float_WaterBottomLimitY,Y   ; Sets carry if greater-equal
     TAY         ; Y = Player_SpriteY
     ROR A           ; Will rotate carry bit into bit 7

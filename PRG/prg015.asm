@@ -129,7 +129,7 @@ LoadLevel_Generator_TS1:
     ; * Temp_Var15, Temp_Var16, and LL_ShapeDef are three bytes read from the data
 
 
-    LDA <Temp_Var15
+    LDA Temp_Var15
     AND #%11100000
     LSR A
     LSR A
@@ -217,7 +217,7 @@ LeveLoad_FixedSizeGen_TS1:
     ; So the upper 3 bits of Temp_Var15 serve as the most significant bits
     ; to a value where LL_ShapeDef provide the 4 least significant bits
 
-    LDA <Temp_Var15
+    LDA Temp_Var15
     AND #%11100000
     LSR A
     ADD LL_ShapeDef

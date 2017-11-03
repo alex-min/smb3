@@ -187,20 +187,20 @@ PRG012_A462:
     ; After these two, Map_Tile_Addr = Tile_Mem_Addr + $110
     LDA Tile_Mem_Addr
     ADD #$10
-    STA <Map_Tile_AddrL
+    STA Map_Tile_AddrL
 
     LDA Tile_Mem_Addr+1
     ADC #$01
-    STA <Map_Tile_AddrH
+    STA Map_Tile_AddrH
 
     ; Temp_Var1/2 will form an address pointing at the beginning of this world's map tile layout...
     LDA World_Num
     ASL A
     TAY      ; Y = World_Num << 1 (index into Map_Tile_Layouts)
     LDA Map_Tile_Layouts,Y
-    STA <Temp_Var1
+    STA Temp_Var1
     LDA Map_Tile_Layouts+1,Y
-    STA <Temp_Var2
+    STA Temp_Var2
 
     ; This loop loads the layout data into the Tile_Mem
     ; Note that it COULD terminate early via an $FF
@@ -222,22 +222,22 @@ PRG012_A498:
     ; This does a 16-bit addition of 144 to the
     ; address stored at [Temp_Var2][Temp_Var1]
     TYA
-    ADD <Temp_Var1
-    STA <Temp_Var1
-    LDA <Temp_Var2
+    ADD Temp_Var1
+    STA Temp_Var1
+    LDA Temp_Var2
     ADC #$00
-    STA <Temp_Var2
+    STA Temp_Var2
 
     ; The tile layout for the map actually has a lot of
     ; unused vertical space (used for level layout) so
     ; this needs to add a significant amount more ($1b0)
     ; to the Map_Tile_Addr
-    LDA <Map_Tile_AddrL
+    LDA Map_Tile_AddrL
     ADD #$b0
-    STA <Map_Tile_AddrL
-    LDA <Map_Tile_AddrH
+    STA Map_Tile_AddrL
+    LDA Map_Tile_AddrH
     ADC #$01
-    STA <Map_Tile_AddrH
+    STA Map_Tile_AddrH
     JMP PRG012_A496     ; Do next 144 bytes...
 
 PRG012_A4C1:
@@ -261,15 +261,15 @@ PRG012_A4C9:
     STA PalSel_Obj_Colors       ; Store which colors to use on map objects
 
     LDY #$00
-    STY <Temp_Var1  ; Temp_Var1 = $00 (current completion column we're checking)
+    STY Temp_Var1  ; Temp_Var1 = $00 (current completion column we're checking)
 PRG012_A4E5:
     LDA #$80
-    STA <Temp_Var2  ; Temp_Var2 = $80 (current completion bit/row we're checking)
+    STA Temp_Var2  ; Temp_Var2 = $80 (current completion bit/row we're checking)
 
 PRG012_A4E9:
-    LDY <Temp_Var1      ; Get current offset
+    LDY Temp_Var1      ; Get current offset
     LDA Map_Completions,Y   ; Get this "Map Completion" value
-    AND <Temp_Var2      ; Check current completion bit
+    AND Temp_Var2      ; Check current completion bit
     BNE PRG012_A4F5     ; If this row has a completion on this bit, jump to PRG012_A4F5
     JMP PRG012_A585     ; Otherwise, jump to PRG012_A585
 
@@ -289,16 +289,16 @@ PRG012_A4F5:
 
     ; This pulls the correct starting address for this map "screen"
     LDA Tile_Mem_Addr,X
-    STA <Map_Tile_AddrL
+    STA Map_Tile_AddrL
     LDA Tile_Mem_Addr+1,X
-    STA <Map_Tile_AddrH
-    INC <Map_Tile_AddrH ; Because map is always one the "lower" screen (as far as tile memory goes)
+    STA Map_Tile_AddrH
+    INC Map_Tile_AddrH ; Because map is always one the "lower" screen (as far as tile memory goes)
 
     ; The following loop determines what "index" cooresponds to this completion bit
     ; that we're working with (only one!)
     LDX #$07        ; X = 7
 PRG012_A50A:
-    LDA <Temp_Var2      ; Current complete bit
+    LDA Temp_Var2      ; Current complete bit
     CMP Map_Complete_Bits,X
     BEQ PRG012_A514     ; If bitvalue matched, jump out of loop
     DEX         ; X--
@@ -313,18 +313,18 @@ PRG012_A514:
     ASL A
     ASL A        ; A = X * 16
     ADD #$10     ; A += 16  (Thus: 16, 32, 48, 64, 80, 96, 112, 144; each row is another 16 bytes!)
-    STA <Temp_Var3   ; Store result into Temp_Var3
+    STA Temp_Var3   ; Store result into Temp_Var3
 
     TYA      ; A = Y (the current "column" of completion we're working on)
     AND #$0f     ; Make it relative within this screen only (0-15)
-    ORA <Temp_Var3   ; Merge with previous result; now its a direct offset within this screen to this row/col
+    ORA Temp_Var3   ; Merge with previous result; now its a direct offset within this screen to this row/col
     TAY      ; Y now holds the aforementioned offset
 
 PRG012_A524:
     LDA [Map_Tile_AddrL],Y   ; Get this tile
 
-    STY <Temp_Var5   ; Y -> Temp_Var5
-    STA <World_Map_Tile  ; -> World_Map_Tile
+    STY Temp_Var5   ; Y -> Temp_Var5
+    STA World_Map_Tile  ; -> World_Map_Tile
 
     ; Get tile quadrant -> 'X'
     AND #$c0
@@ -337,7 +337,7 @@ PRG012_A524:
     ; Check if this tile is one of the completable event tiles
     ; $50 = Toad house  $E8 = Spade panel  $E6 = Hand trap (works anywhere!)  $BD = Enterable flower??  $E0 = Red Toad House
     LDY #(MCT_END-Map_Completable_Tiles-1)      ; Y = 4
-    LDA <World_Map_Tile ; A = tile
+    LDA World_Map_Tile ; A = tile
 PRG012_A535:
     CMP Map_Completable_Tiles,Y
     BEQ PRG012_A570  ; If tile match, jump to PRG012_A570
@@ -369,13 +369,13 @@ PRG031_A556:
     JMP PRG031_A581         ; Jump to PRG031_A581
 
 PRG012_A55C:
-    LDA <Temp_Var2
+    LDA Temp_Var2
     CMP #$01
     BNE PRG012_A585  ; If Temp_Var2 (current completion bit) <> 1, jump to PRG012_A585
 
     ; Completion bit 1 appears one row lower than the other adjacent bits
 
-    LDY <Temp_Var5
+    LDY Temp_Var5
     CPY #$90
     BGE PRG012_A585  ; If Temp_Var5 (offset to tile) >= $90, jump to PRG012_A585
 
@@ -390,30 +390,30 @@ PRG012_A570:
     ; Just about any "flippable" tile goes here, produces M/L
     TXA
     ASL A
-    STA <Temp_Var4   ; Temp_Var4 = X (tile quadrant) << 1
+    STA Temp_Var4   ; Temp_Var4 = X (tile quadrant) << 1
 
-    LDA <Temp_Var1
+    LDA Temp_Var1
     AND #$40
     BEQ PRG012_A57C  ; If this is completion bit 6, jump to PRG012_A57C
 
-    INC <Temp_Var4       ; Otherwise, Temp_Var4++
+    INC Temp_Var4       ; Otherwise, Temp_Var4++
 PRG012_A57C:
-    LDX <Temp_Var4       ; X = (tile quadrant * 2) + 0/1
+    LDX Temp_Var4       ; X = (tile quadrant * 2) + 0/1
 
     LDA Map_CompleteByML_Tiles,X    ; Get proper completion tile
 
 PRG031_A581:
-    LDY <Temp_Var5       ; Y = Temp_Var5 (offset to tile)
+    LDY Temp_Var5       ; Y = Temp_Var5 (offset to tile)
     STA [Map_Tile_AddrL],Y   ; Set proper completion tile!
 
 PRG012_A585:
-    LSR <Temp_Var2   ; Temp_Var2 >>= 1
+    LSR Temp_Var2   ; Temp_Var2 >>= 1
     BEQ PRG012_A58C  ; If we've finished all row completion bits, jump to PRG012_A58C
     JMP PRG012_A4E9  ; Jump to PRG012_A4E9
 
 PRG012_A58C:
-    INC <Temp_Var1   ; Temp_Var1++
-    LDA <Temp_Var1
+    INC Temp_Var1   ; Temp_Var1++
+    LDA Temp_Var1
     CMP #$80
     BEQ PRG012_A597  ; If Temp_Var1 = 80 (completed through all column bytes), jump to PRG012_A597 (RTS)
     JMP PRG012_A4E5  ; Otherwise, jump back around again...
@@ -469,42 +469,42 @@ PRG012_B10A:
 
     ; Temp_Var2/1 form an address to Map_ByRowType
     LDA Map_ByRowType,Y
-    STA <Temp_Var1
+    STA Temp_Var1
     LDA Map_ByRowType+1,Y
-    STA <Temp_Var2
+    STA Temp_Var2
 
     ; Temp_Var4/3 form an address to Map_ByScrCol
     LDA Map_ByScrCol,Y
-    STA <Temp_Var3
+    STA Temp_Var3
     LDA Map_ByScrCol+1,Y
-    STA <Temp_Var4
+    STA Temp_Var4
 
     ; Temp_Var6/5 form an address to Map_ObjSets
     LDA Map_ObjSets,Y
-    STA <Temp_Var5
+    STA Temp_Var5
     LDA Map_ObjSets+1,Y
-    STA <Temp_Var6
+    STA Temp_Var6
 
     ; Temp_Var8/7 form an address to Map_LevelLayouts
     LDA Map_LevelLayouts,Y
-    STA <Temp_Var7
+    STA Temp_Var7
     LDA Map_LevelLayouts+1,Y
-    STA <Temp_Var8
+    STA Temp_Var8
 
     ; Temp_Var10/9 form an address to Map_ByXHi_InitIndex
     LDA Map_ByXHi_InitIndex,Y
-    STA <Temp_Var9
+    STA Temp_Var9
     LDA Map_ByXHi_InitIndex+1,Y
-    STA <Temp_Var10
+    STA Temp_Var10
 
 
     LDX Player_Current
-    LDY <World_Map_XHi,X
+    LDY World_Map_XHi,X
     LDA [Temp_Var9],Y   ; get initial index based on the current "screen" of the map the Player was on
     TAY         ; Y = the aforementioned index
 
     LDA #$00
-    STA <Temp_Var15     ; Temp_Var15 = 0 (will be a page change value)
+    STA Temp_Var15     ; Temp_Var15 = 0 (will be a page change value)
 
     ; Now we search, beginning from the specified index, and try to match the row the Player
     ; is on with the upper 4 bits of the value we get from the next table
@@ -513,40 +513,40 @@ PRG012_B10A:
 PRG012_B150:
     LDA [Temp_Var1],Y
     AND #$f0        ; Specifically only consider the "row" this specifies
-    CMP <World_Map_Y,X  ; Compare to the Player's Y position on the map
+    CMP World_Map_Y,X  ; Compare to the Player's Y position on the map
     BEQ PRG012_B162     ; If this byte matches your Y position on the map, jump to PRG012_B162
     INY         ; Y++
     BNE PRG012_B150     ; While Y <> 0, loop!
 
     ; Didn't find any matching position!
-    INC <Temp_Var2      ; Move to the next address page
-    INC <Temp_Var15     ; Temp_Var15++ (to acknowledge the page change for the next part)
+    INC Temp_Var2      ; Move to the next address page
+    INC Temp_Var15     ; Temp_Var15++ (to acknowledge the page change for the next part)
     JMP PRG012_B150     ; Try again...
 
 PRG012_B162:
 
     ; Add the page change (if any) to Temp_Var4 (applies same page change here)
-    LDA <Temp_Var4
-    ADD <Temp_Var15
-    STA <Temp_Var4
+    LDA Temp_Var4
+    ADD Temp_Var15
+    STA Temp_Var4
 
     LDA #$00
-    STA <Temp_Var15     ; Temp_Var15 = 0
+    STA Temp_Var15     ; Temp_Var15 = 0
 
     ; Temp_Var9 will now be a value where the current "column" on the map is
     ; in the lower 4 bits and the current "screen" (XHi) is in the upper bits.
-    LDA <World_Map_X,X
+    LDA World_Map_X,X
     LSR A
     LSR A
     LSR A
     LSR A
-    STA <Temp_Var9
-    LDA <World_Map_XHi,X
+    STA Temp_Var9
+    LDA World_Map_XHi,X
     ASL A
     ASL A
     ASL A
     ASL A
-    ORA <Temp_Var9
+    ORA Temp_Var9
 
     ; 'Y' was set by the last loop...
 PRG012_B17D:
@@ -556,16 +556,16 @@ PRG012_B17D:
     BNE PRG012_B17D     ; While Y <> 0, loop!
 
     ; Didn't find any matching position!
-    INC <Temp_Var4      ; Move to the next address page
-    INC <Temp_Var15     ; Temp_Var15++ (to acknowledge the page change for the next part)
+    INC Temp_Var4      ; Move to the next address page
+    INC Temp_Var15     ; Temp_Var15++ (to acknowledge the page change for the next part)
     JMP PRG012_B17D     ; Try again...
 
 PRG012_B18B:
 
     ; Add the page change (if any) to Temp_Var2 (applies same page change here)
-    LDA <Temp_Var2
-    ADD <Temp_Var15
-    STA <Temp_Var2
+    LDA Temp_Var2
+    ADD Temp_Var15
+    STA Temp_Var2
 
     LDA World_Num
     CMP #$08
@@ -585,9 +585,9 @@ PRG012_B1A1:
     STA Level_Tileset   ; Store into Level_Tileset
 
     ; Add the page change (if any) to Temp_Var6 (applies same page change here)
-    LDA <Temp_Var6
-    ADD <Temp_Var15
-    STA <Temp_Var6
+    LDA Temp_Var6
+    ADD Temp_Var15
+    STA Temp_Var6
 
     TYA
     TAX      ; X = Y (our sought after offset)
@@ -596,25 +596,25 @@ PRG012_B1A1:
     BCC PRG012_B1BB  ; Somewhat excessive skip to not add carry if we don't need to :P
 
     ; Apply carry to Temp_Var6
-    LDA <Temp_Var6
+    LDA Temp_Var6
     ADC #$00
-    STA <Temp_Var6
+    STA Temp_Var6
 
 PRG012_B1BB:
 
     ; Store address of object set into Level_ObjPtr_AddrL/H and Level_ObjPtrOrig_AddrL/H
     LDA [Temp_Var5],Y
-    STA <Level_ObjPtr_AddrL
+    STA Level_ObjPtr_AddrL
     STA Level_ObjPtrOrig_AddrL
     INY
     LDA [Temp_Var5],Y
-    STA <Level_ObjPtr_AddrH
+    STA Level_ObjPtr_AddrH
     STA Level_ObjPtrOrig_AddrH
 
     ; Add the page change (if any) to Temp_Var6 (applies same page change here)
-    LDA <Temp_Var8
-    ADD <Temp_Var15
-    STA <Temp_Var8
+    LDA Temp_Var8
+    ADD Temp_Var15
+    STA Temp_Var8
 
     TXA
     ASL A
@@ -622,23 +622,23 @@ PRG012_B1BB:
     BCC PRG012_B1DC  ; Somewhat excessive skip to not add carry if we don't need to :P
 
     ; Apply carry to Temp_Var8
-    LDA <Temp_Var8
+    LDA Temp_Var8
     ADC #$00
-    STA <Temp_Var8
+    STA Temp_Var8
 
 PRG012_B1DC:
-    STY <Temp_Var16  ; Keep index in Temp_Var16
+    STY Temp_Var16  ; Keep index in Temp_Var16
 
     ; Store address of object set into Level_LayPtr_AddrL/H and Level_LayPtrOrig_AddrL/H
     LDA [Temp_Var7],Y
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
     STA Level_LayPtrOrig_AddrL
     INY
     LDA [Temp_Var7],Y
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
     STA Level_LayPtrOrig_AddrH
 
-    LDA <Map_EnterViaID
+    LDA Map_EnterViaID
     BNE Map_DoEnterViaID     ; If Map_EnterViaID <> 0, jump to Map_DoEnterViaID
 
     LDA Level_Tileset
@@ -690,34 +690,34 @@ Map_DoEnterViaID:
 ; This is a perfect clone of Map_GetTile from PRG010, but not used here...
 ; $B226
     LDX Player_Current
-    LDA <World_Map_XHi,X
+    LDA World_Map_XHi,X
     ASL A
     TAY
 
     ; Store starting offset for this map screen into Map_Tile_AddrL/H
     LDA Tile_Mem_Addr,Y
-    STA <Map_Tile_AddrL
+    STA Map_Tile_AddrL
     LDA Tile_Mem_Addr+1,Y
-    STA <Map_Tile_AddrH
+    STA Map_Tile_AddrH
 
-    INC <Map_Tile_AddrH ; Effectively adds $100 to the address (maps get loaded at screen base + $110)
+    INC Map_Tile_AddrH ; Effectively adds $100 to the address (maps get loaded at screen base + $110)
 
-    LDA <World_Map_X,X
+    LDA World_Map_X,X
     LSR A
     LSR A
     LSR A
     LSR A
-    STA <Temp_Var1      ; Temp_Var1 = World_Map_X / 16 (the current column of the current screen)
+    STA Temp_Var1      ; Temp_Var1 = World_Map_X / 16 (the current column of the current screen)
 
-    LDA <World_Map_Y,X
+    LDA World_Map_Y,X
     SUB #16
     AND #$f0
-    ORA <Temp_Var1      ; Temp_Var1 now holds the X column in the lower 4-bits and the Y row in the upper 4-bits
+    ORA Temp_Var1      ; Temp_Var1 now holds the X column in the lower 4-bits and the Y row in the upper 4-bits
 
     TAY         ; Store this offset value into 'Y'
 
     LDA [Map_Tile_AddrL],Y
-    STA <World_Map_Tile
+    STA World_Map_Tile
     RTS      ; Return
 
 KingsRoomLayout_ByWorld:
@@ -743,14 +743,14 @@ PRG012_B262:
     TAX      ; X = World_Num * 2 (2 byte index)
 
     LDA KingsRoomLayout_ByWorld,X
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
     LDA KingsRoomLayout_ByWorld+1,X
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
 
     LDA KingsRoomObjLayout
-    STA <Level_ObjPtr_AddrL
+    STA Level_ObjPtr_AddrL
     LDA KingsRoomObjLayout+1
-    STA <Level_ObjPtr_AddrH
+    STA Level_ObjPtr_AddrH
 
     ; King's room tile set
     LDA #$02
@@ -787,15 +787,15 @@ MO_Airship:
 
     ; Get proper airship layout
     LDA Airship_Layouts,Y
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
     LDA Airship_Layouts+1,Y
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
 
     ; Get proper airship object set pointer
     LDA Airship_Objects,Y
-    STA <Level_ObjPtr_AddrL
+    STA Level_ObjPtr_AddrL
     LDA Airship_Objects+1,Y
-    STA <Level_ObjPtr_AddrH
+    STA Level_ObjPtr_AddrH
 
     ; Force Level_Tileset = 10 (Airship)
     LDA #10
@@ -836,9 +836,9 @@ MO_NSpade:
 
     ; Bonus game layout
     LDA Bonus_LayoutData,Y
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
     LDA Bonus_LayoutData+1,Y
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
 
     ; World_EnterState = 3
     LDA #$03
@@ -877,15 +877,15 @@ MO_Shop:
 
     ; Load proper Toad Shop layout
     LDA ToadShop_Layouts,Y
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
     LDA ToadShop_Layouts+1,Y
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
 
     ; Load proper Toad Shop object set
     LDA ToadShop_Objects,Y
-    STA <Level_ObjPtr_AddrL
+    STA Level_ObjPtr_AddrL
     LDA ToadShop_Objects+1,Y
-    STA <Level_ObjPtr_AddrH
+    STA Level_ObjPtr_AddrH
 
     ; Level_Tileset = 7 (Toad House)
     LDA #$07
@@ -921,15 +921,15 @@ MO_CoinShip:
 
     ; Get coin ship layout
     LDA CoinShip_Layouts,Y
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
     LDA CoinShip_Layouts+1,Y
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
 
     ; Get coin ship objects
     LDA CoinShip_Objects,Y
-    STA <Level_ObjPtr_AddrL
+    STA Level_ObjPtr_AddrL
     LDA CoinShip_Objects+1,Y
-    STA <Level_ObjPtr_AddrH
+    STA Level_ObjPtr_AddrH
 
     ; Set Level_Tileset = 10 (Airship)
     LDA #10
@@ -947,15 +947,15 @@ MO_UnusedMapObj:
 
     ; Set the layout
     LDA UnusedMapObj_Layout
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
     LDA UnusedMapObj_Layout+1
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
 
     ; Set the objects
     LDA UnusedMapObj_Objects
-    STA <Level_ObjPtr_AddrL
+    STA Level_ObjPtr_AddrL
     LDA UnusedMapObj_Objects+1
-    STA <Level_ObjPtr_AddrH
+    STA Level_ObjPtr_AddrH
 
     ; Level_Tileset = 1 (Plains style)
     LDA #$01
@@ -981,7 +981,7 @@ PRG012_B384:
     LDA #15
     STA Level_Tileset    ; Re-affirming Level_Tileset = 15?
 
-    LDY <Temp_Var16      ; Index of level entered
+    LDY Temp_Var16      ; Index of level entered
 
     ; Set Bonus_GameType (always 1 in actual game)
     LDA [Temp_Var5],Y
@@ -1002,9 +1002,9 @@ PRG012_B384:
     TAY      ; -> 'Y'
 
     LDA Bonus_LayoutData,Y
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
     LDA Bonus_LayoutData+1,Y
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
 
     ; World_EnterState = 3
     LDA #$03

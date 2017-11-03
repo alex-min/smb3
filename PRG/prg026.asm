@@ -417,21 +417,21 @@ Inventory_DoFlipVideoUpd:
 
     ; Store address to video data into Temp_Var15 based on Inventory_Open status
     LDA InvGBuf_By_Open,X
-    STA <Temp_Var15
+    STA Temp_Var15
     LDA InvGBuf_By_Open+1,X
-    STA <Temp_Var16
+    STA Temp_Var16
 
     ; InvFlip_Frame indexes which block of video data we'll be using...
 
     LDY InvFlip_Frame       ; Y = InvFlip_Frame
     LDA Flip_Video_Ends,Y       ; Get offset value that is the END of the video data
-    STA <Temp_Var13         ; Store into Temp_Var13
+    STA Temp_Var13         ; Store into Temp_Var13
 
     LDA Flip_Video_Offsets,Y    ; Get offset value that is the BEGINNING of the video data
     TAY             ; Y = A
 
     LDX Graphics_BufCnt
-    STX <Temp_Var9          ; Temp_Var9 = Graphics_BufCnt (where in Graphics_Buffer we begin)
+    STX Temp_Var9          ; Temp_Var9 = Graphics_BufCnt (where in Graphics_Buffer we begin)
 
     ; Copy all of the video update data into the Graphics_Buffer
 PRG026_A2E4:
@@ -439,12 +439,12 @@ PRG026_A2E4:
     STA Graphics_Buffer,X   ; Store it into the buffer
     INX         ; X++
     INY         ; Y++
-    CPY <Temp_Var13
+    CPY Temp_Var13
     BNE PRG026_A2E4     ; While Y <> end of update data, loop!
 
     LDA Graphics_BufCnt
     ADD #12
-    STA <Temp_Var13     ; Temp_Var13 = Offset to 12 bytes in from where we started the graphics buffer
+    STA Temp_Var13     ; Temp_Var13 = Offset to 12 bytes in from where we started the graphics buffer
     DEX
     STX Graphics_BufCnt ; Update Graphics_BufCnt with where the buffer actually is
 
@@ -492,11 +492,11 @@ Inventory_DrawItemsOrCards:
     LDA #(Inventory_Cards2 - Inventory_Items)   ; Luigi's cards
 
 PRG026_A336:
-    STA <Temp_Var14     ; Store this into Temp_Var14 (offset to first pattern in card layout)
+    STA Temp_Var14     ; Store this into Temp_Var14 (offset to first pattern in card layout)
 
-    LDA <Temp_Var13     ; A = 12 bytes into the graphics buffer we just did
+    LDA Temp_Var13     ; A = 12 bytes into the graphics buffer we just did
     ADD #$0d
-    STA <Temp_Var13     ; Temp_Var13 += $D
+    STA Temp_Var13     ; Temp_Var13 += $D
 
     LDA #$02        ; A = 2
     JMP PRG026_A355     ; Jump to PRG026_A355...
@@ -511,23 +511,23 @@ PRG026_A344:
 
 PRG026_A34D:
     ADD InvStart_Item   ; Offset to the starting item
-    STA <Temp_Var14     ; Store this into Temp_Var14 (offset to first pattern in item layout)
+    STA Temp_Var14     ; Store this into Temp_Var14 (offset to first pattern in item layout)
     LDA #$06        ; Number of items to display minus one
 
 PRG026_A355:
-    STA <Temp_Var11     ; Store number of items to display...
+    STA Temp_Var11     ; Store number of items to display...
 
     ; Set pointer to proper render items
     LDA Inventory_Open
     ASL A
     TAX      ; X = Inventory_Open * 2 (2 byte index)
     LDA InvFlip_TileLayout_Sel,X
-    STA <Temp_Var15
+    STA Temp_Var15
     LDA InvFlip_TileLayout_Sel+1,X
-    STA <Temp_Var16     ; Temp_Var15/16 point to start of pattern data for inventory items / cards
+    STA Temp_Var16     ; Temp_Var15/16 point to start of pattern data for inventory items / cards
 
 PRG026_A366:
-    LDY <Temp_Var14 ; Starting item/card offset
+    LDY Temp_Var14 ; Starting item/card offset
 
     LDA Inventory_Items,Y   ; Get this item
     BEQ PRG026_A38B     ; If it's an empty slot, jump to PRG026_A38B
@@ -552,7 +552,7 @@ PRG026_A37D:
     ; This loop copies two bytes of the item/card
     ; into the buffer; the graphic is made up of 4 bytes,
     ; but in a single row of 8x8s, it's two at a time :)
-    LDX <Temp_Var13     ; X = Temp_Var13 (offset into the graphics buffer)
+    LDX Temp_Var13     ; X = Temp_Var13 (offset into the graphics buffer)
 PRG026_A37F:
     LDA [Temp_Var15],Y  ; Get next tile for this power-up
     STA Graphics_Buffer,X   ; Store it into the graphics buffer
@@ -563,11 +563,11 @@ PRG026_A37F:
     BNE PRG026_A37F     ; If A <> 0, loop (loops for two bytes)
 
 PRG026_A38B:
-    LDA <Temp_Var13     ; X = Temp_Var13 (offset into the graphics buffer)
+    LDA Temp_Var13     ; X = Temp_Var13 (offset into the graphics buffer)
     ADD #$03
-    STA <Temp_Var13     ; Temp_Var13 += 3 (2 for the power-up, 1 for spacing)
-    INC <Temp_Var14 ; Next item!
-    DEC <Temp_Var11     ; One less item left to display...
+    STA Temp_Var13     ; Temp_Var13 += 3 (2 for the power-up, 1 for spacing)
+    INC Temp_Var14 ; Next item!
+    DEC Temp_Var11     ; One less item left to display...
     BPL PRG026_A366     ; While Temp_Var11 >= 0, loop!
 
 PRG026_A398:
@@ -600,7 +600,7 @@ InvFlipFrame_DrawWorldCoins:
 
     JSR StatusBar_Fill_Coins ; Put coins in status bar
 
-    LDX <Temp_Var9       ; X = Temp_Var9
+    LDX Temp_Var9       ; X = Temp_Var9
 
     LDA StatusBar_CoinH
     STA Graphics_Buffer+$15,X
@@ -614,7 +614,7 @@ InvFlipFrame_DrawMLLivesScore:
     JSR StatusBar_Fill_MorL  ; Put <M> or <L> in status bar
     JSR StatusBar_Fill_Lives ; Put lives in status bar
 
-    LDX <Temp_Var9       ; X = Temp_Var9
+    LDX Temp_Var9       ; X = Temp_Var9
 
     LDA StatusBar_LivesH
     STA Graphics_Buffer+8,X
@@ -628,7 +628,7 @@ InvFlipFrame_DrawMLLivesScore:
     JSR StatusBar_Fill_Score ; Put score in status bar
 
     ; Patch in all of the digits of score
-    LDX <Temp_Var9   ; X = Temp_Var9
+    LDX Temp_Var9   ; X = Temp_Var9
     LDY #$00     ; Y = 0
 PRG026_A3EF:
     LDA StatusBar_Score,Y
@@ -657,7 +657,7 @@ Inventory_DoPowerupUse:
     LDA Map_Powerup_Poof
     BNE PRG026_A398     ; If no power-up "poof" effect occurring, jump to PRG026_A398 (RTS)
 
-    LDA <Map_UseItem
+    LDA Map_UseItem
     BEQ PRG026_A41A     ; If Map_UseItem = 0 (not using item), jump to PRG026_A41A
     JMP PRG026_A4FC     ; Otherwise, jump to PRG026_A4FC
 
@@ -753,7 +753,7 @@ PRG026_A4A6:
     RTS         ; Otherwise, just return...
 
 PRG026_A4A7:
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #(PAD_LEFT | PAD_RIGHT)
     BEQ PRG026_A4F6     ; If neither left nor right is pressed, jump to PRG026_A4F6
 
@@ -800,7 +800,7 @@ PRG026_A4EB:
     JMP PRG026_A511     ; Then jump to PRG026_A511
 
 PRG026_A4F6:
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #PAD_A
     BEQ PRG026_A511     ; If Player is NOT pressing A, jump to PRG026_A511
 
@@ -840,7 +840,7 @@ InvItem_SetColor:
     STA Palette_Buffer+3    ; Ensure status bar color in there!
 
     LDA #$06
-    STA <Graphics_Queue ; Update the palette when capable
+    STA Graphics_Queue ; Update the palette when capable
 
 PRG026_A539:
     RTS      ; Return
@@ -950,7 +950,7 @@ PRG026_A5D9:
 
     ; Queue palette update
     LDA #$06
-    STA <Graphics_Queue
+    STA Graphics_Queue
 
     ; Play the correct sound for this power up item
     LDA InvItem_PerPowerUp_L1Sound,X
@@ -976,14 +976,14 @@ PRG026_A60B:
     LDX Player_Current      ; X = Player_Current
 
     ; Target "Map Poof" on active Player
-    LDA <World_Map_Y,X
-    STA <MapPoof_Y
-    LDA <World_Map_X,X
-    STA <MapPoof_X
+    LDA World_Map_Y,X
+    STA MapPoof_Y
+    LDA World_Map_X,X
+    STA MapPoof_X
 
 Inv_UseItem_ShiftOver:
     LDA #27
-    STA <Temp_Var15     ; Temp_Var15 = 27 (last index of items to shift)
+    STA Temp_Var15     ; Temp_Var15 = 27 (last index of items to shift)
 
     LDA InvHilite_Item
     ADD InvStart_Item
@@ -994,7 +994,7 @@ Inv_UseItem_ShiftOver:
 
     LDA #27
     ADD #(Inventory_Items2 - Inventory_Items)   ; This could've been done as a constant, but oh well!
-    STA <Temp_Var15     ; Temp_Var15 += Luigi items offset (last index of Luigi items to shift)
+    STA Temp_Var15     ; Temp_Var15 += Luigi items offset (last index of Luigi items to shift)
 
     TYA
     ADD #(Inventory_Items2 - Inventory_Items)
@@ -1002,7 +1002,7 @@ Inv_UseItem_ShiftOver:
 
     ; This loop "removes" the used item by backing the other items over it
 PRG026_A638:
-    CPY <Temp_Var15
+    CPY Temp_Var15
     BEQ PRG026_A646
     LDA Inventory_Items+1,Y
     STA Inventory_Items,Y
@@ -1084,10 +1084,10 @@ RockBreak_TileFix:
 
 Inv_UseItem_Hammer:
     LDA #$03
-    STA <Temp_Var1   ; Temp_Var1 = 3 (checking all 4 directions around Player)
+    STA Temp_Var1   ; Temp_Var1 = 3 (checking all 4 directions around Player)
 
 PRG026_A6BF:
-    LDY <Temp_Var1          ; Y = LDY <Temp_Var1
+    LDY Temp_Var1          ; Y = LDY Temp_Var1
     JSR MapTile_Get_By_Offset   ; Get map tile nearby player (on page 10)
 
     ; Rock tiles:
@@ -1095,7 +1095,7 @@ PRG026_A6BF:
     CMP #$02     ; See if value is less than 2 (rock to break)
     BLT PRG026_A6D2  ; If rock, jump to PRG026_A6D2
 
-    DEC <Temp_Var1      ; Temp_Var1--
+    DEC Temp_Var1      ; Temp_Var1--
     BPL PRG026_A6BF     ; While directions to search, loop!
 
     JMP Inv_UseItem_Denial  ; No way to use hammer; deny!
@@ -1103,8 +1103,8 @@ PRG026_A6BF:
 PRG026_A6D2:
     ; Rock to break...
 
-    STX <Temp_Var2      ; Store screen high byte -> Temp_Var2
-    LSR <Temp_Var2      ; Temp_Var2 >>= 1 (previously used as index into Map_Tile_Addr, now back to just a screen index)
+    STX Temp_Var2      ; Store screen high byte -> Temp_Var2
+    LSR Temp_Var2      ; Temp_Var2 >>= 1 (previously used as index into Map_Tile_Addr, now back to just a screen index)
     PHA         ; Save 'A' (map tile minus TILE_ROCKBREAKH, either 0 or 1)
     TAX         ; X = A
     LDA RockBreak_Replace,X ; Get the tile number that replaces this rock
@@ -1116,14 +1116,14 @@ PRG026_A6D2:
     ASL A
     ASL A
     ASL A       ; Multiply by 16 for X
-    STA <MapPoof_X
-    STA <Temp_Var3  ; Temp_Var3 = MapPoof_X
+    STA MapPoof_X
+    STA Temp_Var3  ; Temp_Var3 = MapPoof_X
 
     TYA
     AND #$f0
     ADD #$10    ; Decouple a Y
-    STA <MapPoof_Y
-    STA <Temp_Var1  ; Temp_Var1 = MapPoof_Y
+    STA MapPoof_Y
+    STA Temp_Var1  ; Temp_Var1 = MapPoof_Y
 
     JSR Map_SetCompletion_By_Poof    ; Set completion bit based on location of map "poof"
 
@@ -1139,8 +1139,8 @@ PRG026_A6D2:
 
     ; Take the Map poof coordinates and calculate what address in
     ; Nametable 2 we need to modify to remove the rock...
-    LDX <MapPoof_X       ; X = MapPoof_X
-    LDA <MapPoof_Y       ; A = MapPoof_Y
+    LDX MapPoof_X       ; X = MapPoof_X
+    LDA MapPoof_Y       ; A = MapPoof_Y
     JSR Map_Calc_NT2Addr_By_XY
 
     PLA         ; Retore 'A' (0 or 1, depending on which rock was busted)
@@ -1148,10 +1148,10 @@ PRG026_A6D2:
 
     ; Buffer in the rock replacement tiles
     LDY Graphics_BufCnt
-    LDA <Temp_Var15
+    LDA Temp_Var15
     STA Graphics_Buffer,Y
     STA Graphics_Buffer+5,Y
-    LDA <Temp_Var16
+    LDA Temp_Var16
     STA Graphics_Buffer+1,Y
     ADD #$01
     STA Graphics_Buffer+6,Y
@@ -1195,17 +1195,17 @@ Inv_UseItem_WarpWhistle:
     LDY Player_Current  ; Y = Player_Current
     LDX #$00        ; X = 0 (Wind comes from the left)
     LDA World_Map_X,Y   ; Get Player's X position on Map
-    SUB <Horz_Scroll    ; Offset it by the horizontal scroll
+    SUB Horz_Scroll    ; Offset it by the horizontal scroll
     CMP #$80
     BGE PRG026_A771
     LDX #$01        ; Wind comes from the right
 PRG026_A771:
-    STX <Map_WWOrHT_Dir     ; Store travel direction
+    STX Map_WWOrHT_Dir     ; Store travel direction
 
     LDA Map_WWOrHT_StartX,X ; Get proper start position for the wind
-    STA <Map_WWOrHT_X       ; Set it as the wind's X
+    STA Map_WWOrHT_X       ; Set it as the wind's X
     LDA World_Map_Y,Y       ; Get Player's Y position on map
-    STA <Map_WWOrHT_Y       ; Set it as the wind's Y
+    STA Map_WWOrHT_Y       ; Set it as the wind's Y
     STA Map_PlyrSprOvrY     ; Clear the map sprite override Y
 
     ; Back up the Player's map positioning (why??)
@@ -1228,10 +1228,10 @@ PRG026_A771:
     ; Clear all of the following:
     STA Map_Prev_XOff,Y
     STA Map_Prev_XHi,Y
-    STA <Scroll_LastDir
+    STA Scroll_LastDir
     STA Map_InCanoe_Flag        ; Not in a canoe
 
-    STX <Map_WarpWind_FX         ; Map_WarpWind_FX = 1 (Warp Whistle begin!)
+    STX Map_WarpWind_FX         ; Map_WarpWind_FX = 1 (Warp Whistle begin!)
     JSR Inv_UseItem_ShiftOver    ; Shift out the Warp Whistle
 
     LDA #MUS2A_WARPWHISTLE
@@ -1255,7 +1255,7 @@ Map_Poof_Tiles:
     .byte $45, $47
 
 Map_Poof_Update:
-    LDA <MapPoof_Y
+    LDA MapPoof_Y
     SUB #$08        ; Center Map Poof
 
     ; Four pieces with identical Y
@@ -1272,8 +1272,8 @@ Map_Poof_Update:
     STA Sprite_RAM+$7C
 
     LDY #$00        ; Y = 0
-    LDA <MapPoof_X
-    SUB <Horz_Scroll    ; Offset poof effect based on horizontal scroll
+    LDA MapPoof_X
+    SUB Horz_Scroll    ; Offset poof effect based on horizontal scroll
     SUB #$08        ; Center horizontally
 
     ; This will loop through to position each piece of the poof sprite
@@ -1358,10 +1358,10 @@ InvItem_Hilite_Layout:
 Inv_Display_Hilite:
     ; Displays the hilited item
     LDY #$c8     ; Y = $C8
-    LDA <Map_UseItem
+    LDA Map_UseItem
     BEQ PRG026_A876  ; If not using an item, jump to PRG026_A876
 
-    LDA <Counter_1
+    LDA Counter_1
     AND #$18
     BNE PRG026_A876  ; Periodically jump to PRG026_A876
 
@@ -1438,7 +1438,7 @@ Map_SetCompletion_By_Poof:  ; $A8D4
     ; This loop will determine what row to mark completion on based on
     ; the Y coordinate of the "map poof"
     LDY #6
-    LDA <Temp_Var1      ; A = Temp_Var1 (Map Poof Y)
+    LDA Temp_Var1      ; A = Temp_Var1 (Map Poof Y)
 PRG026_A8D8:
     CMP Map_Poof_To_Row,Y   ; Compare Map Poof Y to this value
     BEQ PRG026_A8E2     ; If it matches, jump to PRG026_A8E2
@@ -1448,19 +1448,19 @@ PRG026_A8D8:
     ; If it doesn't match, use Y = 7 (which amounts to the last row anyway, but SHOULDN'T HAPPEN)
     LDY #7
 PRG026_A8E2:
-    STY <Temp_Var5      ; Temp_Var5 = Y
-    LDA <Temp_Var2      ; A = current screen (map X Hi byte)
+    STY Temp_Var5      ; Temp_Var5 = Y
+    LDA Temp_Var2      ; A = current screen (map X Hi byte)
     ASL A
     ASL A
     ASL A
     ASL A
-    STA <Temp_Var4      ; Temp_Var4 = Temp_Var2 << 4
-    LDA <Temp_Var3
+    STA Temp_Var4      ; Temp_Var4 = Temp_Var2 << 4
+    LDA Temp_Var3
     LSR A
     LSR A
     LSR A
     LSR A
-    ORA <Temp_Var4      ; A = Temp_Var3 >> 3 (Map Poof X, div 16) OR'd with Temp_Var4 (row is upper 4 bits, column is lower 4 bits)
+    ORA Temp_Var4      ; A = Temp_Var3 >> 3 (Map Poof X, div 16) OR'd with Temp_Var4 (row is upper 4 bits, column is lower 4 bits)
     TAY         ; Y = A
     LDX Player_Current  ; X = Player_Current
     BEQ PRG026_A8FF     ; If Player_Current = 0 (Mario), jump to PRG026_A8FF
@@ -1469,7 +1469,7 @@ PRG026_A8E2:
     TAY         ; Y += $40 for Luigi (Luigi's clear bits are 64 ahead of Mario's)
 
 PRG026_A8FF:
-    LDX <Temp_Var5      ; X = row on which the rock existed
+    LDX Temp_Var5      ; X = row on which the rock existed
     LDA Map_Completions,Y   ; Get current "completion" byte for this spot
     ORA Map_Completion_Bit,X; Set appropriate "completion" bit for this row
     STA Map_Completions,Y   ; Store it back
@@ -1500,7 +1500,7 @@ PRG026_A936:
     BNE PRG026_A936  ; While Fade_Level > 0, loop
 
     LDA #%00011000      ; Show sprites + BG
-    STA <PPU_CTL2_Copy
+    STA PPU_CTL2_Copy
 
     JSR GraphicsBuf_Prep_And_WaitVSync  ; Wait VSync
 
@@ -1513,16 +1513,16 @@ PRG026_A936:
 
     JSR Level_JctCtl_Do  ; Do what's appropriate for the Level Junction!
 
-    LDA <Horz_Scroll
+    LDA Horz_Scroll
     STA Level_Jct_HS     ; Level_Jct_HS = Horz_Scroll
 
-    LDA <Horz_Scroll_Hi
+    LDA Horz_Scroll_Hi
     STA Level_Jct_HSHi   ; Level_Jct_HSHi = Horz_Scroll_Hi
 
-    LDA <Vert_Scroll
+    LDA Vert_Scroll
     STA Level_Jct_VS     ; Level_Jct_VS = Vert_Scroll
 
-    LDA <Vert_Scroll_Hi
+    LDA Vert_Scroll_Hi
     STA Level_Jct_VSHi   ; Level_Jct_VSHi = Vert_Scroll_Hi
 
     LDA #$01
@@ -1538,14 +1538,14 @@ PRG026_A936:
     ; to think it is behind a whole screen (how mean!) to force
     ; a "dirty" update after we transition...
 
-    LDX <Scroll_LastDir
+    LDX Scroll_LastDir
     BNE PRG026_A982     ; If screen last moved left (1), jump to PRG026_A982
 
     ; X = Scroll_LastDir = 0 (Screen last moved right)
 
-    LDA <Scroll_ColumnR
+    LDA Scroll_ColumnR
     SUB #16
-    STA <Scroll_ColumnR ; Scroll_ColumnR -= 16 (pretend we have a whole screen to the right to update)
+    STA Scroll_ColumnR ; Scroll_ColumnR -= 16 (pretend we have a whole screen to the right to update)
 
     JMP PRG026_A989  ; Jump to PRG026_A989
 
@@ -1553,9 +1553,9 @@ PRG026_A982:
 
     ; X = Scroll_LastDir = 1 (Screen last moved left)
 
-    LDA <Scroll_ColumnL
+    LDA Scroll_ColumnL
     ADD #16
-    STA <Scroll_ColumnL ; Scroll_ColumnL += 16 (pretend we have a whole screen to the left to update)
+    STA Scroll_ColumnL ; Scroll_ColumnL += 16 (pretend we have a whole screen to the left to update)
 
 PRG026_A989:
     LDA Level_JctCtl
@@ -1565,7 +1565,7 @@ PRG026_A989:
     ; The Big Question Block bonus area locks horizontal scrolling,
     ; but everyone else is free to set it correctly!
     LDA Level_Jct_HS
-    STA <Horz_Scroll     ; Horz_Scroll = Level_Jct_HS
+    STA Horz_Scroll     ; Horz_Scroll = Level_Jct_HS
 
 PRG026_A995:
     JMP PRG030_897B  ; Jump to PRG026_897B (continue preparation of display!)
@@ -1586,20 +1586,20 @@ Level_JctCtl_Do:
 Level_JctInit:
     ; Grab level header's "alternate layout" pointer and put into Level_LayPtr/H_AddrL/H
     LDA Level_AltLayout
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
     STA Level_LayPtrOrig_AddrL
 
     LDA Level_AltLayout+1
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
     STA Level_LayPtrOrig_AddrH
 
     ; Grab level header's "alternate objects" pointer and put into Level_ObjPtrL/H_AddrL/H
     LDA Level_AltObjects
-    STA <Level_ObjPtr_AddrL
+    STA Level_ObjPtr_AddrL
     STA Level_ObjPtrOrig_AddrL
 
     LDA Level_AltObjects+1
-    STA <Level_ObjPtr_AddrH
+    STA Level_ObjPtr_AddrH
     STA Level_ObjPtrOrig_AddrH
 
     ; Set the alternate tileset
@@ -1640,17 +1640,17 @@ LevelJct_BigQuestionBlock:
 
     ; Big Question block layout
     LDA LevelJctBQ_Layout,Y
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
     LDA LevelJctBQ_Layout+1,Y
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
 
     ; Big Question block objects
     LDA LevelJctBQ_Objects,Y
-    STA <Level_ObjPtr_AddrL
+    STA Level_ObjPtr_AddrL
     LDA LevelJctBQ_Objects+1,Y
-    STA <Level_ObjPtr_AddrH
+    STA Level_ObjPtr_AddrH
 
-    LDX <Player_XHi     ; X = Player_XHi
+    LDX Player_XHi     ; X = Player_XHi
     LDA Level_JctXLHStart,X ; Get value from Level_JctXLHStart based on Player's X Hi
 
     ; A = X start position in the format of high byte in lower 4 bits
@@ -1660,14 +1660,14 @@ LevelJct_BigQuestionBlock:
 
     ; Cap XHi 0-15 and match the scroll position
     AND #$0f
-    STA <Player_XHi
-    STA <Horz_Scroll_Hi
+    STA Player_XHi
+    STA Horz_Scroll_Hi
 
     PLA      ; Restore UserData2 value
 
     AND #$f0     ; Get the X low start component
     ORA #$08     ; Center it up (better for coming out of pipe)
-    STA <Player_X    ; Store it into Player_X
+    STA Player_X    ; Store it into Player_X
 
     LDA Level_JctYLHStart,X
 
@@ -1686,9 +1686,9 @@ LevelJct_BigQuestionBlock:
     BLT PRG026_AA30  ; If Level_PipeExitDir < 3, jump to PRG026_AA30
 
     ; Otherwise, don't center Player (better for starting on block)
-    LDA <Player_X
+    LDA Player_X
     AND #$f0
-    STA <Player_X
+    STA Player_X
 
 PRG026_AA30:
     PLA      ; Restore Level_JctYLHStart
@@ -1714,17 +1714,17 @@ PRG026_AA30:
     PHA      ; Push 'A'
 
     AND #$0f
-    STA <Player_YHi  ; Lower 4 bits are the "High" byte
+    STA Player_YHi  ; Lower 4 bits are the "High" byte
 
     PLA      ; Restore 'A'
     AND #$f0
-    STA <Player_Y    ; Upper 4 bits are the "low" byte
+    STA Player_Y    ; Upper 4 bits are the "low" byte
 
     LDA LevelJct_VertStarts,Y    ; Get appropriate vertical start position
-    STA <Vert_Scroll         ; Store into Vert_Scroll
+    STA Vert_Scroll         ; Store into Vert_Scroll
 
     LDA #$00
-    STA <Horz_Scroll ; Horz_Scroll = 0
+    STA Horz_Scroll ; Horz_Scroll = 0
 
     JMP PRG026_AB0E  ; Jump to PRG026_AB0E
 
@@ -1735,16 +1735,16 @@ PRG026_AA5A:
     STA Level_Tileset
 
     LDA Level_LayPtrOrig_AddrL
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
 
     LDA Level_LayPtrOrig_AddrH
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
 
     LDA Level_ObjPtrOrig_AddrL
-    STA <Level_ObjPtr_AddrL
+    STA Level_ObjPtr_AddrL
 
     LDA Level_ObjPtrOrig_AddrH
-    STA <Level_ObjPtr_AddrH
+    STA Level_ObjPtr_AddrH
 
     JMP PRG026_AA8A     ; Jump to PRG026_AA8A (perform switch)
 
@@ -1763,13 +1763,13 @@ LevelJct_General:
 PRG026_AA8A:
     ; Actual switch code:
 
-    LDX <Player_XHi      ; X = Player_XHi
+    LDX Player_XHi      ; X = Player_XHi
 
     LDA Level_7Vertical
     BEQ PRG026_AA9A     ; If level is not vertical, jump to PRG026_AA9A
 
-    LDY <Player_YHi ; Y = Player_YHi
-    LDA <Player_Y   ; A = Player_Y
+    LDY Player_YHi ; Y = Player_YHi
+    LDA Player_Y   ; A = Player_Y
     JSR LevelJct_GetVScreenH     ; Possibly advances 'Y'
     TYA
     TAX      ; X = Y
@@ -1786,12 +1786,12 @@ PRG026_AA9A:
 
     PHA      ; Save read byte
     AND #$0f     ; Get the "X Hi" part of it
-    STA <Player_XHi  ; Store it!
+    STA Player_XHi  ; Store it!
 
     PLA      ; Restore read byte
     AND #$f0     ; Get the X low part
     ORA #$08     ; Center it
-    STA <Player_X    ; Store it!
+    STA Player_X    ; Store it!
 
     LDA Level_JctYLHStart,X
 
@@ -1811,9 +1811,9 @@ PRG026_AA9A:
     BLT PRG026_AABD  ; If Level_PipeExitDir < 3, jump to PRG026_AABD
 
     ; Otherwise, don't center Player (better for starting on block)
-    LDA <Player_X
+    LDA Player_X
     AND #$f0
-    STA <Player_X
+    STA Player_X
 
 PRG026_AABD:
     PLA      ; Restore Level_JctYLHStart
@@ -1839,19 +1839,19 @@ PRG026_AABD:
     PHA      ; Push 'A'
 
     AND #$0f
-    STA <Player_YHi  ; Lower 4 bits are the "High" byte
+    STA Player_YHi  ; Lower 4 bits are the "High" byte
 
     PLA      ; Restore 'A'
     AND #$f0
-    STA <Player_Y    ; Upper 4 bits are the "low" byte
+    STA Player_Y    ; Upper 4 bits are the "low" byte
 
     LDA LevelJct_VertStarts,Y    ; Get appropriate vertical start position
-    STA <Vert_Scroll         ; Store into Vert_Scroll
+    STA Vert_Scroll         ; Store into Vert_Scroll
 
     LDA #$00
-    STA <Horz_Scroll    ; Horz_Scroll = 0
-    STA <Horz_Scroll_Hi ; Horz_Scroll_Hi = 0
-    STA <Vert_Scroll_Hi ; Vert_Scroll_Hi = 0
+    STA Horz_Scroll    ; Horz_Scroll = 0
+    STA Horz_Scroll_Hi ; Horz_Scroll_Hi = 0
+    STA Vert_Scroll_Hi ; Vert_Scroll_Hi = 0
 
     LDA Level_7VertCopy
     BNE PRG026_AB0E     ; If switching to vertical, jump to PRG026_AB0E
@@ -1863,42 +1863,42 @@ PRG026_AABD:
     ; Obviously if Player_XHi > 0, then we can do that REGARDLESS
     ; of the Player X low position because we have space to the left
 
-    LDA <Player_XHi
-    STA <Horz_Scroll_Hi  ; Horz_Scroll_Hi = Horz_Scroll_Hi
+    LDA Player_XHi
+    STA Horz_Scroll_Hi  ; Horz_Scroll_Hi = Horz_Scroll_Hi
     BNE PRG026_AAF9     ; Jump if Player_XHi <> 0 to PRG026_AAF9
 
     ; If Player X Hi is zero, we may not have enough room to center
     ; left of the Player, so let's check...
-    LDA <Player_X
+    LDA Player_X
     CMP #$80
     BLT PRG026_AB06  ; If Player_X < $80, jump to PRG026_AB06
 
 PRG026_AAF9:
 
     ; Enough room to center horizontally left of the Player!
-    LDA <Player_X
+    LDA Player_X
     SUB #$80
-    STA <Horz_Scroll
+    STA Horz_Scroll
 
     ; Carried into Horz_Scroll_Hi if need be
-    LDA <Horz_Scroll_Hi
+    LDA Horz_Scroll_Hi
     SBC #$00
-    STA <Horz_Scroll_Hi
+    STA Horz_Scroll_Hi
 
 PRG026_AB06:
-    LDA <Player_YHi
+    LDA Player_YHi
     BEQ PRG026_AB0E ; If Player_YHi = 0, jump to PRG026_AB0E
 
     ; Otherwise, Player needs screen scrolled as low as it can go
     LDA #$ef
-    STA <Vert_Scroll ; Vert_Scroll = $EF
+    STA Vert_Scroll ; Vert_Scroll = $EF
 
 PRG026_AB0E:
     ; Common (regular and vertical level) continue point...
 
-    LDA <Horz_Scroll
-    STA <Scroll_Temp    ; Scroll_Temp = Horz_Scroll
-    LDA <Horz_Scroll_Hi ; A = Horz_Scroll_Hi
+    LDA Horz_Scroll
+    STA Scroll_Temp    ; Scroll_Temp = Horz_Scroll
+    LDA Horz_Scroll_Hi ; A = Horz_Scroll_Hi
 
     JMP Scroll_Update_Ranges ; Set scrolling appropriately!
 
@@ -1921,40 +1921,40 @@ LevelJct_GenericExit:
 
     ; Generic Exit block layout
     LDA LevelJctGE_Layout,Y
-    STA <Level_LayPtr_AddrL
+    STA Level_LayPtr_AddrL
     LDA LevelJctGE_Layout+1,Y
-    STA <Level_LayPtr_AddrH
+    STA Level_LayPtr_AddrH
 
     ; Generic Exit objects
     LDA LevelJctGE_Objects,Y
-    STA <Level_ObjPtr_AddrL
+    STA Level_ObjPtr_AddrL
     LDA LevelJctGE_Objects+1,Y
-    STA <Level_ObjPtr_AddrH
+    STA Level_ObjPtr_AddrH
 
     ; Generic exit uses a predictable start position
     LDA #$00
-    STA <Player_XHi
-    STA <Horz_Scroll
-    STA <Vert_Scroll_Hi
-    STA <Horz_Scroll_Hi
+    STA Player_XHi
+    STA Horz_Scroll
+    STA Vert_Scroll_Hi
+    STA Horz_Scroll_Hi
 
     ; ... and is never vertical
     STA Level_7Vertical ; Level_7Vertical = 0
 
     ; And several other constants:
     LDA #$ef
-    STA <Vert_Scroll ; Level_7Vertical = $EF
+    STA Vert_Scroll ; Level_7Vertical = $EF
 
     LDA #$28
-    STA <Player_X    ; Player_X = $28
+    STA Player_X    ; Player_X = $28
 
     LDA #$01
-    STA <Player_YHi  ; Player_YHi = 1
+    STA Player_YHi  ; Player_YHi = 1
 
     STA Level_PipeExitDir    ; Level_PipeExitDir = 1
 
     LDA #$80
-    STA <Player_Y    ; Player_Y = $80
+    STA Player_Y    ; Player_Y = $80
 
     JMP PRG026_AB0E  ; Jump to PRG026_AB0E
 
@@ -1967,23 +1967,23 @@ LevelJct_SpecialToadHouse:
 
     ; The special warp whistle Toad House uses a predictable start position
     LDA #$00
-    STA <Horz_Scroll
-    STA <Horz_Scroll_Hi
-    STA <Vert_Scroll_Hi
-    STA <Player_XHi
+    STA Horz_Scroll
+    STA Horz_Scroll_Hi
+    STA Vert_Scroll_Hi
+    STA Player_XHi
 
     ; ... and is never vertical
     STA Level_7Vertical ; Level_7Vertical = 0
 
     ; And several other constants:
     LDA #32
-    STA <Player_X    ; Player_X = 32
+    STA Player_X    ; Player_X = 32
 
     LDA #$01
-    STA <Player_YHi  ; Player_YHi = 1
+    STA Player_YHi  ; Player_YHi = 1
 
     LDA #64
-    STA <Player_Y    ; Player_Y = 64
+    STA Player_Y    ; Player_Y = 64
 
     LDA #$07
     STA Level_Tileset    ; Level_Tileset = 7 (Toad House)
@@ -2039,7 +2039,7 @@ PRG026_ABC5:
     INC Fade_State   ; Fade_State = 1 (Fade in)
 
     LDA #$06
-    STA <Graphics_Queue  ; Reset the graphics buffer
+    STA Graphics_Queue  ; Reset the graphics buffer
     RTS      ; Return
 
 Palette_DoFadeIn:
@@ -2082,7 +2082,7 @@ PRG026_AC12:
     BPL PRG026_ABF8  ; While Y >= 0, loop!
 
     LDA #$06
-    STA <Graphics_Queue  ; Queue graphics routine 6
+    STA Graphics_Queue  ; Queue graphics routine 6
 
 PRG026_AC19:
     RTS      ; Return
@@ -2141,7 +2141,7 @@ PRG026_AC55:
 
     ; Update palette
     LDA #$06
-    STA <Graphics_Queue
+    STA Graphics_Queue
 
 PRG026_AC5F:
     RTS      ; Return
@@ -2185,10 +2185,10 @@ PRG026_AC8C:
 
     ; Update PPU_CTL1 and local copy
     STA PPU_CTL1
-    STA <PPU_CTL1_Copy
+    STA PPU_CTL1_Copy
 
     LDA #%00011000      ; Show sprites + BG
-    STA <PPU_CTL2_Copy
+    STA PPU_CTL2_Copy
 
 PRG026_AC9E:
     ; Update the palette based on the buffer
@@ -2218,10 +2218,10 @@ PRG026_ACAD:
     LDA #%10101000   ; PT2 is sprites, use 8x16 sprites, generate VBlanks
     ; Update PPU_CTL1 and local copy
     STA PPU_CTL1
-    STA <PPU_CTL1_Copy
+    STA PPU_CTL1_Copy
 
     LDA #%00011000      ; Show sprites + BG
-    STA <PPU_CTL2_Copy
+    STA PPU_CTL2_Copy
 
 PRG026_ACBF:
     ; Update the palette based on the buffer
@@ -2253,9 +2253,9 @@ Map_EnterLevel_Effect:      ; routine called while entering a level
     LDY Map_EntTran_LRCnt       ; Y = Map_EntTran_LRCnt
 
     ; Set vertical update mode (left/right edges benefit from this)
-    LDA <PPU_CTL1_Copy
+    LDA PPU_CTL1_Copy
     ORA #$04
-    STA <PPU_CTL1_Copy
+    STA PPU_CTL1_Copy
 
     JMP PRG026_ACFF  ; Jump to PRG026_ACFF
 
@@ -2263,12 +2263,12 @@ PRG026_ACF6:
     LDY Map_EntTran_TBCnt       ; Y = Map_EntTran_TBCnt
 
     ; Set horizontal update mode (top/bottom edges benefit from this)
-    LDA <PPU_CTL1_Copy
+    LDA PPU_CTL1_Copy
     AND #$fb
-    STA <PPU_CTL1_Copy
+    STA PPU_CTL1_Copy
 
 PRG026_ACFF:
-    LDA <PPU_CTL1_Copy
+    LDA PPU_CTL1_Copy
     STA PPU_CTL1        ; Commit changes to PPU_CTL1
 
     ; Set this border's VRAM addresses
@@ -2317,7 +2317,7 @@ PRG026_AD37:
     CPY #$06
     BGE PRG026_AD67         ; If Map_EntTran_Cnt >= 6, jump to PRG026_AD67
 
-    LDA <PPU_CTL1_Copy
+    LDA PPU_CTL1_Copy
     AND #$04
     BNE PRG026_AD67         ; If vertical update bit is set (?), jump to PRG026_AD67 (RTS)
 
@@ -2428,21 +2428,21 @@ Level_Opening_Effect:   ; Unused in the US release; this is the reverse effect o
     LDY Map_EntTran_LRCnt
 
     ; Set vertical update mode (left/right edges benefit from this)
-    LDA <PPU_CTL1_Copy
+    LDA PPU_CTL1_Copy
     ORA #$04
-    STA <PPU_CTL1_Copy
+    STA PPU_CTL1_Copy
     JMP PRG026_AE10         ; Jump to PRG026_AE10
 
 PRG026_AE07:
     LDY Map_EntTran_TBCnt       ; Y = Map_EntTran_TBCnt
 
     ; Set horizontal update mode (top/bottom edges benefit from this)
-    LDA <PPU_CTL1_Copy
+    LDA PPU_CTL1_Copy
     AND #$fb
-    STA <PPU_CTL1_Copy
+    STA PPU_CTL1_Copy
 
 PRG026_AE10:
-    LDA <PPU_CTL1_Copy
+    LDA PPU_CTL1_Copy
     STA PPU_CTL1        ; Commit changes to PPU_CTL1
     LDX Map_EntTran_BorderLoop  ; X = current border index
 
@@ -2734,7 +2734,7 @@ StatusBar_Fill_Time:
 PRG026_AFDC:
     LDA Level_TimerMSD
     CMP #$01
-    BNE Timer_NoChange  ; If Level_TimerMSD <> 1, jump to Timer_NoChange
+    BNE Timer_NoChange  ; If Level_TimerMSD > 1, jump to Timer_NoChange
 
     ; MSD is 1...
     LDA Level_TimerMid
@@ -2972,7 +2972,7 @@ StatusBar_Fill_MorL:
     ASL A           ; A = Player_Current << 1
     TAX         ; X = A
     LDA #$01        ; A = 1
-    STA <Temp_Var15     ; Temp_Var15 = 1
+    STA Temp_Var15     ; Temp_Var15 = 1
     LDY Graphics_BufCnt ; Y = Graphics_BufCnt
 
     ; Loop to copy the two tiles
@@ -2982,7 +2982,7 @@ PRG026_B114:
 
     INX         ; X++
     INY         ; Y++
-    DEC <Temp_Var15     ; Temp_Var15--
+    DEC Temp_Var15     ; Temp_Var15--
     BPL PRG026_B114     ; While Temp_Var15 > 0, loop!
 
     LDA #$00
@@ -3048,17 +3048,17 @@ StatusBar_Fill_Score:
     LDA Player_Score+2  ; Get least significant byte of score
     ADD Score_Earned    ; Add in any earned points
     STA Player_Score+2  ; Store into least significant digit
-    STA <Temp_Var1      ; Keep LSD in Temp_Var1
+    STA Temp_Var1      ; Keep LSD in Temp_Var1
 
     LDA Player_Score+1  ; Get next higher byte
     ADC Score_Earned+1  ; Add score and carry to of earned high byte to middle score byte
     STA Player_Score+1  ; Store result
-    STA <Temp_Var2      ; Keep middle digit in Temp_Var2
+    STA Temp_Var2      ; Keep middle digit in Temp_Var2
 
     LDA Player_Score    ; Get most significant byte of score
     ADC #$00        ; Add in any carry
     STA Player_Score    ; Store result
-    STA <Temp_Var3      ; Keep MSD in Temp_Var3
+    STA Temp_Var3      ; Keep MSD in Temp_Var3
 
     ; This giant loop is how you use an 8-bit CPU to display
     ; 6* digits of score from a 3-byte integer :)
@@ -3067,17 +3067,17 @@ StatusBar_Fill_Score:
     LDY #$00     ; Y = 0
     LDX #$05     ; X = 5    0-5, 6 digits
 PRG026_B19A:
-    LDA <Temp_Var1   ; Get LSD -> A
+    LDA Temp_Var1   ; Get LSD -> A
 
     ; I haven't taken time yet to discern this magic yet
     SUB PRG026_B16C,X
-    STA <Temp_Var1
-    LDA <Temp_Var2
+    STA Temp_Var1
+    LDA Temp_Var2
     SBC PRG026_B166,X
-    STA <Temp_Var2
-    LDA <Temp_Var3
+    STA Temp_Var2
+    LDA Temp_Var3
     SBC PRG026_B160,X
-    STA <Temp_Var3
+    STA Temp_Var3
 
     BCC PRG026_B1B8     ; If the subtraction didn't go negative, jump to PRG026_B1B8
 
@@ -3086,17 +3086,17 @@ PRG026_B19A:
     JMP PRG026_B19A  ; Jump to PRG026_B19A
 
 PRG026_B1B8:
-    LDA <Temp_Var1
+    LDA Temp_Var1
 
     ; I haven't taken time yet to discern this magic yet
     ADD PRG026_B16C,X
-    STA <Temp_Var1
-    LDA <Temp_Var2
+    STA Temp_Var1
+    LDA Temp_Var2
     ADC PRG026_B166,X
-    STA <Temp_Var2
-    LDA <Temp_Var3
+    STA Temp_Var2
+    LDA Temp_Var3
     ADC PRG026_B160,X
-    STA <Temp_Var3
+    STA Temp_Var3
 
     LDA Score_Temp
     ADD #$f0        ; A = Score_Temp + $F0 (tile to display)
@@ -3215,29 +3215,29 @@ PRG026_B242:
 StatusBar_Fill_PowerMT:
     LDY #$00        ; Y = 0
     LDA #$01        ; A = 1
-    STA <Temp_Var15     ; <Temp_Var15 = 1
+    STA Temp_Var15     ; <Temp_Var15 = 1
 
     ; This checks each bit of Player_Power to see if it's set or not,
     ; and produces the proper state of the '>' in the array StatusBar_PMT
 PRG026_B25C:
     LDX #$ef        ; X = $EF (dark '>')
     LDA Player_Power    ; Player's current "Power" charge (each "unit" of power sets one more bit in this field)
-    AND <Temp_Var15     ; A = Player_Power & Temp_Var15
+    AND Temp_Var15     ; A = Player_Power & Temp_Var15
     BEQ PRG026_B267     ; If Player_Power bit not set, jump to PRG026_B267
     LDX #$ee        ; Otherwise, X = $EE (glowing '>')
 PRG026_B267:
     TXA         ; A = X ($EF dark or $EE glowing)
     STA StatusBar_PMT,Y ; Store this tile into the buffer
     INY         ; Y++
-    ASL <Temp_Var15     ; Shift up to next power bit
-    LDA <Temp_Var15     ; A = Temp_Var15
+    ASL Temp_Var15     ; Shift up to next power bit
+    LDA Temp_Var15     ; A = Temp_Var15
     CMP #$40
     BNE PRG026_B25C     ; If Temp_Var15 <> $40, loop!
 
     ; Temp_Var15 is $40...
     LDX #$3c        ; X = $3C (dark [P])
     LDA Player_Power    ; A = Player_Power
-    AND <Temp_Var15     ; Checking bit 7 or 8...
+    AND Temp_Var15     ; Checking bit 7 or 8...
     BEQ PRG026_B289     ; Not set, jump to PRG026_B289
 
     ; Player is at max power!  Set [P] flash state
@@ -3287,14 +3287,14 @@ Video_Misc_Updates:
     ASL A           ; Its uppermost bit dictates whether to use horizontal (1B) or vertical (32B) advancement
     PHA         ; Save A
 
-    LDA <PPU_CTL1_Copy  ; Get PPU_CTL1 settings
+    LDA PPU_CTL1_Copy  ; Get PPU_CTL1 settings
     ORA #$04        ; Set PPU update vertical (each write advances by 32)
     BCS PRG026_B2B2     ; If bit 7 was set, jump to PRG026_B2B2
     AND #$fb        ; Otherwise, use horizontal updates! (clears vertical bit)
 
 PRG026_B2B2:
     STA PPU_CTL1        ; Update PPU_CTL1
-    STA <PPU_CTL1_Copy  ; Update PPU_CTL1_Copy
+    STA PPU_CTL1_Copy  ; Update PPU_CTL1_Copy
 
     PLA     ; Restore A
 
@@ -3324,11 +3324,11 @@ PRG026_B2C4:
     ; back to zero and we begin again...
     INY      ; Y++
     TYA      ; A = Y
-    ADD <Video_Upd_AddrL
-    STA <Video_Upd_AddrL
-    LDA <Video_Upd_AddrH
+    ADD Video_Upd_AddrL
+    STA Video_Upd_AddrL
+    LDA Video_Upd_AddrH
     ADC #$00
-    STA <Video_Upd_AddrH    ; Entire video address value has 'Y' added to it
+    STA Video_Upd_AddrH    ; Entire video address value has 'Y' added to it
     JMP Video_Misc_Updates  ; Jump back to start to process next command or terminate!
 
 
@@ -3350,7 +3350,7 @@ Scroll_Commit_Column:
     STA PPU_VRAM_ADDR   ; Write as high byte to VRAM address
     LDA Scroll_LastCol8
     STA PPU_VRAM_ADDR   ; Low byte is Scroll_LastCol8
-    LDA <PPU_CTL1_Copy  ; Get the PPU_CTL1
+    LDA PPU_CTL1_Copy  ; Get the PPU_CTL1
     ORA #$04        ; Use vertical update mode
     STA PPU_CTL1        ; Set PPU_CTL1
 
@@ -3413,7 +3413,7 @@ PRG026_B354:
     BEQ PRG026_B38E  ; If Scroll_ToVRAMHA = 0, jump to PRG026_B38E (RTS)
 
     ; Commiting attribute updates...
-    LDA <PPU_CTL1_Copy
+    LDA PPU_CTL1_Copy
     STA PPU_CTL1        ; Update PPU_CTL1
 
     LDX #$00        ; X = 0
@@ -3463,7 +3463,7 @@ Scroll_ToVRAM_Apply:
     STA PPU_VRAM_ADDR
 
     ; Do increment by 1
-    LDA <PPU_CTL1_Copy
+    LDA PPU_CTL1_Copy
     AND #~$04
     STA PPU_CTL1
 
@@ -3486,7 +3486,7 @@ PRG026_B3BD:
     BEQ PRG026_B3E5   ; If Scroll_ToVRAMHA = 0 (no scrolled attribute update required), jump to PRG026_B3E5 (RTS)
 
     ; Reset PPU_CTL1
-    LDA <PPU_CTL1_Copy
+    LDA PPU_CTL1_Copy
     STA PPU_CTL1
 
     LDX #$00     ; X = 0
@@ -3521,7 +3521,7 @@ TileChng_VRAMCommit:
     LDA PPU_STAT
 
     ; Switch to +1 increment mode
-    LDA <PPU_CTL1_Copy
+    LDA PPU_CTL1_Copy
     AND #~$04
     STA PPU_CTL1
 
@@ -3602,7 +3602,7 @@ PRG026_B466:
     LDA #$00
     STA StatusBar_UpdFl ; StatusBar_UpdFl = 0
     LDA #$06        ;
-    STA <Graphics_Queue ; Set Graphics_Queue = 6 (6?? Does it matter?)
+    STA Graphics_Queue ; Set Graphics_Queue = 6 (6?? Does it matter?)
     RTS      ; Return
 
     ; Arriving, X = 0, Y = Graphics_BufCnt

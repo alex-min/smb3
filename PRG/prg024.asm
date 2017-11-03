@@ -49,7 +49,7 @@ Cinematic_ToadAndKing:
     STA ToadTalk_CPos
 
     LDA #168
-    STA <Objects_X
+    STA Objects_X
 
     LDA #$60     ; A = $60
 
@@ -87,7 +87,7 @@ King_DoDialog:
     LDA #$5E
     STA PatTable_BankSel+1
 
-    LDA <CineKing_DialogState
+    LDA CineKing_DialogState
     JSR DynJump
 
     ; THESE MUST FOLLOW DynJump FOR THE DYNAMIC JUMP TO WORK!!
@@ -130,7 +130,7 @@ PRG024_A0CD:
 
     LDA #(DiagBox_R2 - DiagBox_R1)  ; run count per row
     STA Graphics_Buffer+2,X
-    STA <Temp_Var1       ; -> Temp_Var1
+    STA Temp_Var1       ; -> Temp_Var1
 
     LDY ToadTalk_CPos    ; Y = current dialog box row
     LDA DiagBox_RowOffs,Y
@@ -144,7 +144,7 @@ PRG024_A0DB:
     INY      ; Y++ (next pattern for dialog box)
     INX      ; X++ (next index in graphics buffer)
 
-    DEC <Temp_Var1   ; Temp_Var1--
+    DEC Temp_Var1   ; Temp_Var1--
     BNE PRG024_A0DB  ; While Temp_Var1 > 0, loop!
 
     ; Insert terminator
@@ -185,7 +185,7 @@ PRG024_A105:
     LDA #$10
     STA CineKing_Timer
 
-    INC <CineKing_DialogState   ; CineKing_DialogState = 1
+    INC CineKing_DialogState   ; CineKing_DialogState = 1
 
 PRG024_A119:
     RTS      ; Return
@@ -272,7 +272,7 @@ PRG024_A250:
     CMP #$67
     BNE PRG024_A25B  ; If we haven't reached the last character, jump to PRG024_A25B
 
-    INC <CineKing_DialogState        ; CineKing_DialogState = 2
+    INC CineKing_DialogState        ; CineKing_DialogState = 2
 
     LDA #$00
     STA ToadTalk_CPos
@@ -287,7 +287,7 @@ PRG024_A260:
 
 
 TAndK_WaitPlayerButtonA:
-    LDA <Pad_Input
+    LDA Pad_Input
     BPL PRG024_A282  ; If Player is not pushing 'A', jump to PRG024_A282 (RTS)
 
     LDA Map_Objects_IDs
@@ -458,16 +458,16 @@ PRG024_A3B5:
 
     ; King's Y -> Temp_Var1
     LDA King_Y
-    STA <Temp_Var1
+    STA Temp_Var1
 
     ; King's palette select -> Temp_Var2
     LDA King_PalByWorld,Y
-    STA <Temp_Var2
+    STA Temp_Var2
 
     ; King's number of patterns (sprites) -> Temp_Var4 and 5
     LDA King_NumPatsByWorld,Y
-    STA <Temp_Var4
-    STA <Temp_Var5
+    STA Temp_Var4
+    STA Temp_Var5
 
     TYA     ; A = Y (World_Num)
     ASL A       ; A = World_Num * 2
@@ -479,12 +479,12 @@ PRG024_A3B5:
     LDY #$60    ; Y = $60
 PRG024_A3E8:
     ; Set King Sprite Y
-    LDA <Temp_Var1
+    LDA Temp_Var1
     ADD King_SprDataYOff,X
     STA Sprite_RAM,Y
 
     ; Set King Sprite Attributes
-    LDA <Temp_Var2
+    LDA Temp_Var2
     STA Sprite_RAM+$02,Y
 
     ; Set King Sprite X
@@ -499,7 +499,7 @@ PRG024_A3E8:
     INY
     INY
 
-    DEC <Temp_Var4   ; Temp_Var4--
+    DEC Temp_Var4   ; Temp_Var4--
     BPL PRG024_A3E8  ; While Temp_Var4 >= 0, loop
 
     PLA      ; Restore A = (World_Num * 2) | CineKing_Frame
@@ -520,7 +520,7 @@ PRG024_A40C:
     INY
     INY
 
-    DEC <Temp_Var5   ; Temp_Var5--
+    DEC Temp_Var5   ; Temp_Var5--
     BNE PRG024_A40C  ; While Temp_Var5 <> 0, loop
 
     LDY World_Num
@@ -558,16 +558,16 @@ PRG024_A439:
     STA Sprite_RAM+$60
 
     ; Temp_Var4 = CineKing_DialogState
-    LDA <CineKing_DialogState
-    STA <Temp_Var4
+    LDA CineKing_DialogState
+    STA Temp_Var4
 
     ; Temp_Var3 = $10
     LDA #$10
-    STA <Temp_Var3
+    STA Temp_Var3
 
     LDY #$80     ; Y = $80
 PRG024_A44C:
-    LDA <Temp_Var4
+    LDA Temp_Var4
     BEQ PRG024_A466  ; If Temp_Var4 (CineKing_DialogState) = 0, jump to PRG024_A466
 
     LDX #$03     ; X = 3
@@ -580,7 +580,7 @@ PRG024_A44C:
     TAX      ; X = ToadTalk_CPos / 2
 
 PRG024_A45B:
-    LDA <Temp_Var3
+    LDA Temp_Var3
     CMP #$20
     BLT PRG024_A466  ; If Temp_Var3 < $20, jump to PRG024_A466
 
@@ -590,7 +590,7 @@ PRG024_A45B:
 PRG024_A466:
 
     ; Set web sprite Y
-    LDA <Temp_Var3
+    LDA Temp_Var3
     STA Sprite_RAM,Y
 
     ; Set web sprite pattern
@@ -598,7 +598,7 @@ PRG024_A466:
     STA Sprite_RAM+$01,Y
 
     ; Set web sprite attribute
-    LDA <Temp_Var2
+    LDA Temp_Var2
     STA Sprite_RAM+$02,Y
 
     ; Set web sprite X
@@ -614,20 +614,20 @@ PRG024_A466:
 PRG024_A47E:
 
     ; Temp_Var3 += $10
-    LDA <Temp_Var3
+    LDA Temp_Var3
     ADD #$10
-    STA <Temp_Var3
+    STA Temp_Var3
 
-    CMP <Temp_Var1
+    CMP Temp_Var1
     BLT PRG024_A44C  ; While Temp_Var3 < Temp_Var1, loop!
 
     RTS      ; Return
 
 PRG024_A48A:
-    LDY <CineKing_Frame2
+    LDY CineKing_Frame2
 
     ; Set crown sprite Y
-    LDA <Temp_Var1  ; King Sprite Y
+    LDA Temp_Var1  ; King Sprite Y
     ADD King_W6Crown_YOff,Y
     STA Sprite_RAM+$60
 
@@ -644,7 +644,7 @@ PRG024_A4A1:
 
     ; Performs animation logic for the king
 King_Animate:
-    LDA <Counter_1
+    LDA Counter_1
     AND #$07
     BNE PRG024_A4B2  ; 6:7 ticks, jump to PRG024_A4B2
 
@@ -671,7 +671,7 @@ W6Seal_Frames:  .byte $01, $01, $01, $00, $00, $00, $00, $01
 W6Crown_Frames: .byte $00, $01, $02, $03, $04, $05, $00, $01
 
 King_W6:
-    LDA <Counter_1
+    LDA Counter_1
     LSR A
     LSR A
     LSR A
@@ -684,7 +684,7 @@ King_W6:
 
     ; Set seal juggled crown frame
     LDA W6Crown_Frames,Y
-    STA <CineKing_Frame2
+    STA CineKing_Frame2
 
     RTS      ; Return
 
@@ -703,11 +703,11 @@ King_W2:
     RTS      ; Return
 
 PRG024_A4FD:
-    LDA <Counter_1
+    LDA Counter_1
     AND #$03
     BNE PRG024_A519  ; 3:4 ticks, jump to PRG024_A519
 
-    LDY <CineKing_Var    ; Y = CineKing_Var (0/1 as spider walks up and down)
+    LDY CineKing_Var    ; Y = CineKing_Var (0/1 as spider walks up and down)
 
     ; King spider moves up or down
     LDA King_Y
@@ -720,7 +720,7 @@ PRG024_A4FD:
     ; Reverse direction
     TYA
     EOR #$01
-    STA <CineKing_Var
+    STA CineKing_Var
 
 PRG024_A519:
     RTS      ; Return
@@ -737,7 +737,7 @@ PRG024_A51A:
 King_W1347:
     LDY World_Num   ; Y = World_Num
 
-    LDA <Counter_1
+    LDA Counter_1
     AND PRG024_A51A,Y ; Mask counter by value from PRG024_A51A
     BEQ PRG024_A52D  ; If this is the tick to fire on, jump to PRG024_A52D
 
@@ -753,7 +753,7 @@ King_W5:
 
     TAY      ; Y = King frame
 
-    LDA <Counter_1
+    LDA Counter_1
     AND #$03
     BNE PRG024_A545  ; 3:4 ticks, jump to PRG024_A545
 
@@ -774,7 +774,7 @@ PRG024_A545:
 ; My guess... massive copy/paste error? :D
 
 ; $A546
-    STA <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 PRG024_A548:        ; <-- originally PRG022_C548        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA Background_Tiles,X      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -782,10 +782,10 @@ PRG024_A548:        ; <-- originally PRG022_C548        ; UNUSED COPY FROM PRG02
 
     INY      ; Y++ (next tile, DANGEROUS)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    DEC <Temp_Var11 ; Temp_Var11-- (repeat)     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var11 ; Temp_Var11-- (repeat)     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BPL PRG024_A548  ; While Temp_Var11 >= 0, loop!     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    INC <Temp_Var12  ; Temp_Var12++     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    INC Temp_Var12  ; Temp_Var12++     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     JMP PRG022_C51E  ; Jump to PRG022_C51E (is what this should be)     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -840,14 +840,14 @@ PRG024_A591:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Temp_Var3 = 0     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #$00        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var3      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var3      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDY TileAddr_Off    ; Y = TileAddr_Off      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 PRG024_A59C:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ; Temp_Var1 = 2     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #$02        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 PRG024_A5A0:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ; Get tile for Player -> grid       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -857,8 +857,8 @@ PRG024_A5A0:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next grid tile, DANGEROUS!)     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INX      ; X++ (next Player tile)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    INC <Temp_Var3   ; Temp_Var3++      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    DEC <Temp_Var1   ; Temp_Var1--      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    INC Temp_Var3   ; Temp_Var3++      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var1   ; Temp_Var1--      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     BPL PRG024_A5A0  ; While Temp_Var1 >= 0, loop       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -868,7 +868,7 @@ PRG024_A5A0:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY      ; -> 'Y'       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    LDA <Temp_Var3      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDA Temp_Var3      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     CMP #(Player_BonusTiles_Raccoon - Player_BonusTiles_Big)        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BNE PRG024_A59C  ; If we have more tiles to go, loop!       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -887,7 +887,7 @@ PRG024_A5A0:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 PRG024_A5CB:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ; Temp_Var1 = 1     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #$01        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 PRG024_A5CF:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA BonusUNKTALL_Tiles,X        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -896,7 +896,7 @@ PRG024_A5CF:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next grid tile, DANGEROUS!)     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INX      ; X++      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    DEC <Temp_Var1   ; Temp_Var1--      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var1   ; Temp_Var1--      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BPL PRG024_A5CF  ; While Temp_Var1 >= 0, loop       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Next tile row     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -985,7 +985,7 @@ PRG024_A62F:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Temp_Var1 = 1     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #$01        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 PRG024_A633:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -996,7 +996,7 @@ PRG024_A633:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next tile, DANGEROUS)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INX      ; X++ (next prize box tile)        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    DEC <Temp_Var1  ; Temp_Var1--       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var1  ; Temp_Var1--       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BPL PRG024_A633 ; While Temp_Var1 >= 0, loop!       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Next row      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1021,7 +1021,7 @@ PRG024_A656:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Temp_Var1 = 1     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #$01        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 PRG024_A65A:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -1032,7 +1032,7 @@ PRG024_A65A:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next tile, DANGEROUS)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INX      ; X++ (next prize box tile)        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    DEC <Temp_Var1  ; Temp_Var1--       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var1  ; Temp_Var1--       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BPL PRG024_A65A ; While Temp_Var1 >= 0, loop!       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Next row      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1051,7 +1051,7 @@ PRG024_A65A:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Temp_Var1 = 1     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #$01        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDY TileAddr_Off     ; Y = TileAddr_Off     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -1075,7 +1075,7 @@ PRG024_A681:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY      ; -> 'Y'       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    DEC <Temp_Var1   ; Temp_Var1--      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var1   ; Temp_Var1--      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BPL PRG024_A67B  ; While Temp_Var1 >= 0, loop       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     RTS      ; Return       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1088,16 +1088,16 @@ PRG024_A681:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ADD #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    LDA <BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDA BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ADC #$00        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     RTS      ; Return       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 ; FIXME: Anyone want to claim this?     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 ; $C6A4     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    LDA <Temp_Var6              ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDA Temp_Var6              ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDY TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1107,24 +1107,24 @@ PRG024_A681:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDY #$00        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    LDA <Temp_Var15     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDA Temp_Var15     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     AND #$10        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BEQ PRG024_A6BA     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     INY         ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 PRG024_A6BA:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STY <Temp_Var10     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STY Temp_Var10     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    LDA <BonusText_BaseL        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDA BonusText_BaseL        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ADD #$b0        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <BonusText_BaseL        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    LDA <BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    ADC <Temp_Var10         ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var6      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA BonusText_BaseL        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDA BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    ADC Temp_Var10         ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var6      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    LDA <Temp_Var16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDA Temp_Var16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     AND #$f0        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LSR A       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LSR A       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1135,9 +1135,9 @@ PRG024_A6BA:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDA Tile_Mem_Addr+1,Y       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var5      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var5      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    INC <Temp_Var5      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    INC Temp_Var5      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     AND #$f0        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1188,7 +1188,7 @@ PRG024_A6E2:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Temp_Var11 = $95 (starting pattern of Toad Host sprites)      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #$95            ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDY #$00     ; Y = 0        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDX #(HostToad_SpriteYs_End - HostToad_SpriteYs - 1)        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1201,7 +1201,7 @@ PRG024_A727:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Set pattern of this sprite of the Toad Host       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    LDA <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDA Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA Sprite_RAM+$10,Y        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1219,8 +1219,8 @@ PRG024_A727:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Temp_Var11 -= 2 (two patterns backward)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    DEC <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    DEC <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     DEX      ; X--      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BPL PRG024_A727  ; While X >= 0, loop       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1237,7 +1237,7 @@ PRG024_A727:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 ; HostTroopa_DrawSprites:       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ; Temp_Var11 = $99 (starting pattern of Koopa Troopa Host sprites)      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #$99    ; WRONG!  Should be $A9, then he'll display correctly :D        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDY #$00     ; Y = 0        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDX #(HostTroopa_SpriteYs_End - HostTroopa_SpriteYs - 1)        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1250,7 +1250,7 @@ PRG024_A765:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Set pattern of this sprite of the Koopa Troopa Host       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    LDA <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDA Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA Sprite_RAM+$10,Y        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1268,8 +1268,8 @@ PRG024_A765:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Temp_Var11 -= 2 (two patterns backward)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    DEC <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    DEC <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     DEX      ; X--      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BPL PRG024_A765  ; While X >= 0, loop       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1287,7 +1287,7 @@ PRG024_A765:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 ; HostHammerBro_DrawSprites:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ; Temp_Var11 = $AF (starting pattern of Koopa Troopa Host sprites)      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #$AF    ; WRONG!  Should be $BF, then he'll display correctly :D        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDY #$00     ; Y = 0        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDX #(HostHammerBro_SpriteYs_End - HostHammerBro_SpriteYs - 1)      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1299,7 +1299,7 @@ PRG024_A7A5:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Set pattern of this sprite of the Hammer Bro Host     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    LDA <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDA Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA Sprite_RAM+$10,Y        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1317,8 +1317,8 @@ PRG024_A7A5:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Temp_Var11 -= 2 (two patterns backward)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    DEC <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    DEC <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     DEX      ; X--      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BPL PRG024_A7A5  ; While X >= 0, loop       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1338,7 +1338,7 @@ PRG024_A7A5:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Draws the box and the "prize" for Koopa Troopa's "Prize" Game     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 ; Draw_KTPrizeGameBox:      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA <Temp_Var11         ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA Temp_Var11         ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 
     ; Draw the game box first       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1353,7 +1353,7 @@ PRG024_A7E1:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Set pattern of this sprite        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    LDA <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDA Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA Sprite_RAM+$10,Y        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1371,8 +1371,8 @@ PRG024_A7E1:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++ (next sprite RAM byte)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Temp_Var11 -= 2 (two patterns backward)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    DEC <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    DEC <Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    DEC Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     DEX      ; X--      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -1398,28 +1398,28 @@ Debug_DownUp:   .byte 1, -1 ; Add 1 or subtract 1 from current world on debug me
 ; See also GraphicsBuf_Prep_And_WaitVSync in PRG030
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GraphicsBuf_Prep_And_WaitVSyn2:
-    LDA <Graphics_Queue
+    LDA Graphics_Queue
     ASL A
     TAY         ; Y = Graphics_Queue << 1
 
     ; Get the address where the video update data is
     LDA Video_Upd_Table2,Y
-    STA <Video_Upd_AddrL
+    STA Video_Upd_AddrL
     LDA Video_Upd_Table2+1,Y
-    STA <Video_Upd_AddrH
+    STA Video_Upd_AddrH
 
     LDA #$01
-    STA <VBlank_TickEn   ; Enable the VBlank tick
+    STA VBlank_TickEn   ; Enable the VBlank tick
     LDA #$00
-    STA <VBlank_Tick     ; Force VBlank_Tick = 0, so we know when a VBlank has occurred
+    STA VBlank_Tick     ; Force VBlank_Tick = 0, so we know when a VBlank has occurred
 
     ; Waiting for VBlank...
 PRG024_A81C:
-    LDA <VBlank_Tick
+    LDA VBlank_Tick
     BPL PRG024_A81C
 
     LDA #$00
-    STA <VBlank_TickEn   ; Disable the VBlank
+    STA VBlank_TickEn   ; Disable the VBlank
 
     CLI      ; Enable further masked interrupts
     RTS      ; Return
@@ -1444,8 +1444,8 @@ PRG024_A82B:
 
     LDA PPU_VRAM_DATA
 
-    LDA <PPU_CTL1_Copy
-    ORA <PPU_CTL1_Mod   ; Combine bits from PPU_CTL1_Copy into PPU_CTL1_Mod
+    LDA PPU_CTL1_Copy
+    ORA PPU_CTL1_Mod   ; Combine bits from PPU_CTL1_Copy into PPU_CTL1_Mod
     STA PPU_CTL1     ; Stored to the register!
 
     LDA PPU_STAT
@@ -1490,14 +1490,14 @@ PRG024_A860:
     ASL A           ; Its uppermost bit dictates whether to use horizontal (1B) or vertical (32B) advancement
     PHA         ; Save A
 
-    LDA <PPU_CTL1_Copy  ; Get PPU_CTL1 settings
+    LDA PPU_CTL1_Copy  ; Get PPU_CTL1 settings
     ORA #$04        ; Set PPU update vertical (each write advances by 32)
     BCS PRG024_A879     ; If bit 7 was set, jump to PRG026_B2B2
     AND #$fb        ; Otherwise, use horizontal updates! (clears vertical bit)
 
 PRG024_A879:
     STA PPU_CTL1        ; Update PPU_CTL1
-    STA <PPU_CTL1_Copy  ; Update PPU_CTL1_Copy
+    STA PPU_CTL1_Copy  ; Update PPU_CTL1_Copy
 
     PLA     ; Restore A
 
@@ -1528,11 +1528,11 @@ PRG024_A88B:
     ; back to zero and we begin again...
     INY      ; Y++
     TYA      ; A = Y
-    ADD <Video_Upd_AddrL
-    STA <Video_Upd_AddrL
-    LDA <Video_Upd_AddrH
+    ADD Video_Upd_AddrL
+    STA Video_Upd_AddrL
+    LDA Video_Upd_AddrH
     ADC #$00
-    STA <Video_Upd_AddrH    ; Entire video address value has 'Y' added to it
+    STA Video_Upd_AddrH    ; Entire video address value has 'Y' added to it
     JMP Video_Misc_Updates2 ; Jump back to start to process next command or terminate!
 
 Title_Obj_InitIdx:  .byte $02, $00, $01, $03, $04, $05  ; Indexes into Title_ObjStates, inits to state 1 in this order
@@ -1551,7 +1551,7 @@ Do_Title_Screen:    ; $A8AF
     LDX #$f5     ; X = 245
 PRG024_A8BF:
     LDA #$00        ; A = $00
-    STA <Temp_Var1,X    ; Clear this byte
+    STA Temp_Var1,X    ; Clear this byte
     DEX         ; X--
     BNE PRG024_A8BF     ; Loop...
 
@@ -1570,30 +1570,30 @@ PRG024_A8C8:
     STA Player_Lives+1
 
     LDA #$ff
-    STA <Title_ObjInitIdx   ; Title_ObjInitIdx = $FF (Should be 0 - 5, does this have an early increment or something?)
+    STA Title_ObjInitIdx   ; Title_ObjInitIdx = $FF (Should be 0 - 5, does this have an early increment or something?)
 
     ; Set Mario and Luigi's Y position to 160
     LDA #160
-    STA <Title_ObjY
-    STA <Title_ObjY+1
+    STA Title_ObjY
+    STA Title_ObjY+1
 
     LDA #240
-    STA <Title_ObjX     ; Set Mario's X coordinate to 240
+    STA Title_ObjX     ; Set Mario's X coordinate to 240
 
     LDA #$00
-    STA <Title_ObjX+1   ; Set Luigi's X coordinate to 0
+    STA Title_ObjX+1   ; Set Luigi's X coordinate to 0
 
     ; Set Mario and Luigi to "Big" power level
     LDA #$01
-    STA <Title_ObjMLPower
-    STA <Title_ObjMLPower+1
+    STA Title_ObjMLPower
+    STA Title_ObjMLPower+1
 
     LDA #$88
     STA Random_Pool     ; Seed the randomizer
 
     LDA #%00101000
     STA PPU_CTL1        ; use 8x16 sprites, sprites use PT2
-    STA <PPU_CTL1_Copy  ; Sync with PPU_CTL1_Copy
+    STA PPU_CTL1_Copy  ; Sync with PPU_CTL1_Copy
 
     JSR Title_Display_Curtain   ; Put up the curtain!
 
@@ -1602,9 +1602,9 @@ PRG024_A8C8:
     ASL A        ; A = 2
     TAY      ; Y = 2 (Palette + Checkerboard floor)
     LDA Video_Upd_Table2,Y
-    STA <Video_Upd_AddrL
+    STA Video_Upd_AddrL
     LDA Video_Upd_Table2+1,Y
-    STA <Video_Upd_AddrH
+    STA Video_Upd_AddrH
     JSR Video_Misc_Updates2
 
     ; Some kind of hardware thing perhaps
@@ -1629,29 +1629,29 @@ PRG024_A930:
 
     LDA #%10101000
     STA PPU_CTL1        ; Generate VBlank Resets, use 8x16 sprites, sprites use PT2
-    STA <PPU_CTL1_Copy  ; Keep PPU_CTL1_Copy in sync!
+    STA PPU_CTL1_Copy  ; Keep PPU_CTL1_Copy in sync!
 
     LDA #%00011110
-    STA <PPU_CTL2_Copy  ; Setup for: No BG or sprite clipping, show BG and sprites
+    STA PPU_CTL2_Copy  ; Setup for: No BG or sprite clipping, show BG and sprites
 
     LDA #53
-    STA <Title_Ticker   ; Set Title_Ticker = 53 (initial delay prior to curtain raise)
+    STA Title_Ticker   ; Set Title_Ticker = 53 (initial delay prior to curtain raise)
 
 PRG024_A946:
     ; Used for VSync
     JSR GraphicsBuf_Prep_And_WaitVSyn2
 
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #PAD_START
     BEQ PRG024_A955  ; If Player is NOT pressing Start, jump to PRG024_A955
 
     ; Player pressed START -- skips rest of intro, if any
     LDA #$06
-    STA <Title_State    ; Title_State = 6
+    STA Title_State    ; Title_State = 6
     BEQ PRG024_A959     ; Jump technically never?? to skip title ticker
 
 PRG024_A955:
-    DEC <Title_Ticker   ; Decrement title tick counter
+    DEC Title_Ticker   ; Decrement title tick counter
     BPL PRG024_A946     ; If >= 0, loop...
 
 PRG024_A959:
@@ -1661,20 +1661,20 @@ PRG024_A959:
     JSR GraphicsBuf_Prep_And_WaitVSyn2
 
     ; There are 6 objects on the title screen that need their states set; if this value hits 6, we're done with that
-    LDY <Title_ObjInitIdx   ; Y = Title_ObjInitIdx
+    LDY Title_ObjInitIdx   ; Y = Title_ObjInitIdx
     CPY #$06
     BGE PRG024_A976     ; If Title_ObjInitIdx >= 6, jump to PRG024_A976
 
     ; Title_ObjInitIdx < 6... (more objects to go yet)
 
     ; Waiting for event timer to run out
-    DEC <Title_ObjInitDly   ; Title_ObjInitDly--
+    DEC Title_ObjInitDly   ; Title_ObjInitDly--
     BNE PRG024_A976     ; If Title_ObjInitDly > 0, jump to PRG024_A976
 
     ; Load next delay for object init
     ; Title_ObjInitIdx is 0 to 5
     LDA Title_ObjInitIdx_Time,Y
-    STA <Title_ObjInitDly   ; Title_ObjInitDly = Title_ObjInitIdx_Time[Title_ObjInitIdx]
+    STA Title_ObjInitDly   ; Title_ObjInitDly = Title_ObjInitIdx_Time[Title_ObjInitIdx]
 
     LDA Title_Obj_InitIdx,Y
     TAY         ; Y = Title_Obj_InitIdx[Title_ObjInitIdx]
@@ -1683,13 +1683,13 @@ PRG024_A959:
     STA Title_ObjStates,Y   ; Title_ObjStates[Y] = 1  Set title screen object to state 1
 
     ; Doing next object...
-    INC <Title_ObjInitIdx   ; Title_ObjInitIdx++
+    INC Title_ObjInitIdx   ; Title_ObjInitIdx++
 
 PRG024_A976:
     JSR Title_DoState   ; Do whatever this state of the title screen does
 
     ; Title_ResetTrig is the trigger to reset the title screen
-    LDA <Title_ResetTrig
+    LDA Title_ResetTrig
     BEQ PRG024_A980     ; If Title_ResetTrig = 0, jump to PRG024_A980
 
     JMP Do_Title_Screen ; Reset title screen...
@@ -1697,7 +1697,7 @@ PRG024_A976:
 PRG024_A980:
     ; Reset trigger is not set...
 
-    LDA <Title_State
+    LDA Title_State
     CMP #$05
     BNE PRG024_A959  ; If Title_State <> 5, jump to PRG024_A959
 
@@ -1707,7 +1707,7 @@ PRG024_A980:
     LDX #$80     ; Clearing $80 bytes
     LDA #$00     ; Clear value
 PRG024_A98A:
-    STA <World_Map_Y,X  ; Clear this byte
+    STA World_Map_Y,X  ; Clear this byte
     DEX         ; X--
     BPL PRG024_A98A     ; X >= 0, loop!
 
@@ -1749,10 +1749,10 @@ Title_DoState:
 
     ; Clear the queues for Mario/Luigi
     LDA #$00
-    STA <Title_ObjMLQueue
-    STA <Title_ObjMLQueue+1
+    STA Title_ObjMLQueue
+    STA Title_ObjMLQueue+1
 
-    LDA <Title_State
+    LDA Title_State
     JSR DynJump     ; Dynamically jump based on Title_State...
 
     ; THESE MUST FOLLOW DynJump FOR THE DYNAMIC JUMP TO WORK!!
@@ -1770,8 +1770,8 @@ TitleState_CurtainRaise:
 
 PRG024_A9D1:
     ; Moving curtain up...
-    INC <Vert_Scroll    ; Vert_Scroll++
-    LDA <Vert_Scroll
+    INC Vert_Scroll    ; Vert_Scroll++
+    LDA Vert_Scroll
     CMP #208
     BEQ Title_LoadGraphics      ; If Vert_Scroll = 208, jump to Title_LoadGraphics
 
@@ -1782,24 +1782,24 @@ PRG024_A9D1:
 
     ; Special stuff when curtain (Vert_Scroll) hits 78
     LDA #$40
-    STA <Title_ObjMLStop    ; Title_ObjMLStop = $40 (holds Mario/Luigi in place at first so they get a "running start")
+    STA Title_ObjMLStop    ; Title_ObjMLStop = $40 (holds Mario/Luigi in place at first so they get a "running start")
     STA Title_MLHoldTick    ; Title_MLHoldTick = $40 (ticks until they are released)
 
 PRG024_A9E4:
     DEY      ; Y--
     BPL PRG024_A9D1  ; If Y >= 0, jump to PRG024_A9D1
 
-    LDA <Title_ObjMLStop
+    LDA Title_ObjMLStop
     BEQ PRG024_A9EE     ; If Title_ObjMLStop = 0, jump to PRG024_A9EE (i.e. don't call Title_UpdateAllObjs)
     JSR Title_UpdateAllObjs ; Update all objects!
 
 PRG024_A9EE:
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #PAD_START
     BEQ PRG024_A9F8  ; If Player is NOT pressing start, jump to PRG024_A9F8 (RTS)
 
     LDA #$06
-    STA <Title_State ; Title_State = 6 (skip intro)
+    STA Title_State ; Title_State = 6 (skip intro)
 
 PRG024_A9F8:
     RTS      ; Return
@@ -1811,15 +1811,15 @@ PRG024_A9F8:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Title_LoadGraphics:
     LDA #$02
-    STA <Title_EventIndex ; Title_EventIndex = $02 (first action taken [load the logo] and continue doing stuff!)
+    STA Title_EventIndex ; Title_EventIndex = $02 (first action taken [load the logo] and continue doing stuff!)
 
     LDA #$08
-    STA <Title_EventGrafX ; Title_EventGrafX = $08 (first item to load from Video_Upd_Table2 in PRG025, up to item $23; see Title_LoadSMB3)
+    STA Title_EventGrafX ; Title_EventGrafX = $08 (first item to load from Video_Upd_Table2 in PRG025, up to item $23; see Title_LoadSMB3)
 
-    INC <Title_State ; Next title state...
+    INC Title_State ; Next title state...
 
     LDA #$00
-    STA <Title_ObjMLStop ; Title_ObjMLStop = 0 (releases Mario and Luigi)
+    STA Title_ObjMLStop ; Title_ObjMLStop = 0 (releases Mario and Luigi)
 
     RTS      ; Return
 
@@ -1868,13 +1868,13 @@ Title_LActionScript:
 ; screen to glow...
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Title_3Glow:
-    DEC <Title_Ticker   ; Title_Ticker--
+    DEC Title_Ticker   ; Title_Ticker--
     BPL PRG024_AAA9     ; If Title_Ticker >= 0, jump to PRG024_AAA9 (RTS)
 
     LDA #$04
-    STA <Title_Ticker   ; Title_Ticker = 4
+    STA Title_Ticker   ; Title_Ticker = 4
 
-    LDY <Title_3GlowIndex   ; Y = current 3glow index
+    LDY Title_3GlowIndex   ; Y = current 3glow index
     LDA Title_3GlowColors,Y ; Get the cooresponding color
 
     STA Graphics_Buffer+3   ; Put that into the graphics buffer
@@ -1892,10 +1892,10 @@ Title_3Glow:
     STA Graphics_Buffer+4
 
     ; Title_3GlowIndex goes from 0 - 7, round and round
-    INC <Title_3GlowIndex
-    LDA <Title_3GlowIndex
+    INC Title_3GlowIndex
+    LDA Title_3GlowIndex
     AND #$07
-    STA <Title_3GlowIndex
+    STA Title_3GlowIndex
 
 PRG024_AAA9:
     RTS      ; Return
@@ -1908,8 +1908,8 @@ Title_3GlowColors:
 TitleState_OpeningSequence:
 
     ; Update Mario's action script
-    DEC <Title_MActScriptDelay  ; Title_MActScriptDelay--
-    LDA <Title_MActScriptDelay
+    DEC Title_MActScriptDelay  ; Title_MActScriptDelay--
+    LDA Title_MActScriptDelay
     CMP #$ff
     BNE PRG024_AABD         ; If ticks remain, jump to PRG024_AABD
 
@@ -1918,8 +1918,8 @@ TitleState_OpeningSequence:
 PRG024_AABD:
 
     ; Update Luigi's action script
-    DEC <Title_LActScriptDelay  ; Title_LActScriptDelay--
-    LDA <Title_LActScriptDelay
+    DEC Title_LActScriptDelay  ; Title_LActScriptDelay--
+    LDA Title_LActScriptDelay
     CMP #$ff
     BNE PRG024_AAC8         ; If ticks remain, jump to PRG024_AAC8
 
@@ -1928,38 +1928,38 @@ PRG024_AABD:
 PRG024_AAC8:
 
     ; Copy MLDir settings in...
-    LDA <Title_MActScriptDirSet
-    STA <Title_ObjMLDir
-    LDA <Title_LActScriptDirSet
-    STA <Title_ObjMLDir+1
+    LDA Title_MActScriptDirSet
+    STA Title_ObjMLDir
+    LDA Title_LActScriptDirSet
+    STA Title_ObjMLDir+1
 
     JSR Title_DoEvent       ; Perform current title screen events
     JSR Title_UpdateAllObjs     ; Update all title screen objects
 
-    LDA <Title_3GlowFlag
+    LDA Title_3GlowFlag
     BEQ PRG024_AADD         ; If not glowing, jump to PRG024_AADD
 
     JSR Title_3Glow         ; Make the big '3' glow!
 
 PRG024_AADD:
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #PAD_START
 
     BEQ PRG024_AAF3         ; If Player is not pressing START, jump to PRG024_AAF3
 
     ; Player pressed start...
-    LDA <Title_UnusedFlag
+    LDA Title_UnusedFlag
     BNE PRG024_AAED         ; If Title_UnusedFlag is set, jump to PRG024_AAED
 
     LDA #$06
-    STA <Title_State
+    STA Title_State
     BNE PRG024_AAF3         ; Title_State = 6 (skip)
 
 PRG024_AAED:
-    INC <Title_State        ; Next title state...
+    INC Title_State        ; Next title state...
 
     LDA #$07
-    STA <Graphics_Queue     ; Graphics_Queue = 7 (load the 1P/2P select menu)
+    STA Graphics_Queue     ; Graphics_Queue = 7 (load the 1P/2P select menu)
 
 PRG024_AAF3:
     RTS      ; Return
@@ -1967,7 +1967,7 @@ PRG024_AAF3:
 
 Title_IntroSkip:
     LDA #$00
-    STA <Vert_Scroll ; Vert_Scroll = 0
+    STA Vert_Scroll ; Vert_Scroll = 0
 
     ; Disable display a second
     LDA #$00
@@ -1976,41 +1976,41 @@ Title_IntroSkip:
 
     ; This will load the title graphics in reverse, $22 to $6
     LDA #$22
-    STA <Title_EventGrafX   ; Title_EventGrafX = $22 (TitleScreen_Part27)
+    STA Title_EventGrafX   ; Title_EventGrafX = $22 (TitleScreen_Part27)
 
 PRG024_AB04:
-    LDA <Title_EventGrafX
+    LDA Title_EventGrafX
     ASL A
     TAY         ; Y = Title_EventGrafX << 1 (2 byte index)
 
     ; Get address, store into [Video_Upd_AddrH][Video_Upd_AddrL]
     LDA Video_Upd_Table2,Y
-    STA <Video_Upd_AddrL
+    STA Video_Upd_AddrL
     LDA Video_Upd_Table2+1,Y
-    STA <Video_Upd_AddrH
+    STA Video_Upd_AddrH
 
     JSR Video_Misc_Updates2 ; Load those graphics!
 
-    DEC <Title_EventGrafX   ; Title_EventGrafX--
+    DEC Title_EventGrafX   ; Title_EventGrafX--
 
-    LDA <Title_EventGrafX
+    LDA Title_EventGrafX
     CMP #$06
     BGE PRG024_AB04     ; If Title_EventGrafX >= 6, loop!
 
     LDA #%00011000
-    STA <PPU_CTL2_Copy  ; Show BG + sprites
+    STA PPU_CTL2_Copy  ; Show BG + sprites
 
     LDA #$02
-    STA <Title_State    ; Title_State = 2 (prep for 1P/2P menu)
+    STA Title_State    ; Title_State = 2 (prep for 1P/2P menu)
     RTS      ; Return
 
 
 Title_MAS_DoNextEvent:
     LDA #$00
-    STA <Title_MActScriptDirSet     ; Clear Title_MActScriptDirSet
-    STA <Title_ObjMLQueue       ; Clear Mario's action queue
+    STA Title_MActScriptDirSet     ; Clear Title_MActScriptDirSet
+    STA Title_ObjMLQueue       ; Clear Mario's action queue
 
-    LDY <Title_MActScriptPos    ; Get current position in action script
+    LDY Title_MActScriptPos    ; Get current position in action script
     LDA Title_MActionScript,Y   ; Get byte from action script
 
     CMP #$ff
@@ -2022,16 +2022,16 @@ Title_MAS_DoNextEvent:
     ; Not $FF or $FE...
 
     ; Otherwise, just a tick delay
-    STA <Title_MActScriptDelay  ; Store into Title_MActScriptDelay
+    STA Title_MActScriptDelay  ; Store into Title_MActScriptDelay
     INY         ; Y++
 
     LDA Title_MActionScript,Y   ; Get next byte
-    STA <Title_MActScriptDirSet     ; Store into Title_MActScriptDirSet
-    STA <Title_ObjMLQueue       ; ... and into the Queue
+    STA Title_MActScriptDirSet     ; Store into Title_MActScriptDirSet
+    STA Title_ObjMLQueue       ; ... and into the Queue
 
     ; Two bytes read, so Title_MActScriptPos += 2
-    INC <Title_MActScriptPos
-    INC <Title_MActScriptPos
+    INC Title_MActScriptPos
+    INC Title_MActScriptPos
     RTS             ; Return...!
 
 Title_MAS_CmdFF:
@@ -2039,34 +2039,34 @@ Title_MAS_CmdFF:
 
     INY
     LDA Title_MActionScript,Y    ; Get next byte
-    STA <Title_EventIndex        ; Store this into Title_EventIndex
+    STA Title_EventIndex        ; Store this into Title_EventIndex
 
     ; Title_MActScriptPos += 2
-    INC <Title_MActScriptPos
-    INC <Title_MActScriptPos
+    INC Title_MActScriptPos
+    INC Title_MActScriptPos
 
     LDA #$00
-    STA <Title_MActScriptDelay  ; Title_MActScriptPos = 0
+    STA Title_MActScriptDelay  ; Title_MActScriptPos = 0
 
     RTS      ; Return
 
 Title_MAS_CmdFE:
     ; Action script command $FE (increment Title_State, reset Title_MActScriptPos)...
 
-    INC <Title_State        ; Next title state...
+    INC Title_State        ; Next title state...
 
     LDA #$00
-    STA <Title_MActScriptPos    ; Set Title_MActScriptPos = 0
+    STA Title_MActScriptPos    ; Set Title_MActScriptPos = 0
 
     RTS      ; Return
 
 
 Title_LAS_DoNextEvent:
     LDA #$00
-    STA <Title_LActScriptDirSet     ; Clear Title_LActScriptDirSet
-    STA <Title_ObjMLQueue+1     ; Clear Luigi's action queue
+    STA Title_LActScriptDirSet     ; Clear Title_LActScriptDirSet
+    STA Title_ObjMLQueue+1     ; Clear Luigi's action queue
 
-    LDY <Title_LActScriptPos    ; Get current position in action script
+    LDY Title_LActScriptPos    ; Get current position in action script
     LDA Title_LActionScript,Y   ; Get byte from action script
 
     CMP #$ff
@@ -2074,16 +2074,16 @@ Title_LAS_DoNextEvent:
 
 
     ; Otherwise, just a tick delay
-    STA <Title_LActScriptDelay  ; Store into Title_LActScriptDelay
+    STA Title_LActScriptDelay  ; Store into Title_LActScriptDelay
     INY             ; Y++
 
     LDA Title_LActionScript,Y   ; Get next byte
-    STA <Title_LActScriptDirSet     ; Store into Title_LActScriptDirSet
-    STA <Title_ObjMLQueue+1     ; ... and into the Queue
+    STA Title_LActScriptDirSet     ; Store into Title_LActScriptDirSet
+    STA Title_ObjMLQueue+1     ; ... and into the Queue
 
     ; Two bytes read, so Title_LActScriptPos += 2
-    INC <Title_LActScriptPos
-    INC <Title_LActScriptPos
+    INC Title_LActScriptPos
+    INC Title_LActScriptPos
     RTS             ; Return...!
 
 
@@ -2091,13 +2091,13 @@ Title_LAS_CmdFF:
 
     ; Title_LActScriptPos = 0
     LDA #$00
-    STA <Title_LActScriptPos
+    STA Title_LActScriptPos
 
     RTS      ; Return
 
 
 Title_DoEvent:
-    LDA <Title_EventIndex   ; Get Title_EventIndex
+    LDA Title_EventIndex   ; Get Title_EventIndex
     JSR DynJump     ; Dynamically jump based on the value of Title_EventIndex...
 
     ; THESE MUST FOLLOW DynJump FOR THE DYNAMIC JUMP TO WORK!!
@@ -2123,20 +2123,20 @@ Title_DoNothing:
 Title_LoadSMB3:
 
     ; Queue next item to load
-    LDA <Title_EventGrafX
+    LDA Title_EventGrafX
     STA Graphics_Queue
 
     ; Increment Title_EventGrafX
-    INC <Title_EventGrafX
+    INC Title_EventGrafX
 
 
-    LDA <Title_EventGrafX
+    LDA Title_EventGrafX
     CMP #$23
     BNE PRG024_ABAC  ; If not at item $23 yet, keep going...
 
     ; We're done, stop doing background event!
     LDA #$00
-    STA <Title_EventIndex
+    STA Title_EventIndex
 
 PRG024_ABAC:
     RTS      ; Return
@@ -2150,8 +2150,8 @@ Title_Drop:
 
     ; Basically drops logo 4 pixels at a time, with a precise safety catch!
 PRG024_ABAF:
-    DEC <Vert_Scroll
-    LDA <Vert_Scroll
+    DEC Vert_Scroll
+    LDA Vert_Scroll
     BEQ PRG024_ABB9  ; If Vert_Scroll = 0, jump to PRG024_ABB9
     DEY      ; Y--
     BPL PRG024_ABAF  ; If Y >= 0, loop!
@@ -2162,9 +2162,9 @@ PRG024_ABB9:
     ; The logo has landed!
 
     LDA #$10
-    STA <Title_Ticker   ; Title_Ticker = $10
+    STA Title_Ticker   ; Title_Ticker = $10
 
-    INC <Title_EventIndex   ; Perform next event...
+    INC Title_EventIndex   ; Perform next event...
     RTS         ; Return...
 
 ; Title_LogoShakeUp
@@ -2173,11 +2173,11 @@ PRG024_ABB9:
 Title_LogoShakeUp:
 
     ; Subtract 2 from Vert_Scroll
-    LDA <Vert_Scroll
+    LDA Vert_Scroll
     SUB #$02
-    STA <Vert_Scroll
+    STA Vert_Scroll
 
-    INC <Title_EventIndex   ; Shake down next
+    INC Title_EventIndex   ; Shake down next
     RTS         ; Return!
 
 ; Title_LogoShakeDown
@@ -2187,24 +2187,24 @@ Title_LogoShakeUp:
 Title_LogoShakeDown:
 
     ; Add 2 to Vert_Scroll
-    LDA <Vert_Scroll
+    LDA Vert_Scroll
     ADD #$02
-    STA <Vert_Scroll
+    STA Vert_Scroll
 
-    DEC <Title_EventIndex   ; Shake up next
+    DEC Title_EventIndex   ; Shake up next
 
-    DEC <Title_Ticker   ; Title_Ticker--
+    DEC Title_Ticker   ; Title_Ticker--
     BPL PRG024_ABE3     ; If we're not done yet, jump to PRG024_ABE3 (no change, shake away)
 
     ; Shaking is complete!
-    INC <Title_EventIndex
-    INC <Title_EventIndex   ; Title_EventIndex += 2 (to make up for the decrement above), moving on to object init...
+    INC Title_EventIndex
+    INC Title_EventIndex   ; Title_EventIndex += 2 (to make up for the decrement above), moving on to object init...
 
     LDA #$03
-    STA <Title_EventGrafX   ; Title_EventGrafX = 3 (to fade in the palette, starting with Video_Upd_Table2 item $03)
+    STA Title_EventGrafX   ; Title_EventGrafX = 3 (to fade in the palette, starting with Video_Upd_Table2 item $03)
 
     LDA #$02
-    STA <Title_Ticker   ; Title_Ticker = 2
+    STA Title_Ticker   ; Title_Ticker = 2
 
 PRG024_ABE3:
     RTS      ; Return
@@ -2214,20 +2214,20 @@ PRG024_ABE3:
 ;
 ; Queues the title screen objects to prepare themselves for appearing
 Title_InitObjects:
-    DEC <Title_Ticker   ; Title_Ticker--
+    DEC Title_Ticker   ; Title_Ticker--
     BPL PRG024_ABF6     ; If Title_Ticker >= 0, do nothing yet...
 
     ; Preparing to initialize objects that fall in the beginning...
     LDA #$00
-    STA <Title_ObjInitIdx   ; Title_ObjInitIdx = 0
+    STA Title_ObjInitIdx   ; Title_ObjInitIdx = 0
 
     LDA #$01
-    STA <Title_ObjInitDly   ; Title_ObjInitDly = 1
+    STA Title_ObjInitDly   ; Title_ObjInitDly = 1
 
-    INC <Title_EventIndex   ; On to the next event (the palette fade-in)
+    INC Title_EventIndex   ; On to the next event (the palette fade-in)
 
     LDA #$16
-    STA <Title_Ticker   ; Title_Ticker = 16
+    STA Title_Ticker   ; Title_Ticker = 16
 
 PRG024_ABF6:
     RTS         ; Return
@@ -2238,29 +2238,29 @@ PRG024_ABF6:
 ; Loads palette colors to produce a "fade in" effect,
 ; specifically items $03 thru $06 of Video_Upd_Table2
 Title_PalFadeIn:
-    DEC <Title_Ticker   ; Title_Ticker--
+    DEC Title_Ticker   ; Title_Ticker--
     BPL PRG024_AC0F     ; If Title_Ticker >= 0, do nothing yet...
 
     LDA #$04
-    STA <Title_Ticker   ; Title_Ticker = 4
+    STA Title_Ticker   ; Title_Ticker = 4
 
-    LDA <Title_EventGrafX
-    STA <Graphics_Queue ; Graphics_Queue = Title_EventGrafX
+    LDA Title_EventGrafX
+    STA Graphics_Queue ; Graphics_Queue = Title_EventGrafX
     CMP #$06
     BNE PRG024_AC10     ; If not at item $06 yet, keep going...
 
     ; Done with the fade in!
     LDA #$00
-    STA <Title_EventIndex   ; Stop doing anything
+    STA Title_EventIndex   ; Stop doing anything
 
     LDA #$01
-    STA <Title_3GlowFlag    ; Title_3GlowFlag = 1
+    STA Title_3GlowFlag    ; Title_3GlowFlag = 1
 
 PRG024_AC0F:
     RTS         ; Return
 
 PRG024_AC10:
-    INC <Title_EventGrafX   ; Next palette fade
+    INC Title_EventGrafX   ; Next palette fade
     RTS         ; Return
 
 
@@ -2269,39 +2269,39 @@ PRG024_AC10:
 ; Loads in the tiles for the 1/2 PLAYER GAME and Nintendo copyright
 Title_DrawMenu:
     LDA #$07
-    STA <Graphics_Queue
-    INC <Title_EventIndex   ; Do next thing (which is actually nothing; on purpose??)
+    STA Graphics_Queue
+    INC Title_EventIndex   ; Do next thing (which is actually nothing; on purpose??)
     RTS         ; Return...
 
 Title_PrepForMenu:
 
     ; Clear objects 1-4 states
     LDA #$00
-    STA <Title_ObjStates+1
-    STA <Title_ObjStates+2
-    STA <Title_ObjStates+3
-    STA <Title_ObjStates+4
+    STA Title_ObjStates+1
+    STA Title_ObjStates+2
+    STA Title_ObjStates+3
+    STA Title_ObjStates+4
 
     ; Set object 0's state to 1 (this is the leader koopa, he starts first, brings in the next)
     LDA #$01
-    STA <Title_ObjStates
+    STA Title_ObjStates
 
     ; This is the counter for when to reset the title sequence
     LDA #20
-    STA <Title_ResetCnt ; Title_ResetCnt = 20
+    STA Title_ResetCnt ; Title_ResetCnt = 20
 
     ; This is the "fine" part of the reset count; when it goes to zero, it decrements Title_ResetCnt
     LDA #60
-    STA <Title_ResetCnt2 ; Title_ResetCnt2 = 60
+    STA Title_ResetCnt2 ; Title_ResetCnt2 = 60
 
-    INC <Title_State ; Next title state...
+    INC Title_State ; Next title state...
     RTS      ; Return
 
 Title_Menu_1P2PCursorY:
     .byte 151, 167   ; Y position for the 1P/2P select cursor
 
 Title_Do1P2PMenu:
-    LDA <Controller2
+    LDA Controller2
     AND #(PAD_A | PAD_B)
     CMP #(PAD_A | PAD_B)
     BNE PRG024_AC42  ; If Player 2 is not holding A+B, jump to PRG024_AC42
@@ -2316,24 +2316,24 @@ Title_Do1P2PMenu:
 PRG024_AC42:
     ; Title_ResetCnt and Title_ResetCnt2 gang together to form a large countdown timer
 
-    DEC <Title_ResetCnt2    ; Title_ResetCnt2--
+    DEC Title_ResetCnt2    ; Title_ResetCnt2--
     BNE PRG024_AC52     ; If <> 0, jump to PRG024_AC52
 
     LDA #96
-    STA <Title_ResetCnt2    ; Title_ResetCnt2 = 96
+    STA Title_ResetCnt2    ; Title_ResetCnt2 = 96
 
-    DEC <Title_ResetCnt ; Title_ResetCnt--
+    DEC Title_ResetCnt ; Title_ResetCnt--
     BNE PRG024_AC52     ; If <> 0, jump to PRG024_AC52
 
     ; Title_ResetCnt and Title_ResetCnt2 have reached zero!
     ; Trigger the reset!
     LDA #$ff
-    STA <Title_ResetTrig    ; Title_ResetTrig = $ff
+    STA Title_ResetTrig    ; Title_ResetTrig = $ff
 
 PRG024_AC52:
     JSR Title_Menu_UpdateKoopas  ; Update and draw koopas
 
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #PAD_SELECT
     BEQ PRG024_AC6B     ; If Player is not pressing SELECT, jump to PRG024_AC6B
 
@@ -2362,7 +2362,7 @@ PRG024_AC6B:
 
     JSR Title_3Glow     ; Keep the big '3' glowing!
 
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #PAD_START
     BEQ PRG024_ACBA     ; If Player is not pressing START, jump to PRG024_ACBA (RTS)
 
@@ -2370,20 +2370,20 @@ PRG024_AC6B:
     STA Sound_QLevel1   ; Play coin sound (in this case, selected and begin!)
 
     LDA Sprite_RAM+$F0  ; Get Y value of title screen cursor sprite
-    STA <Title_EventGrafX   ; Reuse as a temp...
+    STA Title_EventGrafX   ; Reuse as a temp...
 
 PRG024_AC96:
     JSR GraphicsBuf_Prep_And_WaitVSyn2
 
-    INC <Title_ResetCnt ; Title_ResetCnt++
+    INC Title_ResetCnt ; Title_ResetCnt++
 
     LDY #$f8        ; Y = $f8 (hide title screen cursor)
 
-    LDA <Title_ResetCnt
+    LDA Title_ResetCnt
     AND #$18
     BEQ PRG024_ACA5  ; Periodically jump to PRG024_ACA5
 
-    LDY <Title_EventGrafX   ; Y = reappear title screen cursor
+    LDY Title_EventGrafX   ; Y = reappear title screen cursor
 
 PRG024_ACA5:
     STY Sprite_RAM+$F0   ; Set it!
@@ -2393,7 +2393,7 @@ PRG024_ACA5:
     LDA SndCur_Level1
     BNE PRG024_AC96  ; If the "gling" sound has not ended, loop!
 
-    INC <Title_State ; Title_State++
+    INC Title_State ; Title_State++
 
     ; World_Num = 0 (World 1)
     LDA #$00
@@ -2410,13 +2410,13 @@ Title_PrepForWorldMap:
     STA World_Map_Power  ; Mario starts as small on world map
     STA World_Map_Power+1    ; Luigi starts as small on world map
     INC Total_Players    ; Total_Players should be 1/2, not 0/1
-    INC <Title_State     ; Next title state...
+    INC Title_State     ; Next title state...
     RTS      ; Return
 
 Title_DebugMenu:
     JSR Title_Menu_UpdateKoopas  ; Update the koopas
 
-    LDA <Controller2
+    LDA Controller2
     AND #$c1
     CMP #$c1
     BNE PRG024_ACD7  ; If Player 2 is NOT hitting A+B+Right (credits jump), jump to PRG024_ACD7
@@ -2424,7 +2424,7 @@ Title_DebugMenu:
     JMP Ending_Credits   ; Jump to credits
 
 PRG024_ACD7:
-    LDA <Controller2
+    LDA Controller2
     AND #$c4
     CMP #$c4
     BNE PRG024_ACE2  ; If Player 2 is NOT hitting A+B+Down (jump to Princess rescue), jump to PRG024_ACE2
@@ -2432,7 +2432,7 @@ PRG024_ACD7:
     JMP Rescue_Princess  ; Jump to princess rescue
 
 PRG024_ACE2:
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #(PAD_UP | PAD_DOWN)
     BEQ PRG024_ACFB  ; If Player is not pressing Up or Down, jump to PRG024_ACFB
 
@@ -2451,7 +2451,7 @@ PRG024_ACE2:
     JMP PRG024_AD9C  ; Jump to PRG024_AD9C
 
 PRG024_ACFB:
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #PAD_SELECT
     BEQ PRG024_AD0C     ; If Player is not pressing SELECT, jump to PRG024_AD0C
 
@@ -2475,7 +2475,7 @@ PRG024_AD0C:
     LDA #72
     STA Sprite_RAM+$F3   ; Store X value into sprite
 
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #PAD_A
     BEQ PRG024_AD54     ; If Player is not pressing A, jump to PRG024_AD54
 
@@ -2506,7 +2506,7 @@ PRG024_AD3A:
     STA Graphics_Buffer+4   ; Terminator
 
 PRG024_AD54:
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #PAD_START
     BEQ PRG024_AD9C  ; If Player is NOT pressing START, jump to PRG024_AD9C
 
@@ -2514,7 +2514,7 @@ PRG024_AD54:
     STA Debug_Flag   ; Activate debug functions
 
     LDA #$04
-    STA <Title_State    ; Title_State = 4 (prep for world map)
+    STA Title_State    ; Title_State = 4 (prep for world map)
 
     ; Quick loop to set up Mario and Luigi with the lives start and world map power
     LDX Total_Players   ; X = Total_Players
@@ -2681,17 +2681,17 @@ Title_UpdateAllObjs:
     STA Title_MLAccelCnt
 
     LDA #$10
-    STA <Title_ObjMLSprRAMOff   ; Mario's sprite RAM starts at Sprite_RAM + $10
+    STA Title_ObjMLSprRAMOff   ; Mario's sprite RAM starts at Sprite_RAM + $10
 
     LDA #$28
-    STA <Title_ObjMLSprRAMOff+1 ; Luigi's sprite RAM starts at Sprite_RAM + $28
+    STA Title_ObjMLSprRAMOff+1 ; Luigi's sprite RAM starts at Sprite_RAM + $28
 
     LDX #$01
 
 PRG024_AEDD:
-    STX <Title_CurMLIndex   ; Store current index
+    STX Title_CurMLIndex   ; Store current index
 
-    LDA <Title_ObjMLStop
+    LDA Title_ObjMLStop
     BEQ PRG024_AF0C     ; If Title_ObjMLStop = 0, jump to PRG024_AF0C
 
     LDA #$08
@@ -2706,25 +2706,25 @@ PRG024_AEDD:
     LDA #$00
 PRG024_AEEF:
     ; Set the initial X velocity (zero)
-    STA <Title_ObjXVel,X
+    STA Title_ObjXVel,X
 
     ; Set the initial X coordinates
     LDA Title_ObjInitX,X
-    STA <Title_ObjX,X
+    STA Title_ObjX,X
 
     ; Set the initial Y coordinate (160)
     LDA #160
-    STA <Title_ObjY,X
+    STA Title_ObjY,X
 
     ; Set the initial flags
     LDA Title_ObjInitFlags,X
-    STA <Title_ObjMLFlags,X
+    STA Title_ObjMLFlags,X
 
     JSR Title_AnimateMarioLuigi ; Animate Mario/Luigi
     JSR Title_DrawMarioLuigi    ; Draw Mario/Luigi
 
     LDA #$00
-    STA <Title_ObjXVel,X        ; Zero Mario/Luigi's X velocity
+    STA Title_ObjXVel,X        ; Zero Mario/Luigi's X velocity
     JMP PRG024_AF3D         ; Jump to PRG024_AF3D
 
 PRG024_AF0C:
@@ -2743,13 +2743,13 @@ PRG024_AF0C:
     JSR Title_DrawMarioLuigi
 
 PRG024_AF23:
-    LDA <Title_XPosHi,X
+    LDA Title_XPosHi,X
     BEQ PRG024_AF3D         ; If the "high" component of the X position is zero, jump to PRG024_AF3D
     BPL PRG024_AF33         ; If it is greater than zero, jump to PRG024_AF33
 
     ; The XHi is less than zero...
 
-    LDA <Title_ObjX,X       ; Get the X coordinate
+    LDA Title_ObjX,X       ; Get the X coordinate
     CMP #-64
     BGE PRG024_AF3D         ; If the X coordinate is >= -64, jump to PRG024_AF3D
 
@@ -2761,7 +2761,7 @@ PRG024_AF33:
 
     ; The XHi is greater than zero...
 
-    LDA <Title_ObjX,X
+    LDA Title_ObjX,X
     CMP #64
     BLT PRG024_AF3D         ; If the X coordinate is less than 64, jump to PRG024_AF3D
 
@@ -2769,7 +2769,7 @@ PRG024_AF33:
     LDA #63
 
 PRG024_AF3B:
-    STA <Title_ObjX,X       ; Update the X coordinate
+    STA Title_ObjX,X       ; Update the X coordinate
 
 PRG024_AF3D:
     DEX      ; X-- (Process Mario after Luigi)
@@ -2819,7 +2819,7 @@ Title_MLXAccel:
     ; X is 0/1, Mario/Luigi
 
     LDY #$02        ; Y = 2
-    LDA <Title_ObjXVel,X    ; Get Mario/Luigi's X velocity
+    LDA Title_ObjXVel,X    ; Get Mario/Luigi's X velocity
     BPL PRG024_AF7A     ; If velocity is >= 0, jump to PRG024_AF7A
 
     ; Otherwise, negate it (get the absolute value)
@@ -2836,29 +2836,29 @@ PRG024_AF7A:
 PRG024_AF7D:
     ; At this point, Y is a standard direction value -- 0 = Not moving, 1 = Leftward, 2 = Rightward
 
-    STA <Temp_Var15         ; Store velocity into Temp_Var15
-    STY <Title_ObjMLMoveDir,X   ; Store movement direction into Title_ObjMLMoveDir
+    STA Temp_Var15         ; Store velocity into Temp_Var15
+    STY Title_ObjMLMoveDir,X   ; Store movement direction into Title_ObjMLMoveDir
 
     LDY #$18            ; Y = $18
-    LDA <Title_ObjMLDir,X       ; Get the direction vector value
+    LDA Title_ObjMLDir,X       ; Get the direction vector value
     AND #$40            ; Check bit 6 (FIXME??)
     BEQ PRG024_AF8B         ; If not set, jump to PRG024_AF8B
 
     LDY #$28            ; Y = $28
 
 PRG024_AF8B:
-    STY <Temp_Var14     ; Store Y -> Temp_Var14
+    STY Temp_Var14     ; Store Y -> Temp_Var14
 
     LDY #$00            ; Y = 0
-    LDA <Title_ObjMLDir,X       ; Get direction vector
+    LDA Title_ObjMLDir,X       ; Get direction vector
     AND #$03            ; Check for bit 0 or 1 (left/right)
     BNE PRG024_AFA1         ; If either is set, jump to PRG024_AFA1
 
     ; Neither left nor right bits are set in vector
-    LDA <Title_ObjYVelChng,X    ; Get Y velocity change
+    LDA Title_ObjYVelChng,X    ; Get Y velocity change
     BNE PRG024_AFE9         ; If there's been a Y change, jump to PRG024_AFE9
 
-    LDA <Title_ObjXVel,X        ; Get the X velocity
+    LDA Title_ObjXVel,X        ; Get the X velocity
     BEQ PRG024_AFE9         ; If zero, jump to PRG024_AFE9
     BMI PRG024_AFBB         ; If < 0, jump to PRG024_AFBB
     BPL PRG024_AFD3         ; If > 0, jump to PRG024_AFD3
@@ -2867,58 +2867,58 @@ PRG024_AFA1:
     INY
     INY             ; Y += 2  (Y = 2)
 
-    AND <Title_ObjMLMoveDir,X   ; Check if movement direction's corresponding bit is set in the Title_ObjMLDir direction vector
+    AND Title_ObjMLMoveDir,X   ; Check if movement direction's corresponding bit is set in the Title_ObjMLDir direction vector
     BNE PRG024_AFB5         ; If it is, jump to PRG024_AFB5
 
     DEY             ; Y-- (Y = 1)
 
-    LDA <Temp_Var15         ; Get velocity
-    CMP <Temp_Var14
+    LDA Temp_Var15         ; Get velocity
+    CMP Temp_Var14
     BEQ PRG024_AFE9         ; If velocity equals key value ($18 or $28), jump to PRG024_AFE9
     BLS PRG024_AFB5         ; If less, jump to PRG024_AFB5
 
-    LDA <Title_ObjYVelChng,X
+    LDA Title_ObjYVelChng,X
     BNE PRG024_AFE9         ; If there's a Y velocity change, jump to PRG024_AFE9
 
     DEY             ; Otherwise, Y-- (Y = 0)
 
 PRG024_AFB5:
-    LDA <Title_ObjMLDir,X
+    LDA Title_ObjMLDir,X
     AND #$01
     BNE PRG024_AFD3         ; If bit 1 (left) is set in the direction vector, jump to PRG024_AFD3
 
 PRG024_AFBB:
     LDA #$00
     SUB Title_MLAccelFactors,Y  ; A = -Title_MLAccelFactors[Y] (negates values compared to the routine at PRG024_AFD3)
-    STA <Temp_Var1      ; Store into Temp_Var1
+    STA Temp_Var1      ; Store into Temp_Var1
 
     LDA PRG024_AF67,Y   ;
     EOR #$ff        ; A = PRG024_AF67[Y] ^ $FF
-    STA <Temp_Var2      ; Store into Temp_Var2
+    STA Temp_Var2      ; Store into Temp_Var2
 
-    LDA <Temp_Var1
+    LDA Temp_Var1
     BNE PRG024_AFDD     ; If Temp_Var1 is non-zero, jump to PRG024_AFDD (never false??)
 
     ; NOTE: I don't think the following two lines of code can ever be reached
-    INC <Temp_Var2      ; Temp_Var2++
+    INC Temp_Var2      ; Temp_Var2++
     JMP PRG024_AFDD     ; Jump to PRG024_AFDD
 
 PRG024_AFD3:
     LDA Title_MLAccelFactors,Y  ; A = Title_MLAccelFactors[Y]
-    STA <Temp_Var1      ; Store into Temp_Var1
+    STA Temp_Var1      ; Store into Temp_Var1
 
     LDA PRG024_AF67,Y   ; A = PRG024_AF67[Y]
-    STA <Temp_Var2      ; Store into Temp_Var2
+    STA Temp_Var2      ; Store into Temp_Var2
 
 PRG024_AFDD:
 
     ; High-precision adding here...
-    LDA <Temp_Var1
+    LDA Temp_Var1
     ADD Title_MLAccelCnt    ; Title_MLAccelCnt += Temp_Var1
 
-    LDA <Title_ObjXVel,X    ; Get X velocity
-    ADC <Temp_Var2      ; Add Temp_Var2, including carry from above operation
-    STA <Title_ObjXVel,X    ; Store result back...
+    LDA Title_ObjXVel,X    ; Get X velocity
+    ADC Temp_Var2      ; Add Temp_Var2, including carry from above operation
+    STA Title_ObjXVel,X    ; Store result back...
 
 PRG024_AFE9:
     JSR Title_AddVel_toPos  ; Apply the X velocity
@@ -2937,17 +2937,17 @@ PRG024_AFF4:    .byte $00, $02, $04, $08    ; Loaded by X velocity "whole" part 
 ; Also processes queue event $80
 Title_ML_DoGravity:
 
-    LDA <Title_ObjMLQueue,X
+    LDA Title_ObjMLQueue,X
     AND #$80
-    STA <Temp_Var1      ; Temp_Var1 = Title_ObjMLQueue & $80
+    STA Temp_Var1      ; Temp_Var1 = Title_ObjMLQueue & $80
     BEQ PRG024_B023     ; If bit 7 not set, jump to PRG024_B023
 
     ; Begin queue event $80
 
-    LDA <Title_ObjYVelChng,X
+    LDA Title_ObjYVelChng,X
     BNE PRG024_B023     ; If there's a Y velocity change, jump to PRG024_B023
 
-    LDA <Title_ObjXVel,X    ; Get X velocity -> A
+    LDA Title_ObjXVel,X    ; Get X velocity -> A
     BPL PRG024_B00D     ; If >= 0, jump to PRG024_B00D
 
     ; Otherwise, negate it!  (Get absolute value)
@@ -2961,27 +2961,27 @@ PRG024_B00D:
     TAY         ; Y = X velocity >> 4 (the upper "whole" part of this 4.4FP number)
     LDA PRG024_AFF3     ; A = $C8 (unnecessary constant memory load?)
     SUB PRG024_AFF4,Y   ; Variable subtracted value (faster the X velocity is, the less of a Y velocity we end up with)
-    STA <Title_ObjYVel,X    ; Store result as Y velocity
+    STA Title_ObjYVel,X    ; Store result as Y velocity
 
     LDA #$01
-    STA <Title_ObjYVelChng,X    ; Indicate a Y velocity change
+    STA Title_ObjYVelChng,X    ; Indicate a Y velocity change
     LDA #$00
-    STA <Title_ObjMLTailTick,X  ; Zero out the tail wagging
+    STA Title_ObjMLTailTick,X  ; Zero out the tail wagging
 
     ; End of queue event $80
 
 
 PRG024_B023:
-    LDA <Title_ObjYVelChng,X
+    LDA Title_ObjYVelChng,X
     BEQ PRG024_B053     ; If no Y velocity change, jump to PRG024_B053
 
     LDY #FALL_NORMAL    ; Y = FALL_NORMAL (normal falling rate)
 
-    LDA <Title_ObjYVel,X    ; Get the Y velocity
+    LDA Title_ObjYVel,X    ; Get the Y velocity
     CMP #-32
     BGS PRG024_B037     ; If Y velocity >= -32, jump to PRG024_B037
 
-    LDA <Title_ObjMLDir,X   ; Get the direction vector
+    LDA Title_ObjMLDir,X   ; Get the direction vector
     AND #$80
     BEQ PRG024_B037     ; If bit 7 (tail wagging) is not set, jump to PRG024_B037
 
@@ -2989,51 +2989,51 @@ PRG024_B023:
 
 PRG024_B037:
     TYA         ; A = Y (1 or 5)
-    ADD <Title_ObjYVel,X
-    STA <Title_ObjYVel,X    ; Title_ObjYVel += Y (1 or 5)
+    ADD Title_ObjYVel,X
+    STA Title_ObjYVel,X    ; Title_ObjYVel += Y (1 or 5)
 
-    LDA <Title_ObjMLPower,X
+    LDA Title_ObjMLPower,X
     CMP #$02
     BNE PRG024_B053     ; If Mario/Luigi's power level is not 2 (leaf raccoon), jump to PRG024_B053
 
     ; Leaf raccoon only...
-    LDA <Title_ObjMLDir,X
+    LDA Title_ObjMLDir,X
     AND #$80
     BEQ PRG024_B053     ; If direction vector bit 7 is not set, jump to PRG024_B053
 
-    LDA <Title_ObjYVel,X
+    LDA Title_ObjYVel,X
     CMP #FALLRATE_TAILWAGMAX
     BLS PRG024_B053     ; If Y velocity < FALLRATE_TAILWAGMAX, jump to PRG024_B053
 
     ; Prevent Y velocity from being any greater than FALLRATE_TAILWAGMAX
     ; Allows tail wagging to not affect when moving upward
     LDA #FALLRATE_TAILWAGMAX
-    STA <Title_ObjYVel,X
+    STA Title_ObjYVel,X
 
 PRG024_B053:
     JSR Title_MLYAccel   ; Apply Y velocity
 
-    LDA <Title_YPosHi,X ; Get the most significant byte of the Y position
+    LDA Title_YPosHi,X ; Get the most significant byte of the Y position
     BEQ PRG024_B060     ; If = 0, jump to PRG024_B060
 
     ; Otherwise, forces Y velocity to $20 (?)
     LDA #$20
-    STA <Title_ObjYVel,X
+    STA Title_ObjYVel,X
     BNE PRG024_B070     ; Jump (technically always) to PRG024_B070 (RTS)
 
 PRG024_B060:
-    LDA <Title_ObjY,X
+    LDA Title_ObjY,X
     CMP #160
     BLT PRG024_B070     ; If Object Y is less than 160, jump to PRG024_B070 (RTS)
 
     ; This prevents the objects from falling beneath the 160 line on the title screen (pseudo-detection of "solid" floor)
     LDA #160
-    STA <Title_ObjY,X   ; Prevent object Y from being >= 160
+    STA Title_ObjY,X   ; Prevent object Y from being >= 160
 
     ; Zero out the Y velocity and change
     LDA #$00
-    STA <Title_ObjYVelChng,X
-    STA <Title_ObjYVel,X
+    STA Title_ObjYVelChng,X
+    STA Title_ObjYVel,X
 
 PRG024_B070:
     RTS      ; Return
@@ -3050,7 +3050,7 @@ Title_AddVel_toPos:
 
     ; Going to perform a faux 16-bit shift 4 bits to the left on the X velocity
 
-    LDA <Title_ObjXVel,X    ; Get velocity of Mario/Luigi
+    LDA Title_ObjXVel,X    ; Get velocity of Mario/Luigi
     PHA         ; Save it
 
     ; Produce the lower half
@@ -3058,7 +3058,7 @@ Title_AddVel_toPos:
     ASL A
     ASL A
     ASL A
-    STA <Temp_Var12 ; Temp_Var12 = velocity << 4 (multiplied by 16)
+    STA Temp_Var12 ; Temp_Var12 = velocity << 4 (multiplied by 16)
 
     LDY #$00        ; Y = 0
     PLA         ; Restore A (as velocity)
@@ -3076,30 +3076,30 @@ Title_AddVel_toPos:
     ORA #$f0        ; Simulates carrying the negative sign bit across the value, like an ASR instruction would
 
 PRG024_B088:
-    STA <Temp_Var11     ; Store resultant value into Temp_Var11
+    STA Temp_Var11     ; Store resultant value into Temp_Var11
 
     ; Register 'Y' also contains an additional level of high bits
     ; (i.e. is zero if this is positive, $FF if negative, carrying the sign across)
-    STY <Temp_Var13     ; Y -> Temp_Var13
+    STY Temp_Var13     ; Y -> Temp_Var13
 
     ; So essentially what happened at this point is that the X velocity
     ; has become a 24-bit value, shifted up 4 bits from its original
     ; [Temp_Var13][Temp_Var11][Temp_Var12] = XVel << 4
 
     ; Title_XPosFrac works as an fractional accumulator
-    LDA <Title_XPosFrac,X
-    ADD <Temp_Var12
-    STA <Title_XPosFrac,X   ; Title_XPosFrac += Temp_Var12
+    LDA Title_XPosFrac,X
+    ADD Temp_Var12
+    STA Title_XPosFrac,X   ; Title_XPosFrac += Temp_Var12
 
     ; ... which, as it overflows, provides a carry into the "whole" part
-    LDA <Title_ObjX,X
-    ADC <Temp_Var11
-    STA <Title_ObjX,X   ; Title_ObjX += Temp_Var11 + Carry
+    LDA Title_ObjX,X
+    ADC Temp_Var11
+    STA Title_ObjX,X   ; Title_ObjX += Temp_Var11 + Carry
 
     ; ... and if that overflows, the carry goes into the "high" part...
-    LDA <Title_XPosHi,X
-    ADC <Temp_Var13
-    STA <Title_XPosHi,X ; Further precision of the X position stored here
+    LDA Title_XPosHi,X
+    ADC Temp_Var13
+    STA Title_XPosHi,X ; Further precision of the X position stored here
 
     RTS         ; Return...
 
@@ -3108,7 +3108,7 @@ PRG024_B088:
 ;
 ; Figures out Mario/Luigi's Y acceleration and applies it (including "gravity", and max fall rate)
 Title_MLYAccel:
-    LDA <Title_ObjYVel,X
+    LDA Title_ObjYVel,X
     BMI Title_ApplyYVel     ; If Y velocity is negative, jump to Title_ApplyYVel
 
     CMP #FALLRATE_MAX
@@ -3117,7 +3117,7 @@ Title_MLYAccel:
     ; Prevent Y velocity from being greater than FALLRATE_MAX
     ; This defines the maximum fall speed!
     LDA #FALLRATE_MAX
-    STA <Title_ObjYVel,X
+    STA Title_ObjYVel,X
 
 Title_ApplyYVel:
 
@@ -3150,7 +3150,7 @@ Title_AnimateMarioLuigi:
     ; Input object is assumed to be 0 (Mario) or 1 (Luigi)
 
     ; Absolute value of this object's X velocity
-    LDA <Title_ObjXVel,X
+    LDA Title_ObjXVel,X
     BPL PRG024_B0CA     ; If X velocity is positive, jump to PRG024_B0CA
 
     ; Otherwise, negate it
@@ -3164,44 +3164,44 @@ PRG024_B0CA:
     TAY      ; Y = X vel absolute magnitude / 8
 
     ; Animation speed will change based on the velocity
-    INC <Title_ObjMLDirTicks,X  ; Increment animation ticks
-    LDA <Title_ObjMLDirTicks,X  ; Get it -> A
+    INC Title_ObjMLDirTicks,X  ; Increment animation ticks
+    LDA Title_ObjMLDirTicks,X  ; Get it -> A
     CMP PRG024_B0B8,Y       ; Compare it against the value in Y
     BMI PRG024_B0E7         ; If it hasn't overflowed yet, jump down to PRG024_B0E7
 
     ; Animation ticks meet or exceed the value in Y!
 
     LDA #$00
-    STA <Title_ObjMLDirTicks,X   ; Reset the ticks
+    STA Title_ObjMLDirTicks,X   ; Reset the ticks
 
-    INC <Title_ObjMLAnimFrame,X  ; Increment the frame
+    INC Title_ObjMLAnimFrame,X  ; Increment the frame
 
     ; Cap the frame 0-3
-    LDA <Title_ObjMLAnimFrame,X
+    LDA Title_ObjMLAnimFrame,X
     CMP #$04
     BMI PRG024_B0E7
     LDA #$00
-    STA <Title_ObjMLAnimFrame,X
+    STA Title_ObjMLAnimFrame,X
 
 PRG024_B0E7:
-    LDA <Title_ObjMLDir,X
+    LDA Title_ObjMLDir,X
     AND #$03
     BNE PRG024_B0F5  ; If Mario/Luigi is moving left or right, jump to PRG024_B0F5
 
-    LDA <Title_ObjXVel,X
+    LDA Title_ObjXVel,X
     BNE PRG024_B0F5  ; If X velocity <> 0, jump to PRG024_B0F5
 
     ; If Title_ObjMLDir & 3 = 0 and x velocity = 0, force frame to 2 (standing)
     LDA #$02
-    STA <Title_ObjMLAnimFrame,X
+    STA Title_ObjMLAnimFrame,X
 
 PRG024_B0F5:
 
     ; Store flags value into Temp_Var1
-    LDA <Title_ObjMLFlags,X
-    STA <Temp_Var1
+    LDA Title_ObjMLFlags,X
+    STA Temp_Var1
 
-    LDA <Title_ObjMLDir,X
+    LDA Title_ObjMLDir,X
     AND #$03
     BEQ PRG024_B109
 
@@ -3213,53 +3213,53 @@ PRG024_B0F5:
     LDY #SPR_HFLIP   ; Otherwise, Y = SPR_HFLIP
 
 PRG024_B107:
-    STY <Title_ObjMLFlags,X  ; Update flags value
+    STY Title_ObjMLFlags,X  ; Update flags value
 
 PRG024_B109:
-    LDA <Title_ObjMLFlags,X
-    EOR <Temp_Var1
-    STA <Temp_Var1       ; Store only the difference in flags -> Temp_Var1
+    LDA Title_ObjMLFlags,X
+    EOR Temp_Var1
+    STA Temp_Var1       ; Store only the difference in flags -> Temp_Var1
 
     ; Mario/Luigi's current power offsets their default frame value (+4 for each power level)
-    LDA <Title_ObjMLPower,X
+    LDA Title_ObjMLPower,X
     ASL A
     ASL A
-    ORA <Title_ObjMLAnimFrame,X
+    ORA Title_ObjMLAnimFrame,X
 
     TAY             ; frame -> Y
     LDA Title_ObjMLWalkSprite,Y ; Get the proper sprite frame (actual system sprite drawer)
-    STA <Title_ObjMLSprite,X    ; Make this the next sprite to display
+    STA Title_ObjMLSprite,X    ; Make this the next sprite to display
 
-    LDA <Title_ObjXVel,X
+    LDA Title_ObjXVel,X
     ADD #$01
     CMP #$03
     BLT PRG024_B135         ; If X Vel + 1 < 3, jump to PRG024_B135
 
     ; If the directions conflict, do skid
-    LDA <Title_ObjMLMoveDir,X
-    AND <Title_ObjMLDir,X
+    LDA Title_ObjMLMoveDir,X
+    AND Title_ObjMLDir,X
     BEQ PRG024_B135         ; If Title_ObjMLMoveDir & Title_ObjMLDir = 0 (moving one way, facing the other), jump to PRG024_B135 (no skid)
 
     ; Use the skid frame!
-    LDY <Title_ObjMLPower,X     ; Y = power level
+    LDY Title_ObjMLPower,X     ; Y = power level
     BEQ PRG024_B130         ; If Title_ObjMLPower = 0 (small), jump to PRG024_B130
     LDY #$01            ; Otherwise, Y = 1 (same skid for Big or Leaf Raccoon)
 PRG024_B130:
     LDA Title_ObjMLSkidSprite,Y ; Get the skid sprite
-    STA <Title_ObjMLSprite,X    ; Make this the next sprite to display
+    STA Title_ObjMLSprite,X    ; Make this the next sprite to display
 
 PRG024_B135:
 
-    LDA <Title_ObjMLDir,X
+    LDA Title_ObjMLDir,X
     AND #$04
     BEQ PRG024_B156         ; If the direction is not downward, jump to PRG024_B156
 
     ; Direction downward, i.e. need to duck!Title_DrawMarioLuigi
-    LDY <Title_ObjMLPower,X
+    LDY Title_ObjMLPower,X
     LDA Title_ObjMLDuckSprite,Y ; Get appropriate sprite by power level
-    STA <Title_ObjMLSprite,X    ; Make this the next sprite to display
+    STA Title_ObjMLSprite,X    ; Make this the next sprite to display
 
-    LDA <Title_ObjMLQueue,X
+    LDA Title_ObjMLQueue,X
     AND #$04
     BEQ PRG024_B156         ; If not time for Luigi's rebound off Mario, jump to PRG024_B156
 
@@ -3277,18 +3277,18 @@ PRG024_B14E:
     STA Title_ObjYVel,Y     ; And set the velocity
 
 PRG024_B156:
-    LDA <Title_ObjMLDir,X
+    LDA Title_ObjMLDir,X
     AND #$08
     BEQ PRG024_B160         ; If the direction is not upward, jump to PRG024_B160
 
     ; Direction upward, look upward
     LDA #$17            ; The "looking upward" sprite
-    STA <Title_ObjMLSprite,X    ; Make this the next sprite to display
+    STA Title_ObjMLSprite,X    ; Make this the next sprite to display
 
 PRG024_B160:
-    LDA <Title_ObjYVelChng,X
+    LDA Title_ObjYVelChng,X
     BEQ PRG024_B19A         ; If no change in Y velocity, jump to PRG024_B19A
-    LDA <Title_ObjMLPower,X
+    LDA Title_ObjMLPower,X
     BEQ PRG024_B19A         ; If power level = 0 (small), jump to PRG024_B19A
 
     CMP #$02
@@ -3298,28 +3298,28 @@ PRG024_B160:
 
     LDA #$15            ; Sprite to display (fist pump upward, leaf raccoon version)
 
-    LDY <Title_ObjYVel,X
+    LDY Title_ObjYVel,X
     BMI PRG024_B198         ; If Y velocity is negative, jump to PRG024_B198
 
-    LDA <Title_ObjMLTailTick,X
+    LDA Title_ObjMLTailTick,X
     BEQ PRG024_B17B         ; If tail tick = 0, jump to PRG024_B17B
 
-    DEC <Title_ObjMLTailTick,X  ; Decrement tail tick
+    DEC Title_ObjMLTailTick,X  ; Decrement tail tick
     JMP PRG024_B185         ; Jump to PRG024_B185...
 
 PRG024_B17B:
     ; Tail ticker has hit zero!
 
-    LDA <Title_ObjMLDir,X
+    LDA Title_ObjMLDir,X
     AND #$80
     BEQ PRG024_B185         ; If not wagging tail, jump to PRG024_B185
 
     LDA #10
-    STA <Title_ObjMLTailTick,X  ; Title_ObjMLTailTick = 10
+    STA Title_ObjMLTailTick,X  ; Title_ObjMLTailTick = 10
 
 PRG024_B185:
     ; Y = Title_ObjMLTailTick / 4
-    LDA <Title_ObjMLTailTick,X
+    LDA Title_ObjMLTailTick,X
     LSR A
     LSR A
     TAY
@@ -3332,40 +3332,40 @@ PRG024_B190:
 
     LDA #$14            ; Sprite to display (fist pump upward, non-leaf raccoon version)
 
-    LDY <Title_ObjYVel,X
+    LDY Title_ObjYVel,X
     BMI PRG024_B198         ; If Y velocity < 0, jump to PRG024_B198 (i.e. do the fist pump)
 
     LDA #$00            ; Otherwise, do the first walk frame (fall frame)
 
 PRG024_B198:
-    STA <Title_ObjMLSprite,X    ; Make whatever 'A' turned out to be the next frame to display!
+    STA Title_ObjMLSprite,X    ; Make whatever 'A' turned out to be the next frame to display!
 
 PRG024_B19A:
     ; No change in Y velocity, or power level is 0 (small)
 
-    LDA <Title_ObjMLKickTick,X
+    LDA Title_ObjMLKickTick,X
     BEQ PRG024_B1A4         ; If not currently "kicking", jump to PRG024_B1A4
 
-    DEC <Title_ObjMLKickTick,X  ; Decrement the kick tick
+    DEC Title_ObjMLKickTick,X  ; Decrement the kick tick
 
     LDA #$0d            ; Kick sprite
-    STA <Title_ObjMLSprite,X    ; Make this the next sprite to display
+    STA Title_ObjMLSprite,X    ; Make this the next sprite to display
 
 PRG024_B1A4:
-    LDA <Title_ObjMLBonkTick,X
+    LDA Title_ObjMLBonkTick,X
     BEQ PRG024_B1AE         ; If not being "bonked", jump to PRG024_B1AE
 
-    DEC <Title_ObjMLBonkTick,X  ; Decrement bonk ticks
+    DEC Title_ObjMLBonkTick,X  ; Decrement bonk ticks
 
     LDA #$16            ; Bonk sprite
-    STA <Title_ObjMLSprite,X    ; Make this the next sprite to display
+    STA Title_ObjMLSprite,X    ; Make this the next sprite to display
 
 PRG024_B1AE:
     TXA
     BNE PRG024_B1C9         ; If Luigi, jump to PRG024_B1C9
 
     ; Only Mario gets to do the "power down" animation...
-    LDA <Title_ObjMPowerDown
+    LDA Title_ObjMPowerDown
     BEQ PRG024_B1C9         ; If not doing the animation, jump to PRG024_B1C9
 
     ; Use Title_ObjMPowerDown / 4 to determine the appropriate sprite
@@ -3373,7 +3373,7 @@ PRG024_B1AE:
     LSR A
     TAY
     LDA Title_ObjMarioPowerDown,Y
-    STA <Title_ObjMLSprite      ; Make this the next sprite to display
+    STA Title_ObjMLSprite      ; Make this the next sprite to display
 
     ; Mario's power level winds up at 0 (small) if the shrinkage sprite is at $11
     ; Probably just so the right patterns are loaded is all...
@@ -3383,58 +3383,58 @@ PRG024_B1AE:
     LDY #$01            ; Power level 1 (Big)
 
 PRG024_B1C5:
-    STY <Title_ObjMLPower       ; Change power level
-    DEC <Title_ObjMPowerDown    ; Decrement the power down counter
+    STY Title_ObjMLPower       ; Change power level
+    DEC Title_ObjMPowerDown    ; Decrement the power down counter
 
 PRG024_B1C9:
-    LDA <Title_ObjMLHold,X
+    LDA Title_ObjMLHold,X
     BNE PRG024_B1D5         ; If holding something, jump to PRG024_B1D5
 
     ; Activates the "hold"
-    LDA <Title_ObjMLQueue,X
+    LDA Title_ObjMLQueue,X
     AND #$20
     BEQ PRG024_B204         ; If not time to begin carrying, jump to PRGO24_B204
 
-    STA <Title_ObjMLHold,X      ; Start carrying!
+    STA Title_ObjMLHold,X      ; Start carrying!
 
 PRG024_B1D5:
 
     ; Gets frame -> Y, unless no Y velocity change, in which case Y = 0
-    LDY <Title_ObjMLAnimFrame,X
-    LDA <Title_ObjYVelChng,X
+    LDY Title_ObjMLAnimFrame,X
+    LDA Title_ObjYVelChng,X
     BEQ PRG024_B1DD
     LDY #$00
 PRG024_B1DD:
     LDA Title_ObjMLCarrySprite,Y    ; Holding something, change frame to appropriate "carry" frame alternate
-    STA <Title_ObjMLSprite,X    ; Make this the next sprite to display
+    STA Title_ObjMLSprite,X    ; Make this the next sprite to display
 
-    LDA <Temp_Var1          ; Get sprite flags (stored LONG ago...)
+    LDA Temp_Var1          ; Get sprite flags (stored LONG ago...)
     BEQ PRG024_B1EA         ; If zero, jump to PRG024_B1EA
 
     LDA #$08
-    STA <Title_ObjMLBonkTick,X  ; Title_ObjMLBonkTick = 8
+    STA Title_ObjMLBonkTick,X  ; Title_ObjMLBonkTick = 8
 
 PRG024_B1EA:
-    LDA <Title_ObjMLBonkTick,X
+    LDA Title_ObjMLBonkTick,X
     BEQ PRG024_B1F4
-    DEC <Title_ObjMLBonkTick,X  ; Decrement bonk ticks
+    DEC Title_ObjMLBonkTick,X  ; Decrement bonk ticks
 
     LDA #$0a            ; Face-forward sprite frame
-    STA <Title_ObjMLSprite,X    ; Make this the next sprite frame to display
+    STA Title_ObjMLSprite,X    ; Make this the next sprite frame to display
 
 PRG024_B1F4:
-    LDA <Title_ObjMLQueue,X
+    LDA Title_ObjMLQueue,X
     AND #$40
     BEQ PRG024_B204         ; If not doing clear carrying/bonk, do kick, jump to PRG024_B204
 
     ; Clear carrying/bonk, do kick
 
     LDA #$00
-    STA <Title_ObjMLHold,X      ; Clear the carrying flag
-    STA <Title_ObjMLBonkTick,X  ; Clear the bonk tick
+    STA Title_ObjMLHold,X      ; Clear the carrying flag
+    STA Title_ObjMLBonkTick,X  ; Clear the bonk tick
 
     LDA #10
-    STA <Title_ObjMLKickTick,X  ; Title_ObjMLKickTick = 10
+    STA Title_ObjMLKickTick,X  ; Title_ObjMLKickTick = 10
 
 PRG024_B204:
     RTS      ; Return
@@ -3457,57 +3457,57 @@ Title_SpriteVROMPwrOff:
 Title_DrawMarioLuigi:
     ; Input object is assumed to be 0 (Mario) or 1 (Luigi)
 
-    LDY <Title_ObjMLSprite,X    ; Get the sprite to display
+    LDY Title_ObjMLSprite,X    ; Get the sprite to display
     LDA Title_SpriteVROMPage,Y  ; Get appropriate VROM page for this sprite index
 
     ; VROM pages 0 - 3 are power-up based and an offset is added depending on the bro's power levels
     CMP #$04
     BGE PRG024_B21E         ; If VROM page >= 4, jump to PRG024_B21E
 
-    STA <Temp_Var1          ; Store VROM Page in Temp_Var1
-    LDY <Title_ObjMLPower,X     ; Power level -> Y
+    STA Temp_Var1          ; Store VROM Page in Temp_Var1
+    LDY Title_ObjMLPower,X     ; Power level -> Y
     LDA Title_SpriteVROMPwrOff,Y    ; Get VROM page offset for this power level
-    ADD <Temp_Var1          ; Add Temp_Var1
+    ADD Temp_Var1          ; Add Temp_Var1
 
 PRG024_B21E:
     STA PatTable_BankSel+2,X    ; Set this VROM page (first quarter of sprite VROM)
 
     LDA #$00
-    STA <Temp_Var12     ; Clear Temp_Var12
+    STA Temp_Var12     ; Clear Temp_Var12
 
-    LDA <Title_ObjMLPower,X
+    LDA Title_ObjMLPower,X
     BNE PRG024_B232         ; If power level > 0 (small), jump to PRG024_B232
 
-    LDA <Title_ObjMLDir,X
+    LDA Title_ObjMLDir,X
     AND #$10
     BEQ PRG024_B232         ; If Title_ObjMLDir does not want to set sprite priority bit, jump to PRG024_B232
 
     ; This will set BG priority over the sprite
     ASL A               ; AND $10 means we're $10 before, and $20 after
-    STA <Temp_Var12     ; Temp_Var12 = $20 (sprite priority bit)
+    STA Temp_Var12     ; Temp_Var12 = $20 (sprite priority bit)
 
 PRG024_B232:
     ; Store Y coordinate -> <Temp_Var15
-    LDA <Title_ObjY,X
-    STA <Temp_Var15
+    LDA Title_ObjY,X
+    STA Temp_Var15
 
     ; Store X coordinate -> <Temp_Var16
-    LDA <Title_ObjX,X
-    STA <Temp_Var16
+    LDA Title_ObjX,X
+    STA Temp_Var16
 
     ; Store flags -> Temp_Var14
-    LDA <Title_ObjMLFlags,X
-    STA <Temp_Var14
+    LDA Title_ObjMLFlags,X
+    STA Temp_Var14
 
     ; Store Title_ObjMLSprVis -> Temp_Var13
-    LDA <Title_ObjMLSprVis,X
-    STA <Temp_Var13
+    LDA Title_ObjMLSprVis,X
+    STA Temp_Var13
 
-    LDY <Title_ObjMLSprite,X    ; Get the sprite index again
+    LDY Title_ObjMLSprite,X    ; Get the sprite index again
     LDA Title_SpritePatternIndex,Y  ; Get the appropriate sprite tile index (CHECKME?)
-    STA <Temp_Var1          ; Store into Temp_Var1
+    STA Temp_Var1          ; Store into Temp_Var1
 
-    LDA <Title_ObjMLSprRAMOff,X     ; Get Mario/Luigi's sprite RAM offset
+    LDA Title_ObjMLSprRAMOff,X     ; Get Mario/Luigi's sprite RAM offset
     PHA             ; Save 'A' (Title_ObjMLSprRAMOff)
 
     TAX             ; X = Title_ObjMLSprRAMOff
@@ -3518,7 +3518,7 @@ PRG024_B24F:
     TYA             ; A = 2 (loop counter, Mario/Luigi are 2-3 sprites across [top vs bottom])
     PHA             ; Save 'A'
 
-    LDY <Temp_Var1          ; Y = sprite tile index
+    LDY Temp_Var1          ; Y = sprite tile index
 
     LDA Title_SpritePattern,Y       ; Get tile for this sprite index
     STA Sprite_RAM+$0D,X        ; Set pattern number of sprite
@@ -3529,10 +3529,10 @@ PRG024_B24F:
     PLA             ; Restore 'A'
     TAY             ; Y = A (amounts to sprite offset of 0 @ 2, 8 @ 1, 16 @ 0)
 
-    LDA <Temp_Var14     ; Get flags value
+    LDA Temp_Var14     ; Get flags value
     AND #%11000000          ; Only caring about the horizontal / vertical flip
-    ORA <Title_CurMLIndex       ; Set appropriate palette by using the index value, which works out
-    ORA <Temp_Var12     ; 0 or $20 (choosing priority)
+    ORA Title_CurMLIndex       ; Set appropriate palette by using the index value, which works out
+    ORA Temp_Var12     ; 0 or $20 (choosing priority)
 
     ; Apply same "byte 2" to both sprites
     STA Sprite_RAM+$02,X
@@ -3540,19 +3540,19 @@ PRG024_B24F:
 
     ; Only set the Y coordinates if this part of the sprite is visible (as determined by Title_MLDetermineSpriteVis)
     ; If the carry is set by the shift, we know NOT to draw this "sliver" of the sprite
-    ASL <Temp_Var13     ; Shift Title_ObjMLSprVis value left (updates Temp_Var13)
+    ASL Temp_Var13     ; Shift Title_ObjMLSprVis value left (updates Temp_Var13)
     BCS PRG024_B27E     ; If bit 7 was set, jump to PRG024_B27E
 
     ; Optionally skipped part...
 
-    LDA <Temp_Var15     ; Get Y coordinate
+    LDA Temp_Var15     ; Get Y coordinate
     STA Sprite_RAM+$0C,X    ; Set Y coordinate of sprite
     ADD #16
     STA Sprite_RAM,X    ; Set Y coordinate of adjacent sprite, 16 pixels beneath the one above
 
 PRG024_B27E:
 
-    LDA <Temp_Var16 ; Get X coordinate
+    LDA Temp_Var16 ; Get X coordinate
     ADD Title_SpriteOffX,Y  ; Add offset of 16, 8, or 0 as appropriate by 'Y'
     STA Sprite_RAM+$03,X    ; Store X coordinate
     STA Sprite_RAM+$0F,X    ; Store X coordinate
@@ -3562,14 +3562,14 @@ PRG024_B27E:
     INX
     INX         ; X += 4
 
-    INC <Temp_Var1      ; Increment the sprite tile index
+    INC Temp_Var1      ; Increment the sprite tile index
     DEY         ; Decrement Y
     BPL PRG024_B24F     ; As long as Y >= 0, loop
 
     PLA         ; Restore 'A' (Title_ObjMLSprRAMOff)
     TAX         ; X = A
 
-    LDA <Temp_Var14 ; Get flags
+    LDA Temp_Var14 ; Get flags
     AND #%01000000
     BEQ PRG024_B2C3     ; If not horizontally flipped, jump to PRG024_B2C3
 
@@ -3614,7 +3614,7 @@ PRG024_B2C3:
     STA Sprite_RAM+$12,X    ; Ditto
 
 PRG024_B2DE:
-    LDY <Title_CurMLIndex   ; Y = Mario [0] or Luigi [1]
+    LDY Title_CurMLIndex   ; Y = Mario [0] or Luigi [1]
     LDA Title_ObjMLSprite,Y ; Get their current sprite index
     CMP #$0d
     BNE PRG024_B307     ; If current sprite is not $0D (kicking outward), jump to PRG024_B307
@@ -3629,7 +3629,7 @@ PRG024_B2DE:
     ; This refers to whether Mario / Luigi is horizontally flipped, but seems wrong?
     ; Should only check if NOT h-flipped?
 
-    LDY <Temp_Var14 ; Y = Flags
+    LDY Temp_Var14 ; Y = Flags
     BEQ PRG024_B2F6     ; If flags = 0 (?? this is unlikely?), jump to PRG024_B2F6
 
     ; Facing right, foot is to the right
@@ -3660,7 +3660,7 @@ PRG024_B309:
     BNE PRG024_B324     ; Jump (technically always) to PRG024_B324
 
 PRG024_B317:
-    LDA <Title_CurMLIndex
+    LDA Title_CurMLIndex
     BEQ PRG024_B324     ; If Mario, jump to PRG024_B324
 
     ; Otherwise, add $40 (Luigi is using second VROM bank)
@@ -3677,7 +3677,7 @@ PRG024_B324:
     BPL PRG024_B309  ; Loop while Y >= 0
 
 
-    LDX <Title_CurMLIndex   ; Leaving with 'X' set to what it entered with!
+    LDX Title_CurMLIndex   ; Leaving with 'X' set to what it entered with!
     RTS      ; Return
 
 
@@ -3703,11 +3703,11 @@ Title_MLSpriteVis_BitVal:
 ; the screen, due to the limit of the 'X' part of the sprite coordinate...
 Title_MLDetermineSpriteVis:
     LDA #$00        ; A = 0
-    STA <Title_ObjMLSprVis,X    ; Clear Title_ObjMLSprVis
+    STA Title_ObjMLSprVis,X    ; Clear Title_ObjMLSprVis
 
     LDY #$02        ; Y = 2 (not H-flipped)
 
-    LDA <Title_ObjMLFlags,X ; Get flags -> 'A'
+    LDA Title_ObjMLFlags,X ; Get flags -> 'A'
     AND #SPR_HFLIP
     BEQ PRG024_B34E     ; If not flipped horizontally, jump to PRG024_B34E
 
@@ -3717,17 +3717,17 @@ Title_MLDetermineSpriteVis:
 PRG024_B34E:
 
     ; 16-bit + 16-bit add here [Title_XPosHi][Title_ObjX] += [XHiOff][XOff]
-    LDA <Title_ObjX,X       ; Get object's X position
+    LDA Title_ObjX,X       ; Get object's X position
     ADD Title_MLSpriteVis_XOff,Y    ; A += Title_MLSpriteVis_XOff[Y]
-    LDA <Title_XPosHi,X     ; Get object's "high" part of the X value
+    LDA Title_XPosHi,X     ; Get object's "high" part of the X value
     ADC Title_MLSpriteVis_XHiOff,Y  ; A += Title_MLSpriteVis_XHiOff[Y], with carry from previous op
 
     BEQ PRG024_B362         ; If the X pos high value added with the Title_MLSpriteVis_XHiOff[Y] value is zero, jump to PRG024_B362
 
     ; Otherwise, set a bit
-    LDA <Title_ObjMLSprVis,X
+    LDA Title_ObjMLSprVis,X
     ORA Title_MLSpriteVis_BitVal,Y
-    STA <Title_ObjMLSprVis,X        ; Title_ObjMLSprVis |= Title_MLSpriteVis_BitVal[Y]
+    STA Title_ObjMLSprVis,X        ; Title_ObjMLSprVis |= Title_MLSpriteVis_BitVal[Y]
 
 PRG024_B362:
     DEY         ; Y--
@@ -3766,28 +3766,28 @@ Title_MarioDoPoof:
 
     ; Get pattern -> Temp_Var2
     LDA Title_Poof_Patterns,Y
-    STA <Temp_Var2
+    STA Temp_Var2
 
-    LDY <Title_ObjMLSprRAMOff   ; Get the offset into Sprite_RAM for Mario
+    LDY Title_ObjMLSprRAMOff   ; Get the offset into Sprite_RAM for Mario
 
     LDA #%11000000
-    STA <Temp_Var1          ; Sprite attributes in Temp_Var1 (H and V flip right now)
+    STA Temp_Var1          ; Sprite attributes in Temp_Var1 (H and V flip right now)
 
 PRG024_B389:
-    LDA <Title_ObjY         ; Get Mario's Y
+    LDA Title_ObjY         ; Get Mario's Y
     ADD #$08            ; +8
     STA Sprite_RAM,Y        ; Store as sprite's Y
 
-    LDA <Temp_Var2
+    LDA Temp_Var2
     STA Sprite_RAM+$01,Y        ; Store poof pattern into sprite
 
-    LDA <Temp_Var1
+    LDA Temp_Var1
     STA Sprite_RAM+$02,Y        ; Store current attributes
 
-    LDA <Title_ObjX
+    LDA Title_ObjX
     STA Sprite_RAM+$03,Y        ; Store sprite X coordinate
 
-    LDA <Temp_Var1
+    LDA Temp_Var1
     AND #$f0
     BEQ PRG024_B3AF         ; If the upper 4 bits of the attribute are zero, jump to PRG024_B3AF
 
@@ -3802,15 +3802,15 @@ PRG024_B3AF:
     INY
     INY     ; Y += 4 (go to next sprite)
 
-    LDA <Temp_Var1
+    LDA Temp_Var1
     SUB #$c0
-    STA <Temp_Var1  ; Temp_Var1 -= $C0
+    STA Temp_Var1  ; Temp_Var1 -= $C0
     BCS PRG024_B389 ; Loop once...
 
     ; Ensure that there's no active velocity being applied!
     LDA #$00
-    STA <Title_ObjYVel
-    STA <Title_ObjXVel
+    STA Title_ObjYVel
+    STA Title_ObjXVel
 
 PRG024_B3C2:
     RTS      ; Return
@@ -3820,7 +3820,7 @@ Title_UpdateOtherObjs:
     LDX #$05        ; X = 5 (for the 6 title screen objects)
 
 PRG024_B3C5:
-    LDA <Title_ObjStates,X
+    LDA Title_ObjStates,X
     BEQ PRG024_B3D6     ; If object state = 0 (inactive), jump to PRG024_B3D6
 
     CMP #$01
@@ -3858,17 +3858,17 @@ Title_UpdateObjState1:
 
     ; Store object's starting X coordinate
     LDA Title_ObjStartX,X
-    STA <Title_ObjX+2,X
+    STA Title_ObjX+2,X
 
     ; All object's start at Y pos = 0
     LDA #$00
-    STA <Title_ObjY+2,X
+    STA Title_ObjY+2,X
 
     ; Clear the object's velocities and state values
     LDA #$00
-    STA <Title_ObjXVel+2,X
-    STA <Title_ObjYVel+2,X
-    INC <Title_ObjStates,X
+    STA Title_ObjXVel+2,X
+    STA Title_ObjYVel+2,X
+    INC Title_ObjStates,X
 
     TXA      ; A = X (object index)
     JSR DynJump  ; Jump dynamically based on object's index
@@ -3888,14 +3888,14 @@ Title_ObjS1_Leaf:
 
     ; Clear velocity (again?) and Title_ObjVar2 (used as swing determination)
     LDA #$00
-    STA <Title_ObjXVel+2,X
+    STA Title_ObjXVel+2,X
     STA Title_ObjVar2,X
 
     LDA #$10
     STA Title_ObjVar,X   ; Title_ObjVar = $10
 
     LDA #$04
-    STA <Title_ObjYVel+2,X  ; Leaf's Y velocity = 4
+    STA Title_ObjYVel+2,X  ; Leaf's Y velocity = 4
 
     RTS      ; Return
 
@@ -3925,9 +3925,9 @@ Title_DoStarman:
 
     ; Otherwise...
     LDA #$20
-    STA <Title_ObjXVel+2,X   ; X velocity set to $20 (initial bounce, bounces away)
+    STA Title_ObjXVel+2,X   ; X velocity set to $20 (initial bounce, bounces away)
     LDA #-80
-    STA <Title_ObjYVel+2,X   ; Y velocity set to -80 (bounce)
+    STA Title_ObjYVel+2,X   ; Y velocity set to -80 (bounce)
 
 PRG024_B43E:
     JSR Title_ObjDraw       ; Draw the starman!
@@ -3939,7 +3939,7 @@ Title_DoMushroom:
 
     ; Otherwise begin moving after hitting ground
     LDA #$f0
-    STA <Title_ObjXVel+2,X
+    STA Title_ObjXVel+2,X
 
 PRG024_B44D:
     JSR Title_ObjDraw       ; Draw the mushroom!
@@ -3955,9 +3955,9 @@ Title_DoLeaf:
 
     JSR Title_ApplyYVelFall ; Apply Y velocities
 
-    INC <Title_ObjYVel+2,X  ; YVel++
+    INC Title_ObjYVel+2,X  ; YVel++
 
-    LDA <Title_ObjYVel+2,X
+    LDA Title_ObjYVel+2,X
     CMP #$00
     BEQ PRG024_B46D     ; If YVel = 0, jump to PRG024_B46D
     JMP PRG024_B49B     ; Otherwise, jump to PRG024_B49B
@@ -3977,9 +3977,9 @@ PRG024_B472:
     TAY         ; Y = A
 
     ; XVel += Title_Leaf_XVelAdj[Y]
-    LDA <Title_ObjXVel+2,X
+    LDA Title_ObjXVel+2,X
     ADD Title_Leaf_XVelAdj,Y
-    STA <Title_ObjXVel+2,X
+    STA Title_ObjXVel+2,X
 
     CMP Title_Leaf_XVelLimit,Y
     BNE PRG024_B488     ; If not equal to Title_Leaf_XVelLimit[Y], jump to PRG024_B488
@@ -3987,7 +3987,7 @@ PRG024_B472:
     INC Title_ObjVar2,X ; Title_ObjVar2++ (just perpetually adds and loops, but only bit 0 is used)
 
 PRG024_B488:
-    LDA <Title_ObjXVel+2,X
+    LDA Title_ObjXVel+2,X
     BPL PRG024_B48D     ; If XVel >= 0, jump to PRG024_B48D
 
     INY         ; Y++ (1 or 2)
@@ -3995,26 +3995,26 @@ PRG024_B488:
 PRG024_B48D:
     LDA Title_Leaf_YVel,Y
     ADD #$06
-    STA <Title_ObjYVel+2,X  ; YVel = Title_Leaf_YVel[Y] + 6
+    STA Title_ObjYVel+2,X  ; YVel = Title_Leaf_YVel[Y] + 6
 
     JSR Title_ObjXVelApply  ; Apply X Velocity
     JSR Title_ApplyYVelFall ; Apply Y Velocity
 
 PRG024_B49B:
     LDA #SPR_HFLIP      ; A = SPR_HFLIP
-    LDY <Title_ObjXVel+2,X  ; Y = XVel
+    LDY Title_ObjXVel+2,X  ; Y = XVel
     BEQ PRG024_B4A7     ; If XVel = 0, jump to PRG024_B4A7
 
     BPL PRG024_B4A5  ; If X velocity > 0, jump to PRG024_B4A5
     LDA #$00     ; A = 0
 
 PRG024_B4A5:
-    STA <Title_ObjFlags,X
+    STA Title_ObjFlags,X
 
 PRG024_B4A7:
     JSR Title_ObjDraw   ; Draw the leaf!
 
-    LDA <Title_ObjY+2,X
+    LDA Title_ObjY+2,X
     AND #$f0    ; Only considering the most significant bits
     CMP #$50
     BNE PRG024_B4BF ; If the Y position is not in the vicinity of $50, jump to PRG024_B4BF
@@ -4023,13 +4023,13 @@ PRG024_B4A7:
     ; and gives it to him; no actual object detection is performed...
 
     LDA #$00
-    STA <Title_ObjStates,X   ; Object state = 0 (clear)
+    STA Title_ObjStates,X   ; Object state = 0 (clear)
 
     LDA #$13
     STA Title_MarioPoof  ; Title_MarioPoof = $13
 
     LDA #$02
-    STA <Title_ObjMLPower    ; Mario is now leaf raccoon!
+    STA Title_ObjMLPower    ; Mario is now leaf raccoon!
 
 PRG024_B4BF:
     RTS      ; Return
@@ -4048,7 +4048,7 @@ Title_DoGoomba:
     JMP Title_ObjDraw       ; Just draw...
 
 PRG024_B4D0:
-    LDA <Title_ObjX+2,X
+    LDA Title_ObjX+2,X
     CMP #$30
     BGE PRG024_B4FC     ; If goomba is still to the right of X = $30, jump to PRG024_B4FC
 
@@ -4069,20 +4069,20 @@ PRG024_B4E0:
 
     ; Title_ObjVar = 1...
     LDA #$00
-    STA <Title_ObjStates,X  ; Set state = 0 (remove)
+    STA Title_ObjStates,X  ; Set state = 0 (remove)
 
 PRG024_B4E8:
 
     ; Basically if goomba has crossed his death point and hasn't
     ; stopped moving yet, it's about to die...
-    LDA <Title_ObjXVel+2,X
+    LDA Title_ObjXVel+2,X
     BEQ PRG024_B4F4     ; If X Velocity = 0, jump to PRG024_B4F4
 
     ; Mario's "stomping" on the goomba
     LDA #$00
-    STA <Title_ObjXVel+2,X  ; GOOMBA'S X velocity = 0
+    STA Title_ObjXVel+2,X  ; GOOMBA'S X velocity = 0
     LDA #-48
-    STA <Title_ObjYVel  ; MARIO's Y velocity = -48
+    STA Title_ObjYVel  ; MARIO's Y velocity = -48
 
 PRG024_B4F4:
     LDA #$01
@@ -4092,15 +4092,15 @@ PRG024_B4F4:
 
 PRG024_B4FC:
     LDA #-8
-    STA <Title_ObjXVel+2,X  ; Goomba X Velocity = -8 (march left)
+    STA Title_ObjXVel+2,X  ; Goomba X Velocity = -8 (march left)
 
 PRG024_B500:
-    LDA <Counter_1
+    LDA Counter_1
     AND #$08        ; Only interested in a tic counter firing every 8th tick
     ASL A
     ASL A
     ASL A           ; Shift the value up 3 (makes $00, $40)
-    STA <Title_ObjFlags,X   ; Set the object flags (Goomba's "walk" is horizontal flipping of his sprite)
+    STA Title_ObjFlags,X   ; Set the object flags (Goomba's "walk" is horizontal flipping of his sprite)
     JMP Title_ObjDraw   ; Draw goomba...
 
 
@@ -4110,8 +4110,8 @@ Title_DoBuzzyBeatle:
     LDA Title_ObjVar2,X
     BNE PRG024_B51D     ; If <> 0, jump to PRG024_B51D
 
-    LDA <Title_ObjX+2,X ; Buzzy beatle
-    SUB <Title_ObjX+7   ; Koopa shell
+    LDA Title_ObjX+2,X ; Buzzy beatle
+    SUB Title_ObjX+7   ; Koopa shell
     CMP #16
     BGE PRG024_B543     ; If the distance between the buzzy beatle and koopa shell is >= 16, jump to PRG024_B543
 
@@ -4120,36 +4120,36 @@ Title_DoBuzzyBeatle:
 PRG024_B51D:
     ; Buzzy beatle shell was hit
 
-    LDA <Title_ObjXVel+2,X
+    LDA Title_ObjXVel+2,X
     BNE PRG024_B52D     ; If X velocity is non-zero, jump to PRG024_B52D
 
     LDA #16
-    STA <Title_ObjXVel+2,X  ; X velocity = 16
+    STA Title_ObjXVel+2,X  ; X velocity = 16
 
     LDA #-64
-    STA <Title_ObjYVel+2,X  ; Y velocity = -64
+    STA Title_ObjYVel+2,X  ; Y velocity = -64
 
     LDA #$80
-    STA <Title_ObjFlags,X   ; Vertically flipped
+    STA Title_ObjFlags,X   ; Vertically flipped
 
 PRG024_B52D:
     ; Buzzy beatle shell is flying away...
 
     ; Y velocity += FALL_OBJECT ("gravity")
-    LDA <Title_ObjYVel+2,X
+    LDA Title_ObjYVel+2,X
     ADD #FALL_OBJECT
-    STA <Title_ObjYVel+2,X
+    STA Title_ObjYVel+2,X
 
     ; X/Y velocities
     JSR Title_ObjXVelApply
     JSR Title_ApplyYVelFall
 
-    LDA <Title_YPosHi+2,X
+    LDA Title_YPosHi+2,X
     BEQ PRG024_B553     ; If "high" part of Y position is zero, jump to PRG024_B553
 
     ; Otherwise, set state = 0 (remove)
     LDA #$00
-    STA <Title_ObjStates,X
+    STA Title_ObjStates,X
     RTS      ; Return
 
 
@@ -4158,20 +4158,20 @@ PRG024_B543:
     BNE PRG024_B553         ; If buzzy beatle shell hasn't hit the floor yet, jump to PRG024_B553
 
     LDA #$20
-    SUB <Title_ObjYVel+2,X
+    SUB Title_ObjYVel+2,X
     BLT PRG024_B551     ; As long as y velocity is less than $20, jump to PRG024_B551
 
     LDA #$00        ; Set Y velocity to zero
 
 PRG024_B551:
-    STA <Title_ObjYVel+2,X  ; Update Y Vel
+    STA Title_ObjYVel+2,X  ; Update Y Vel
 
 PRG024_B553:
     JMP Title_ObjDraw   ; Draw buzzy beatle shell...
 
 
 Title_DoKoopaShell:
-    LDA <Title_ObjStates,X
+    LDA Title_ObjStates,X
     SUB #$02
     JSR DynJump     ; Jump based on state - 2 (because state 0 is "removed", state 1 is init, so we're at least in state 2)
 
@@ -4186,28 +4186,28 @@ KS_BonkMario_HitFloor:
     JSR Title_ObjCommonXYVel
     BNE PRG024_B575     ; If koopa shell hasn't hit the floor yet, jump to PRG024_B575
 
-    INC <Title_ObjStates,X  ; Go to next state
+    INC Title_ObjStates,X  ; Go to next state
 
     LDA #$00
-    STA <Title_ObjXVel+2,X  ; X velocity = 0
+    STA Title_ObjXVel+2,X  ; X velocity = 0
     BEQ PRG024_B589     ; Jump (technically always) to PRG024_B589
 
 PRG024_B575:
-    LDA <Title_ObjY+2,X
+    LDA Title_ObjY+2,X
     CMP #144
     BLT PRG024_B589     ; If koopa shell Y position is less than $90, jump to PRG024_B589
 
     ; Shell Y pos >= 144... (shell bonks Mario on the head)
 
-    LDA <Title_ObjXVel+2,X
+    LDA Title_ObjXVel+2,X
     BNE PRG024_B589     ; If the X velocity is not zero, jump to PRG024_B589
 
     LDA #$e8
-    STA <Title_ObjXVel+2,X  ; XVel = $E8
-    STA <Title_ObjYVel+2,X  ; YVel = $E8
+    STA Title_ObjXVel+2,X  ; XVel = $E8
+    STA Title_ObjYVel+2,X  ; YVel = $E8
 
     LDA #$10
-    STA <Title_ObjMLBonkTick ; Title_ObjMLBonkTick = $10 (Mario got bonked on the head)
+    STA Title_ObjMLBonkTick ; Title_ObjMLBonkTick = $10 (Mario got bonked on the head)
 
 PRG024_B589:
     JMP KS_SpinAnimAndDraw   ; Shell common end code..
@@ -4216,40 +4216,40 @@ PRG024_B589:
 KS_Kick_LuigiCatch:
     JSR Title_ObjCommonXYVel    ; Handle velocity standard
 
-    LDA <Title_ObjMLQueue
+    LDA Title_ObjMLQueue
     AND #$10
     BEQ PRG024_B59D     ; If Title_ObjMLQueue bit 4 was not set (kick shell), jump to PRG024_B59D
 
     LDA #10
-    STA <Title_ObjMLKickTick    ; Title_ObjMLKickTick = 10 (puts his foot out!)
+    STA Title_ObjMLKickTick    ; Title_ObjMLKickTick = 10 (puts his foot out!)
     LDA #$30
-    STA <Title_ObjXVel+2,X      ; X velocity = $30
+    STA Title_ObjXVel+2,X      ; X velocity = $30
 
 PRG024_B59D:
-    LDA <Title_XPosHi+2,X
+    LDA Title_XPosHi+2,X
     BEQ PRG024_B5A5         ; If the "high" part of the X position is zero, jump to PRG024_B5A5
 
     ; Otherwise, X Velocity = 0 (stop shell)
     LDA #$00
-    STA <Title_ObjXVel+2,X
+    STA Title_ObjXVel+2,X
 
 PRG024_B5A5:
-    LDA <Title_ObjMLHold+1
+    LDA Title_ObjMLHold+1
     BEQ PRG024_B5AB         ; If Luigi is not holding the shell, jump to PRG024_B5AB
 
     ; Otherwise...
-    INC <Title_ObjStates,X      ; Next state...
+    INC Title_ObjStates,X      ; Next state...
 
 PRG024_B5AB:
     JMP KS_SpinAnimAndDraw   ; Shell common end code..
 
 
 KS_LuigiKick_MarioCatch:
-    LDA <Title_ObjMLHold+1
+    LDA Title_ObjMLHold+1
     BEQ PRG024_B5BB     ; If Luigi is NOT holding the shell, jump to PRG024_B5BB
 
     LDA #-48
-    STA <Title_ObjXVel+2,X  ; X Velocity = -48
+    STA Title_ObjXVel+2,X  ; X Velocity = -48
     LDY #$01        ; Luigi carries the shell
     JMP KS_ShellCarry   ; Do KS_ShellCarry
 
@@ -4258,30 +4258,30 @@ PRG024_B5BB:
 
     JSR Title_ObjCommonXYVel    ; Handle velocity standard
 
-    LDA <Title_ObjX+2,X
+    LDA Title_ObjX+2,X
     CMP #56
     BGE PRG024_B5D0     ; If the shell's X position is >= 56, jump to PRG024_B5D0
 
-    LDA <Title_ObjXVel+2,X
+    LDA Title_ObjXVel+2,X
     BEQ PRG024_B5D0     ; If the shell's X velocity is zero, jump to PRG024_B5D0
 
     LDA #$00
-    STA <Title_ObjXVel+2,X  ; Shell's X velocity = 0
+    STA Title_ObjXVel+2,X  ; Shell's X velocity = 0
     LDA #-48
-    STA <Title_ObjYVel  ; MARIO's Y velocity = -48
+    STA Title_ObjYVel  ; MARIO's Y velocity = -48
 
 PRG024_B5D0:
-    LDA <Title_ObjMLHold
+    LDA Title_ObjMLHold
     BEQ PRG024_B5D6     ; If Mario is not holding it, jump to PRG024_B5D6
 
-    INC <Title_ObjStates,X  ; Next state..
+    INC Title_ObjStates,X  ; Next state..
 
 PRG024_B5D6:
     JMP KS_SpinAnimAndDraw      ; Shell common end code...
 
 
 KS_MarioCarry_KickWrapAround:
-    LDA <Title_ObjMLHold
+    LDA Title_ObjMLHold
     BEQ PRG024_B5E2     ; If Mario is NOT holding the shell, jump to PRG024_B5E2
 
     LDY #$00        ; Mario carries the shell
@@ -4291,21 +4291,21 @@ PRG024_B5E2:
     JSR Title_ObjCommonXYVel    ; Handle velocity standard
 
     LDA #48
-    STA <Title_ObjXVel+2,X   ; X velocity = 48
+    STA Title_ObjXVel+2,X   ; X velocity = 48
 
-    LDA <Title_XPosHi+2,X
+    LDA Title_XPosHi+2,X
     BEQ PRG024_B5FD     ; If "high" part of X position is zero, jump to PRG024_B5FD
 
     ; Otherwise, shell's X position (including "high") amount to -16 (wrap around the screen!)
     LDA #$ff
-    STA <Title_XPosHi+2,X
+    STA Title_XPosHi+2,X
     LDA #-16
-    STA <Title_ObjX+2,X
+    STA Title_ObjX+2,X
 
     LDA #48
     STA Title_ObjVar,X   ; Title_ObjVar = 48 (just puts in a delay until actually checking if Mario was hit)
 
-    INC <Title_ObjStates,X   ; Next state...
+    INC Title_ObjStates,X   ; Next state...
     RTS         ; Return!
 
 
@@ -4316,24 +4316,24 @@ KS_HitMario:
     LDA Title_ObjVar,X
     BNE PRG024_B627     ; If ObjVar <> 0, jump to PRG024_B627
 
-    LDA <Title_ObjMPowerDown
+    LDA Title_ObjMPowerDown
     BNE PRG024_B621     ; If Mario is powering down, jump to
 
     JSR Title_ObjCommonXYVel    ; Handle velocity standard
 
-    LDA <Title_XPosHi+2,X
+    LDA Title_XPosHi+2,X
     BNE PRG024_B621         ; If shell's X "high" part is non-zero, jump to PRG024_B621
 
-    LDA <Title_ObjMLPower
+    LDA Title_ObjMLPower
     BEQ PRG024_B621         ; If Mario's power level is 0 (small), jump to PRG024_B621
 
-    LDA <Title_ObjX
-    SUB <Title_ObjX+2,X
+    LDA Title_ObjX
+    SUB Title_ObjX+2,X
     CMP #16
     BGE PRG024_B621         ; If the shell greater than 16 pixels away from Mario, jump to PRG024_B621
 
     LDA #44
-    STA <Title_ObjMPowerDown    ; Title_ObjMPowerDown = 44 (power down Mario!)
+    STA Title_ObjMPowerDown    ; Title_ObjMPowerDown = 44 (power down Mario!)
 
 PRG024_B621:
     JSR Title_ObjCommonFinale   ; Do common finale code
@@ -4343,14 +4343,14 @@ PRG024_B627:
     RTS      ; Return
 
 KS_SpinAnimAndDraw:
-    LDA <Title_ObjXVel+2,X
+    LDA Title_ObjXVel+2,X
     BEQ PRG024_B642     ; If shell's X velocity = 0, jump to PRG024_B642
 
-    LDA <Title_ObjMPowerDown
+    LDA Title_ObjMPowerDown
     BNE PRG024_B642     ; If Mario is currently powering down, jump to PRG024_B642
 
     ; Otherwise, shell is moving, do spin!
-    LDA <Counter_1
+    LDA Counter_1
     AND #$06     ; A = Counter_1 & 6
     PHA      ; Save 'A'
 
@@ -4363,7 +4363,7 @@ KS_SpinAnimAndDraw:
     ASL A
     ASL A
     ASL A       ; Becomes 0 or $40 (horizontal flip)
-    STA <Title_ObjFlags,X    ; Store as flag
+    STA Title_ObjFlags,X    ; Store as flag
 
 PRG024_B642:
     JMP Title_ObjDraw    ; Draw objects and don't come back
@@ -4377,14 +4377,14 @@ KS_ShellCarry:
 
     ; Koopa shell's X and XHi coordinate is same as carrier's
     LDA Title_ObjX,Y
-    STA <Title_ObjX+2,X
+    STA Title_ObjX+2,X
     LDA Title_XPosHi,Y
-    STA <Title_XPosHi+2,X
+    STA Title_XPosHi+2,X
 
     ; Koopa shell's Y position = carrier's Y + 13
     LDA Title_ObjY,Y
     ADD #13
-    STA <Title_ObjY+2,X
+    STA Title_ObjY+2,X
 
     LDA Title_ObjMLFlags,Y      ; Get carrier's flags (specifically, we're only checking "zero" or "non-zero", even more specifically, "(not) horizontally flipped")
 
@@ -4402,15 +4402,15 @@ PRG024_B675:
     LDA KS_Carry_Xoff,Y     ; Get KS_Carry_Xoff[Y]
     BPL PRG024_B67D         ; If not negative, jump to PRG024_B67D
 
-    DEC <Title_XPosHi+2,X       ; Otherwise, shell's "high" X position-- (put to the left of Mario)
+    DEC Title_XPosHi+2,X       ; Otherwise, shell's "high" X position-- (put to the left of Mario)
 
 PRG024_B67D:
-    ADD <Title_ObjX+2,X
-    STA <Title_ObjX+2,X     ; Add X offset to shell's X
+    ADD Title_ObjX+2,X
+    STA Title_ObjX+2,X     ; Add X offset to shell's X
     BCC PRG024_B686         ; If it hasn't overflowed, jump to PRG024_B686
 
     ; Otherwise, "high" X position increments
-    INC <Title_XPosHi+2,X
+    INC Title_XPosHi+2,X
 
 PRG024_B686:
     PLA         ; Restore 'A' (bonk ticks)
@@ -4428,20 +4428,20 @@ PRG024_B68C:
 Title_ObjCommonXYVel:
 
     ; Add FALL_OBJECT to this object's Y velocity
-    LDA <Title_ObjYVel+2,X
+    LDA Title_ObjYVel+2,X
     ADD #FALL_OBJECT
-    STA <Title_ObjYVel+2,X
+    STA Title_ObjYVel+2,X
 
     JSR Title_ApplyYVelFall  ; Update and apply Y velocity
     JSR Title_ObjXVelApply   ; Apply X velocity
 
     ; Prevents Y position from falling beneath 176
-    LDA <Title_ObjY+2,X
+    LDA Title_ObjY+2,X
     AND #$f0
     CMP #176
     BNE PRG024_B6A8
 
-    STA <Title_ObjY+2,X
+    STA Title_ObjY+2,X
 
 PRG024_B6A8:
     RTS      ; Return
@@ -4456,7 +4456,7 @@ Title_ObjXLimitHi:  .byte $FF, $00  ; Respective 16-bit sign extensions
 Title_ObjCommonFinale:
 
     LDY #$00        ; Y = 0
-    LDA <Title_XPosHi+2,X   ; A = "high" part of the X position of this object
+    LDA Title_XPosHi+2,X   ; A = "high" part of the X position of this object
     BEQ PRG024_B6C7     ; If its zero, jump to PRG024_B6C7
     BPL PRG024_B6B6     ; If it is > 0 (off the right side), jump to PRG024_B6B6
 
@@ -4465,18 +4465,18 @@ Title_ObjCommonFinale:
 PRG024_B6B6:
     ; There is a "high" part of the X coordinate in use...
 
-    LDA <Title_ObjX+2,X ; Get the X coordinate
+    LDA Title_ObjX+2,X ; Get the X coordinate
     ADD Title_ObjXLimit,Y   ; Add an appropriate extreme value
 
     ; 16-bit propogation
-    LDA <Title_XPosHi+2,X
+    LDA Title_XPosHi+2,X
     ADC Title_ObjXLimitHi,Y
 
     BEQ PRG024_B6C7     ; If there hasn't been an overflow, jump to PRG024_B6C7
 
     ; Otherwise, set this object's state to zero (removing it)
     LDA #$00
-    STA <Title_ObjStates,X
+    STA Title_ObjStates,X
 
 PRG024_B6C7:
     RTS      ; Return
@@ -4512,7 +4512,7 @@ PRG024_B6F1:
     PHA             ; Save this value
 
     LDA Title_ObjPal,X
-    STA <Temp_Var3      ; Temp_Var3 = this object's palette index
+    STA Temp_Var3      ; Temp_Var3 = this object's palette index
 
     LDA Title_ObjFrame,X
     ASL A
@@ -4521,51 +4521,51 @@ PRG024_B6F1:
 
     ; Temp_Var1 and Temp_Var2 hold the first and second pattern value for this object
     LDA Title_ObjPatterns,Y
-    STA <Temp_Var1
+    STA Temp_Var1
     LDA Title_ObjPatterns+1,Y
-    STA <Temp_Var2
+    STA Temp_Var2
 
     PLA         ; Restore 'A' (Sprite_RAM offset)
     TAY         ; Y = A
 
     ; Set the Y position of the object to its first/second sprites
-    LDA <Title_ObjY+2,X
+    LDA Title_ObjY+2,X
     STA Sprite_RAM,Y
     STA Sprite_RAM+$04,Y
 
     ; Set the X position of object to its first/second sprites (8 pixels apart)
-    LDA <Title_ObjX+2,X
+    LDA Title_ObjX+2,X
     STA Sprite_RAM+$03,Y
     ADD #$08
     STA Sprite_RAM+$07,Y
 
     ; Store the attributes for both sprites
-    LDA <Temp_Var3       ; Get the selected palette value
-    ORA <Title_ObjFlags,X    ; Apply the other flags
+    LDA Temp_Var3       ; Get the selected palette value
+    ORA Title_ObjFlags,X    ; Apply the other flags
     STA Sprite_RAM+$02,Y
     STA Sprite_RAM+$06,Y
 
-    LDA <Temp_Var1      ; Get first pattern value of this object
+    LDA Temp_Var1      ; Get first pattern value of this object
     PHA         ; Save 'A'
     STA Sprite_RAM+$01,Y    ; Store pattern for first sprite
 
-    LDA <Temp_Var2      ; Get second pattern value of this object
+    LDA Temp_Var2      ; Get second pattern value of this object
     STA Sprite_RAM+$05,Y    ; Store pattern for second sprite
 
-    LDA <Title_ObjFlags,X
+    LDA Title_ObjFlags,X
     BEQ PRG024_B742     ; If this object's flags value = 0, jump to PRG024_B742
 
     ; Otherwise, reverse the patterns
     ; NOTE: This is making the assumption that the only value stored in ObjFlags
     ; is one to horizontally flip the sprite!!
-    LDA <Temp_Var2
+    LDA Temp_Var2
     STA Sprite_RAM+$01,Y
-    LDA <Temp_Var1
+    LDA Temp_Var1
     STA Sprite_RAM+$05,Y
 
 PRG024_B742:
     PLA         ; Restore 'A' (first pattern)
-    CMP <Temp_Var2
+    CMP Temp_Var2
     BNE PRG024_B754     ; If it's not the same as the second pattern, jump to PRG024_B754
 
     ; Otherwise, flip the sprites
@@ -4579,7 +4579,7 @@ PRG024_B742:
 PRG024_B754:
     ; NOTE: The 1P/2P menu koopas hijack code here to take advantage of disabling their sprites!
 
-    LDA <Title_XPosHi+2,X
+    LDA Title_XPosHi+2,X
     BEQ PRG024_B75D     ; If the "high" part of the X coordinate is zero, jump to PRG024_B75D
 
     ; Otherwise, disable the first sprite sprite by setting its Y value out of range
@@ -4590,10 +4590,10 @@ PRG024_B75D:
 
     ; Take the object's X coordinate, add 8, and if there's been a carry OR the "high" part
     ; of the X coordinate is otherwise non-zero, disable the second half of the sprite
-    LDA <Title_ObjX+2,X
+    LDA Title_ObjX+2,X
     ADD #$08
     LDA #$00
-    ADC <Title_XPosHi+2,X
+    ADC Title_XPosHi+2,X
     BEQ PRG024_B76D
 
     ; Disable the second sprite
@@ -4618,7 +4618,7 @@ Title_ObjXVelApply:
 Title_ApplyYVelFall:
     ; X is 0-5, an index to one of the "minor" objects
 
-    LDA <Title_ObjYVel+2,X
+    LDA Title_ObjYVel+2,X
     BMI PRG024_B782     ; If object's Y velocity < 0, jump to PRG024_B782
 
     CMP #FALLRATE_OBJECTMAX
@@ -4626,7 +4626,7 @@ Title_ApplyYVelFall:
 
     ; Prevent objects from falling faster than FALLRATE_OBJECTMAX
     LDA #$60
-    STA <Title_ObjYVel+2,X
+    STA Title_ObjYVel+2,X
 
 PRG024_B782:
     INX
@@ -4646,7 +4646,7 @@ Title_Menu_UpdateKoopas:
     LDX #$03
 
 PRG024_B793:
-    LDA <Title_ObjStates,X
+    LDA Title_ObjStates,X
     BEQ PRG024_B7A4     ; If this object's state = 0, jump to PRG024_B7A4
 
     CMP #$01
@@ -4672,13 +4672,13 @@ PRG024_B7A4:
 ; Initializes the data for one of the 1P/2P koopas
 ; that march along (with the one fast straggler)
 Title_Menu_InitKoopa:
-    INC <Title_ObjStates,X   ; Increment this object's state
+    INC Title_ObjStates,X   ; Increment this object's state
 
     ; Set this object's XHi / X position to -16
     LDA #$ff
-    STA <Title_XPosHi+2,X
+    STA Title_XPosHi+2,X
     LDA #-16
-    STA <Title_ObjX+2,X
+    STA Title_ObjX+2,X
 
     LDA #8          ; Most of the menu koopas run at X Velocity 8
     CPX #$03
@@ -4687,7 +4687,7 @@ Title_Menu_InitKoopa:
     LDA #18         ; The straggler koopa runs at X velocity 18
 
 PRG024_B7BA:
-    STA <Title_ObjXVel+2,X  ; Set this koopa's velocity
+    STA Title_ObjXVel+2,X  ; Set this koopa's velocity
     RTS         ; Return
 
 
@@ -4724,7 +4724,7 @@ Title_Menu_UpdateKoopa:
     JSR Title_ObjXVelApply      ; Koopas only need X velocity!
     JSR Title_ObjCommonFinale   ; Do common finale code
 
-    LDA <Title_XPosHi+2,X
+    LDA Title_XPosHi+2,X
     BNE PRG024_B7F1     ; If the "high" part of the koopa's X position is zero, jump to PRG024_B7F1
 
     ; This signals the next menu koopa to come marching in when the current leader
@@ -4732,21 +4732,21 @@ Title_Menu_UpdateKoopa:
     LDA Title_Menu_Koopa_SignalX,X
     BEQ PRG024_B7F1     ; If Title_Menu_Koopa_SignalX[X] = 0, jump to PRG024_B7F1 (do nothing)
 
-    CMP <Title_ObjX+2,X
+    CMP Title_ObjX+2,X
     BGE PRG024_B7F1     ; If Title_Menu_Koopa_SignalX[X] >= the koopa's X position, jump to PRG024_B7F1
 
     INX         ; Next koopa
 
-    LDA <Title_ObjStates,X
+    LDA Title_ObjStates,X
     BNE PRG024_B7F0     ; If this koopa's state <> 0, jump to PRG024_B7F0 (only signal once!)
 
-    INC <Title_ObjStates,X  ; Move next koopa to next state
+    INC Title_ObjStates,X  ; Move next koopa to next state
 
 PRG024_B7F0:
     DEX         ; Back to this koopa
 
 PRG024_B7F1:
-    LDA <Counter_1
+    LDA Counter_1
     LSR A
     LSR A        ; A = Counter_1 >> 2
 
@@ -4763,13 +4763,13 @@ PRG024_B7FA:
 PRG024_B800:
     STA Title_ObjFrame,X     ; Set frame as 0 or 3
 
-    STX <Temp_Var3       ; Store koopa index into Temp_Var3
+    STX Temp_Var3       ; Store koopa index into Temp_Var3
 
-    LDA <Title_ObjX+2,X
-    STA <Temp_Var1       ; Store koopa X pos into Temp_Var1
+    LDA Title_ObjX+2,X
+    STA Temp_Var1       ; Store koopa X pos into Temp_Var1
 
     LDA Title_ObjFrame,X
-    STA <Temp_Var2       ; Store koopa frame into Temp_Var2
+    STA Temp_Var2       ; Store koopa frame into Temp_Var2
 
     LDY Title_Menu_Koopa_SpriteRAMOff,X  ; Get Sprite_RAM offset for this koopa -> 'Y'
 
@@ -4784,7 +4784,7 @@ PRG024_B813:
     TXA         ; A = X (sprite to build loop counter)
     PHA         ; Save 'A'
 
-    ADD <Temp_Var2      ; Add the frame (0 or 3) to 'A'
+    ADD Temp_Var2      ; Add the frame (0 or 3) to 'A'
     TAX         ; X = A
 
     ; Setup the patterns
@@ -4793,7 +4793,7 @@ PRG024_B813:
     LDA Title_Menu_Koopa_Patterns2,X    ; Get second pattern for this koopa
     STA Sprite_RAM+$05,Y            ; Store pattern value
 
-    LDX <Temp_Var3      ; X = koopa index
+    LDX Temp_Var3      ; X = koopa index
     JSR PRG024_B754     ; Disable first and/or second sprite if off-screen
 
     PLA         ; Restore 'A' (sprite to build loop counter)
@@ -4805,7 +4805,7 @@ PRG024_B813:
     LDA Title_Menu_Koopa_Attr+3,X
     STA Sprite_RAM+$06,Y
 
-    LDA <Temp_Var1
+    LDA Temp_Var1
     STA Sprite_RAM+$03,Y    ; Store X position for first sprite of the koopa
 
     ADD #$08        ; Sprite X += 8
@@ -4818,7 +4818,7 @@ PRG024_B813:
     DEX         ; X--
     BPL PRG024_B813     ; If X >= 0, loop!
 
-    LDX <Temp_Var3      ; Restore koopa index to 'X'
+    LDX Temp_Var3      ; Restore koopa index to 'X'
     RTS         ; Return..!
 
 
@@ -4848,18 +4848,18 @@ Rescue_Princess:
     LDX #$f5     ; X = $F5
 PRG024_B876:
     LDA #$00
-    STA <Temp_Var1,X
+    STA Temp_Var1,X
 
     DEX      ; X--
     BNE PRG024_B876  ; While X <> 0, loop!
 
     ; Scroll at lowest point
     LDA #$ef
-    STA <Vert_Scroll
+    STA Vert_Scroll
 
     LDA #%00101000      ; use 8x16 sprites, sprites use PT2 (NOTE: No VBlank trigger!)
     STA PPU_CTL1
-    STA <PPU_CTL1_Copy  ; Keep PPU_CTL1_Copy in sync!
+    STA PPU_CTL1_Copy  ; Keep PPU_CTL1_Copy in sync!
 
     ; Entry $55 of Video_Upd_Table2
     LDA #$55
@@ -4868,22 +4868,22 @@ PRG024_B876:
 
     ; Load base address of graphics
     LDA Video_Upd_Table2,Y
-    STA <Video_Upd_AddrL
+    STA Video_Upd_AddrL
     LDA Video_Upd_Table2+1,Y
-    STA <Video_Upd_AddrH
+    STA Video_Upd_AddrH
 
     JSR Video_Misc_Updates2 ; Load those graphics!
 
     LDA #%10101000  ; In addition to anything else specified by PPU_CTL1_Mod, Generate VBlank Resets, use 8x16 sprites, sprites use PT2
     STA PPU_CTL1    ; Set above settings
-    STA <PPU_CTL1_Copy  ; Keep PPU_CTL1_Copy in sync!
+    STA PPU_CTL1_Copy  ; Keep PPU_CTL1_Copy in sync!
 
 PRG024_B8A0:
     JSR GraphicsBuf_Prep_And_WaitVSyn2   ; VSync
 
     JSR Ending_ChamberScene  ; Do the Princess Chamber scene, up through the Fade Out
 
-    LDA <Ending_State
+    LDA Ending_State
     CMP #$07
     BNE PRG024_B8A0  ; If Princess Chamber scene is still going on, loop!
 
@@ -4894,17 +4894,17 @@ Ending_ChamberScene:
     JSR PRG024_SpriteClear  ; Clear sprites
 
     LDA #$10
-    STA <Title_ObjMLSprRAMOff   ; Mario's sprite RAM starts at Sprite_RAM + $10
+    STA Title_ObjMLSprRAMOff   ; Mario's sprite RAM starts at Sprite_RAM + $10
 
     LDA #$28
-    STA <Title_ObjMLSprRAMOff+1 ; Princess's sprite RAM starts at Sprite_RAM + $28
+    STA Title_ObjMLSprRAMOff+1 ; Princess's sprite RAM starts at Sprite_RAM + $28
 
     LDX #$02     ; X = 2
 PRG024_B8BC:
-    LDA <Ending_Timer,X
+    LDA Ending_Timer,X
     BEQ PRG024_B8C2     ; If this ending timer = 0, jump to PRG024_B8C2
 
-    DEC <Ending_Timer,X ; Otherwise, decrement it
+    DEC Ending_Timer,X ; Otherwise, decrement it
 
 PRG024_B8C2:
     DEX      ; X--
@@ -4914,7 +4914,7 @@ PRG024_B8C2:
 
     ; Title_CurMLIndex = 0
     LDX #$00
-    STX <Title_CurMLIndex
+    STX Title_CurMLIndex
 
     JSR Title_DrawMarioLuigi     ; Draws Mario officially, but may be modified after this to Luigi
 
@@ -4939,21 +4939,21 @@ PRG024_B8D6:
     DEY
     DEY
 
-    CMP <Title_ObjMLSprRAMOff ; I think this is a mistake!  Will compare to the attribute value!
+    CMP Title_ObjMLSprRAMOff ; I think this is a mistake!  Will compare to the attribute value!
     BPL PRG024_B8D6  ; While ??, loop
 
 PRG024_B8E6:
 
     ; Title_CurMLIndex = 1
     INX      ; X = 1
-    STX <Title_CurMLIndex
+    STX Title_CurMLIndex
 
     JSR Title_DrawMarioLuigi     ; Actually draws the Princess
 
     RTS      ; Return
 
 Ending_DoChamberScene:
-    LDA <Ending_State
+    LDA Ending_State
     JSR DynJump
 
     ; THESE MUST FOLLOW DynJump FOR THE DYNAMIC JUMP TO WORK!!
@@ -4968,65 +4968,65 @@ Ending_DoChamberScene:
 Ending_Init:
     ; Set Mario's X
     LDA #32
-    STA <Title_ObjX
+    STA Title_ObjX
 
     ; Set Princess's X
     LDA #200
-    STA <Title_ObjX+1
+    STA Title_ObjX+1
 
     ; Set both Y = 160
     LDA #160
-    STA <Title_ObjY
-    STA <Title_ObjY+1
+    STA Title_ObjY
+    STA Title_ObjY+1
 
     ; Mario standing
     LDA #$18
-    STA <Title_ObjMLSprite
+    STA Title_ObjMLSprite
 
     ; Princess sobbing
     LDA #$19
-    STA <Title_ObjMLSprite+1
+    STA Title_ObjMLSprite+1
 
     ; Mario turned to face, Princess turned away
     LDA #SPR_HFLIP
-    STA <Title_ObjMLFlags
-    STA <Title_ObjMLFlags+1
+    STA Title_ObjMLFlags
+    STA Title_ObjMLFlags+1
 
     ; Super Mario
     LDA #$01
-    STA <Title_ObjMLPower
+    STA Title_ObjMLPower
 
     ; Set first ending timer to $0F
     LDA #$0f
-    STA <Ending_Timer
+    STA Ending_Timer
 
-    INC <Ending_State   ; Ending_State = 1
+    INC Ending_State   ; Ending_State = 1
 
     ; Initialize the princess speech dialog box
 
     ; EndText_CPos = 0
     LDA #$00
-    STA <EndText_CPos
+    STA EndText_CPos
 
     ; EndText_VH = $29
     LDA #$29
-    STA <EndText_VH
+    STA EndText_VH
 
     ; EndText_VL = $48
     LDA #$48
-    STA <EndText_VL
+    STA EndText_VL
 
     RTS      ; Return
 
 Ending_FadeIn:
-    LDA <Ending_Timer
+    LDA Ending_Timer
     BNE PRG024_B93D  ; If the first ending timer has not expired, jump to PRG024_B93D
 
-    INC <Ending_State    ; Ending_State = 2
+    INC Ending_State    ; Ending_State = 2
 
     ; Set first ending timer to $30
     LDY #$30
-    STY <Ending_Timer
+    STY Ending_Timer
 
 PRG024_B93D:
 
@@ -5041,32 +5041,32 @@ PRG024_B93D:
     RTS      ; Return
 
 Ending_MarioAppears:
-    LDA <Ending_Timer
+    LDA Ending_Timer
     CMP #$01
     BNE PRG024_B959  ; If ending timer does not have one tick left, jump to PRG024_B959
 
     ; Mario standing there
     LDA #$02
-    STA <Title_ObjMLSprite
+    STA Title_ObjMLSprite
 
     ; Set ending timer 2 = $80
     LDA #$80
-    STA <Ending_Timer+1
+    STA Ending_Timer+1
 
     ; Play finale music
     LDA #MUS2A_ENDING
     STA Sound_QMusic2
 
 PRG024_B959:
-    LDA <Ending_Timer+1
+    LDA Ending_Timer+1
     CMP #$01
     BNE PRG024_B965  ; If second ending timer does not have one tick left, jump to PRG024_B965
 
     ; Set first ending timer = $13
     LDA #$13
-    STA <Ending_Timer
+    STA Ending_Timer
 
-    INC <Ending_State ; Ending_State = 3
+    INC Ending_State ; Ending_State = 3
 
 PRG024_B965:
     RTS      ; Return
@@ -5080,12 +5080,12 @@ Ending_LightsOnPalSet:
     .byte $0F, $0C, $1C, $3B
 
 Ending_LightsOn:
-    LDA <Ending_Timer
+    LDA Ending_Timer
     BEQ PRG024_B9BB  ; If ending timer has expired, jump to PRG024_B9BB
 
     ; Second ending timer = $30
     LDY #$30
-    STY <Ending_Timer+1
+    STY Ending_Timer+1
 
     AND #%00001100
     TAY      ; Y = 0, 4, 8, 12 (Ending_LightsOnPalSet level offset)
@@ -5120,25 +5120,25 @@ Ending_LightsOn:
     STA Graphics_Buffer+6,X
 
 PRG024_B9BB:
-    LDA <Ending_Timer+1
+    LDA Ending_Timer+1
     BNE PRG024_B9C9  ; If second ending timer has not expired, jump to PRG024_B9C9 (RTS)
 
-    INC <Ending_State    ; Ending_State = 4
+    INC Ending_State    ; Ending_State = 4
 
     ; First ending timer = $80
     LDA #$80
-    STA <Ending_Timer
+    STA Ending_Timer
 
     ; Princess stands up
     LDA #$1a
-    STA <Title_ObjMLSprite+1
+    STA Title_ObjMLSprite+1
 
 PRG024_B9C9:
     RTS      ; Return
 
 
 Ending_WalkToCenter:
-    LDA <Ending_Timer
+    LDA Ending_Timer
     BEQ PRG024_B9D7  ; If first ending timer has not expired, jump to PRG024_B9D7
 
     CMP #$60
@@ -5146,29 +5146,29 @@ Ending_WalkToCenter:
 
     ; Princess turns around
     LDA #$00
-    STA <Title_ObjMLFlags+1
+    STA Title_ObjMLFlags+1
 
 PRG024_B9D6:
     RTS      ; Return
 
 PRG024_B9D7:
-    LDA <Title_ObjX
+    LDA Title_ObjX
     CMP #104
     BLT PRG024_B9EC  ; If Mario's X < 104, jump to PRG024_B9EC
 
     ; Mario stands
     LDA #$02
-    STA <Title_ObjMLSprite
+    STA Title_ObjMLSprite
 
     ; Princess stands
     LDA #$1a
-    STA <Title_ObjMLSprite+1
+    STA Title_ObjMLSprite+1
 
-    INC <Ending_State   ; Ending_State = 5
+    INC Ending_State   ; Ending_State = 5
 
     ; First Ending Timer = $B0
     LDA #$b0
-    STA <Ending_Timer
+    STA Ending_Timer
 
     RTS      ; Return
 
@@ -5176,15 +5176,15 @@ PRG024_B9EC:
 
     ; Second ending timer = $50
     LDA #$50
-    STA <Ending_Timer+1
+    STA Ending_Timer+1
 
     ; Mario steps to the right
-    INC <Title_ObjX
+    INC Title_ObjX
 
     ; Princess steps to the left
-    DEC <Title_ObjX+1
+    DEC Title_ObjX+1
 
-    LDA <Counter_1
+    LDA Counter_1
     AND #%00001100
     LSR A
     LSR A
@@ -5192,17 +5192,17 @@ PRG024_B9EC:
 
     ; Set Mario's walk frame
     LDA Title_ObjMLWalkSprite+4,Y
-    STA <Title_ObjMLSprite
+    STA Title_ObjMLSprite
 
     ; Set Princess's walk frame
     LDA Title_ObjMLWalkSprite+12,Y
-    STA <Title_ObjMLSprite+1
+    STA Title_ObjMLSprite+1
 
     RTS      ; Return
 
 
 Ending_PrincessSpeech:
-    LDA <Ending_Timer
+    LDA Ending_Timer
     BNE PRG024_BA0D  ; If timer not expired, jump to PRG024_BA0D (RTS)
 
     JMP PRG024_BA2B  ; Otherwise, jump to PRG024_BA2B
@@ -5212,13 +5212,13 @@ PRG024_BA0D:
 
 
 Ending_FadeOut:
-    LDA <Ending_Timer
+    LDA Ending_Timer
     BNE PRG024_BA19  ; If first ending timer has not expired, jump to PRG024_BA19
 
-    LDA <Ending_Timer+1
+    LDA Ending_Timer+1
     BNE PRG024_BA18  ; If second ending timer has not expired, jump to PRG024_BA18 (RTS)
 
-    INC <Ending_State ; Ending_State = 7
+    INC Ending_State ; Ending_State = 7
 
 PRG024_BA18:
     RTS      ; Return
@@ -5228,11 +5228,11 @@ PRG024_BA19:
     ; Ending timer was init'ed to $F (15) so ...
     LSR A
     LSR A       ; Ending timer / 4
-    STA <Temp_Var1   ; Temp_Var1 = 0 to 3
+    STA Temp_Var1   ; Temp_Var1 = 0 to 3
 
     ; Execute $5A, $59, $58, $57 (fade out)
     LDA #$5a
-    SUB <Temp_Var1
+    SUB Temp_Var1
     STA Graphics_Queue
 
     ; Second ending timer = $10
@@ -5242,7 +5242,7 @@ PRG024_BA19:
     RTS      ; Return
 
 PRG024_BA2B:
-    LDA <EndText_State
+    LDA EndText_State
     JSR DynJump
 
     ; THESE MUST FOLLOW DynJump FOR THE DYNAMIC JUMP TO WORK!!
@@ -5266,21 +5266,21 @@ EndText_DrawDiagBox:
     LDX Graphics_BufCnt  ; X = buffer count
 
     ; Set current VRAM address
-    LDA <EndText_VH
+    LDA EndText_VH
     STA Graphics_Buffer,X
-    LDA <EndText_VL
+    LDA EndText_VL
     STA Graphics_Buffer+1,X
 
     ADD #$20    ; 32 bytes to next row
-    STA <EndText_VL
+    STA EndText_VL
     BCC PRG024_BA87
-    INC <EndText_VH  ; Apply carry
+    INC EndText_VH  ; Apply carry
 PRG024_BA87:
     LDA #(PDiagBox_R2 - PDiagBox_R1)    ; run count per row
     STA Graphics_Buffer+2,X
-    STA <Temp_Var1       ; -> Temp_Var1
+    STA Temp_Var1       ; -> Temp_Var1
 
-    LDY <EndText_CPos    ; Y = current dialog box row
+    LDY EndText_CPos    ; Y = current dialog box row
     LDA PDiagBox_RowOffs,Y
     TAY         ; Y = offset to this row index
 
@@ -5292,7 +5292,7 @@ PRG024_BA94:
     INY      ; Y++ (next pattern for dialog box)
     INX      ; X++ (next index in graphics buffer)
 
-    DEC <Temp_Var1   ; Temp_Var1--
+    DEC Temp_Var1   ; Temp_Var1--
     BNE PRG024_BA94  ; While Temp_Var1 > 0, loop!
 
     ; Insert terminator
@@ -5305,9 +5305,9 @@ PRG024_BA94:
     INX
     STX Graphics_BufCnt
 
-    INC <EndText_CPos    ; Next row
+    INC EndText_CPos    ; Next row
 
-    LDA <EndText_CPos
+    LDA EndText_CPos
     CMP #(PDiagBox_RowOffs_End - PDiagBox_RowOffs)
     BLT PRG024_BAC8  ; If rows to go, jump to PRG024_BAC8 (RTS)
 
@@ -5315,21 +5315,21 @@ PRG024_BA94:
 
     ; This basically just amounts to a zero; kind of strange?
     LDA PRG024_BB23,Y
-    STA <EndText_CPos
+    STA EndText_CPos
 
     ; EndText_VH = $92
     LDA #$29
-    STA <EndText_VH
+    STA EndText_VH
 
     ; EndText_VL = $69
     LDA #$69
-    STA <EndText_VL
+    STA EndText_VL
 
     ; EndText_Timer = $10
     LDA #$10
-    STA <EndText_Timer
+    STA EndText_Timer
 
-    INC <EndText_State   ; EndText_State = 1
+    INC EndText_State   ; EndText_State = 1
 
 PRG024_BAC8:
     RTS      ; Return
@@ -5360,15 +5360,15 @@ PRG024_BB23:
     .byte $00
 
 EndText_DoPrincessText:
-    LDA <EndText_Timer
+    LDA EndText_Timer
     BNE PRG024_BB70  ; If the timer is not expired, jump to PRG024_BB70 (RTS)
 
     LDX Graphics_BufCnt  ; X = current graphics buffer count
 
-    LDY <EndText_CPos    ; Y = dialog message character position
+    LDY EndText_CPos    ; Y = dialog message character position
 
     ; Insert one character into graphics buffer
-    LDA <EndText_VH
+    LDA EndText_VH
     STA Graphics_Buffer,X   ; address high
     LDA #$01
     STA Graphics_Buffer+2,X ; run length
@@ -5383,11 +5383,11 @@ EndText_DoPrincessText:
     STA Graphics_BufCnt
 
     ; VRAM low address
-    LDA <EndText_VL
+    LDA EndText_VL
     STA Graphics_Buffer+1,X
 
-    INC <EndText_CPos   ; Next character in message
-    INC <EndText_VL     ; Next VRAM byte
+    INC EndText_CPos   ; Next character in message
+    INC EndText_VL     ; Next VRAM byte
 
     AND #$1f        ; Get current column
     CMP #$17
@@ -5395,41 +5395,41 @@ EndText_DoPrincessText:
 
     ; Line break!
 
-    LDA <EndText_VL
+    LDA EndText_VL
     ADC #$10        ; Add enough bytes to get to next row
-    STA <EndText_VL
+    STA EndText_VL
     BCC PRG024_BB62
-    INC <EndText_VH     ; Apply carry
+    INC EndText_VH     ; Apply carry
 PRG024_BB62:
 
     CMP #$29
     BNE PRG024_BB6C  ; If we haven't reached the last character, jump to PRG024_BB6C
 
-    INC <EndText_State   ; EndText_State = 2
+    INC EndText_State   ; EndText_State = 2
 
     ; Second ending timer = $4A
     LDA #$4a
-    STA <Ending_Timer+1
+    STA Ending_Timer+1
 
 PRG024_BB6C:
 
     ; First ending timer = $0B
     LDA #$0b
-    STA <Ending_Timer
+    STA Ending_Timer
 
 PRG024_BB70:
     RTS      ; Return
 
 
 EndText_Wait:
-    LDA <Ending_Timer+1
+    LDA Ending_Timer+1
     BNE PRG024_BB7B  ; If second ending timer has not expired, jump to PRG024_BB7B (RTS)
 
     ; First ending timer = $0F
     LDA #$0f
-    STA <Ending_Timer
+    STA Ending_Timer
 
-    INC <Ending_State    ; Ending_State = 6
+    INC Ending_State    ; Ending_State = 6
 
 PRG024_BB7B:
     RTS      ; Return
@@ -5465,7 +5465,7 @@ Ending_Credits:
     LDX #$f4     ; X = $F4
 PRG024_BB9D:
     LDA #$00
-    STA <Temp_Var1,X
+    STA Temp_Var1,X
 
 PRG024_BBA1:
     DEX      ; X--
@@ -5498,18 +5498,18 @@ PRG024_BBB0:
     ASL A
     TAY
     LDA Video_Upd_Table2,Y
-    STA <Video_Upd_AddrL
+    STA Video_Upd_AddrL
     LDA Video_Upd_Table2+1,Y
-    STA <Video_Upd_AddrH
+    STA Video_Upd_AddrH
     JSR Video_Misc_Updates2
 
     ; Set scroll at lowest point (technically, curtain fully raised)
     LDA #$ef
-    STA <Vert_Scroll
+    STA Vert_Scroll
 
     ; Clip sprites/BG, show sprites/BG, and enable intensity
     LDA #%00011110
-    STA <PPU_CTL2_Copy
+    STA PPU_CTL2_Copy
 
     ; Resume Update_Select activity
     LDA #$00
@@ -5526,72 +5526,72 @@ PRG024_BBB0:
 
     ; Title_EventGrafX = $5C
     LDA #$5c
-    STA <Title_EventGrafX
+    STA Title_EventGrafX
 
     ; Title_Ticker = 5
     LDA #$05
-    STA <Title_Ticker
+    STA Title_Ticker
 PRG024_BBE9:
     JSR GraphicsBuf_Prep_And_WaitVSyn2  ; Push out graphics or just VSync
 
-    DEC <Title_Ticker
+    DEC Title_Ticker
     BPL PRG024_BBE9 ; If Title_Ticker >= 0, loop!
 
     ; Title_Ticker = 3
     LDA #$03
-    STA <Title_Ticker
+    STA Title_Ticker
 
     ; Queue next event
-    LDA <Title_EventGrafX
+    LDA Title_EventGrafX
     STA Graphics_Queue
 
-    INC <Title_EventGrafX    ; Title_EventGrafX++
+    INC Title_EventGrafX    ; Title_EventGrafX++
 
-    LDA <Title_EventGrafX
+    LDA Title_EventGrafX
     CMP #$5f
     BNE PRG024_BBE9  ; While Title_EventGrafX <> $5F, loop!
 
     ; Ending2_TimerH = $F
     LDA #$0f
-    STA <Ending2_TimerH
+    STA Ending2_TimerH
 
     ; Ending2_TimerL = $16
     LDA #$16
-    STA <Ending2_TimerL
+    STA Ending2_TimerL
 
     ; Commit the dynamic graphics buffer
     LDA #$00
-    STA <Title_EventGrafX
+    STA Title_EventGrafX
 
 PRG024_BC0D:
     JSR GraphicsBuf_Prep_And_WaitVSyn2
 
-    LDA <Title_EventGrafX
+    LDA Title_EventGrafX
     BNE PRG024_BC21  ; If Title_EventGrafX <> 0 (curtain at the bottom), jump to PRG024_BC21
 
     ; Lowering curtain
-    LDA <Vert_Scroll
+    LDA Vert_Scroll
     SUB #$01
-    STA <Vert_Scroll
+    STA Vert_Scroll
 
     CMP #$3f
     BNE PRG024_BC21  ; If Vert_Scroll <> $3F (curtain all the way down), jump to PRG024_BC21
 
-    INC <Title_EventGrafX        ; Title_EventGrafX = 1 (flags curtain at the bottom)
+    INC Title_EventGrafX        ; Title_EventGrafX = 1 (flags curtain at the bottom)
 
 PRG024_BC21:
 
     ; Ending2_TimerL--
-    LDA <Ending2_TimerL
+    LDA Ending2_TimerL
     SUB #$01
-    STA <Ending2_TimerL
+    STA Ending2_TimerL
     BCS PRG024_BC0D  ; If Ending2_TimerL didn't underflow, loop
 
     ; Ending2_TimerL = $16
     LDA #$16
-    STA <Ending2_TimerL
+    STA Ending2_TimerL
 
-    DEC <Ending2_TimerH  ; Ending2_TimerH--
+    DEC Ending2_TimerH  ; Ending2_TimerH--
     BPL PRG024_BC0D  ; While Ending2_TimerH >= 0, loop
 
 PRG024_BC32:
@@ -5599,13 +5599,13 @@ PRG024_BC32:
 
     JSR Ending2_DoEndPic     ; Update and draw end picture per world
 
-    LDA <Ending2_CurWorld
+    LDA Ending2_CurWorld
     CMP #$08
     BNE PRG024_BC32  ; While Ending2_CurWorld <> 8, loop!
 
     ; Ending2_CurWorld = 0
     LDA #$00
-    STA <Ending2_CurWorld
+    STA Ending2_CurWorld
 
     LDY #$44     ; Y = $44 (all sprites used in ending)
 PRG024_BC44:
@@ -5625,20 +5625,20 @@ PRG024_BC44:
 PRG024_BC4F:
     JSR GraphicsBuf_Prep_And_WaitVSyn2   ; V Sync
 
-    DEC <Vert_Scroll ; Vert_Scroll-- (lowering curtain for finale)
+    DEC Vert_Scroll ; Vert_Scroll-- (lowering curtain for finale)
 
-    LDA <Vert_Scroll
+    LDA Vert_Scroll
     CMP #$3f
     BNE PRG024_BC4F  ; While curtain not completely lowered, loop!
 
     ; Title_Ticker = $55
     LDA #$55
-    STA <Title_Ticker
+    STA Title_Ticker
 
 PRG024_BC5E:
     JSR GraphicsBuf_Prep_And_WaitVSyn2   ; Vsync
 
-    DEC <Title_Ticker    ; Title_Ticker--
+    DEC Title_Ticker    ; Title_Ticker--
     BPL PRG024_BC5E     ; While Title_Ticker >= 0, loop
 
     ; Load graphics for "THE END"
@@ -5656,11 +5656,11 @@ PRG024_BC6C:
 
     ; Title_Ticker = 3
     LDA #$03
-    STA <Title_Ticker
+    STA Title_Ticker
 
     ; Title_EventGrafX = 3 (going to cycle through all palettes for THE END to fade in)
     LDA #$03
-    STA <Title_EventGrafX
+    STA Title_EventGrafX
 
     ; Graphics_Queue = $5B
     LDA #$5b
@@ -5669,18 +5669,18 @@ PRG024_BC6C:
 PRG024_BC82:
     JSR GraphicsBuf_Prep_And_WaitVSyn2   ; V Sync
 
-    DEC <Title_Ticker ; Title_Ticker--
+    DEC Title_Ticker ; Title_Ticker--
     BNE PRG024_BC82  ; While Title_Ticker <> 0, loop
 
-    DEC <Title_EventGrafX    ; Title_EventGrafX--
+    DEC Title_EventGrafX    ; Title_EventGrafX--
     BMI PRG024_BCAE     ; If Title_EventGrafX < 0, jump to PRG024_BCAE
 
     ; Title_Ticker = 3
     LDA #$03
-    STA <Title_Ticker
+    STA Title_Ticker
 
     ; Set attribute on all THE END sprites
-    LDA <Title_EventGrafX
+    LDA Title_EventGrafX
     STA Sprite_RAM+$02
     STA Sprite_RAM+$06
     STA Sprite_RAM+$0A
@@ -5695,7 +5695,7 @@ PRG024_BC82:
 PRG024_BCAE:
     JSR GraphicsBuf_Prep_And_WaitVSyn2   ; V Sync
 
-    LDA <Pad_Input
+    LDA Pad_Input
     AND #PAD_START
     BEQ PRG024_BCAE  ; While Player has not pressed START, loop
 
@@ -5716,11 +5716,11 @@ PRG024_BCAE:
 
     ; Temp_Var1 = 0
     LDY #$00
-    STY <Temp_Var1
+    STY Temp_Var1
 
     ; Temp_Var2 = $7F
     LDA #$7f
-    STA <Temp_Var2
+    STA Temp_Var2
 
     ; Clearing RAM $7FFF through $6000
 PRG024_BCD4:
@@ -5730,9 +5730,9 @@ PRG024_BCD4:
     DEY      ; Y--
     BNE PRG024_BCD4  ; While Y <> 0 (come full circle), loop
 
-    DEC <Temp_Var2   ; Temp_Var2-- (previous page of RAM)
+    DEC Temp_Var2   ; Temp_Var2-- (previous page of RAM)
 
-    LDA <Temp_Var2
+    LDA Temp_Var2
     CMP #$5f
     BNE PRG024_BCD4  ; While Temp_Var2 <> $5F, loop
 
@@ -5743,7 +5743,7 @@ PRG024_BCD4:
 PRG024_BCE7:
 
     LDA #(Inventory_Cards - Inventory_Items - 1)
-    STA <Temp_Var1
+    STA Temp_Var1
 
     LDA #$08     ; A = 8 (P-Wing)
 PRG024_BCED:
@@ -5751,7 +5751,7 @@ PRG024_BCED:
 
     DEY      ; Y--
 
-    DEC <Temp_Var1   ; Temp_Var1--
+    DEC Temp_Var1   ; Temp_Var1--
     BPL PRG024_BCED  ; While Temp_Var1 >= 0, loop
 
     DEX      ; X--
@@ -5800,8 +5800,8 @@ Ending2_THEEND:
 Ending2_THEEND_End
 
 Do_Ending2_IntCmd:
-    DEC <Ending2_IntCmd ; Ending2_IntCmd-- (because it is zero based, and zero is "Do nothing")
-    LDA <Ending2_IntCmd
+    DEC Ending2_IntCmd ; Ending2_IntCmd-- (because it is zero based, and zero is "Do nothing")
+    LDA Ending2_IntCmd
     JSR DynJump
 
     ; THESE MUST FOLLOW DynJump FOR THE DYNAMIC JUMP TO WORK!!
@@ -5811,9 +5811,9 @@ Do_Ending2_IntCmd:
 Ending2_DoEndPic:
     ; Ending2_IntCmd = 0 (disable interrupt routine command)
     LDA #$00
-    STA <Ending2_IntCmd
+    STA Ending2_IntCmd
 
-    LDA <Ending2_PicState
+    LDA Ending2_PicState
     JSR DynJump
 
     ; THESE MUST FOLLOW DynJump FOR THE DYNAMIC JUMP TO WORK!!
@@ -5831,9 +5831,9 @@ Ending2_DoEndPic:
 Ending2_CurtainRaise:
     LDY #$01    ; Y = 1 (two stabs at curtain being fully raised)
 PRG024_BD62:
-    INC <Vert_Scroll ; Vert_Scroll++ (raising the curtain)
+    INC Vert_Scroll ; Vert_Scroll++ (raising the curtain)
 
-    LDA <Vert_Scroll
+    LDA Vert_Scroll
     CMP #$ef
     BEQ PRG024_BD6E  ; If curtain is fully raised, jump to PRG024_BD6E
 
@@ -5843,69 +5843,69 @@ PRG024_BD62:
     RTS      ; Return
 
 PRG024_BD6E:
-    INC <Ending2_PicState        ; Ending2_PicState = 1
+    INC Ending2_PicState        ; Ending2_PicState = 1
     RTS      ; Return
 
 Ending2_PrepClear:
     ; Set Ending2_PicVRAMH/L
     LDA #$28
-    STA <Ending2_PicVRAMH
+    STA Ending2_PicVRAMH
     LDA #$60
-    STA <Ending2_PicVRAML
+    STA Ending2_PicVRAML
 
     ; Ending2_ClearLen = $14
     LDA #$14
-    STA <Ending2_ClearLen
+    STA Ending2_ClearLen
 
     ; Ending2_ClearPat = $5C
     LDA #$5c
-    STA <Ending2_ClearPat
+    STA Ending2_ClearPat
 
-    INC <Ending2_PicState   ; Ending2_PicState = 2
+    INC Ending2_PicState   ; Ending2_PicState = 2
 
     RTS      ; Return
 
 Ending2_SetFlag1:
     ; Ending2_IntCmd = 1
     LDA #$01
-    STA <Ending2_IntCmd
+    STA Ending2_IntCmd
 
     RTS      ; Return
 
 
 Ending2_ClearScreen:
-    LDA <Ending2_PicVRAMH
+    LDA Ending2_PicVRAMH
     CMP #$2b
     BEQ PRG024_BDBB  ; If Ending2_PicVRAMH = $2b, jump to Ending2_PicVRAMH
 
     LDA PPU_STAT
 
     ; Set VRAM Address to Ending2_PicVRAMH/L
-    LDA <Ending2_PicVRAMH
+    LDA Ending2_PicVRAMH
     STA PPU_VRAM_ADDR
-    LDA <Ending2_PicVRAML
+    LDA Ending2_PicVRAML
     STA PPU_VRAM_ADDR
 
     LDY #$1f     ; Y = $1F
-    LDA <Ending2_ClearPat   ; Get the clearing pattern
+    LDA Ending2_ClearPat   ; Get the clearing pattern
 PRG024_BDA0:
     STA PPU_VRAM_DATA   ; Store pattern
 
     DEY      ; Y--
     BPL PRG024_BDA0  ; While Y >= 0, loop
 
-    DEC <Ending2_ClearLen   ; Ending2_ClearLen--
+    DEC Ending2_ClearLen   ; Ending2_ClearLen--
     BPL PRG024_BDB7     ; If Ending2_ClearLen >= 0, jump to PRG024_BDB7
 
     ; Set Ending2_PicVRAMH
     LDA #$2b
-    STA <Ending2_PicVRAMH
+    STA Ending2_PicVRAMH
     LDA #$c8
-    STA <Ending2_PicVRAML
+    STA Ending2_PicVRAML
 
     ; Ending2_ClearLen = 4
     LDA #$04
-    STA <Ending2_ClearLen
+    STA Ending2_ClearLen
 
     RTS      ; Return
 
@@ -5918,9 +5918,9 @@ PRG024_BDBB:
     LDA PPU_STAT
 
     ; Set VRAM Address to Ending2_PicVRAMH/L
-    LDA <Ending2_PicVRAMH
+    LDA Ending2_PicVRAMH
     STA PPU_VRAM_ADDR
-    LDA <Ending2_PicVRAML
+    LDA Ending2_PicVRAML
     STA PPU_VRAM_ADDR
 
     LDY #$07     ; Y = $07
@@ -5931,35 +5931,35 @@ PRG024_BDCC:
     DEY      ; Y--
     BPL PRG024_BDCC  ; While Y >= 0, loop
 
-    DEC <Ending2_ClearLen   ; Ending2_ClearLen----
+    DEC Ending2_ClearLen   ; Ending2_ClearLen----
     BPL PRG024_BDD8     ; If Ending2_ClearLen >= 0, jump to PRG024_BDD8
 
-    INC <Ending2_PicState   ; Ending2_PicState++
+    INC Ending2_PicState   ; Ending2_PicState++
 
 PRG024_BDD8:
 
     ; Ending2_PicVRAML += 8
-    LDA <Ending2_PicVRAML
+    LDA Ending2_PicVRAML
     ADD #$08
-    STA <Ending2_PicVRAML
+    STA Ending2_PicVRAML
 
     RTS      ; Return
 
 Ending2_PrepEndPic:
-    LDY <Ending2_CurWorld   ; Y = current world we're depicting
+    LDY Ending2_CurWorld   ; Y = current world we're depicting
 
     ; Temp_Var2/1 hold the address to the end world picture
     LDA EndPicByWorld_H,Y
-    STA <Temp_Var2
+    STA Temp_Var2
     LDA EndPicByWorld_L,Y
-    STA <Temp_Var1
+    STA Temp_Var1
 
     LDY #$00     ; Y = 0 (EndPic command index)
     LDX #$00     ; X = 0 (Ending_CmdBuffer index)
 PRG024_BDF0:
     ; Next command byte -> Temp_Var16
     LDA [Temp_Var1],Y
-    STA <Temp_Var16
+    STA Temp_Var16
 
     AND #$80
     BEQ PRG024_BE02  ; If bit 7 is NOT set, jump to PRG024_BE02
@@ -5967,9 +5967,9 @@ PRG024_BDF0:
     ; Bit 7 set...
 
     ; Clear bit 7
-    LDA <Temp_Var16
+    LDA Temp_Var16
     AND #$7f
-    STA <Temp_Var16
+    STA Temp_Var16
 
     ; Store byte into buffer
     STA Ending_CmdBuffer,X
@@ -5980,7 +5980,7 @@ PRG024_BE02:
     ; Bit 7 not set (or just continued)
 
     ; Store byte into buffer
-    LDA <Temp_Var16
+    LDA Temp_Var16
     STA Ending_CmdBuffer,X
     INX      ; X++ (next buffer byte)
 
@@ -5991,30 +5991,30 @@ PRG024_BE02:
 
     ; Buffer filled...
 
-    LDY <Ending2_CurWorld   ; Y = current world we're depicting
+    LDY Ending2_CurWorld   ; Y = current world we're depicting
 
     ; Set starting VRAM address
     LDA EndPic_VRAMStart_H,Y
-    STA <Ending2_PicVRAMH
+    STA Ending2_PicVRAMH
     LDA EndPic_VRAMStart_L,Y
-    STA <Ending2_PicVRAML
+    STA Ending2_PicVRAML
 
-    INC <Ending2_PicState        ; Ending2_PicState = 4
+    INC Ending2_PicState        ; Ending2_PicState = 4
 
     ; Ending2_ClearLen = $B
     LDA #$0b
-    STA <Ending2_ClearLen
+    STA Ending2_ClearLen
 
     ; Ending2_QCmdEnd = 0
     LDA #$00
-    STA <Ending2_QCmdEnd
+    STA Ending2_QCmdEnd
 
     RTS      ; Return
 
 Ending2_SetFlag2:
     ; Ending2_IntCmd = 2
     LDA #$02
-    STA <Ending2_IntCmd
+    STA Ending2_IntCmd
 
     RTS      ; Return
 
@@ -6028,13 +6028,13 @@ Ending2_CommitPicture:
     LDA PPU_STAT
 
     ; Set VRAM Address to Ending2_PicVRAMH/L
-    LDA <Ending2_PicVRAMH
+    LDA Ending2_PicVRAMH
     STA PPU_VRAM_ADDR
-    LDA <Ending2_PicVRAML
+    LDA Ending2_PicVRAML
     STA PPU_VRAM_ADDR
 
     LDX #$0f        ; X = 4
-    LDY <Ending2_QCmdEnd    ; Y = Ending2_QCmdEnd
+    LDY Ending2_QCmdEnd    ; Y = Ending2_QCmdEnd
 PRG024_BE4A:
 
     ; Buffer -> PPU_VRAM_DATA
@@ -6045,39 +6045,39 @@ PRG024_BE4A:
     DEX      ; X--
     BPL PRG024_BE4A  ; While X >= 0, loop
 
-    STY <Ending2_QCmdEnd    ; Update Ending2_QCmdEnd
+    STY Ending2_QCmdEnd    ; Update Ending2_QCmdEnd
 
     JSR Ending2_PicVRAM_NextLineWrap    ; Next line
 
-    DEC <Ending2_ClearLen   ; Ending2_ClearLen--
+    DEC Ending2_ClearLen   ; Ending2_ClearLen--
     BPL PRG024_BE6B     ; If Ending2_ClearLen >= 0, jump to PRG024_BE6B (RTS)
 
-    INC <Ending2_PicState   ; Ending2_PicState++
+    INC Ending2_PicState   ; Ending2_PicState++
 
-    LDX <Ending2_CurWorld   ; X = current world we're depicting
+    LDX Ending2_CurWorld   ; X = current world we're depicting
 
     LDA PRG024_BE29,X
-    STA <Ending2_QueueCmd
+    STA Ending2_QueueCmd
 
     LDA PRG024_BE31,X
-    STA <Ending2_QCmdEnd
+    STA Ending2_QCmdEnd
 
 PRG024_BE6B:
     RTS      ; Return
 
 Ending2_SeriesQueue:
     ; Execute next command
-    LDA <Ending2_QueueCmd
-    STA <Graphics_Queue
+    LDA Ending2_QueueCmd
+    STA Graphics_Queue
 
-    CMP <Ending2_QCmdEnd
+    CMP Ending2_QCmdEnd
     BNE PRG024_BE76  ; If this is not the last series command to execute, jump to PRG024_BE76
 
     ; Last command executed!
-    INC <Ending2_PicState        ; Ending2_PicState = 6
+    INC Ending2_PicState        ; Ending2_PicState = 6
 
 PRG024_BE76:
-    INC <Ending2_QueueCmd        ; Ending2_QueueCmd++
+    INC Ending2_QueueCmd        ; Ending2_QueueCmd++
 
     RTS      ; Return
 
@@ -6095,7 +6095,7 @@ Ending2_AddSprites:
     STA Sprite_RAM+$40
     STA Sprite_RAM+$44
 
-    LDY <Ending2_CurWorld   ; Y = current world we're depicting
+    LDY Ending2_CurWorld   ; Y = current world we're depicting
 
     ; Load pattern tables required for this world picture sprites
     LDA Ending2_EndPicPatTable2,Y
@@ -6109,9 +6109,9 @@ Ending2_AddSprites:
 
     ; Load starting address for sprite list
     LDA Ending2_EndPicSpriteListH,Y
-    STA <Temp_Var2
+    STA Temp_Var2
     LDA Ending2_EndPicSpriteListL,Y
-    STA <Temp_Var1
+    STA Temp_Var1
 
     ; Load length of sprite list
     LDA Ending2_EndPicSpriteListLen,Y
@@ -6125,80 +6125,80 @@ PRG024_BEBE:
     DEY      ; Y--
     BPL PRG024_BEBE  ; While Y >= 0, loop
 
-    INC <Ending2_PicState    ; Ending2_PicState = 7
+    INC Ending2_PicState    ; Ending2_PicState = 7
 
     ; Ending2_FadeTimer = 3
     LDA #$03
-    STA <Ending2_FadeTimer
+    STA Ending2_FadeTimer
 
     ; Ending2_QueueCmd = $26
     LDA #$26
-    STA <Ending2_QueueCmd
+    STA Ending2_QueueCmd
 
     RTS      ; Return
 
 
 Ending2_FadeIn:
-    DEC <Ending2_FadeTimer  ; Ending2_FadeTimer--
+    DEC Ending2_FadeTimer  ; Ending2_FadeTimer--
     BPL PRG024_BEFB     ; If Ending2_FadeTimer >= 0, jump to PRG024_BEFB (RTS)
 
     ; Reload Ending2_FadeTimer = 3
     LDA #$03
-    STA <Ending2_FadeTimer
+    STA Ending2_FadeTimer
 
     ; Queue graphics command
-    LDA <Ending2_QueueCmd
+    LDA Ending2_QueueCmd
     STA Graphics_Queue
 
     CMP #$2a
     BNE PRG024_BEF9  ; If Ending2_QueueCmd <> $2A, jump to PRG024_BEF9
 
-    INC <Ending2_PicState    ; Ending2_PicState = 8
+    INC Ending2_PicState    ; Ending2_PicState = 8
 
     ; Queue the full palette (fade in is common)
-    LDA <Ending2_CurWorld   ; A = current world we're depicting
+    LDA Ending2_CurWorld   ; A = current world we're depicting
     ADD #$4d
     STA Graphics_Queue
 
     ; Ending2_TimerH = $F
     LDA #$0f
-    STA <Ending2_TimerH
+    STA Ending2_TimerH
 
     ; Ending2_TimerL = $16
     LDA #$16
-    STA <Ending2_TimerL
+    STA Ending2_TimerL
 
     ; Ending2_QueueCmd = $06
     LDA #(Ending2_FadeOutQs_End - Ending2_FadeOutQs - 1)
-    STA <Ending2_QueueCmd
+    STA Ending2_QueueCmd
 
     RTS      ; Return
 
 PRG024_BEF9:
-    INC <Ending2_QueueCmd        ; Ending2_QueueCmd++
+    INC Ending2_QueueCmd        ; Ending2_QueueCmd++
 
 PRG024_BEFB:
     RTS      ; Return
 
 Ending2_Wait:
     ; Ending2_TimerL--
-    LDA <Ending2_TimerL
+    LDA Ending2_TimerL
     SUB #$01
-    STA <Ending2_TimerL
+    STA Ending2_TimerL
     BCS PRG024_BF13  ; If Ending2_TimerL >= 0, jump to PRG024_BF13 (RTS)
 
     ; Ending2_TimerL = $16
     LDA #$16
-    STA <Ending2_TimerL
+    STA Ending2_TimerL
 
-    DEC <Ending2_TimerH  ; Ending2_TimerH--
+    DEC Ending2_TimerH  ; Ending2_TimerH--
     BPL PRG024_BF13     ; If Ending2_TimerH >= 0, jump to PRG024_BF13 (RTS)
 
-    INC <Ending2_PicState        ; Ending2_PicState = 9
+    INC Ending2_PicState        ; Ending2_PicState = 9
 
     ; Ending2_FadeTimer = 3
     LDA #$03
-    STA <Ending2_FadeTimer
+    STA Ending2_FadeTimer
 
 PRG024_BF13:
     RTS      ; Return
@@ -6209,14 +6209,14 @@ Ending2_FadeOutQs:
 Ending2_FadeOutQs_End
 
 Ending2_FadeOut:
-    DEC <Ending2_FadeTimer
+    DEC Ending2_FadeTimer
     BPL PRG024_BF37  ; If Ending2_FadeTimer >= 0, jump to PRG024_BF37 (RTS)
 
     ; Ending2_FadeTimer = 3
     LDA #$03
-    STA <Ending2_FadeTimer
+    STA Ending2_FadeTimer
 
-    LDX <Ending2_QueueCmd    ; X = Ending2_QueueCmd (current index)
+    LDX Ending2_QueueCmd    ; X = Ending2_QueueCmd (current index)
 
     ; Queue next fade command
     LDA Ending2_FadeOutQs,X
@@ -6227,12 +6227,12 @@ Ending2_FadeOut:
 
     ; Restart ending picture generation
     LDA #$01
-    STA <Ending2_PicState   ; Ending2_PicState = 1
+    STA Ending2_PicState   ; Ending2_PicState = 1
 
-    INC <Ending2_CurWorld        ; Ending2_CurWorld++ (display next world in series)
+    INC Ending2_CurWorld        ; Ending2_CurWorld++ (display next world in series)
 
 PRG024_BF35:
-    DEC <Ending2_QueueCmd        ; Ending2_QueueCmd--
+    DEC Ending2_QueueCmd        ; Ending2_QueueCmd--
 
 PRG024_BF37:
     RTS      ; Return
@@ -6243,12 +6243,12 @@ PRG024_BF37:
 Ending2_PicVRAM_NextLineWrap:
 
     ; Add 32 to VRAM address for next row
-    LDA <Ending2_PicVRAML
+    LDA Ending2_PicVRAML
     ADD #32
-    STA <Ending2_PicVRAML
-    LDA <Ending2_PicVRAMH
+    STA Ending2_PicVRAML
+    LDA Ending2_PicVRAMH
     ADC #$00
-    STA <Ending2_PicVRAMH
+    STA Ending2_PicVRAMH
 
     CMP #$28
     BGE PRG024_BF5D ; If VRAM High address >= $28, jump to PRG024_BF5D (RTS)
@@ -6256,7 +6256,7 @@ Ending2_PicVRAM_NextLineWrap:
     CMP #$23
     BLT PRG024_BF5D ; If VRAM High address < $23, jump to PRG024_BF5D (RTS)
 
-    LDA <Ending2_PicVRAML
+    LDA Ending2_PicVRAML
     CMP #$c0
     BLT PRG024_BF5D ; If VRAM Low address < $C0, jump to PRG024_BF5D (RTS)
 
@@ -6264,12 +6264,12 @@ Ending2_PicVRAM_NextLineWrap:
 
     ; Ending2_PicVRAMH = $28
     LDA #$28
-    STA <Ending2_PicVRAMH
+    STA Ending2_PicVRAMH
 
     ; Column on top row
-    LDA <Ending2_PicVRAML
+    LDA Ending2_PicVRAML
     AND #$1f
-    STA <Ending2_PicVRAML
+    STA Ending2_PicVRAML
 
 PRG024_BF5D:
     RTS      ; Return
