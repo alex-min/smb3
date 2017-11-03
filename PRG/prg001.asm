@@ -15,7 +15,7 @@
     ; CAUTION!! ObjectGroup00 labels MUST appear at the
     ; address specified by the predefined constants!  I can't
     ; verify this at the assembler level, so be careful!!
-    ; I'm using a ".org" directive to help enforce it, but
+    ; I'm using a ".base" directive to help enforce it, but
     ; the assembler does not warn you if you overwrite and
     ; instead will simply "stomp" on your code if you passed
     ; that limit ... sorry, original coders assumed a constant
@@ -23,7 +23,7 @@
 
     ; Object group $00 (i.e. objects starting at ID $00) State 1 jump table
 
-    .org ObjectGroup_InitJumpTable  ; <-- help enforce this table *here*
+    .base ObjectGroup_InitJumpTable  ; <-- help enforce this table *here*
 ObjectGroup00_InitJumpTable:
     .word ObjInit_DoNothing ; Object $00
     .word ObjInit_Obj01 ; Object $01
@@ -65,7 +65,7 @@ ObjectGroup00_InitJumpTable:
 
     ; Object group $00 (i.e. objects starting at ID $00) State 2 jump table
 
-    .org ObjectGroup_NormalJumpTable    ; <-- help enforce this table *here*
+    .base ObjectGroup_NormalJumpTable    ; <-- help enforce this table *here*
 ObjectGroup00_NormalJumpTable:
     .word ObjNorm_DoNothing ; Object $00
     .word ObjNorm_Obj01 ; Object $01
@@ -108,7 +108,7 @@ ObjectGroup00_NormalJumpTable:
     ; Object group $00 (i.e. objects starting at ID $00) Collision routine jump table (if calling Object_HitTestRespond;
     ; Special values of OCSPECIAL_KILLCHANGETO or OCSPECIAL_HIGHSCORE can be used here instead otherwise.)
 
-    .org ObjectGroup_CollideJumpTable   ; <-- help enforce this table *here*
+    .base ObjectGroup_CollideJumpTable   ; <-- help enforce this table *here*
 ObjectGroup00_CollideJumpTable:
     .word ObjHit_DoNothing  ; Object $00
     .word ObjHit_Obj01  ; Object $01
@@ -150,7 +150,7 @@ ObjectGroup00_CollideJumpTable:
 
     ; Object group $00 (i.e. objects starting at ID $00) attribute bits set 1 (OA1_* flags valid here)
 
-    .org ObjectGroup_Attributes ; <-- help enforce this table *here*
+    .base ObjectGroup_Attributes ; <-- help enforce this table *here*
 ObjectGroup00_Attributes:
     .byte OA1_PAL0 | OA1_HEIGHT16 | OA1_WIDTH8  ; Object $00
     .byte OA1_PAL0 | OA1_HEIGHT16 | OA1_WIDTH16 ; Object $01
@@ -199,7 +199,7 @@ ObjectGroup00_Attributes:
     ;   Bits 3: Object uses 16-bit X value (otherwise, Object_XHi will be zeroed)
     ;   Bits 4-7: Pick root tile detection group offset (from Object_TileDetectOffsets)
 
-    .org ObjectGroup_Attributes2    ; <-- help enforce this table *here*
+    .base ObjectGroup_Attributes2    ; <-- help enforce this table *here*
 ObjectGroup00_Attributes2:
     .byte OA2_TDOGRP0   ; Object $00
     .byte OA2_TDOGRP1   ; Object $01
@@ -248,7 +248,7 @@ ObjectGroup00_Attributes2:
     ;   Bit 6: The CollideJumpTable entry MAY contain the "special" entry; see CollideJumpTable; also "dies" into "shell" (state 3) (i.e. object "bumps" into shell when hit from beneath)
     ;   Bit 7: If set, object cannot be tail attacked
 
-    .org ObjectGroup_Attributes3    ; <-- help enforce this table *here*
+    .base ObjectGroup_Attributes3    ; <-- help enforce this table *here*
 ObjectGroup00_Attributes3:
     .byte OA3_HALT_HOTFOOTSPECIAL   ; Object $00
     .byte OA3_HALT_JUSTDRAW | OA3_TAILATKIMMUNE ; Object $01
@@ -290,7 +290,7 @@ ObjectGroup00_Attributes3:
 
     ; Object group $00 (i.e. objects starting at ID $00) Pattern Table Select
 
-    .org ObjectGroup_PatTableSel    ; <-- help enforce this table *here*
+    .base ObjectGroup_PatTableSel    ; <-- help enforce this table *here*
 ObjectGroup00_PatTableSel:
     .byte OPTS_NOCHANGE ; Object $00
     .byte OPTS_SETPT5 | $48 ; Object $01
@@ -332,7 +332,7 @@ ObjectGroup00_PatTableSel:
 
     ; Object group $00 (i.e. objects starting at ID $00) "Kill Action"
 
-    .org ObjectGroup_KillAction ; <-- help enforce this table *here*
+    .base ObjectGroup_KillAction ; <-- help enforce this table *here*
 ObjectGroup00_KillAction:
     .byte KILLACT_STANDARD  ; Object $00
     .byte KILLACT_STANDARD  ; Object $01
@@ -376,7 +376,7 @@ ObjectGroup00_KillAction:
     ; These are used for all states except "normal"
 
 
-    .org ObjectGroup_PatternStarts  ; <-- help enforce this table *here*
+    .base ObjectGroup_PatternStarts  ; <-- help enforce this table *here*
 ObjectGroup00_PatternStarts:
     ; Index by object group relative index (ObjGroupRel_Idx)
     .byte ObjP00 - ObjectGroup00_PatternSets, ObjP01 - ObjectGroup00_PatternSets, ObjP02 - ObjectGroup00_PatternSets, ObjP03 - ObjectGroup00_PatternSets
@@ -400,7 +400,7 @@ ObjectGroup00_PatternStarts:
     ; valid JMP $xxxx instruction to go to an alternate giant shell
     ; drawing routine (since otherwise default code is used)
 
-    .org ObjectGroup_PatternSets    ; <-- help enforce this table *here*
+    .base ObjectGroup_PatternSets    ; <-- help enforce this table *here*
 ObjectGroup00_PatternSets:
     ; (End restricted alignment space)
 ObjP00:

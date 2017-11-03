@@ -333,7 +333,7 @@ MMC3_IRQENABLE  = $E001 ; Enables IRQ generation
 ; ZERO PAGE RAM COMMON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Common use zero page RAM.  Bytes in $75-$F3 are context-dependent
-    .org $00
+    .base $00
 
 ; For clarification, none of the other "Temp" vars are damaged by NMI,
 ; the NMI does employ Temp_Var1-3, and restores them when it's done.
@@ -417,7 +417,7 @@ PAD_RIGHT   = $01
     Scroll_ColumnR:     .dsb 1   ; ($23) Current tile column (every 16px) of right side of screen (non-vertical level style ONLY)
     Scroll_ColumnL:     .dsb 1   ; ($24) Current tile column (every 16px) of left side of screen (non-vertical level style ONLY)
 
-    .org $23    ; NOTE, the following two are also $23/$24
+    .base $23    ; NOTE, the following two are also $23/$24
     ; In vertical style levels, Scroll_VOffsetT/B are an offset into the
     ; visible tile grid, and levels are rendered in horizontal strips
     Scroll_VOffsetT:    .dsb 1   ; ($23) Current tile offset (every 16px) of top of screen (vertical level style ONLY)
@@ -450,7 +450,7 @@ PAD_RIGHT   = $01
     Map_Tile_AddrH:     .dsb 1   ; High byte of tile address
 
 
-    .org $63    ; NOTE, the following two are also $63/$64, bonus game context
+    .base $63    ; NOTE, the following two are also $63/$64, bonus game context
     BonusText_BaseL:    .dsb 1   ; Instruction text base address low
     BonusText_BaseH:    .dsb 1   ; Instruction text base address high
 
@@ -480,7 +480,7 @@ BoundZP_PreCtx:    BoundCheck BoundZP_PreCtx, $74, Zero Page
 
     ; NOTE: $75 - $F3 are context specific; see contexts below
 
-    .org $F4
+    .base $F4
     Scroll_OddEven:     .dsb 1   ; 0 or 1, depending on what part of 8 pixels has crossed (need better description)
 
     Controller1Press:   .dsb 1   ; Player 1's controller "pressed this frame only" (see Controller1 for values)
@@ -509,7 +509,7 @@ BoundZP:   BoundCheck BoundZP, $100, Zero Page
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ZERO PAGE RAM: TITLE SCREEN / ENDING CONTEXT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $75    ; $75-$F3 is available for this context-dependent situation
+    .base $75    ; $75-$F3 is available for this context-dependent situation
 
 ; Title screen "objects", which includes Mario, Luigi, and the assortment of other things
 ; The following are the offsets from any of the object arrays:
@@ -573,7 +573,7 @@ BoundZP_Title: BoundCheck BoundZP_Title, $F5, Zero Page Title Screen Context
 ; Ending-specific vars -- NOTE that Ending system uses some of the Title Screen code, so these variables overlap some of the above
 ; Basically don't assume anything here is free space without consulting above as well...
 
-    .org $75
+    .base $75
     Ending2_PicState:   .dsb 1   ; Ending part 2 picture loader state
     Ending2_ClearLen:   .dsb 1   ; Length of clear run
     Ending2_ClearPat:   .dsb 1   ; Pattern to clear the screen with
@@ -586,7 +586,7 @@ BoundZP_Title: BoundCheck BoundZP_Title, $F5, Zero Page Title Screen Context
     Ending2_TimerL:     .dsb 1   ; Ending part 2 timer "low" part
     Ending2_CurWorld:   .dsb 1   ; Current world we're showing (8 = THE END)
 
-    .org $D2
+    .base $D2
     Ending_Timer:       .dsb 2   ; $D2-$D3 Twin ending timers, generally one for Mario and one for Princess
     EndText_Timer:      .dsb 1   ; Timer used for the ending text display
     Ending_State:       .dsb 1   ; Current state value for initial part of ending (the princess, prior to curtain)
@@ -596,14 +596,14 @@ BoundZP_Title: BoundCheck BoundZP_Title, $F5, Zero Page Title Screen Context
     EndText_CPos:       .dsb 1   ; Princess speech Character Position
     EndText_State:      .dsb 1   ; Princess speech state variable
 
-    .org $F4
+    .base $F4
     Ending2_IntCmd:     .dsb 1   ; used during ending to buffer out the ending picture data on the interrupt.  Triggers "Do_Ending2_IntCmd" in PRG024 in interrupt context.
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ZERO PAGE RAM: WORLD MAP CONTEXT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $75    ; $75-$F3 is available for this context-dependent situation
+    .base $75    ; $75-$F3 is available for this context-dependent situation
 
     World_Map_Y:        .dsb 2   ; $75-$76 (Mario/Luigi) Y pixel coordinate position of Mario on world map
     World_Map_XHi:      .dsb 2   ; $77-$78 (Mario/Luigi) X pixel (hi byte) coordinate position of Mario on world map
@@ -736,7 +736,7 @@ BoundZP_Map:   BoundCheck BoundZP_Map, $F4, Zero Page World Map Context
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ZERO PAGE RAM: BONUS GAME CONTEXT (see PRG022 for lots more info)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $75    ; $75-$F3 is available for this context-dependent situation
+    .base $75    ; $75-$F3 is available for this context-dependent situation
 
                 .dsb 22  ; $75-$8A unused
 
@@ -758,7 +758,7 @@ BoundZP_Bonus: BoundCheck BoundZP_Bonus, $F4, Zero Page Bonus Context
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ZERO PAGE RAM: 2P VS CONTEXT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $75    ; $75-$F3 is available for this context-dependent situation
+    .base $75    ; $75-$F3 is available for this context-dependent situation
 
     Vs_State:       .dsb 1   ; 2P Vs Mode state
     Vs_IsPaused:        .dsb 1   ; If set, 2P Vs is paused
@@ -771,7 +771,7 @@ BoundZP_Vs:    BoundCheck BoundZP_Vs, $F4, Zero Page 2P Vs Context
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ZERO PAGE RAM: GAMEPLAY CONTEXT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $75    ; $75-$F3 is available for this context-dependent situation
+    .base $75    ; $75-$F3 is available for this context-dependent situation
 
 ; There's a consistent difference of $12 between X and Y; this consistent distancing is meant to be maintained, so leave it alone!
 
@@ -790,7 +790,7 @@ CineKing_DialogState:   ; Toad & King Cinematic: When 1, we're doing the text ve
     Pipe_PlayerX:       .dsb 1   ; Stores Player's X when they went into pipe (non-transit)
     Pipe_PlayerY:       .dsb 1   ; Stores Player's Y when they went into pipe (non-transit, aligned to nearest 16, minus 1)
 
-    .org $84    ; NOTE, the following two are also $84/$85
+    .base $84    ; NOTE, the following two are also $84/$85
     ; Otherwise, they are replaced with a lookup address
     Level_GndLUT_Addr:  .dsb 2
 
@@ -891,13 +891,13 @@ BoundZP_Game:  BoundCheck BoundZP_Game, $F4, Zero Page Gameplay Context
 ; The debug flag in particular is pretty precariously placed, and under some kind of heavy call stack, seems like
 ; there's risk it could be set by accident... but I guess this never happens... ?
 
-    .org $0100
+    .base $0100
 
     Update_Select:  .dsb 1       ; Changes which path of "update routines" are selected; $00 = ??, $20 = Title Screen, $40 = Spade Game, $80 = Vertical level, $A0 = 32 pixel partition, $C0 = Normal
 
     Raster_Effect:  .dsb 1       ; $00 is standard status bar, $20 is title/ending, $40 = 32 pixel partition, $60 = Spade Bonus Game (3 sliding rows), $80 is nothing (e.g. as in 2P versus), $A0 = ???
 
-    .org $0160
+    .base $0160
     Debug_Flag: .dsb 1       ; Set to $80 by the debug menu, enables debug functionality like power level cycling and not dying from time over
 
 
@@ -906,7 +906,7 @@ BoundZP_Game:  BoundCheck BoundZP_Game, $F4, Zero Page Gameplay Context
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $2xx SPRITE RAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $0200
+    .base $0200
 
 ; \$02([0-9A-F][0-9A-F])
 ; Sprite_RAM+$\1
@@ -937,7 +937,7 @@ Bound_SprRAM:  BoundCheck Bound_SprRAM, $0300, Sprite RAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $03xx RAM (Largely graphics updating / control)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $0300
+    .base $0300
 
     Graphics_BufCnt:    .dsb 1   ; first byte holds current position within buffer (Graphics_Buffer+) to store info
     Graphics_Buffer:    .dsb 107 ; $0301-$036B Simple (and small!) delayed write buffer; uses same format as Video_Upd_Table in PRG030, get format info there
@@ -1067,9 +1067,9 @@ Bound_0300:    BoundCheck Bound_0300, $0400, $03xx
     ; $0400-$04CF (except $0461 and $0462, see "$04xx RAM SOUND/MUSIC ENGINE") is available for this context-dependent situation
     ; $0400-$0443 unused in either of the following cases
 
-    ; Doing double .org's because of major overlap, but be careful!
+    ; Doing double .base's because of major overlap, but be careful!
 
-    .org $0447
+    .base $0447
 ; W8D = World 8 Darkness; overlaps the vars used by the entrance transition
     Map_W8D_VAddrH:     .dsb 1
 
@@ -1102,7 +1102,7 @@ Bound_0300:    BoundCheck Bound_0300, $0400, $03xx
     ; ASSEMBLER BOUNDARY CHECK, CONTEXT END OF $04D0
 BoundW8D_04D0: BoundCheck BoundW8D_04D0, $04D0, $04xx range World Map Entrance Transition context
 
-    .org $0444
+    .base $0444
     ; Entrance transition; overlaps with above
     ; NOTE: Memory is cleared from here to +$1C, $460
     ; For border arrays, 0-3: Top 0, bottom 1, right 2, left 3
@@ -1132,7 +1132,7 @@ BoundET_04D0:  BoundCheck BoundET_04D0, $04D0, $04xx range World Map Entrance Tr
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $04xx BONUS GAME CONTEXT (see PRG022 for lots more info)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $0400  ; $0400-$04CF (except $0461 and $0462, see "$04xx RAM SOUND/MUSIC ENGINE") is available for this context-dependent situation
+    .base $0400  ; $0400-$04CF (except $0461 and $0462, see "$04xx RAM SOUND/MUSIC ENGINE") is available for this context-dependent situation
     ; WARNING: $0400-$04CF gets cleared at end of bonus game!
 
     Roulette_Pos:       .dsb 3   ; $0400-$0402 horizontal position of each row
@@ -1266,7 +1266,7 @@ BoundBonus_04D0:   BoundCheck BoundBonus_04D0, $04D0, $04xx range Bonus context
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $04xx GAMEPLAY CONTEXT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $0400  ; $0400-$04CF (except $0461 and $0462, see "$04xx RAM SOUND/MUSIC ENGINE") is available for this context-dependent situation
+    .base $0400  ; $0400-$04CF (except $0461 and $0462, see "$04xx RAM SOUND/MUSIC ENGINE") is available for this context-dependent situation
 
     .dsb 27  ; $0400-$041A unused
 
@@ -1289,7 +1289,7 @@ BoundGame_04D0:    BoundCheck BoundGame_04D0, $04D0, $04xx range Bonus context
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $04xx RAM SOUND/MUSIC ENGINE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $0461
+    .base $0461
 
 ; $0461-$0462 are reserved for use by the sound/music engine
 ; These ought to be moved into the greater range to spare this area...
@@ -1298,7 +1298,7 @@ BoundGame_04D0:    BoundCheck BoundGame_04D0, $04D0, $04xx range Bonus context
 Level_MusicQueue:       .dsb 1   ; Requests a song from Set 2A/B (used to allow delayed start)
 Level_MusicQueueRestore:    .dsb 1   ; What to "restore" the BGM to when it changes (e.g. Starman, P-Switch, etc.)
 
-    .org $04D0
+    .base $04D0
 
 ; $04D0-$04FF is reserved for use by the sound/music engine
 ; Lower ranges are context-dependent
@@ -1466,7 +1466,7 @@ BoundSound_0500:   BoundCheck BoundSound_0500, $0500, $04xx Sound Engine
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $05xx TITLE SCREEN CONTEXT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $0500  ; $0500-$05FF is available for this context-dependent situation
+    .base $0500  ; $0500-$05FF is available for this context-dependent situation
 
                 .dsb 16  ; $0500-$050F unused
 
@@ -1486,7 +1486,7 @@ BoundTS_0600:  BoundCheck BoundTS_0600, $0600, $05xx Title Screen context
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $5xx MAP CONTEXT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $0500  ; $0500-$05FF is available for this context-dependent situation
+    .base $0500  ; $0500-$05FF is available for this context-dependent situation
 
     ; NOTE: Most of the memory in this space is shared with Gameplay Context
     ; so don't assume that any value that should be spared is safe in here...
@@ -1517,7 +1517,7 @@ BoundM_0600:   BoundCheck BoundM_0600, $0600, $05xx World Map context
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $5xx BONUS GAME CONTEXT (see PRG022 for lots more info)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $0500  ; $0500-$05FF is available for this context-dependent situation
+    .base $0500  ; $0500-$05FF is available for this context-dependent situation
 
                 .dsb 231 ; $0500-$05E6 unused
 
@@ -1532,7 +1532,7 @@ BoundBonus_0600:   BoundCheck BoundBonus_0600, $0600, $05xx World Map context
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $5xx GAMEPLAY CONTEXT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $0500  ; $0500-$05FF is available for this context-dependent situation
+    .base $0500  ; $0500-$05FF is available for this context-dependent situation
 
                 .dsb 16  ; $0500-$050F unused
 
@@ -1806,11 +1806,11 @@ BoundGame_0600:    BoundCheck BoundGame_0600, $0600, $05xx Gameplay context
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     ; DURING ENDING ONLY
-    .org $0600
+    .base $0600
     Ending_CmdBuffer:       .dsb 192 ; $0600-$06C0 Buffer used during ending sequence
 
     ; Normal purpose $06xx RAM...
-    .org $0600
+    .base $0600
 
                 .dsb 2   ; $0600-$0601 unused
 
@@ -1946,7 +1946,7 @@ Bound_0700:    BoundCheck Bound_0700, $0700, $06xx RAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $07xx RAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $0700
+    .base $0700
 
     TileAddr_Off:       .dsb 1   ; During level loading, specifies an offset into the current Mem_Tile_Addr setting
 
@@ -2207,7 +2207,7 @@ Bound_0800:    BoundCheck Bound_0800, $0800, $07xx RAM
 ; 2P Vs just utilizes a chunk where no tiles will ever exist in 2P Mode
 
 ; 2P Vs Only
-    .org $6800
+    .base $6800
 
     Vs_MemStart:            ; Should be at "top"; this point and 512 bytes forward are cleared at start of 2P Vs
 
@@ -2392,7 +2392,7 @@ Bound_7950:    BoundCheck Bound_7950, $7950, 2P VS RAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $6000-$7FFF MMC3 SRAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $6000
+    .base $6000
 
     ; NOTE: $6800+ is used by 2P Vs RAM, see previous section
 
@@ -2960,7 +2960,7 @@ Bound_8000:    BoundCheck Bound_8000, $8000, MMC3 SRAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $7A01-$7A11 MMC3 SRAM as Cinematic for Wand Return (Post-Airship)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $7A01
+    .base $7A01
 ; This uses the same space as most of the Auto Scroll data, I'm annoyed that I have to make a section for this
 
 ; After the wand is returned ONLY
@@ -4642,170 +4642,170 @@ TILE18_BOUNCEDBLOCK = $C2   ; Temporary tile for when block has been bounced
 
     ; Object support routines
     .bank 0
-    .org $C000
+    .base $C000
     .include "PRG/prg000.asm"
 
     ; Objects $00-$23
     .bank 1
-    .org $A000
+    .base $A000
     .include "PRG/prg001.asm"
 
     ; Objects $24-$47
     .bank 2
-    .org $A000
+    .base $A000
     .include "PRG/prg002.asm"
 
     ; Objects $48-$6B
     .bank 3
-    .org $A000
+    .base $A000
     .include "PRG/prg003.asm"
 
     ; Objects $6C-$8F
     .bank 4
-    .org $A000
+    .base $A000
     .include "PRG/prg004.asm"
 
     ; Objects $90-$B3 and special-function object placeholders ($B4-$BC, $D1-$D6)
     .bank 5
-    .org $A000
+    .base $A000
     .include "PRG/prg005.asm"
 
     ; Object placement/layout data (for levels)
     .bank 6
-    .org $C000
+    .base $C000
     .include "PRG/prg006.asm"
 
     ; Special Objects, Cannon Fire, and some miscellaneous routines
     .bank 7
-    .org $A000
+    .base $A000
     .include "PRG/prg007.asm"
 
     ; Most of Player control code
     .bank 8
-    .org $A000
+    .base $A000
     .include "PRG/prg008.asm"
 
     ; 2P Vs and Autoscroll
     .bank 9
-    .org $A000
+    .base $A000
     .include "PRG/prg009.asm"
 
     ; Handles map BG graphics and logic code; also stores a few DMC samples
     .bank 10
-    .org $C000
+    .base $C000
     .include "PRG/prg010.asm"
 
     ; Main map logic and map sprites
     .bank 11
-    .org $A000
+    .base $A000
     .include "PRG/prg011.asm"
 
     ; Tileset 0 (Map), Map object code, map level layouts (links to level layouts/object sets),
     ; completion code, Airship / bonus host room / toad shop / coin ship / unused map object $0C layout pointers
     .bank 12
-    .org $A000
+    .base $A000
     .include "PRG/prg012.asm"
 
     ; Tileset 14 (Underground style)
     .bank 13
-    .org $A000
+    .base $A000
     .include "PRG/prg013.asm"
 
     ; Tileset 18 (2P Vs), 2P Vs battlefields, and shared level load routines
     .bank 14
-    .org $C000
+    .base $C000
     .include "PRG/prg014.asm"
 
     ; Tileset 1 (Plains style)
     .bank 15
-    .org $A000
+    .base $A000
     .include "PRG/prg015.asm"
 
     ; Tileset 3 (Hills style)
     .bank 16
-    .org $A000
+    .base $A000
     .include "PRG/prg016.asm"
 
     ; Tileset 4 (High-Up style) / 12 (Ice)
     .bank 17
-    .org $A000
+    .base $A000
     .include "PRG/prg017.asm"
 
     ; Tileset 6 (Water level), 7 (Toad house), 8 (Vertical levels typical of World 7)
     .bank 18
-    .org $A000
+    .base $A000
     .include "PRG/prg018.asm"
 
     ; Tileset 5 (World 7 plant infestations), 11 (Giant World), 13 (Sky areas, inc. coin heaven)
     .bank 19
-    .org $A000
+    .base $A000
     .include "PRG/prg019.asm"
 
     ; Tileset 9 (Desert)
     .bank 20
-    .org $A000
+    .base $A000
     .include "PRG/prg020.asm"
 
     ; Tileset 2 (Fortress)
     .bank 21
-    .org $A000
+    .base $A000
     .include "PRG/prg021.asm"
 
     ; Bonus games (Spade, N-Spade, and the lost games)
     .bank 22
-    .org $C000
+    .base $C000
     .include "PRG/prg022.asm"
 
     ; Tileset 10 (Airship)
     .bank 23
-    .org $A000
+    .base $A000
     .include "PRG/prg023.asm"
 
     ; Title screen, ending (logic and images), Toad and King cinematic (Pre-wand-return only!)
     ; Also home a large copy/paste error from PRG022, first half of sprite lists for ending
     .bank 24
-    .org $A000
+    .base $A000
     .include "PRG/prg024.asm"
 
     ; Contains mostly command buffer graphics for title screen / ending (large images),
     ; second half of sprite lists for ending, and a table to access them
     .bank 25
-    .org $C000
+    .base $C000
     .include "PRG/prg025.asm"
 
     ; Tileset 15, 16, 17 (Bonus games)
     ; Status bar routines (draw, use items, etc.), level junctions
     ; (inc. pointers for Big [?] block area and generic pipe exits), border draw, fade routines
     .bank 26
-    .org $A000
+    .base $A000
     .include "PRG/prg026.asm"
 
     ; Palettes, palette routines, Toad and King Cinematic (Post-wand-return only!)
     .bank 27
-    .org $A000
+    .base $A000
     .include "PRG/prg027.asm"
 
     ; First bank of the sound engine
     .bank 28
-    .org $A000
+    .base $A000
     .include "PRG/prg028.asm"
 
     ; Some of the music segments, tile/block change event, pipe movement code, Toad House code,
     ; Player's draw and animation routines
     .bank 29
-    .org $C000
+    .base $C000
     .include "PRG/prg029.asm"
 
     ; This bank is ALWAYS active in ROM, sitting at 8000h-9FFFh
     ; Contains interrupt handling code and other constantly reused functionality
     .bank 30
-    .org $8000
+    .base $8000
     .include "PRG/prg030.asm"
 
     ; This bank is ALWAYS active in ROM, sitting at E000h-FFFFh
     ; Contains interrupt handling code and other constantly reused functionality
     .bank 31
-    .org $E000
+    .base $E000
     .include "PRG/prg031.asm"
 
 

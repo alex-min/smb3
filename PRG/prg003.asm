@@ -14,7 +14,7 @@
     ; CAUTION!! ObjectGroup02 labels MUST appear at the
     ; address specified by the predefined constants!  I can't
     ; verify this at the assembler level, so be careful!!
-    ; I'm using a ".org" directive to help enforce it, but
+    ; I'm using a ".base" directive to help enforce it, but
     ; the assembler does not warn you if you overwrite and
     ; instead will simply "stomp" on your code if you passed
     ; that limit ... sorry, original coders assumed a constant
@@ -22,7 +22,7 @@
 
     ; Object group $02 (i.e. objects starting at ID $48) State 1 jump table
 
-    .org ObjectGroup_InitJumpTable  ; <-- help enforce this table *here*
+    .base ObjectGroup_InitJumpTable  ; <-- help enforce this table *here*
 ObjectGroup02_InitJumpTable:
     .word ObjInit_TinyCheepCheep    ; Object $48 - OBJ_TINYCHEEPCHEEP
     .word ObjInit_FloatingBGCloud   ; Object $49 - OBJ_FLOATINGBGCLOUD
@@ -64,7 +64,7 @@ ObjectGroup02_InitJumpTable:
 
     ; Object group $02 (i.e. objects starting at ID $48) State 2 jump table
 
-    .org ObjectGroup_NormalJumpTable    ; <-- help enforce this table *here*
+    .base ObjectGroup_NormalJumpTable    ; <-- help enforce this table *here*
 ObjectGroup02_NormalJumpTable:
     .word ObjNorm_TinyCheepCheep    ; Object $48 - OBJ_TINYCHEEPCHEEP
     .word ObjNorm_FloatingBGCloud   ; Object $49 - OBJ_FLOATINGBGCLOUD
@@ -107,7 +107,7 @@ ObjectGroup02_NormalJumpTable:
     ; Object group $02 (i.e. objects starting at ID $48) Collision routine jump table (if calling Object_HitTestRespond;
     ; Special values of OCSPECIAL_KILLCHANGETO or OCSPECIAL_HIGHSCORE can be used here instead otherwise.)
 
-    .org ObjectGroup_CollideJumpTable   ; <-- help enforce this table *here*
+    .base ObjectGroup_CollideJumpTable   ; <-- help enforce this table *here*
 ObjectGroup02_CollideJumpTable:
     .word ObjHit_DoNothing  ; Object $48 - OBJ_TINYCHEEPCHEEP
     .word ObjHit_DoNothing  ; Object $49 - OBJ_FLOATINGBGCLOUD
@@ -149,7 +149,7 @@ ObjectGroup02_CollideJumpTable:
 
     ; Object group $02 (i.e. objects starting at ID $48) attribute bits set 1 (OA1_* flags valid here)
 
-    .org ObjectGroup_Attributes ; <-- help enforce this table *here*
+    .base ObjectGroup_Attributes ; <-- help enforce this table *here*
 ObjectGroup02_Attributes:
     .byte OA1_PAL1 | OA1_HEIGHT16 | OA1_WIDTH16 ; Object $48 - OBJ_TINYCHEEPCHEEP
     .byte OA1_PAL1 | OA1_HEIGHT16 | OA1_WIDTH48 ; Object $49 - OBJ_FLOATINGBGCLOUD
@@ -190,7 +190,7 @@ ObjectGroup02_Attributes:
 
     ; Object group $02 (i.e. objects starting at ID $48) second set attribute bits
 
-    .org ObjectGroup_Attributes2    ; <-- help enforce this table *here*
+    .base ObjectGroup_Attributes2    ; <-- help enforce this table *here*
 ObjectGroup02_Attributes2:
     .byte OA2_NOSHELLORSQUASH | OA2_TDOGRP1 ; Object $48 - OBJ_TINYCHEEPCHEEP
     .byte OA2_TDOGRP0   ; Object $49 - OBJ_FLOATINGBGCLOUD
@@ -232,7 +232,7 @@ ObjectGroup02_Attributes2:
 
     ; Object group $02 (i.e. objects starting at ID $48) third set attribute bits
 
-    .org ObjectGroup_Attributes3    ; <-- help enforce this table *here*
+    .base ObjectGroup_Attributes3    ; <-- help enforce this table *here*
 ObjectGroup02_Attributes3:
     .byte OA3_HALT_NORMALONLY | OA3_NOTSTOMPABLE    ; Object $48 - OBJ_TINYCHEEPCHEEP
     .byte OA3_HALT_NORMALONLY | OA3_TAILATKIMMUNE   ; Object $49 - OBJ_FLOATINGBGCLOUD
@@ -274,7 +274,7 @@ ObjectGroup02_Attributes3:
 
     ; Object group $02 (i.e. objects starting at ID $48) Pattern Table Select
 
-    .org ObjectGroup_PatTableSel    ; <-- help enforce this table *here*
+    .base ObjectGroup_PatTableSel    ; <-- help enforce this table *here*
 ObjectGroup02_PatTableSel:
     .byte OPTS_SETPT5 | $1A ; Object $48 - OBJ_TINYCHEEPCHEEP
     .byte OPTS_SETPT5 | $36 ; Object $49 - OBJ_FLOATINGBGCLOUD
@@ -319,7 +319,7 @@ ObjectGroup02_PatTableSel:
     ; See Object_DoKillAction for the jump table
     ; NOTE: Any action type other than zero always sets the frame to 2 (unless object is not general purpose, i.e. index >= 5)
 
-    .org ObjectGroup_KillAction ; <-- help enforce this table *here*
+    .base ObjectGroup_KillAction ; <-- help enforce this table *here*
 ObjectGroup02_KillAction:
     .byte KILLACT_JUSTDRAW16X16 ; Object $48 - OBJ_TINYCHEEPCHEEP
     .byte KILLACT_STANDARD  ; Object $49 - OBJ_FLOATINGBGCLOUD
@@ -363,7 +363,7 @@ ObjectGroup02_KillAction:
     ; These are used for all states except "normal"
 
 
-    .org ObjectGroup_PatternStarts  ; <-- help enforce this table *here*
+    .base ObjectGroup_PatternStarts  ; <-- help enforce this table *here*
 ObjectGroup02_PatternStarts:
     ; Index by object group relative index (ObjGroupRel_Idx)
     .byte ObjP48 - ObjectGroup02_PatternSets, ObjP49 - ObjectGroup02_PatternSets, ObjP4A - ObjectGroup02_PatternSets, ObjP4B - ObjectGroup02_PatternSets
@@ -388,7 +388,7 @@ ObjectGroup02_PatternStarts:
     ; valid JMP $xxxx instruction to go to an alternate giant shell
     ; drawing routine (since otherwise default code is used)
 
-    .org ObjectGroup_PatternSets    ; <-- help enforce this table *here*
+    .base ObjectGroup_PatternSets    ; <-- help enforce this table *here*
 ObjectGroup02_PatternSets:
     ; (End restricted alignment space)
 

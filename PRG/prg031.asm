@@ -3517,7 +3517,7 @@ Bound_FFFA:    BoundCheck Bound_FFFA, $FFFA, PRG031: Vector space
 ; VECTORS
 ; Must appear at $FFFA
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    .org $FFFA
+    .base $FFFA
 Vector_Table:
     .word IntNMI    ; $FFFA - NMI Interrupt (VBlank)
     .word IntReset  ; $FFFC - Reset Interrupt (boot up)
