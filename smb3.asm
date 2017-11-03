@@ -19,34 +19,34 @@
 
 
 ; Handy pseudo instructions... only make sense in the context of CMPing a number...
-BLT     .macro
-    BCC \1  ; A < CMP (unsigned)
+.macro BLT _1
+    BCC _1  ; A < CMP (unsigned)
     .endm
 
-BGE     .macro
-    BCS \1  ; A >= CMP (unsigned)
+.macro BGE _1
+    BCS _1  ; A >= CMP (unsigned)
     .endm
 
-BLS     .macro
-    BMI \1  ; A < CMP (signed)
+.macro BLS _1
+    BMI _1  ; A < CMP (signed)
     .endm
 
-BGS     .macro
-    BPL \1  ; A >= CMP (signed)
+.macro BGS _1
+    BPL _1  ; A >= CMP (signed)
     .endm
 
 ; Clarifying pseudo instructions
-ADD .macro  ; RegEx S&R "CLC.*\n.*?ADC" -> "ADD"
+.macro ADD _1  ; RegEx S&R "CLC.*\n.*?ADC" -> "ADD"
     CLC
-    ADC \1
+    ADC _1
     .endm
 
-SUB .macro  ; RegEx S&R "SEC.*\n.*?SBC" -> "SUB"
+.macro SUB _1  ; RegEx S&R "SEC.*\n.*?SBC" -> "SUB"
     SEC
-    SBC \1
+    SBC _1
     .endm
 
-NEG .macro  ; RegEx S&R "EOR #\$ff.*\n.*ADD #\$01" -> "NEG"
+.macro NEG _1  ; RegEx S&R "EOR #\$ff.*\n.*ADD #\$01" -> "NEG"
     EOR #$ff
     ADD #$01
     .endm
@@ -55,9 +55,9 @@ NEG .macro  ; RegEx S&R "EOR #\$ff.*\n.*ADD #\$01" -> "NEG"
 ; This is used in video update streams; since the video address register
 ; takes the address high-then-low (contrary to 6502's normal low-then-high),
 ; this allows a 16-bit value but "corrects" it to the proper endianness.
-vaddr   .macro
-    .byte (\1 & $FF00) >> 8
-    .byte (\1 & $00FF)
+.macro vaddr _1
+    .byte (_1 & $FF00) >> 8
+    .byte (_1 & $00FF)
     .endm
 
 ; These are flags related to a video update stream value
@@ -65,9 +65,9 @@ VU_VERT     = $80   ; Update in vertical (+32B) mode instead of horizontal (+1B)
 VU_REPEAT   = $40   ; Repeat following value several times instead of several raw values
 
 ; Provides a compilation-failing boundary check
-BoundCheck: .macro
-            if \1 > \2
-            fail \3 boundary exceeded (> \2)
+.macro BoundCheck _1, _2, _3
+            if _1 > _2
+            fail _3 boundary exceeded (> _2)
             endif
         .endm
 
@@ -79,8 +79,8 @@ BoundCheck: .macro
 ; Usage example:
 ;
 ; .LabelPriorToDMC: DMCAlign .LabelPriorToDMC
-DMCAlign:   .macro
-            .dsb ((\1 + $3F) & $FFC0) - \1
+.macro DMCAlign _1
+            .dsb ((_1 + $3F) & $FFC0) - _1
         .endm
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
