@@ -31,7 +31,7 @@ Tile_Mem_Addr:
     ; like they did, but whatever... 16 vertical screens available
 
     ; High bytes are separate from low
-Tile_MemH = HIGH(Tile_Mem)
+Tile_MemH = >Tile_Mem
 
     ; Vertical low byte, per screen
 Tile_Mem_AddrVL:
@@ -482,11 +482,11 @@ PRG030_8437:
     ; N-Spade appears every 80,000 points, but the leading zero is fake, so 8000
 
     ; Middle byte of the N-Spade score
-    LDA #HIGH(8000)
+    LDA #>8000
     STA Map_NSpade_NextScore+1
 
     ; Lowest byte of the N-Spade score
-    LDA #LOW(8000)
+    LDA #<8000
     STA Map_NSpade_NextScore+2
 
 PRG030_845A:
@@ -1351,10 +1351,10 @@ PRG030_893F:
     STA THouse_Treasure
 
     ; Force object set at TOADO (Toad and the message object)
-    LDA #LOW(TOADO)
+    LDA #<TOADO
     STA Level_ObjPtr_AddrL
     STA Level_ObjPtrOrig_AddrL
-    LDA #HIGH(TOADO)
+    LDA #>TOADO
     STA Level_ObjPtr_AddrH
     STA Level_ObjPtrOrig_AddrH
 
@@ -3489,11 +3489,11 @@ PRG030_94A2:
     ; N-Spade appears every 80,000 points, but the leading zero is fake, so 8000
 
     ; Middle byte of the N-Spade score
-    LDA #HIGH(8000)
+    LDA #>8000
     STA Map_NSpade_NextScore+1
 
     ; Lowest byte of the N-Spade score
-    LDA #LOW(8000)
+    LDA #<8000
     STA Map_NSpade_NextScore+2
 
     RTS      ; Return

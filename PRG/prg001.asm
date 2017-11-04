@@ -2797,15 +2797,15 @@ ObjNorm_WarpHide:
     STA Player_YVel
 
     ; Special Toad House object layout
-    LDA #LOW(TOAD_SpecO)
+    LDA #<TOAD_SpecO
     STA Level_ObjPtr_AddrL
-    LDA #HIGH(TOAD_SpecO)
+    LDA #>TOAD_SpecO
     STA Level_ObjPtr_AddrH
 
     ; Special Toad House level layout
-    LDA #LOW(TOAD_SpecL)
+    LDA #<TOAD_SpecL
     STA Level_LayPtr_AddrL
-    LDA #HIGH(TOAD_SpecL)
+    LDA #>TOAD_SpecL
     STA Level_LayPtr_AddrH
 
     ; Jump to special Toad House

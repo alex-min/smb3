@@ -3406,7 +3406,7 @@ PRG005_B0AE:
     BGE PRG005_B0DD  ; If Player Y Hi >= 16 (Player is really low) jump to PRG005_B0DD
 
     ; Tile_Mem address high byte
-    ADC #HIGH(Tile_Mem)
+    ADC #>Tile_Mem
     STA Temp_Var2
 
     LDA Player_X

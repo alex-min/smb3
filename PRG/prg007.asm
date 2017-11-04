@@ -203,7 +203,7 @@ PRG007_A0DE:
     STA Temp_Var3  ; -> Temp_Var3
 
     ; High byte of Tile_Mem -> Temp_Var2
-    ORA #HIGH(Tile_Mem)
+    ORA #>Tile_Mem
     STA Temp_Var2
 
     LDA Player_X   ; Get Player X
@@ -958,7 +958,7 @@ Fireball_DetectWorld:
 
     ; Temp_Var2 = high byte of tile memory
     LDA Level_VertScrollH   ; Current vertical scroll high
-    ADC #HIGH(Tile_Mem) ; Add the upper byte of the Tile_Mem address
+    ADC #>Tile_Mem ; Add the upper byte of the Tile_Mem address
     STA Temp_Var2      ; -> Temp_Var2
 
     ; Temp_Var14 = fireball X + 4
@@ -1785,7 +1785,7 @@ PRG007_A89A:
     STA Temp_Var3  ; Temp_Var3 = bubble row (offset into tile memory)
 
     LDA Bubble_YHi,X
-    ADC #HIGH(Tile_Mem)
+    ADC #>Tile_Mem
     STA Temp_Var2  ; Temp_Var2 = bubble high offset into tile memory
 
     ; Create row/column offset into tile memory for current screen of bubble -> Temp_var1
@@ -2120,34 +2120,34 @@ Score_PatternRight: .byte $5B, $63, $6B, $6D, $69, $69, $69, $69, $59, $59, $59,
 
     ; Score to add (low byte)
 ScoreAdd_L:
-    .byte LOW(  1)  ;   10 points
-    .byte LOW(  2)  ;   20 points
-    .byte LOW(  4)  ;   40 points
-    .byte LOW(  8)  ;   80 points
-    .byte LOW( 10)  ;  100 points
-    .byte LOW( 20)  ;  200 points
-    .byte LOW( 40)  ;  400 points
-    .byte LOW( 80)  ;  800 points
-    .byte LOW(100)  ; 1000 points
-    .byte LOW(200)  ; 2000 points
-    .byte LOW(400)  ; 4000 points
-    .byte LOW(800)  ; 8000 points
+    .byte <  1  ;   10 points
+    .byte <  2  ;   20 points
+    .byte <  4  ;   40 points
+    .byte <  8  ;   80 points
+    .byte < 10  ;  100 points
+    .byte < 20  ;  200 points
+    .byte < 40  ;  400 points
+    .byte < 80  ;  800 points
+    .byte <100  ; 1000 points
+    .byte <200  ; 2000 points
+    .byte <400  ; 4000 points
+    .byte <800  ; 8000 points
     .byte $00   ; 1-up (no score value)
 
     ; Score to add (high byte)
 ScoreAdd_H:
-    .byte HIGH(  1) ;   10 points
-    .byte HIGH(  2) ;   20 points
-    .byte HIGH(  4) ;   40 points
-    .byte HIGH(  8) ;   80 points
-    .byte HIGH( 10) ;  100 points
-    .byte HIGH( 20) ;  200 points
-    .byte HIGH( 40) ;  400 points
-    .byte HIGH( 80) ;  800 points
-    .byte HIGH(100) ; 1000 points
-    .byte HIGH(200) ; 2000 points
-    .byte HIGH(400) ; 4000 points
-    .byte HIGH(800) ; 8000 points
+    .byte >  1 ;   10 points
+    .byte >  2 ;   20 points
+    .byte >  4 ;   40 points
+    .byte >  8 ;   80 points
+    .byte > 10 ;  100 points
+    .byte > 20 ;  200 points
+    .byte > 40 ;  400 points
+    .byte > 80 ;  800 points
+    .byte >100 ; 1000 points
+    .byte >200 ; 2000 points
+    .byte >400 ; 4000 points
+    .byte >800 ; 8000 points
     .byte $00   ; 1-up (no score value)
 
 

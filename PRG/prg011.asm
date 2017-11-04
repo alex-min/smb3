@@ -2234,12 +2234,12 @@ PRG011_ACAC:
 
     ; High byte of the N-Spade score
     LDA Map_NSpade_NextScore+2
-    ADD #LOW(8000)
+    ADD #<8000
     STA Map_NSpade_NextScore+2
 
     ; Middle byte of the N-Spade score
     LDA Map_NSpade_NextScore+1
-    ADC #HIGH(8000)
+    ADC #>8000
     STA Map_NSpade_NextScore+1
 
     ; Low byte of the N-Spade score

@@ -528,22 +528,22 @@ KingText_Hammer:
     .byte $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE
 
 DiagText_BySuit_L:
-    .byte LOW(KingText_Typical) ; Small
-    .byte LOW(KingText_Typical) ; Big
-    .byte LOW(KingText_Typical) ; Fire
-    .byte LOW(KingText_Typical) ; Raccoon
-    .byte LOW(KingText_Frog)    ; Frog
-    .byte LOW(KingText_Tanooki) ; Tanooki
-    .byte LOW(KingText_Hammer)  ; Hammer
+    .byte <KingText_Typical ; Small
+    .byte <KingText_Typical ; Big
+    .byte <KingText_Typical ; Fire
+    .byte <KingText_Typical ; Raccoon
+    .byte <KingText_Frog    ; Frog
+    .byte <KingText_Tanooki ; Tanooki
+    .byte <KingText_Hammer  ; Hammer
 
 DiagText_BySuit_H:
-    .byte HIGH(KingText_Typical)    ; Small
-    .byte HIGH(KingText_Typical)    ; Big
-    .byte HIGH(KingText_Typical)    ; Fire
-    .byte HIGH(KingText_Typical)    ; Raccoon
-    .byte HIGH(KingText_Frog)   ; Frog
-    .byte HIGH(KingText_Tanooki)    ; Tanooki
-    .byte HIGH(KingText_Hammer) ; Hammer
+    .byte >KingText_Typical    ; Small
+    .byte >KingText_Typical    ; Big
+    .byte >KingText_Typical    ; Fire
+    .byte >KingText_Typical    ; Raccoon
+    .byte >KingText_Frog   ; Frog
+    .byte >KingText_Tanooki    ; Tanooki
+    .byte >KingText_Hammer ; Hammer
 
 
 TAndK_DoKingText:

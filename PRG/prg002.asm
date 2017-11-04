@@ -3945,8 +3945,8 @@ ToadMsg_AnchorPWing:
     ; Warp Whistle
     ; Standard
     ; Anchor/P-Wing
-ToadMsg_Low:    .byte LOW(ToadMsg_WarpWhistle), LOW(ToadMsg_Standard), LOW(ToadMsg_AnchorPWing)
-ToadMsg_High:   .byte HIGH(ToadMsg_WarpWhistle), HIGH(ToadMsg_Standard), HIGH(ToadMsg_AnchorPWing)
+ToadMsg_Low:    .byte <ToadMsg_WarpWhistle, <ToadMsg_Standard, <ToadMsg_AnchorPWing
+ToadMsg_High:   .byte >ToadMsg_WarpWhistle, >ToadMsg_Standard, >ToadMsg_AnchorPWing
 
 
 Toad_DoToadText:

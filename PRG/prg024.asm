@@ -5777,11 +5777,11 @@ PRG024_BD01:
     ; N-Spade appears every 80,000 points, but the leading zero is fake, so 8000
 
     ; Middle byte of the N-Spade score
-    LDA #HIGH(8000)
+    LDA #>8000
     STA Map_NSpade_NextScore+1
 
     ; Lowest byte of the N-Spade score
-    LDA #LOW(8000)
+    LDA #<8000
     STA Map_NSpade_NextScore+2
 
     ; If they jumped a little earlier, they could've included the N-Spade score init, strangely
@@ -6282,24 +6282,24 @@ Ending2_EndPicPatTable5:    .byte $4F, $4F, $00, $00, $4F, $4F, $4F, $00
 
     ; Split address, parallel tables for the starting address of the end picture sprite lists for each world
 Ending2_EndPicSpriteListH:
-    .byte HIGH(Ending2_EndPicSprites1)
-    .byte HIGH(Ending2_EndPicSprites2)
-    .byte HIGH(Ending2_EndPicSprites3)
-    .byte HIGH(Ending2_EndPicSprites4)
-    .byte HIGH(Ending2_EndPicSprites5)
-    .byte HIGH(Ending2_EndPicSprites6)
-    .byte HIGH(Ending2_EndPicSprites7)
-    .byte HIGH(Ending2_EndPicSprites8)
+    .byte >Ending2_EndPicSprites1
+    .byte >Ending2_EndPicSprites2
+    .byte >Ending2_EndPicSprites3
+    .byte >Ending2_EndPicSprites4
+    .byte >Ending2_EndPicSprites5
+    .byte >Ending2_EndPicSprites6
+    .byte >Ending2_EndPicSprites7
+    .byte >Ending2_EndPicSprites8
 
 Ending2_EndPicSpriteListL:
-    .byte LOW(Ending2_EndPicSprites1)
-    .byte LOW(Ending2_EndPicSprites2)
-    .byte LOW(Ending2_EndPicSprites3)
-    .byte LOW(Ending2_EndPicSprites4)
-    .byte LOW(Ending2_EndPicSprites5)
-    .byte LOW(Ending2_EndPicSprites6)
-    .byte LOW(Ending2_EndPicSprites7)
-    .byte LOW(Ending2_EndPicSprites8)
+    .byte <Ending2_EndPicSprites1
+    .byte <Ending2_EndPicSprites2
+    .byte <Ending2_EndPicSprites3
+    .byte <Ending2_EndPicSprites4
+    .byte <Ending2_EndPicSprites5
+    .byte <Ending2_EndPicSprites6
+    .byte <Ending2_EndPicSprites7
+    .byte <Ending2_EndPicSprites8
 
     ; Length of the sprite list per world - 1 (or last index, if you prefer)
 Ending2_EndPicSpriteListLen:

@@ -1197,46 +1197,46 @@ PRG022_C852:
     RTS      ; Return
 
 BonusText_HostGreetPtrL:
-    .byte LOW(BonusGame_UNUSED0_Text)   ; 0: UNUSED (Japanese) Give key / coins
-    .byte LOW(BonusGame_Spade_Text)     ; 1: Standard Spade Game instruction (OLD position of "Odd" game)
-    .byte LOW(BonusGame_NSpade_Text)    ; 2: N-Spade instruction (OLD position of "Even" Game)
-    .byte LOW(BonusGame_UNUSED3_Text)   ; 3: UNUSED "CCCCCCC CCCCCCC"
-    .byte LOW(BonusGame_UNUSED4_Text)   ; 4: UNUSED "DDDDDDD"
-    .byte LOW(BonusGame_UNUSED5_Text)   ; 5: UNUSED (Japanese) "If an odd number appears, I'll let you play the Roulette Game."
-    .byte LOW(BonusGame_UNUSED6_Text)   ; 6: UNUSED (Japanese) "If an even number appears, I'll let you play the Card Game."
-    .byte LOW(BonusGame_UNUSED7_Text)   ; 7: UNUSED (Japanese) "2, return (?)"
+    .byte <BonusGame_UNUSED0_Text   ; 0: UNUSED (Japanese) Give key / coins
+    .byte <BonusGame_Spade_Text     ; 1: Standard Spade Game instruction (OLD position of "Odd" game)
+    .byte <BonusGame_NSpade_Text    ; 2: N-Spade instruction (OLD position of "Even" Game)
+    .byte <BonusGame_UNUSED3_Text   ; 3: UNUSED "CCCCCCC CCCCCCC"
+    .byte <BonusGame_UNUSED4_Text   ; 4: UNUSED "DDDDDDD"
+    .byte <BonusGame_UNUSED5_Text   ; 5: UNUSED (Japanese) "If an odd number appears, I'll let you play the Roulette Game."
+    .byte <BonusGame_UNUSED6_Text   ; 6: UNUSED (Japanese) "If an even number appears, I'll let you play the Card Game."
+    .byte <BonusGame_UNUSED7_Text   ; 7: UNUSED (Japanese) "2, return (?)"
 
 BonusText_HostGreetPtrH:
-    .byte HIGH(BonusGame_UNUSED0_Text)  ; 0: UNUSED (Japanese) Give key / coins
-    .byte HIGH(BonusGame_Spade_Text)    ; 1: Standard Spade Game instruction (OLD position of "Odd" game)
-    .byte HIGH(BonusGame_NSpade_Text)   ; 2: N-Spade instruction (OLD position of "Even" game)
-    .byte HIGH(BonusGame_UNUSED3_Text)  ; 3: UNUSED "CCCCCCC CCCCCCC"
-    .byte HIGH(BonusGame_UNUSED4_Text)  ; 4: UNUSED "DDDDDDD"
-    .byte HIGH(BonusGame_UNUSED5_Text)  ; 5: UNUSED (Japanese) "If an odd number appears, I'll let you play the Roulette Game."
-    .byte HIGH(BonusGame_UNUSED6_Text)  ; 6: UNUSED (Japanese) "If an even number appears, I'll let you play the Card Game."
-    .byte HIGH(BonusGame_UNUSED7_Text)  ; 7: UNUSED (Japanese) "2, return (?)"
+    .byte >BonusGame_UNUSED0_Text  ; 0: UNUSED (Japanese) Give key / coins
+    .byte >BonusGame_Spade_Text    ; 1: Standard Spade Game instruction (OLD position of "Odd" game)
+    .byte >BonusGame_NSpade_Text   ; 2: N-Spade instruction (OLD position of "Even" game)
+    .byte >BonusGame_UNUSED3_Text  ; 3: UNUSED "CCCCCCC CCCCCCC"
+    .byte >BonusGame_UNUSED4_Text  ; 4: UNUSED "DDDDDDD"
+    .byte >BonusGame_UNUSED5_Text  ; 5: UNUSED (Japanese) "If an odd number appears, I'll let you play the Roulette Game."
+    .byte >BonusGame_UNUSED6_Text  ; 6: UNUSED (Japanese) "If an even number appears, I'll let you play the Card Game."
+    .byte >BonusGame_UNUSED7_Text  ; 7: UNUSED (Japanese) "2, return (?)"
 
     ; A whole bunch of unused, untranslated text only really hooked into the Odd/Even game
     ; These would be used in "Round 2."
 BonusText_Round2PtrL:
-    .byte LOW(BonusGame_UNUSED_Etc0)    ; 0
-    .byte LOW(BonusGame_UNUSED_Etc1)    ; 1: OLD position of Odd Game winner (string identical to 5)
-    .byte LOW(BonusGame_UNUSED_Etc2)    ; 2: OLD position of Even Game winner (string identical to 6)
-    .byte LOW(BonusGame_UNUSED_Etc3)    ; 3
-    .byte LOW(BonusGame_UNUSED_Etc4)    ; 4
-    .byte LOW(BonusGame_UNUSED_Etc5)    ; 5: Odd Game winner! (BONUS_UNUSED_ODDROULETTE)
-    .byte LOW(BonusGame_UNUSED_Etc6)    ; 6: Even Game winner! (BONUS_UNUSED_EVENCARD)
-    .byte LOW(BonusGame_UNUSED_Etc7)    ; 7
+    .byte <BonusGame_UNUSED_Etc0    ; 0
+    .byte <BonusGame_UNUSED_Etc1    ; 1: OLD position of Odd Game winner (string identical to 5)
+    .byte <BonusGame_UNUSED_Etc2    ; 2: OLD position of Even Game winner (string identical to 6)
+    .byte <BonusGame_UNUSED_Etc3    ; 3
+    .byte <BonusGame_UNUSED_Etc4    ; 4
+    .byte <BonusGame_UNUSED_Etc5    ; 5: Odd Game winner! (BONUS_UNUSED_ODDROULETTE)
+    .byte <BonusGame_UNUSED_Etc6    ; 6: Even Game winner! (BONUS_UNUSED_EVENCARD)
+    .byte <BonusGame_UNUSED_Etc7    ; 7
 
 BonusText_Round2PtrH:
-    .byte HIGH(BonusGame_UNUSED_Etc0)   ; 0
-    .byte HIGH(BonusGame_UNUSED_Etc1)   ; 1: OLD position of Odd Game winner (string identical to 5)
-    .byte HIGH(BonusGame_UNUSED_Etc2)   ; 2: OLD position of Even Game winner (string identical to 6)
-    .byte HIGH(BonusGame_UNUSED_Etc3)   ; 3
-    .byte HIGH(BonusGame_UNUSED_Etc4)   ; 4
-    .byte HIGH(BonusGame_UNUSED_Etc5)   ; 5: Odd Game winner! (BONUS_UNUSED_ODDROULETTE)
-    .byte HIGH(BonusGame_UNUSED_Etc6)   ; 6: Even Game winner! (BONUS_UNUSED_EVENCARD)
-    .byte HIGH(BonusGame_UNUSED_Etc7)   ; 7
+    .byte >BonusGame_UNUSED_Etc0   ; 0
+    .byte >BonusGame_UNUSED_Etc1   ; 1: OLD position of Odd Game winner (string identical to 5)
+    .byte >BonusGame_UNUSED_Etc2   ; 2: OLD position of Even Game winner (string identical to 6)
+    .byte >BonusGame_UNUSED_Etc3   ; 3
+    .byte >BonusGame_UNUSED_Etc4   ; 4
+    .byte >BonusGame_UNUSED_Etc5   ; 5: Odd Game winner! (BONUS_UNUSED_ODDROULETTE)
+    .byte >BonusGame_UNUSED_Etc6   ; 6: Even Game winner! (BONUS_UNUSED_EVENCARD)
+    .byte >BonusGame_UNUSED_Etc7   ; 7
 
 
 BonusGame_Do:

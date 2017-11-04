@@ -486,9 +486,9 @@ PRG029_CF0B:
     STA Temp_Var1
 
 PRG029_CF1E:
-    LDA #LOW(SPPF_Table-4)
+    LDA #<SPPF_Table-4
     STA Player_SprWorkL
-    LDA #HIGH(SPPF_Table-4)
+    LDA #>SPPF_Table-4
     STA Player_SprWorkH
 
     ; X = Player_Frame

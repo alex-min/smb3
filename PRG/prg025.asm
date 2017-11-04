@@ -103,11 +103,11 @@ Ending2_EndPicSprites8_End
 
 
     ; Split address, parallel tables for the starting address of the end picture for each world
-EndPicByWorld_H:.byte HIGH(EndPic_World1), HIGH(EndPic_World2), HIGH(EndPic_World3), HIGH(EndPic_World4)
-        .byte HIGH(EndPic_World5), HIGH(EndPic_World6), HIGH(EndPic_World7), HIGH(EndPic_World8)
+EndPicByWorld_H:.byte >EndPic_World1, >EndPic_World2, >EndPic_World3, >EndPic_World4
+        .byte >EndPic_World5, >EndPic_World6, >EndPic_World7, >EndPic_World8
 
-EndPicByWorld_L:.byte LOW(EndPic_World1), LOW(EndPic_World2), LOW(EndPic_World3), LOW(EndPic_World4)
-        .byte LOW(EndPic_World5), LOW(EndPic_World6), LOW(EndPic_World7), LOW(EndPic_World8)
+EndPicByWorld_L:.byte <EndPic_World1, <EndPic_World2, <EndPic_World3, <EndPic_World4
+        .byte <EndPic_World5, <EndPic_World6, <EndPic_World7, <EndPic_World8
 
     ; $C0 bytes are expected to be loaded into the Ending_CmdBuffer buffer.
     ; The EndPics are mostly raw with a simple compression, specifically if
