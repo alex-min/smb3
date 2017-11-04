@@ -55,7 +55,7 @@
 ; This is used in video update streams; since the video address register
 ; takes the address high-then-low (contrary to 6502's normal low-then-high),
 ; this allows a 16-bit value but "corrects" it to the proper endianness.
-.macro vaddr _1
+.macro DBYT _1
     .byte (_1 & $FF00) >> 8
     .byte (_1 & $00FF)
     .endm

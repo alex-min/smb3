@@ -199,7 +199,7 @@ PRG009_A0C2:
 
     ; Graphics buffer commands to put a "coin" in the Player's top screen status
 Vs_PlayerCoinStatCmds:
-    vaddr $2000 ; will be patched
+    DBYT $2000 ; will be patched
 
     ; Draw "coin" (repeat length of 1 is silly)
     .byte VU_REPEAT | 1, $2C

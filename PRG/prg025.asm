@@ -327,7 +327,7 @@ Video_Upd_Table2:
 Title_Load_Palette:
     ; This is the initial palette applied to the title screen
 
-    vaddr $3F00
+    DBYT $3F00
     .byte 32    ; 32 bytes to follow (32 colors)
 
     ; The colors!
@@ -337,27 +337,27 @@ Title_Load_Palette:
     ; Falls into...
 
 Title_Checkerboard_Floor:
-    vaddr $22E0 ; Bottom of nametable
+    DBYT $22E0 ; Bottom of nametable
     .byte 32    ; 32 bytes to follow
     .byte $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19
     .byte $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19
 
-    vaddr $2B00
+    DBYT $2B00
     .byte 32    ; 32 bytes to follow
     .byte $15, $15, $16, $16, $15, $15, $16, $16, $15, $15, $16, $16, $15, $15, $16, $16
     .byte $15, $15, $16, $16, $15, $15, $16, $16, $15, $15, $16, $16, $15, $15, $16, $16
 
-    vaddr $2B20
+    DBYT $2B20
     .byte 32    ; 32 bytes to follow
     .byte $E6, $E6, $E7, $E7, $E6, $E6, $E7, $E7, $E6, $E6, $E7, $E7, $E6, $E6, $E7, $E7
     .byte $E6, $E6, $E7, $E7, $E6, $E6, $E7, $E7, $E6, $E6, $E7, $E7, $E6, $E6, $E7, $E7
 
-    vaddr $2B40
+    DBYT $2B40
     .byte 32    ; 32 bytes to follow
     .byte $F6, $F6, $F7, $F7, $F6, $F6, $F7, $F7, $F6, $F6, $F7, $F7, $F6, $F6, $F7, $F7
     .byte $F6, $F6, $F7, $F7, $F6, $F6, $F7, $F7, $F6, $F6, $F7, $F7, $F6, $F6, $F7, $F7
 
-    vaddr $2B60
+    DBYT $2B60
     .byte 32    ; 32 bytes to follow
     .byte $5D, $5D, $5F, $5F, $5D, $5D, $5F, $5F, $5D, $5D, $5F, $5F, $5D, $5D, $5F, $5F
     .byte $5D, $5D, $5F, $5F, $5D, $5D, $5F, $5F, $5D, $5D, $5F, $5F, $5D, $5D, $5F, $5F
@@ -366,7 +366,7 @@ Title_Checkerboard_Floor:
     .byte $00
 
 TitleScreen_LogoLine01:
-    vaddr $2000
+    DBYT $2000
     .byte $20, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09
@@ -375,7 +375,7 @@ TitleScreen_LogoLine01:
     .byte $00
 
 TitleScreen_LogoLine02:
-    vaddr $2020
+    DBYT $2020
     .byte $20, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18
     .byte $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18
     .byte $19
@@ -384,7 +384,7 @@ TitleScreen_LogoLine02:
     .byte $00
 
 TitleScreen_LogoLine03:
-    vaddr $2040
+    DBYT $2040
     .byte $20, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28
     .byte $29, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28
     .byte $29
@@ -393,17 +393,17 @@ TitleScreen_LogoLine03:
     .byte $00
 
 TitleScreen_LogoLine04:
-    vaddr $2060
+    DBYT $2060
     .byte VU_REPEAT | $20, $5C
 
     ; Terminator
     .byte $00
 
 TitleScreen_LogoLine05:
-    vaddr $2080
+    DBYT $2080
     .byte VU_REPEAT | $0B, $5C
 
-    vaddr $208B
+    DBYT $208B
     .byte $15, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $3A, $5C, $5C, $5C, $5C
     .byte $3B, $3C, $3D, $3E, $5C, $5C
 
@@ -411,10 +411,10 @@ TitleScreen_LogoLine05:
     .byte $00
 
 TitleScreen_LogoLine06:
-    vaddr $20A0
+    DBYT $20A0
     .byte VU_REPEAT | $0B, $5C
 
-    vaddr $20AB
+    DBYT $20AB
     .byte $15, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $4A, $5C, $5C, $5C, $5C
     .byte $4B, $4C, $4D, $4E, $5C, $5C
 
@@ -422,29 +422,29 @@ TitleScreen_LogoLine06:
     .byte $00
 
 TitleScreen_LogoLine07:
-    vaddr $20C0
+    DBYT $20C0
     .byte $16, $5C, $5C, $3B, $3C, $3D, $3E, $5C, $5C, $5C, $5C, $5C, $50, $51, $52, $53
     .byte $54, $55, $56, $57, $58, $59, $5A
 
-    vaddr $20D6
+    DBYT $20D6
     .byte VU_REPEAT | $0A, $5C
 
     ; Terminator
     .byte $00
 
 TitleScreen_LogoLine08:
-    vaddr $20E0
+    DBYT $20E0
     .byte $16, $5C, $5C, $4B, $4C, $4D, $4E, $5C, $5C, $5C, $5C, $5C, $60, $61, $62, $63
     .byte $64, $65, $66, $67, $68, $69, $6A
 
-    vaddr $20F6
+    DBYT $20F6
     .byte VU_REPEAT | $0A, $5C
 
     ; Terminator
     .byte $00
 
 TitleScreen_LogoLine09:
-    vaddr $2100
+    DBYT $2100
     .byte $20, $5C, $5C, $5C, $5C, $5C, $70, $71, $72, $73, $74, $75, $76, $77, $78, $79
     .byte $7A, $7B, $5C, $7D, $7E, $7F, $C0, $C1, $C2, $C3, $C4, $C5, $5C, $5C, $5C, $5C
     .byte $5C
@@ -453,7 +453,7 @@ TitleScreen_LogoLine09:
     .byte $00
 
 TitleScreen_LogoLine10:
-    vaddr $2120
+    DBYT $2120
     .byte $20, $5C, $5C, $5C, $5C, $5C, $80, $81, $82, $83, $84, $85, $86, $87, $88, $89
     .byte $8A, $8B, $8C, $8D, $8E, $8F, $D0, $D1, $D2, $D3, $D4, $D5, $5C, $5C, $5C, $5C
     .byte $5C
@@ -462,7 +462,7 @@ TitleScreen_LogoLine10:
     .byte $00
 
 TitleScreen_LogoLine11:
-    vaddr $2140
+    DBYT $2140
     .byte $20, $5C, $5C, $5C, $5C, $5C, $90, $91, $92, $93, $94, $95, $96, $97, $98, $99
     .byte $9A, $9B, $9C, $9D, $9E, $9F, $E0, $E1, $E2, $E3, $E4, $E5, $5C, $5C, $5C, $5C
     .byte $5C
@@ -471,7 +471,7 @@ TitleScreen_LogoLine11:
     .byte $00
 
 TitleScreen_LogoLine12:
-    vaddr $2160
+    DBYT $2160
     .byte $20, $5C, $5C, $5C, $5C, $5C, $A0, $A1, $A2, $A3, $A4, $A5, $A6, $A7, $A8, $A9
     .byte $AA, $AB, $AC, $AD, $AE, $AF, $F0, $F1, $F2, $F3, $F4, $F5, $5C, $5C, $5C, $5C
     .byte $5C
@@ -480,7 +480,7 @@ TitleScreen_LogoLine12:
     .byte $00
 
 TitleScreen_LogoLine13:
-    vaddr $2180
+    DBYT $2180
     .byte $20, $5B, $6B, $5C, $5C, $5C, $B0, $B1, $B2, $B3, $B4, $B5, $B6, $B7, $B8, $B9
     .byte $BA, $BB, $BC, $BD, $BE, $BF, $C6, $C7, $C8, $D6, $D7, $D8, $E8, $04, $05, $06
     .byte $07
@@ -489,10 +489,10 @@ TitleScreen_LogoLine13:
     .byte $00
 
 TitleScreen_LogoLine14:
-    vaddr $21A0
+    DBYT $21A0
     .byte VU_REPEAT | $0E, $5C
 
-    vaddr $21AE
+    DBYT $21AE
     .byte $12, $C9, $CA, $CB, $CC, $CD, $CE, $CF, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $14
     .byte $21, $21, $17
 
@@ -500,10 +500,10 @@ TitleScreen_LogoLine14:
     .byte $00
 
 TitleScreen_LogoLine15:
-    vaddr $21C0
+    DBYT $21C0
     .byte VU_REPEAT | $0E, $5C
 
-    vaddr $21CE
+    DBYT $21CE
     .byte $12, $D9, $DA, $DB, $DC, $DD, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $20
     .byte $21, $21, $23
 
@@ -511,10 +511,10 @@ TitleScreen_LogoLine15:
     .byte $00
 
 TitleScreen_LogoLine16:
-    vaddr $21E0
+    DBYT $21E0
     .byte VU_REPEAT | $0E, $5C
 
-    vaddr $21EE
+    DBYT $21EE
     .byte $12, $E9, $EA, $EB, $EC, $ED, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $20
     .byte $21, $21, $23
 
@@ -522,7 +522,7 @@ TitleScreen_LogoLine16:
     .byte $00
 
 TitleScreen_LogoLine17:
-    vaddr $2200
+    DBYT $2200
     .byte $20, $04, $05, $06, $07, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $F9
     .byte $FA, $FB, $FF, $FD, $FE, $5C, $5C, $5C, $5C, $5C, $5C, $04, $05, $02, $03, $21
     .byte $23
@@ -531,7 +531,7 @@ TitleScreen_LogoLine17:
     .byte $00
 
 TitleScreen_LogoLine18:
-    vaddr $2220
+    DBYT $2220
     .byte $20, $14, $21, $21, $22, $24, $25, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $6C
     .byte $6D, $6E, $6F, $DE, $DF, $5C, $5C, $5C, $5C, $5C, $5C, $14, $21, $21, $13, $21
     .byte $23
@@ -540,7 +540,7 @@ TitleScreen_LogoLine18:
     .byte $00
 
 TitleScreen_LogoLine19:
-    vaddr $2240
+    DBYT $2240
     .byte $20, $20, $21, $21, $23, $5F, $11, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $5C
     .byte $5C, $EE, $EF, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $5C, $20, $21, $21, $21, $21
     .byte $23
@@ -549,72 +549,72 @@ TitleScreen_LogoLine19:
     .byte $00
 
 TitleScreen_LogoLine20:
-    vaddr $2260
+    DBYT $2260
     .byte $06, $20, $21, $21, $23, $5F, $5F
 
-    vaddr $2266
+    DBYT $2266
     .byte VU_REPEAT | $14, $5C
 
-    vaddr $227A
+    DBYT $227A
     .byte $06, $20, $21, $21, $21, $21, $23
 
     ; Terminator
     .byte $00
 
 TitleScreen_LogoLine21:
-    vaddr $2280
+    DBYT $2280
     .byte $06, $20, $21, $00, $01, $26, $27
 
-    vaddr $2286
+    DBYT $2286
     .byte VU_REPEAT | $14, $5C
 
-    vaddr $229A
+    DBYT $229A
     .byte $06, $20, $21, $21, $21, $21, $23
 
     ; Terminator
     .byte $00
 
 TitleScreen_LogoLine22:
-    vaddr $22A0
+    DBYT $22A0
     .byte $08, $20, $21, $10, $21, $21, $22, $24, $25
 
-    vaddr $22A8
+    DBYT $22A8
     .byte VU_REPEAT | $12, $5C
 
-    vaddr $22BA
+    DBYT $22BA
     .byte $06, $20, $21, $21, $21, $21, $23
 
     ; Terminator
     .byte $00
 
 TitleScreen_LogoLine23:
-    vaddr $22C0
+    DBYT $22C0
     .byte $08, $20, $21, $21, $21, $21, $23, $5F, $11
 
-    vaddr $22C8
+    DBYT $22C8
     .byte VU_REPEAT | $10, $5C
 
-    vaddr $22D8
+    DBYT $22D8
     .byte $08, $04, $05, $02, $03, $21, $21, $21, $23
 
     ; Terminator
     .byte $00
 
 TitleScreen_LogoLine24:
-    vaddr $22E0
+    DBYT $22E0
     .byte $08, $20, $21, $21, $21, $21, $23, $5F, $5F
 
-    vaddr $22E8
+    DBYT $22E8
     .byte VU_REPEAT | $10, $5C
 
-    vaddr $22F8
+    DBYT $22F8
     .byte $08, $14, $21, $21, $13, $21, $21, $21, $23
 
     ; Terminator
     .byte $00
 
 TitleScreen_LogoAttr1:
-    vaddr $23C0
+    DBYT $23C0
     .byte $20, $F0, $F0, $F0, $F0, $F0, $F0, $F0, $F0, $2A, $8A, $66, $55, $55, $99, $A2
     .byte $A8, $AA, $55, $55, $55, $55, $55, $55, $A9, $A8, $A6, $A5, $ED, $77, $B5, $A5
     .byte $AA
@@ -623,7 +623,7 @@ TitleScreen_LogoAttr1:
     .byte $00
 
 TitleScreen_LogoAttr2:
-    vaddr $23E0
+    DBYT $23E0
     .byte $20, $AA, $AA, $0A, $0E, $0F, $0B, $AA, $AA, $AA, $AA, $22, $00, $00, $00, $AA
     .byte $AA, $00, $00, $00, $00, $00, $00, $00, $00, $0A, $0A, $0A, $0A, $0A, $0A, $0A
     .byte $0A
@@ -632,7 +632,7 @@ TitleScreen_LogoAttr2:
     .byte $00
 
 TitleScreen_DarkPal:
-    vaddr $3F00
+    DBYT $3F00
     .byte $10, $0F, $0F, $30, $0F, $0F, $0F, $21, $02, $0F, $0F, $0F, $0F, $0F, $0F, $27
     .byte $02
 
@@ -640,7 +640,7 @@ TitleScreen_DarkPal:
     .byte $00
 
 PRG025_CA9B:
-    vaddr $3F00
+    DBYT $3F00
     .byte 16    ; 16 bytes (colors) to follow...
     .byte $0F, $0F, $30, $16, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
 
@@ -648,25 +648,25 @@ PRG025_CA9B:
     .byte $00
 
 Title_FadeIn_1:
-    vaddr $3F00
+    DBYT $3F00
     .byte 16    ; 16 bytes (colors) to follow...
     .byte $07, $0F, $00, $06, $07, $0F, $01, $02, $07, $0F, $0A, $0A, $07, $0F, $07, $02
     .byte $00   ; Terminator
 
 Title_FadeIn_2:
-    vaddr $3F00
+    DBYT $3F00
     .byte 16    ; 16 bytes (colors) to follow...
     .byte $17, $0F, $10, $16, $17, $0F, $11, $02, $17, $0F, $1A, $1A, $17, $0F, $17, $02
     .byte $00   ; Terminator
 
 Title_FadeIn_3:
-    vaddr $3F00
+    DBYT $3F00
     .byte 16    ; 16 bytes (colors) to follow...
     .byte $27, $0F, $20, $16, $27, $0F, $21, $02, $27, $0F, $2A, $1A, $27, $0F, $27, $02
     .byte $00   ; Terminator
 
 Title_FadeIn_4:
-    vaddr $3F00
+    DBYT $3F00
     .byte 16    ; 16 bytes (colors) to follow...
     .byte $37, $0F, $30, $16, $37, $0F, $21, $02, $37, $0F, $2A, $1A, $37, $0F, $27, $02
     .byte $00   ; Terminator
@@ -674,95 +674,95 @@ Title_FadeIn_4:
 Title_LoadMenu:
 
     ; 1 PLAYER GAME
-    vaddr $226A
+    DBYT $226A
     .byte 13    ; 13 bytes to follow
     .byte $0E, $5C, $0A, $0B, $0C, $1A, $1B, $0D, $5C, $1C, $0C, $1D, $1B
 
     ; 2 PLAYER GAME
-    vaddr $22AA
+    DBYT $22AA
     .byte 13    ; 13 bytes to follow
     .byte $1E, $5C, $0A, $0B, $0C, $1A, $1B, $0D, $5C, $1C, $0C, $1D, $1B
 
     ; C 1988 Nintendo
-    vaddr $22EA
+    DBYT $22EA
     .byte 13    ; 13 bytes to follow
     .byte $3F, $5C, $0E, $0F, $1F, $1F, $5C, $2A, $2B, $2C, $2D, $2E, $2F
 
     .byte $00   ; Terminator
 
 Ending_CurtainExtension:
-    vaddr $22E0
+    DBYT $22E0
     .byte $20, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09
 
-    vaddr $2300
+    DBYT $2300
     .byte $20, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09
 
-    vaddr $2320
+    DBYT $2320
     .byte $20, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09
 
-    vaddr $2340
+    DBYT $2340
     .byte $20, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09
 
-    vaddr $2360
+    DBYT $2360
     .byte $20, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09
 
-    vaddr $2380
+    DBYT $2380
     .byte $20, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09
 
-    vaddr $23A0
+    DBYT $23A0
     .byte $20, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09
 
-    vaddr $2800
+    DBYT $2800
     .byte $20, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08, $09, $08
     .byte $09
 
-    vaddr $2820
+    DBYT $2820
     .byte $20, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18
     .byte $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18, $19, $18
     .byte $19
 
-    vaddr $2840
+    DBYT $2840
     .byte $20, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28
     .byte $29, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28, $29, $28
     .byte $29
 
-    vaddr $23C0
+    DBYT $23C0
     .byte VU_REPEAT | $20, $00
 
-    vaddr $23E0
+    DBYT $23E0
     .byte VU_REPEAT | $10, $00
 
-    vaddr $23F0
+    DBYT $23F0
     .byte VU_REPEAT | $10, $00
 
-    vaddr $2BC0
+    DBYT $2BC0
     .byte VU_REPEAT | $08, $A0
 
-    vaddr $2BC8
+    DBYT $2BC8
     .byte VU_REPEAT | $08, $AA
 
-    vaddr $2BD0
+    DBYT $2BD0
     .byte VU_REPEAT | $10, $AA
 
-    vaddr $2BE0
+    DBYT $2BE0
     .byte VU_REPEAT | $10, $AA
 
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
     .byte $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
     .byte $0F
@@ -771,7 +771,7 @@ Ending_CurtainExtension:
     .byte $00
 
 PRG025_CCCE:
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
     .byte $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
     .byte $0F
@@ -780,7 +780,7 @@ PRG025_CCCE:
     .byte $00
 
 EndSeq_WorldFadeIn1:
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $0F, $0F, $00, $0F, $0F, $00, $0F, $0F, $0F, $00
     .byte $00, $0F, $0F, $0F, $00, $0F, $00, $0F, $0F, $0F, $00, $0F, $0F, $0F, $00, $0F
     .byte $0F
@@ -789,7 +789,7 @@ EndSeq_WorldFadeIn1:
     .byte $00
 
 EndSeq_WorldFadeIn2:
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $0F, $00, $10, $0F, $00, $10, $00, $0F, $00, $10
     .byte $10, $0F, $00, $00, $10, $0F, $10, $00, $00, $0F, $10, $00, $00, $0F, $10, $00
     .byte $00
@@ -798,7 +798,7 @@ EndSeq_WorldFadeIn2:
     .byte $00
 
 EndSeq_WorldFadeIn3:
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $00, $10, $30, $0F, $10, $30, $10, $0F, $10, $30
     .byte $30, $0F, $10, $10, $30, $0F, $30, $10, $10, $0F, $30, $10, $10, $0F, $30, $10
     .byte $10
@@ -807,7 +807,7 @@ EndSeq_WorldFadeIn3:
     .byte $00
 
 EndSeq_WorldFadeIn4:
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $27, $2A, $36, $0F, $3C, $30, $37, $0F, $21, $2A
     .byte $36, $0F, $10, $36, $0F, $0F, $25, $36, $0F, $0F, $29, $36, $0F, $0F, $29, $36
     .byte $0F
@@ -965,7 +965,7 @@ PRG025_D059:
     .byte $D2, $04, $66, $55, $55, $55, $2B, $DA, $04, $66, $55, $55, $55, $00
 
 EndSeq_World1Pal:
-        vaddr $3F00
+        DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $17, $2A, $37, $0F, $2C, $30, $37, $0F, $2C, $2A
     .byte $37, $0F, $16, $36, $0F, $0F, $0F, $30, $16, $0F, $0F, $30, $16, $0F, $0F, $30
     .byte $16
@@ -974,7 +974,7 @@ EndSeq_World1Pal:
     .byte $00
 
 EndSeq_World2Pal:
-        vaddr $3F00
+        DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $17, $2A, $37, $0F, $2C, $30, $37, $0F, $2C, $2A
     .byte $37, $0F, $16, $36, $0F, $0F, $0F, $30, $16, $0F, $0F, $30, $2A, $0F, $0F, $30
     .byte $2A
@@ -983,7 +983,7 @@ EndSeq_World2Pal:
     .byte $00
 
 EndSeq_World3Pal:
-        vaddr $3F00
+        DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $17, $2A, $37, $0F, $2C, $30, $37, $0F, $2C, $2A
     .byte $37, $0F, $2A, $36, $0F, $0F, $0F, $30, $16, $0F, $0F, $30, $16, $0F, $0F, $30
     .byte $16
@@ -992,7 +992,7 @@ EndSeq_World3Pal:
     .byte $00
 
 EndSeq_World4Pal:
-        vaddr $3F00
+        DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $17, $2A, $37, $0F, $2C, $30, $37, $0F, $2C, $2A
     .byte $3A, $0F, $0F, $30, $16, $0F, $0F, $30, $16, $0F, $0F, $30, $16, $0F, $0F, $30
     .byte $16
@@ -1001,7 +1001,7 @@ EndSeq_World4Pal:
     .byte $00
 
 EndSeq_World5Pal:
-        vaddr $3F00
+        DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $17, $2A, $30, $0F, $2C, $30, $37, $0F, $2C, $30
     .byte $30, $0F, $17, $36, $0F, $0F, $0F, $00, $10, $0F, $0F, $30, $26, $0F, $0F, $30
     .byte $16
@@ -1010,7 +1010,7 @@ EndSeq_World5Pal:
     .byte $00
 
 EndSeq_World6Pal:
-        vaddr $3F00
+        DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $17, $2A, $30, $0F, $2C, $30, $37, $0F, $2C, $30
     .byte $30, $0F, $16, $36, $0F, $0F, $0F, $30, $16, $0F, $0F, $30, $2A, $0F, $0F, $30
     .byte $2A
@@ -1019,7 +1019,7 @@ EndSeq_World6Pal:
     .byte $00
 
 EndSeq_World7Pal:
-        vaddr $3F00
+        DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $17, $2A, $37, $0F, $2C, $30, $37, $0F, $2C, $2A
     .byte $3A, $0F, $30, $36, $0F, $0F, $0F, $21, $2A, $0F, $0F, $30, $16, $0F, $0F, $30
     .byte $16
@@ -1028,7 +1028,7 @@ EndSeq_World7Pal:
     .byte $00
 
 EndSeq_World8Pal:
-        vaddr $3F00
+        DBYT $3F00
     .byte $20, $0F, $0F, $30, $16, $0F, $17, $2A, $37, $0F, $2C, $30, $37, $0F, $2C, $2A
     .byte $37, $0F, $16, $36, $0F, $0F, $0F, $30, $0B, $0F, $0F, $30, $16, $0F, $0F, $30
     .byte $16
@@ -1037,190 +1037,190 @@ EndSeq_World8Pal:
     .byte $00
 
 EndSeq_PrincessChamber:
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
     .byte $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
     .byte $0F
 
-    vaddr $2BC0
+    DBYT $2BC0
     .byte $30, $00, $00, $00, $00, $00, $00, $00, $00, $00, $F0, $7F, $5F, $5F, $DF, $F0
     .byte $00, $FC, $57, $55, $55, $55, $55, $5D, $F3, $77, $55, $55, $55, $55, $55, $55
     .byte $DD, $77, $55, $55, $55, $55, $55, $55, $DD, $77, $55, $55, $55, $55, $55, $55
     .byte $DD
 
-    vaddr $2888
+    DBYT $2888
     .byte $10, $68, $6A, $68, $6A, $68, $6A, $68, $6A, $68, $6A, $68, $6A, $68, $6A, $68, $6A
 
-    vaddr $28A8
+    DBYT $28A8
     .byte $10, $69, $6B, $69, $6B, $69, $6B, $69, $6B, $69, $6B, $69, $6B, $69, $6B, $69, $6B
 
-    vaddr $28C4
+    DBYT $28C4
     .byte $18, $68, $6A, $68, $6A, $68, $6A, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
     .byte $FF, $FF, $FF, $68, $6A, $68, $6A, $68, $6A
 
-    vaddr $28E4
+    DBYT $28E4
     .byte $18, $69, $6B, $69, $6B, $69, $6B, $99, $99, $99, $99, $99, $99, $99, $99, $99
     .byte $99, $99, $99, $69, $6B, $69, $6B, $69, $6B
 
-    vaddr $2902
+    DBYT $2902
     .byte $1C, $68, $6A, $68, $6A, $FF, $FF, $FF, $FF, $99, $99, $99, $99, $99, $99, $99
     .byte $99, $99, $99, $99, $99, $FF, $FF, $FF, $FF, $68, $6A, $68, $6A
 
-    vaddr $2922
+    DBYT $2922
     .byte $1C, $69, $6B, $69, $6B, $99, $99, $99, $99, $99, $99, $99, $99, $99, $99, $99
     .byte $99, $99, $99, $99, $99, $99, $99, $99, $99, $69, $6B, $69, $6B
 
-    vaddr $2940
+    DBYT $2940
     .byte $20, $68, $6A, $68, $6A, $FF, $FF, $99, $99, $99, $99, $99, $99, $99, $99, $99
     .byte $99, $99, $99, $99, $99, $99, $99, $99, $99, $99, $99, $FF, $FF, $68, $6A, $68
     .byte $6A
 
-    vaddr $2960
+    DBYT $2960
     .byte $04, $69, $6B, $69, $6B
 
-    vaddr $2964
+    DBYT $2964
     .byte VU_REPEAT | $18, $99
 
-    vaddr $297C
+    DBYT $297C
     .byte $04, $69, $6B, $69, $6B
 
-    vaddr $2980
+    DBYT $2980
     .byte $04, $68, $6A, $FF, $FF
 
-    vaddr $2984
+    DBYT $2984
     .byte VU_REPEAT | $18, $99
 
-    vaddr $299C
+    DBYT $299C
     .byte $04, $FF, $FF, $68, $6A
 
-    vaddr $29A0
+    DBYT $29A0
     .byte $02, $69, $6B
 
-    vaddr $29A2
+    DBYT $29A2
     .byte VU_REPEAT | $1B, $99
 
-    vaddr $29BD
+    DBYT $29BD
     .byte $03, $FF, $69, $6B
 
-    vaddr $29C0
+    DBYT $29C0
     .byte $02, $68, $6A
 
-    vaddr $29C2
+    DBYT $29C2
     .byte VU_REPEAT | $1B, $99
 
-    vaddr $29DD
+    DBYT $29DD
     .byte $03, $FF, $68, $6A
 
-    vaddr $29E0
+    DBYT $29E0
     .byte $02, $69, $6B
 
-    vaddr $29E2
+    DBYT $29E2
     .byte VU_REPEAT | $1B, $99
 
-    vaddr $29FD
+    DBYT $29FD
     .byte $03, $FF, $69, $6B
 
-    vaddr $2A00
+    DBYT $2A00
     .byte $02, $68, $6A
 
-    vaddr $2A02
+    DBYT $2A02
 
     .byte VU_REPEAT | $1B, $99
 
-    vaddr $2A1D
+    DBYT $2A1D
     .byte $03, $FF, $68, $6A
 
-    vaddr $2A20
+    DBYT $2A20
     .byte $02, $69, $6B
 
-    vaddr $2A22
+    DBYT $2A22
     .byte VU_REPEAT | $1B, $99
 
-    vaddr $2A3D
+    DBYT $2A3D
     .byte $03, $FF, $69, $6B
 
-    vaddr $2A40
+    DBYT $2A40
     .byte $02, $68, $6A
 
-    vaddr $2A42
+    DBYT $2A42
     .byte VU_REPEAT | $1B, $99
 
-    vaddr $2A5D
+    DBYT $2A5D
     .byte $03, $FF, $68, $6A
 
-    vaddr $2A60
+    DBYT $2A60
     .byte $02, $69, $6B
 
-    vaddr $2A62
+    DBYT $2A62
     .byte VU_REPEAT | $1B, $99
 
-    vaddr $2A7D
+    DBYT $2A7D
     .byte $03, $FF, $69, $6B
 
-    vaddr $2A80
+    DBYT $2A80
     .byte $02, $68, $6A
 
-    vaddr $2A82
+    DBYT $2A82
     .byte VU_REPEAT | $1B, $99
 
-    vaddr $2A84
+    DBYT $2A84
     .byte VU_REPEAT | $02, $FF
 
-    vaddr $2A9D
+    DBYT $2A9D
     .byte $03, $FF, $68, $6A
 
-    vaddr $2AA0
+    DBYT $2AA0
     .byte $02, $69, $6B
 
-    vaddr $2AA2
+    DBYT $2AA2
     .byte VU_REPEAT | $1B, $99
 
-    vaddr $2AA4
+    DBYT $2AA4
     .byte VU_REPEAT | $02, $FF
 
-    vaddr $2ABD
+    DBYT $2ABD
     .byte $03, $FF, $69, $6B
 
-    vaddr $2AC0
+    DBYT $2AC0
     .byte $02, $68, $6A
 
-    vaddr $2AC2
+    DBYT $2AC2
     .byte VU_REPEAT | $1B, $99
 
-    vaddr $2AC4
+    DBYT $2AC4
     .byte VU_REPEAT | $02, $FF
 
-    vaddr $2ADD
+    DBYT $2ADD
     .byte $03, $FF, $68, $6A
 
-    vaddr $2AE0
+    DBYT $2AE0
     .byte $02, $69, $6B
 
-    vaddr $2AE2
+    DBYT $2AE2
     .byte VU_REPEAT | $1B, $99
 
-    vaddr $2AE4
+    DBYT $2AE4
     .byte VU_REPEAT | $02, $FF
 
-    vaddr $2AFD
+    DBYT $2AFD
     .byte $03, $FF, $69, $6B
 
-    vaddr $2B00
+    DBYT $2B00
     .byte $20, $62, $62, $63, $63, $62, $62, $63, $63, $62, $62, $63, $63, $62, $62, $63
     .byte $63, $62, $62, $63, $63, $62, $62, $63, $63, $62, $62, $63, $63, $62, $62, $63
     .byte $63
 
-    vaddr $2B20
+    DBYT $2B20
     .byte $20, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC
     .byte $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC
     .byte $FC
 
-    vaddr $2B40
+    DBYT $2B40
     .byte $20, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD
     .byte $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD
     .byte $FD
 
-    vaddr $2B60
+    DBYT $2B60
     .byte $20, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD
     .byte $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD, $FD, $FC, $FC, $FD
     .byte $FD
@@ -1229,7 +1229,7 @@ EndSeq_PrincessChamber:
     .byte $00
 
 EndSeq_Fade4:
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $30, $3C, $0F, $0C, $1C, $3B, $0F, $27, $30, $17, $0F, $12, $31
     .byte $21, $0F, $16, $36, $0F, $0F, $36, $25, $07, $0F, $2A, $36, $0F, $0F, $00, $00, $00
 
@@ -1237,7 +1237,7 @@ EndSeq_Fade4:
     .byte $00
 
 EndSeq_Fade3:
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $20, $2C, $0F, $0F, $0C, $2B, $0F, $17, $20, $07, $0F, $02, $21
     .byte $11, $0F, $06, $26, $0F, $0F, $26, $15, $0F, $0F, $1A, $26, $0F, $0F, $0F, $0F, $0F
 
@@ -1245,7 +1245,7 @@ EndSeq_Fade3:
     .byte $00
 
 EndSeq_Fade2:
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $10, $1C, $0F, $0F, $0F, $1B, $0F, $07, $10, $0F, $0F, $0F, $11
     .byte $01, $0F, $0F, $16, $0F, $0F, $16, $05, $0F, $0F, $0A, $16, $0F, $0F, $0F, $0F, $0F
 
@@ -1253,7 +1253,7 @@ EndSeq_Fade2:
     .byte $00
 
 EndSeq_Fade1:
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $00, $0C, $0F, $0F, $0F, $0B, $0F, $0F, $00, $0F, $0F, $0F, $01
     .byte $0F, $0F, $0F, $06, $0F, $0F, $06, $0F, $0F, $0F, $0F, $06, $0F, $0F, $0F, $0F, $0F
 
@@ -1261,7 +1261,7 @@ EndSeq_Fade1:
     .byte $00
 
 EndSeq_Fade0:
-    vaddr $3F00
+    DBYT $3F00
     .byte $20, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
     .byte $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
 
@@ -1269,7 +1269,7 @@ EndSeq_Fade0:
     .byte $00
 
 PRG025_D4B5:
-        vaddr $3F10
+        DBYT $3F10
     .byte $10, $0F, $21, $30, $0F, $0F, $11, $10, $0F, $0F, $12, $00, $0F, $0F, $0C, $0F
     .byte $0F
 
@@ -1277,7 +1277,7 @@ PRG025_D4B5:
     .byte $00
 
 EndSeq_CurtainFadeIn1:
-        vaddr $3F00
+        DBYT $3F00
     .byte $10, $0F, $0F, $00, $06, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
     .byte $0F
 
@@ -1286,7 +1286,7 @@ EndSeq_CurtainFadeIn1:
 
 
 EndSeq_CurtainFadeIn2:
-        vaddr $3F00
+        DBYT $3F00
     .byte $10, $0F, $0F, $10, $16, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
     .byte $0F
 
@@ -1295,7 +1295,7 @@ EndSeq_CurtainFadeIn2:
 
 
 EndSeq_CurtainFadeIn3:
-       vaddr $3F00
+       DBYT $3F00
     .byte $10, $0F, $0F, $20, $16, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
     .byte $0F
 
@@ -1303,7 +1303,7 @@ EndSeq_CurtainFadeIn3:
     .byte $00
 
 PRG025_D505:
-        vaddr $3F00
+        DBYT $3F00
     .byte $10, $0F, $0F, $30, $16, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
     .byte $0F
 

@@ -6839,162 +6839,162 @@ AScroll_HorizontalInitMove:
     .byte ASM_Terminator - AScroll_Movement - 1 ; 15 ** Terminator Only (because it seeks ahead to see the terminating movement index)
 
 Video_3CMMushTop:
-    vaddr $208D
+    DBYT $208D
     .byte VU_REPEAT | $06, $A9
-    vaddr $20AB
+    DBYT $20AB
     .byte VU_REPEAT | $04, $A9
-    vaddr $20B1
+    DBYT $20B1
     .byte VU_REPEAT | $04, $A9
-    vaddr $20CA
+    DBYT $20CA
     .byte VU_REPEAT | $05, $A9
-    vaddr $20D1
+    DBYT $20D1
     .byte VU_REPEAT | $05, $A9
-    vaddr $214A
+    DBYT $214A
     .byte VU_VERT | VU_REPEAT | $03, $A9
     .byte $00   ; Terminator
 
 Video_3CMMushLeft:
-    vaddr $20E9
+    DBYT $20E9
     .byte $05, $A9, $A9, $FC, $A9, $A9
-    vaddr $20F2
+    DBYT $20F2
     .byte $05, $A9, $A9, $FC, $A9, $A9
-    vaddr $2128
+    DBYT $2128
     .byte VU_VERT | VU_REPEAT | $07, $A9
-    vaddr $2109
+    DBYT $2109
     .byte VU_VERT | VU_REPEAT | $06, $A9
-    vaddr $214D
+    DBYT $214D
     .byte VU_VERT | VU_REPEAT | $03, $A9
     .byte $00   ; Terminator
 
 Video_3CMMushMid:
-    vaddr $212E
+    DBYT $212E
     .byte VU_VERT | VU_REPEAT | $08, $A9
-    vaddr $212F
+    DBYT $212F
     .byte VU_VERT | VU_REPEAT | $05, $A9
-    vaddr $2130
+    DBYT $2130
     .byte VU_VERT | VU_REPEAT | $05, $A9
-    vaddr $2131
+    DBYT $2131
     .byte VU_VERT | VU_REPEAT | $08, $A9
-    vaddr $2152
+    DBYT $2152
     .byte VU_VERT | VU_REPEAT | $03, $A9
     .byte $00   ; Terminator
 
 Video_3CMMushRight:
-    vaddr $2155
+    DBYT $2155
     .byte VU_VERT | VU_REPEAT | $03, $A9
-    vaddr $2116
+    DBYT $2116
     .byte VU_VERT | VU_REPEAT | $06, $A9
-    vaddr $2137
+    DBYT $2137
     .byte VU_VERT | VU_REPEAT | $07, $A9
-    vaddr $21CB
+    DBYT $21CB
     .byte VU_REPEAT | $0A, $A9
-    vaddr $21E9
+    DBYT $21E9
     .byte VU_VERT | VU_REPEAT | $02, $A9
     .byte $00   ; Terminator
 
 Video_3CMMushBot:
-    vaddr $21EA
+    DBYT $21EA
     .byte VU_VERT | VU_REPEAT | $04, $A9
-    vaddr $21EB
+    DBYT $21EB
     .byte VU_VERT | $04, $A9, $FC, $FC, $A9
-    vaddr $21F4
+    DBYT $21F4
     .byte VU_VERT | $04, $A9, $FC, $FC, $A9
-    vaddr $21F5
+    DBYT $21F5
     .byte VU_VERT | VU_REPEAT | $04, $A9
-    vaddr $21F6
+    DBYT $21F6
     .byte VU_VERT | VU_REPEAT | $02, $A9
-    vaddr $226B
+    DBYT $226B
     .byte VU_REPEAT | $0A, $A9
     .byte $00   ; Terminator
 
 Video_3CMFlowTop:
-    vaddr $208B
+    DBYT $208B
     .byte VU_REPEAT | $0A, $A9
-    vaddr $20A9
+    DBYT $20A9
     .byte VU_REPEAT | $03, $A9
-    vaddr $20B4
+    DBYT $20B4
     .byte VU_REPEAT | $03, $A9
-    vaddr $20C8
+    DBYT $20C8
     .byte VU_REPEAT | $02, $A9
-    vaddr $20D6
+    DBYT $20D6
     .byte VU_REPEAT | $02, $A9
-    vaddr $20E8
+    DBYT $20E8
     .byte VU_VERT | VU_REPEAT | $03, $A9
-    vaddr $20EB
+    DBYT $20EB
     .byte VU_REPEAT | $03, $A9
-    vaddr $210B
+    DBYT $210B
     .byte $01, $A9
     .byte $00   ; Terminator
 
 Video_3CMFlowDiag:
-    vaddr $2148
+    DBYT $2148
     .byte VU_REPEAT | $02, $A9
-    vaddr $20CD
+    DBYT $20CD
     .byte VU_REPEAT | $06, $A9
-    vaddr $20F2
+    DBYT $20F2
     .byte VU_REPEAT | $03, $A9
-    vaddr $20F7
+    DBYT $20F7
     .byte VU_VERT | VU_REPEAT | $03, $A9
-    vaddr $214D
+    DBYT $214D
     .byte VU_REPEAT | $06, $A9
-    vaddr $212B
+    DBYT $212B
     .byte VU_REPEAT | $03, $A9
-    vaddr $2156
+    DBYT $2156
     .byte VU_REPEAT | $02, $A9
-    vaddr $21A9
+    DBYT $21A9
     .byte VU_REPEAT | $02, $A9
     .byte $00   ; Terminator
 
 Video_3CMFlowMid:
-    vaddr $2114
+    DBYT $2114
     .byte $01, $A9
-    vaddr $210E
+    DBYT $210E
     .byte VU_REPEAT | $04, $A9
-    vaddr $2132
+    DBYT $2132
     .byte VU_REPEAT | $03, $A9
-    vaddr $2169
+    DBYT $2169
     .byte VU_REPEAT | $03, $A9
-    vaddr $2174
+    DBYT $2174
     .byte VU_REPEAT | $03, $A9
-    vaddr $218B
+    DBYT $218B
     .byte VU_REPEAT | $0A, $A9
-    vaddr $21B5
+    DBYT $21B5
     .byte VU_REPEAT | $02, $A9
-    vaddr $21D7
+    DBYT $21D7
     .byte VU_VERT | VU_REPEAT | $03, $A9
     .byte $00   ; Terminator
 
 Video_3CMFlowStem:
-    vaddr $21AE
+    DBYT $21AE
     .byte VU_VERT | VU_REPEAT | $06, $A9
-    vaddr $21B1
+    DBYT $21B1
     .byte VU_VERT | VU_REPEAT | $06, $A9
-    vaddr $21C8
+    DBYT $21C8
     .byte VU_VERT | VU_REPEAT | $03, $A9
-    vaddr $21CB
+    DBYT $21CB
     .byte VU_REPEAT | $02, $A9
-    vaddr $21D3
+    DBYT $21D3
     .byte VU_REPEAT | $02, $A9
-    vaddr $21EA
+    DBYT $21EA
     .byte $04, $A9, $FC, $FC, $A9
-    vaddr $21F2
+    DBYT $21F2
     .byte $04, $A9, $FC, $FC, $A9
     .byte $00   ; Terminator
 
 Video_3CMFlowBot
-    vaddr $220B
+    DBYT $220B
     .byte $01, $A9
-    vaddr $2214
+    DBYT $2214
     .byte $01, $A9
-    vaddr $2229
+    DBYT $2229
     .byte $04, $A9, $FC, $FC, $A9
-    vaddr $2233
+    DBYT $2233
     .byte $04, $A9, $FC, $FC, $A9
-    vaddr $224A
+    DBYT $224A
     .byte $04, $A9, $A9, $FC, $A9
-    vaddr $2252
+    DBYT $2252
     .byte $04, $A9, $FC, $A9, $A9
-    vaddr $226C
+    DBYT $226C
     .byte VU_REPEAT | $08, $A9
     .byte $00   ; Terminator
 

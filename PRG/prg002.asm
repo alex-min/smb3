@@ -5347,18 +5347,18 @@ EndLevelCard_CardBackOffset:
     ; The background for the card that appears in the air for a triple card match
 EndLevelCard_CardBackUpper:
     ; Upper card
-    vaddr $22D7
+    DBYT $22D7
     .byte $02, $FE, $FE
-    vaddr $22F7
+    DBYT $22F7
     .byte $02, $FE, $FE
     .byte $00
 
     ; The background for the card that appears with less than three cards or mismatched cards
 EndLevelCard_CardBackLower:
     ; Lower card
-    vaddr $28F7
+    DBYT $28F7
     .byte $02, $FE, $FE
-    vaddr $2917
+    DBYT $2917
     .byte $02, $FE, $FE
     .byte $00
 EndLevelCard_CardEnd
