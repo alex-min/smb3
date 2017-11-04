@@ -333,7 +333,7 @@ MMC3_IRQENABLE  = $E001 ; Enables IRQ generation
 ; ZERO PAGE RAM COMMON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Common use zero page RAM.  Bytes in $75-$F3 are context-dependent
-    .base $00
+    .enum $00
 
 ; For clarification, none of the other "Temp" vars are damaged by NMI,
 ; the NMI does employ Temp_Var1-3, and restores them when it's done.
@@ -2985,6 +2985,8 @@ Bound_8000:    BoundCheck Bound_8000, $8000, MMC3 SRAM
 
     ; ASSEMBLER BOUNDARY CHECK, END OF $7A12
 Bound_7A12:    BoundCheck Bound_7A12, $7A12, Wand Return Cinematic Vars
+
+    .ende
 
 ; The objects are broken up into groups of 36 IDs across 5 ROM banks (1 - 5)
 ; These lookup table addresses are common, even though their banks are not,
