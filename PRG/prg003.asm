@@ -1162,7 +1162,7 @@ TwirlShell_Draw:
 
     ; Clear horizontal flip on frame 2+
     LDA Objects_FlipBits,X
-    AND #~SPR_HFLIP
+    AND #<~SPR_HFLIP
     STA Objects_FlipBits,X
 
 PRG003_A613:
@@ -3146,7 +3146,7 @@ PRG003_AFDC:
 
 PRG003_AFFA:
     LDA Sprite_RAM+$02,Y    ; Get attribute value from earlier piranha segment
-    AND #~$03       ; Clear palette select
+    AND #<~$03       ; Clear palette select
     ORA #SPR_PAL2       ; Set palette select 2
     STA Sprite_RAM+$12,Y    ; -> Sprite's attribute
 
@@ -4794,7 +4794,7 @@ PRG003_B876:
 Object_SetHFlipByXVel:
     ; Clear horizontal flip
     LDA Objects_FlipBits,X
-    AND #~SPR_HFLIP
+    AND #<~SPR_HFLIP
 
     LDY Objects_XVel,X
     BEQ PRG003_B8C6     ; If not moving horizontally, jump to PRG003_B8C6

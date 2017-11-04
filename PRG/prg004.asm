@@ -2560,7 +2560,7 @@ PRG004_AC5D:
 
     ; Anything but vertical flip
     LDA Sprite_RAM+$02,Y
-    AND #~SPR_VFLIP
+    AND #<~SPR_VFLIP
     STA Sprite_RAM+$02,Y
 
     ; V+H flip
@@ -4380,7 +4380,7 @@ PRG004_B4FB:
     STA Sprite_RAM-$05,Y
 
     LDA Sprite_RAM+$02,Y
-    AND #~$03    ; Clear old palette select
+    AND #<~$03    ; Clear old palette select
     ORA #SPR_PAL3    ; Set correct palette select
     STA Sprite_RAM-$06,Y     ; Set on upper head
     STA Sprite_RAM+$02,Y     ; Set on lower head
@@ -4428,7 +4428,7 @@ PRG004_B548:
     STA Sprite_RAM-$05,Y
 
     LDA Sprite_RAM+$02,Y
-    AND #~$03    ; Clear old palette select
+    AND #<~$03    ; Clear old palette select
     ORA #SPR_PAL1    ; Use proper palette select for wing
     STA Sprite_RAM-$06,Y     ; Set wing attribute
 
@@ -4465,7 +4465,7 @@ PRG004_B57A:
     STA Sprite_RAM+$0F,Y
 
     LDA Sprite_RAM+$02,Y
-    AND #~$03    ; Clear old palette select
+    AND #<~$03    ; Clear old palette select
     ORA #SPR_PAL3    ; Set correct palette select
 
     STA Sprite_RAM+$0A,Y     ; Set left foot attribute
@@ -4512,7 +4512,7 @@ GiantEnemy_Draw:
     LDA Objects_FlipBits,X
     PHA      ; Save flip bits
 
-    AND #~SPR_HFLIP
+    AND #<~SPR_HFLIP
     STA Temp_Var1   ; Temp_Var1 = flip bits sans horizontal flip
 
     ; Set horizontal flip only if Var5 bit 2 is set
@@ -5295,7 +5295,7 @@ PRG004_B96D:
     ASL Temp_Var9
     BCC PRG004_B986  ; If Temp_Var9 was assigned to $00 at start, we jump to PRG004_B986
 
-    AND #~SPR_HFLIP  ; Clear horizontal flip if Temp_Var9 was $80 at start
+    AND #<~SPR_HFLIP  ; Clear horizontal flip if Temp_Var9 was $80 at start
 
 PRG004_B986:
     STA Sprite_RAM+$02,Y     ; Set left sprite attribute
@@ -6149,7 +6149,7 @@ PRG004_BE20:
 
 Object_FlipByXVel:
     LDA Objects_FlipBits,X
-    AND #~SPR_HFLIP ; Clear horizontal flip
+    AND #<~SPR_HFLIP ; Clear horizontal flip
 
     LDY Objects_XVel,X
     BEQ PRG004_BE31  ; If not moving horizontally, jump to PRG004_BE31

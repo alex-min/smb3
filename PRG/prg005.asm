@@ -1308,7 +1308,7 @@ PRG005_A67D:
 
     ; Face Player
     LDA Objects_FlipBits,X
-    AND #~SPR_HFLIP
+    AND #<~SPR_HFLIP
     ORA Piranha_FacePlayerFlip,Y
     STA Objects_FlipBits,X
 
@@ -1370,7 +1370,7 @@ PRG005_A6CA:
     BMI PRG005_A6EE  ; If Piranha is vertically flipped, jump to PRG005_A6EE
 
     LDA Sprite_RAM+$02,Y
-    AND #~SPR_HFLIP
+    AND #<~SPR_HFLIP
     STA Sprite_RAM+$02,Y
     ORA #SPR_HFLIP
     STA Sprite_RAM+$06,Y
@@ -1379,7 +1379,7 @@ PRG005_A6CA:
 
 PRG005_A6EE:
     LDA Sprite_RAM+$0A,Y
-    AND #~SPR_HFLIP
+    AND #<~SPR_HFLIP
     STA Sprite_RAM+$0A,Y
     ORA #SPR_HFLIP
     STA Sprite_RAM+$0E,Y
@@ -1393,7 +1393,7 @@ PRG005_A6FD:
     LDX Temp_Var1      ; X = Temp_Var1
 
     LDA Sprite_RAM+$02,Y
-    AND #~SPR_VFLIP
+    AND #<~SPR_VFLIP
     ORA Piranha_VFlip,X
     STA Sprite_RAM+$02,Y
     STA Sprite_RAM+$06,Y
@@ -1412,7 +1412,7 @@ PRG005_A71E:
     LDX Temp_Var1      ; X = Temp_Var1
 
     LDA Sprite_RAM+$0A,Y
-    AND #~SPR_VFLIP
+    AND #<~SPR_VFLIP
     ORA Piranha_VFlip,X
     STA Sprite_RAM+$0A,Y
     STA Sprite_RAM+$0E,Y
@@ -2925,7 +2925,7 @@ Sun_SpriteYOffs:    .byte $08, $00
 
 Sun_Draw:
     LDA Objects_FlipBits,X
-    AND #~SPR_BEHINDBG   ; Clear priority bit
+    AND #<~SPR_BEHINDBG   ; Clear priority bit
 
     LDY Objects_Var7,X
     BNE PRG005_AE67  ; If Var7 <> 0, jump to PRG005_AE67
@@ -3003,13 +3003,13 @@ PRG005_AEBC:
 
     ; Keep all sun bits except vertical flip from first sprite -> Temp_Var15 and four sprites over
     LDA Sprite_RAM+$02,Y
-    AND #~SPR_VFLIP
+    AND #<~SPR_VFLIP
     STA Temp_Var15
     STA Sprite_RAM+$12,Y
 
     ; Keep all sun bits except vertical flip from second sprite -> Temp_Var16 and four sprites over
     LDA Sprite_RAM+$06,Y
-    AND #~SPR_VFLIP
+    AND #<~SPR_VFLIP
     STA Temp_Var16
     STA Sprite_RAM+$16,Y
 

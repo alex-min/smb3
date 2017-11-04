@@ -1252,7 +1252,7 @@ PRG002_A663:
 
     ; Draw Ice Brick
     LDA Sprite_RAM+$02,Y
-    AND #~SPR_HFLIP
+    AND #<~SPR_HFLIP
     STA Sprite_RAM+$02,Y
     ORA #SPR_HFLIP
     STA Sprite_RAM+$06,Y
@@ -3164,7 +3164,7 @@ PRG002_AF69:
 PRG002_AF72:
     ; Sets attributes and mirrors piranha sprites
     LDA Temp_Var3  ; Get object attributes
-    AND #~(SPR_HFLIP | $03)  ; Keep everything except the horizontal flip and the palette select
+    AND #<~(SPR_HFLIP | $03)  ; Keep everything except the horizontal flip and the palette select
     ORA #SPR_PAL1    ; Force palette select 1
     STA Sprite_RAM+$02,Y     ; Set attributes
     ORA #SPR_HFLIP
@@ -3178,7 +3178,7 @@ PRG002_AF72:
 
     ; Piranha needs his body mirrored
     LDA Sprite_RAM+$0A,Y
-    AND #~SPR_HFLIP
+    AND #<~SPR_HFLIP
     STA Sprite_RAM+$0A,Y
     ORA #SPR_HFLIP
     STA Sprite_RAM+$0E,Y
@@ -3580,7 +3580,7 @@ PRG002_B16C:
 
     ; Mirror Goomba's halves
     LDA Sprite_RAM+$02,Y
-    AND #~SPR_HFLIP
+    AND #<~SPR_HFLIP
     STA Sprite_RAM+$02,Y
     ORA #SPR_HFLIP
     STA Sprite_RAM+$06,Y
@@ -6315,7 +6315,7 @@ EndLevelCard_Draw:
     TAX      ; Frame -> 'X'
 
     LDA Sprite_RAM+$02,Y
-    AND #~(SPR_HFLIP | $03)     ; Keep all attributes except horizontal flip and palette select
+    AND #<~(SPR_HFLIP | $03)     ; Keep all attributes except horizontal flip and palette select
     ORA EndLevelCard_AttributeByFrame,X  ; Set attributes by frame
     STA Sprite_RAM+$02,Y     ; Set attributes
     EOR #SPR_HFLIP   ; Mirror second half
