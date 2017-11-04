@@ -122,7 +122,8 @@ TAndK_DrawDiagBox:
     STA Graphics_Buffer+1,X
 
     ; Jump to next video row
-    ADD #$20    ; 32 bytes to next row
+    CLC
+    ADC #$20    ; 32 bytes to next row
     STA ToadTalk_VL
     BCC PRG024_A0CD
     INC ToadTalk_VH  ; Apply carry
@@ -249,7 +250,8 @@ TAndK_DoToadText:
     LSR A
     STA Graphics_Buffer+4,Y ; terminator
     TYA
-    ADD #$04
+    CLC
+    ADC #$04
     STA Graphics_BufCnt ; count
     LDA ToadTalk_VL
     STA Graphics_Buffer+1,Y ; address low
@@ -480,7 +482,8 @@ PRG024_A3B5:
 PRG024_A3E8:
     ; Set King Sprite Y
     LDA Temp_Var1
-    ADD King_SprDataYOff,X
+    CLC
+    ADC King_SprDataYOff,X
     STA Sprite_RAM,Y
 
     ; Set King Sprite Attributes
@@ -615,7 +618,8 @@ PRG024_A47E:
 
     ; Temp_Var3 += $10
     LDA Temp_Var3
-    ADD #$10
+    CLC
+    ADC #$10
     STA Temp_Var3
 
     CMP Temp_Var1
@@ -628,7 +632,8 @@ PRG024_A48A:
 
     ; Set crown sprite Y
     LDA Temp_Var1  ; King Sprite Y
-    ADD King_W6Crown_YOff,Y
+    CLC
+    ADC King_W6Crown_YOff,Y
     STA Sprite_RAM+$60
 
     ; Set crown sprite pattern
@@ -711,7 +716,8 @@ PRG024_A4FD:
 
     ; King spider moves up or down
     LDA King_Y
-    ADD King_YDelta,Y
+    CLC
+    ADC King_YDelta,Y
     STA King_Y
 
     CMP King_W2_YLimit,Y
@@ -758,7 +764,8 @@ King_W5:
     BNE PRG024_A545  ; 3:4 ticks, jump to PRG024_A545
 
     LDA King_Y
-    ADD King_YDelta+1,Y
+    CLC
+    ADC King_YDelta+1,Y
     STA King_Y
 
 PRG024_A545:
@@ -864,7 +871,8 @@ PRG024_A5A0:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Go to next row of tiles       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    ADD #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    CLC
+    ADC #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY      ; -> 'Y'       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -901,7 +909,8 @@ PRG024_A5CF:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Next tile row     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    ADD #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    CLC
+    ADC #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY      ; -> 'Y'       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -1001,7 +1010,8 @@ PRG024_A633:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Next row      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    ADD #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    CLC
+    ADC #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY      ; -> 'Y'       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -1037,7 +1047,8 @@ PRG024_A65A:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Next row      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    ADD #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    CLC
+    ADC #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY      ; -> 'Y'       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -1071,7 +1082,8 @@ PRG024_A681:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Next row      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    ADD #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    CLC
+    ADC #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY      ; -> 'Y'       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -1085,7 +1097,8 @@ PRG024_A681:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Y += 16       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TYA     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    ADD #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    CLC
+    ADC #16     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDA BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1117,7 +1130,8 @@ PRG024_A6BA:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STY Temp_Var10     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDA BonusText_BaseL        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    ADD #$b0        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    CLC
+    ADC #$b0        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA BonusText_BaseL        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA BonusText_BaseH        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ADC Temp_Var10         ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1528,7 +1542,8 @@ PRG024_A88B:
     ; back to zero and we begin again...
     INY      ; Y++
     TYA      ; A = Y
-    ADD Video_Upd_AddrL
+    CLC
+    ADC Video_Upd_AddrL
     STA Video_Upd_AddrL
     LDA Video_Upd_AddrH
     ADC #$00
@@ -2174,7 +2189,8 @@ Title_LogoShakeUp:
 
     ; Subtract 2 from Vert_Scroll
     LDA Vert_Scroll
-    SUB #$02
+    SEC
+    SBC #$02
     STA Vert_Scroll
 
     INC Title_EventIndex   ; Shake down next
@@ -2188,7 +2204,8 @@ Title_LogoShakeDown:
 
     ; Add 2 to Vert_Scroll
     LDA Vert_Scroll
-    ADD #$02
+    CLC
+    ADC #$02
     STA Vert_Scroll
 
     DEC Title_EventIndex   ; Shake up next
@@ -2444,7 +2461,8 @@ PRG024_ACE2:
     ; Properly add or subtract from world depending on direction pressed,
     ; and loop around so it never leaves World 1 - 8 (0-7)
     LDA World_Num_Debug
-    ADD Debug_DownUp,X
+    CLC
+    ADC Debug_DownUp,X
     AND #$07
     STA World_Num_Debug
 
@@ -2485,7 +2503,8 @@ PRG024_AD0C:
 
     ; Otherwise, 5 more lives
     LDA Player_Lives
-    ADD #$05
+    CLC
+    ADC #$05
     STA Player_Lives
 
 PRG024_AD3A:
@@ -2561,7 +2580,8 @@ PRG024_AD9C:
     ASL A
     ASL A
     ASL A
-    ADD #$30
+    CLC
+    ADC #$30
     STA Sprite_RAM+$50
     LDA #$6f
     STA Sprite_RAM+$51
@@ -2677,7 +2697,8 @@ Title_UpdateAllObjs:
     ; This provides a slow, semi-natural acceleration for the Bros on the title screen
     LDA Title_MLAccelCnt
     AND #$f0
-    SUB #$90
+    SEC
+    SBC #$90
     STA Title_MLAccelCnt
 
     LDA #$10
@@ -2889,7 +2910,8 @@ PRG024_AFB5:
 
 PRG024_AFBB:
     LDA #$00
-    SUB Title_MLAccelFactors,Y  ; A = -Title_MLAccelFactors[Y] (negates values compared to the routine at PRG024_AFD3)
+    SEC
+    SBC Title_MLAccelFactors,Y  ; A = -Title_MLAccelFactors[Y] (negates values compared to the routine at PRG024_AFD3)
     STA Temp_Var1      ; Store into Temp_Var1
 
     LDA PRG024_AF67,Y   ;
@@ -2914,7 +2936,8 @@ PRG024_AFDD:
 
     ; High-precision adding here...
     LDA Temp_Var1
-    ADD Title_MLAccelCnt    ; Title_MLAccelCnt += Temp_Var1
+    CLC
+    ADC Title_MLAccelCnt    ; Title_MLAccelCnt += Temp_Var1
 
     LDA Title_ObjXVel,X    ; Get X velocity
     ADC Temp_Var2      ; Add Temp_Var2, including carry from above operation
@@ -2960,7 +2983,8 @@ PRG024_B00D:
     LSR A
     TAY         ; Y = X velocity >> 4 (the upper "whole" part of this 4.4FP number)
     LDA PRG024_AFF3     ; A = $C8 (unnecessary constant memory load?)
-    SUB PRG024_AFF4,Y   ; Variable subtracted value (faster the X velocity is, the less of a Y velocity we end up with)
+    SEC
+    SBC PRG024_AFF4,Y   ; Variable subtracted value (faster the X velocity is, the less of a Y velocity we end up with)
     STA Title_ObjYVel,X    ; Store result as Y velocity
 
     LDA #$01
@@ -2989,7 +3013,8 @@ PRG024_B023:
 
 PRG024_B037:
     TYA         ; A = Y (1 or 5)
-    ADD Title_ObjYVel,X
+    CLC
+    ADC Title_ObjYVel,X
     STA Title_ObjYVel,X    ; Title_ObjYVel += Y (1 or 5)
 
     LDA Title_ObjMLPower,X
@@ -3088,7 +3113,8 @@ PRG024_B088:
 
     ; Title_XPosFrac works as an fractional accumulator
     LDA Title_XPosFrac,X
-    ADD Temp_Var12
+    CLC
+    ADC Temp_Var12
     STA Title_XPosFrac,X   ; Title_XPosFrac += Temp_Var12
 
     ; ... which, as it overflows, provides a carry into the "whole" part
@@ -3129,7 +3155,8 @@ Title_ApplyYVel:
     ; The index gets an offset added to it; this allows reuse of the velocity
     ; precision adding function as X or Y velocity... relies on all pertinent values
     ; to be exactly the same bytes apart...
-    ADD #(Title_ObjYVel - Title_ObjXVel)
+    CLC
+    ADC #(Title_ObjYVel - Title_ObjXVel)
     TAX      ; X = (object index) + 8
 
     JSR Title_AddVel_toPos   ; Apply Y velocity
@@ -3231,7 +3258,8 @@ PRG024_B109:
     STA Title_ObjMLSprite,X    ; Make this the next sprite to display
 
     LDA Title_ObjXVel,X
-    ADD #$01
+    CLC
+    ADC #$01
     CMP #$03
     BLT PRG024_B135         ; If X Vel + 1 < 3, jump to PRG024_B135
 
@@ -3467,7 +3495,8 @@ Title_DrawMarioLuigi:
     STA Temp_Var1          ; Store VROM Page in Temp_Var1
     LDY Title_ObjMLPower,X     ; Power level -> Y
     LDA Title_SpriteVROMPwrOff,Y    ; Get VROM page offset for this power level
-    ADD Temp_Var1          ; Add Temp_Var1
+    CLC
+    ADC Temp_Var1          ; Add Temp_Var1
 
 PRG024_B21E:
     STA PatTable_BankSel+2,X    ; Set this VROM page (first quarter of sprite VROM)
@@ -3547,13 +3576,15 @@ PRG024_B24F:
 
     LDA Temp_Var15     ; Get Y coordinate
     STA Sprite_RAM+$0C,X    ; Set Y coordinate of sprite
-    ADD #16
+    CLC
+    ADC #16
     STA Sprite_RAM,X    ; Set Y coordinate of adjacent sprite, 16 pixels beneath the one above
 
 PRG024_B27E:
 
     LDA Temp_Var16 ; Get X coordinate
-    ADD Title_SpriteOffX,Y  ; Add offset of 16, 8, or 0 as appropriate by 'Y'
+    CLC
+    ADC Title_SpriteOffX,Y  ; Add offset of 16, 8, or 0 as appropriate by 'Y'
     STA Sprite_RAM+$03,X    ; Store X coordinate
     STA Sprite_RAM+$0F,X    ; Store X coordinate
 
@@ -3585,7 +3616,8 @@ PRG024_B27E:
 
     ; Reverse X coordinates
     LDA Sprite_RAM+$0B,X
-    ADD #-24
+    CLC
+    ADC #-24
     STA Sprite_RAM+$0B,X
     STA Sprite_RAM+$17,X
 
@@ -3636,7 +3668,8 @@ PRG024_B2DE:
     LDA #16         ; A = 16
 
 PRG024_B2F6:
-    ADD Sprite_RAM+$0F,X    ; Apply X offset
+    CLC
+    ADC Sprite_RAM+$0F,X    ; Apply X offset
     STA Sprite_RAM+$17,X    ; Duplicate result
 
     LDA #$1b        ; Foot pattern
@@ -3665,7 +3698,8 @@ PRG024_B317:
 
     ; Otherwise, add $40 (Luigi is using second VROM bank)
     LDA Sprite_RAM+$01,X
-    ADD #$40
+    CLC
+    ADC #$40
     STA Sprite_RAM+$01,X
 
 PRG024_B324:
@@ -3718,7 +3752,8 @@ PRG024_B34E:
 
     ; 16-bit + 16-bit add here [Title_XPosHi][Title_ObjX] += [XHiOff][XOff]
     LDA Title_ObjX,X       ; Get object's X position
-    ADD Title_MLSpriteVis_XOff,Y    ; A += Title_MLSpriteVis_XOff[Y]
+    CLC
+    ADC Title_MLSpriteVis_XOff,Y    ; A += Title_MLSpriteVis_XOff[Y]
     LDA Title_XPosHi,X     ; Get object's "high" part of the X value
     ADC Title_MLSpriteVis_XHiOff,Y  ; A += Title_MLSpriteVis_XHiOff[Y], with carry from previous op
 
@@ -3775,7 +3810,8 @@ Title_MarioDoPoof:
 
 PRG024_B389:
     LDA Title_ObjY         ; Get Mario's Y
-    ADD #$08            ; +8
+    CLC
+    ADC #$08            ; +8
     STA Sprite_RAM,Y        ; Store as sprite's Y
 
     LDA Temp_Var2
@@ -3793,7 +3829,8 @@ PRG024_B389:
 
     ; Otherwise, add 8 to the sprite's X
     LDA Sprite_RAM+$03,Y
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$03,Y
 
 PRG024_B3AF:
@@ -3803,7 +3840,8 @@ PRG024_B3AF:
     INY     ; Y += 4 (go to next sprite)
 
     LDA Temp_Var1
-    SUB #$c0
+    SEC
+    SBC #$c0
     STA Temp_Var1  ; Temp_Var1 -= $C0
     BCS PRG024_B389 ; Loop once...
 
@@ -3978,7 +4016,8 @@ PRG024_B472:
 
     ; XVel += Title_Leaf_XVelAdj[Y]
     LDA Title_ObjXVel+2,X
-    ADD Title_Leaf_XVelAdj,Y
+    CLC
+    ADC Title_Leaf_XVelAdj,Y
     STA Title_ObjXVel+2,X
 
     CMP Title_Leaf_XVelLimit,Y
@@ -3994,7 +4033,8 @@ PRG024_B488:
 
 PRG024_B48D:
     LDA Title_Leaf_YVel,Y
-    ADD #$06
+    CLC
+    ADC #$06
     STA Title_ObjYVel+2,X  ; YVel = Title_Leaf_YVel[Y] + 6
 
     JSR Title_ObjXVelApply  ; Apply X Velocity
@@ -4111,7 +4151,8 @@ Title_DoBuzzyBeatle:
     BNE PRG024_B51D     ; If <> 0, jump to PRG024_B51D
 
     LDA Title_ObjX+2,X ; Buzzy beatle
-    SUB Title_ObjX+7   ; Koopa shell
+    SEC
+    SBC Title_ObjX+7   ; Koopa shell
     CMP #16
     BGE PRG024_B543     ; If the distance between the buzzy beatle and koopa shell is >= 16, jump to PRG024_B543
 
@@ -4137,7 +4178,8 @@ PRG024_B52D:
 
     ; Y velocity += FALL_OBJECT ("gravity")
     LDA Title_ObjYVel+2,X
-    ADD #FALL_OBJECT
+    CLC
+    ADC #FALL_OBJECT
     STA Title_ObjYVel+2,X
 
     ; X/Y velocities
@@ -4158,7 +4200,8 @@ PRG024_B543:
     BNE PRG024_B553         ; If buzzy beatle shell hasn't hit the floor yet, jump to PRG024_B553
 
     LDA #$20
-    SUB Title_ObjYVel+2,X
+    SEC
+    SBC Title_ObjYVel+2,X
     BLT PRG024_B551     ; As long as y velocity is less than $20, jump to PRG024_B551
 
     LDA #$00        ; Set Y velocity to zero
@@ -4172,7 +4215,8 @@ PRG024_B553:
 
 Title_DoKoopaShell:
     LDA Title_ObjStates,X
-    SUB #$02
+    SEC
+    SBC #$02
     JSR DynJump     ; Jump based on state - 2 (because state 0 is "removed", state 1 is init, so we're at least in state 2)
 
     ; THESE MUST FOLLOW DynJump FOR THE DYNAMIC JUMP TO WORK!!
@@ -4328,7 +4372,8 @@ KS_HitMario:
     BEQ PRG024_B621         ; If Mario's power level is 0 (small), jump to PRG024_B621
 
     LDA Title_ObjX
-    SUB Title_ObjX+2,X
+    SEC
+    SBC Title_ObjX+2,X
     CMP #16
     BGE PRG024_B621         ; If the shell greater than 16 pixels away from Mario, jump to PRG024_B621
 
@@ -4383,7 +4428,8 @@ KS_ShellCarry:
 
     ; Koopa shell's Y position = carrier's Y + 13
     LDA Title_ObjY,Y
-    ADD #13
+    CLC
+    ADC #13
     STA Title_ObjY+2,X
 
     LDA Title_ObjMLFlags,Y      ; Get carrier's flags (specifically, we're only checking "zero" or "non-zero", even more specifically, "(not) horizontally flipped")
@@ -4395,7 +4441,8 @@ KS_ShellCarry:
     PHA             ; Save 'A' (bonk ticks)
     BEQ PRG024_B675         ; If flags = 0, jump to PRG024_B675
 
-    ADD #$08            ; Otherwise, add 8 to the "bonk ticks" (use reversed values from KS_Carry_Xoff)
+    CLC
+    ADC #$08            ; Otherwise, add 8 to the "bonk ticks" (use reversed values from KS_Carry_Xoff)
 
 PRG024_B675:
     TAY             ; Y = bonk ticks (+8)
@@ -4405,7 +4452,8 @@ PRG024_B675:
     DEC Title_XPosHi+2,X       ; Otherwise, shell's "high" X position-- (put to the left of Mario)
 
 PRG024_B67D:
-    ADD Title_ObjX+2,X
+    CLC
+    ADC Title_ObjX+2,X
     STA Title_ObjX+2,X     ; Add X offset to shell's X
     BCC PRG024_B686         ; If it hasn't overflowed, jump to PRG024_B686
 
@@ -4429,7 +4477,8 @@ Title_ObjCommonXYVel:
 
     ; Add FALL_OBJECT to this object's Y velocity
     LDA Title_ObjYVel+2,X
-    ADD #FALL_OBJECT
+    CLC
+    ADC #FALL_OBJECT
     STA Title_ObjYVel+2,X
 
     JSR Title_ApplyYVelFall  ; Update and apply Y velocity
@@ -4466,7 +4515,8 @@ PRG024_B6B6:
     ; There is a "high" part of the X coordinate in use...
 
     LDA Title_ObjX+2,X ; Get the X coordinate
-    ADD Title_ObjXLimit,Y   ; Add an appropriate extreme value
+    CLC
+    ADC Title_ObjXLimit,Y   ; Add an appropriate extreme value
 
     ; 16-bit propogation
     LDA Title_XPosHi+2,X
@@ -4516,7 +4566,8 @@ PRG024_B6F1:
 
     LDA Title_ObjFrame,X
     ASL A
-    ADD Title_ObjPatOff,X   ; Use the pattern specified in Title_ObjPatOff + 2 * Title_ObjFrame
+    CLC
+    ADC Title_ObjPatOff,X   ; Use the pattern specified in Title_ObjPatOff + 2 * Title_ObjFrame
     TAY         ; Y = A (the pattern value)
 
     ; Temp_Var1 and Temp_Var2 hold the first and second pattern value for this object
@@ -4536,7 +4587,8 @@ PRG024_B6F1:
     ; Set the X position of object to its first/second sprites (8 pixels apart)
     LDA Title_ObjX+2,X
     STA Sprite_RAM+$03,Y
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$07,Y
 
     ; Store the attributes for both sprites
@@ -4591,7 +4643,8 @@ PRG024_B75D:
     ; Take the object's X coordinate, add 8, and if there's been a carry OR the "high" part
     ; of the X coordinate is otherwise non-zero, disable the second half of the sprite
     LDA Title_ObjX+2,X
-    ADD #$08
+    CLC
+    ADC #$08
     LDA #$00
     ADC Title_XPosHi+2,X
     BEQ PRG024_B76D
@@ -4777,14 +4830,16 @@ PRG024_B800:
 
 PRG024_B813:
     LDA #186        ; A = 186
-    ADD Title_Menu_Koopa_SprYOff,X  ; A += Title_Menu_Koopa_SprYOff[X]
+    CLC
+    ADC Title_Menu_Koopa_SprYOff,X  ; A += Title_Menu_Koopa_SprYOff[X]
     STA Sprite_RAM,Y    ; Store Y coordinate into first sprite
     STA Sprite_RAM+$04,Y    ; Store Y coordinate into second sprite
 
     TXA         ; A = X (sprite to build loop counter)
     PHA         ; Save 'A'
 
-    ADD Temp_Var2      ; Add the frame (0 or 3) to 'A'
+    CLC
+    ADC Temp_Var2      ; Add the frame (0 or 3) to 'A'
     TAX         ; X = A
 
     ; Setup the patterns
@@ -4808,11 +4863,13 @@ PRG024_B813:
     LDA Temp_Var1
     STA Sprite_RAM+$03,Y    ; Store X position for first sprite of the koopa
 
-    ADD #$08        ; Sprite X += 8
+    CLC
+    ADC #$08        ; Sprite X += 8
     STA Sprite_RAM+$07,Y    ; Store X position for second sprite of the koopa
 
     TYA
-    ADD #$08
+    CLC
+    ADC #$08
     TAY         ; Y += 8 (next two sprites over)
 
     DEX         ; X--
@@ -5034,7 +5091,8 @@ PRG024_B93D:
     ; Ending timer was init'ed to $F (15) so ...
     LSR A
     LSR A       ; Ending timer / 4
-    ADD #$56    ; ... run command scripts $59, $58, $57, $56 (the "fade in" effect)
+    CLC
+    ADC #$56    ; ... run command scripts $59, $58, $57, $56 (the "fade in" effect)
 
     STA Graphics_Queue   ; Execute appropriate scripe
 
@@ -5092,7 +5150,8 @@ Ending_LightsOn:
 
     LDX Graphics_BufCnt  ; X = current graphics buffer count
     TXA
-    ADD #$07
+    CLC
+    ADC #$07
     STA Graphics_BufCnt ; Make room for 7 bytes
 
     ; VRAM High/Low (for palette)
@@ -5232,7 +5291,8 @@ PRG024_BA19:
 
     ; Execute $5A, $59, $58, $57 (fade out)
     LDA #$5a
-    SUB Temp_Var1
+    SEC
+    SBC Temp_Var1
     STA Graphics_Queue
 
     ; Second ending timer = $10
@@ -5271,7 +5331,8 @@ EndText_DrawDiagBox:
     LDA EndText_VL
     STA Graphics_Buffer+1,X
 
-    ADD #$20    ; 32 bytes to next row
+    CLC
+    ADC #$20    ; 32 bytes to next row
     STA EndText_VL
     BCC PRG024_BA87
     INC EndText_VH  ; Apply carry
@@ -5379,7 +5440,8 @@ EndText_DoPrincessText:
 
     ; Update Graphics_BufCnt
     TXA
-    ADD #$04
+    CLC
+    ADC #$04
     STA Graphics_BufCnt
 
     ; VRAM low address
@@ -5571,7 +5633,8 @@ PRG024_BC0D:
 
     ; Lowering curtain
     LDA Vert_Scroll
-    SUB #$01
+    SEC
+    SBC #$01
     STA Vert_Scroll
 
     CMP #$3f
@@ -5583,7 +5646,8 @@ PRG024_BC21:
 
     ; Ending2_TimerL--
     LDA Ending2_TimerL
-    SUB #$01
+    SEC
+    SBC #$01
     STA Ending2_TimerL
     BCS PRG024_BC0D  ; If Ending2_TimerL didn't underflow, loop
 
@@ -5758,7 +5822,8 @@ PRG024_BCED:
     BMI PRG024_BD01  ; If X < 0, jump to PRG024_BD01
 
     LDA #(Inventory_Cards - Inventory_Items - 1)
-    ADD #(Inventory_Items2 - Inventory_Items)
+    CLC
+    ADC #(Inventory_Items2 - Inventory_Items)
 
     TAY      ; Reset 'Y'
     JMP PRG024_BCE7  ; Loop
@@ -5940,7 +6005,8 @@ PRG024_BDD8:
 
     ; Ending2_PicVRAML += 8
     LDA Ending2_PicVRAML
-    ADD #$08
+    CLC
+    ADC #$08
     STA Ending2_PicVRAML
 
     RTS      ; Return
@@ -6157,7 +6223,8 @@ Ending2_FadeIn:
 
     ; Queue the full palette (fade in is common)
     LDA Ending2_CurWorld   ; A = current world we're depicting
-    ADD #$4d
+    CLC
+    ADC #$4d
     STA Graphics_Queue
 
     ; Ending2_TimerH = $F
@@ -6183,7 +6250,8 @@ PRG024_BEFB:
 Ending2_Wait:
     ; Ending2_TimerL--
     LDA Ending2_TimerL
-    SUB #$01
+    SEC
+    SBC #$01
     STA Ending2_TimerL
     BCS PRG024_BF13  ; If Ending2_TimerL >= 0, jump to PRG024_BF13 (RTS)
 
@@ -6244,7 +6312,8 @@ Ending2_PicVRAM_NextLineWrap:
 
     ; Add 32 to VRAM address for next row
     LDA Ending2_PicVRAML
-    ADD #32
+    CLC
+    ADC #32
     STA Ending2_PicVRAML
     LDA Ending2_PicVRAMH
     ADC #$00

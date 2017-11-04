@@ -35,20 +35,10 @@
     BPL _1  ; A >= CMP (signed)
     .endm
 
-; Clarifying pseudo instructions
-.macro ADD _1  ; RegEx S&R "CLC.*\n.*?ADC" -> "ADD"
-    CLC
-    ADC _1
-    .endm
-
-.macro SUB _1  ; RegEx S&R "SEC.*\n.*?SBC" -> "SUB"
-    SEC
-    SBC _1
-    .endm
-
-.macro NEG _1  ; RegEx S&R "EOR #\$ff.*\n.*ADD #\$01" -> "NEG"
+.macro NEG  ; RegEx S&R "EOR #\$ff.*\n.*ADD #\$01" -> "NEG"
     EOR #$ff
-    ADD #$01
+    CLC
+    ADC #$01
     .endm
 
 

@@ -522,10 +522,12 @@ Map_IntroAttrSave:
     LSR A
     LSR A
     LSR A        ; A >> 5 (div by 32, for figuring out what set of 2x2 tiles we need to fix)
-    ADD #$d2
+    CLC
+    ADC #$d2
     STA Temp_Var1
 
-    ADD #$08
+    CLC
+    ADC #$08
     STA Temp_Var2
 
     LDA PPU_STAT
@@ -618,12 +620,14 @@ PRG010_C322:
     LSR A
     LSR A
     LSR A
-    ADD #$2a
+    CLC
+    ADC #$2a
     STA Graphics_Buffer+1
 
     ; Graphics_BufCnt += (GameOver_MLName_Len + 2)
     LDA Graphics_BufCnt
-    ADD #(GameOver_MLName_Len + 2)
+    CLC
+    ADC #(GameOver_MLName_Len + 2)
     STA Graphics_BufCnt
 
     RTS      ; Return
@@ -835,7 +839,8 @@ PRG010_C43C:
 PRG010_C447:
     LDY Scroll_LastDir
     LDA Horz_Scroll
-    ADD Map_ScrollDeltaX,Y
+    CLC
+    ADC Map_ScrollDeltaX,Y
     STA Horz_Scroll     ; Horz_Scroll += Map_ScrollDeltaX[Y] (scroll in proper direction by delta amount)
     STA Scroll_Temp     ; Scroll_Temp = Horz_Scroll
 
@@ -1018,7 +1023,8 @@ PRG010_C52D:
     LDA Map_WorldIntro_PSPat,Y  ; Get pattern to use based on Player's current powerup
     STA Sprite_RAM+$85      ; Store as pattern
 
-    ADD #$02
+    CLC
+    ADC #$02
     STA Sprite_RAM+$89      ; Opposite side is prior value + 2
 
     RTS         ; Return...
@@ -1060,7 +1066,8 @@ Map_Intro_Erase1Strip:
     ; intro box to tell where to start copying the map tiles from!
     LDA Scroll_ColumnR
     AND #$08
-    ADD #$34
+    CLC
+    ADC #$34
     STA Map_IntBoxErase    ; Map_IntBoxErase = (Scroll_ColumnR & 8) + $34
 
     LDA Scroll_ColumnL
@@ -1083,7 +1090,8 @@ Map_Intro_Erase1Strip:
     LDA Scroll_ColumnR
     AND #$08        ; 0 or 8, depending if we're scrolled "halfway" across two screens
     ASL A           ; Now 0 or 16
-    ADD #$08        ; Now 8 or 24
+    CLC
+    ADC #$08        ; Now 8 or 24
     STA Map_Intro_NTOff    ; Map_Intro_NTOff = 8 or 24
 
     ; Calculates the corresponding offset to the attribute table
@@ -1093,7 +1101,8 @@ Map_Intro_Erase1Strip:
     LSR A
     LSR A
     LSR A           ; Divide by 32 because EACH attribute BYTE defines FOUR 8x8 tiles (4 * 8 = 32)
-    ADD #$d2
+    CLC
+    ADC #$d2
     STA Map_Intro_ATOff        ; Map_Intro_ATOff = (Horz_Scroll / 32) + $D2
 
     LDA #$02
@@ -1167,7 +1176,8 @@ PRG010_C5CC:
     STA Scroll_PatStrip+$C,X    ; Store into vertical strip
 
     LDA Temp_Var1
-    ADD #16
+    CLC
+    ADC #16
     STA Temp_Var1          ; Temp_Var1 += 16 (get next tile one row down)
 
     INX
@@ -1210,7 +1220,8 @@ PRG010_C622:
     ; Store lower part of VRAM address
     LDA Map_Intro_ATOff
     STA Graphics_Buffer+$17
-    ADD #$08
+    CLC
+    ADC #$08
     STA Graphics_Buffer+$1B
 
     ; Just one byte to copy
@@ -1257,7 +1268,8 @@ PRG010_C66A:
 
     ; Otherwise, we need to update the address
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL ; Map_Tile_AddrL += $B0 (11 tiles over)
 
     LDA Map_Tile_AddrH
@@ -1669,7 +1681,8 @@ PRG010_C8CD:
     LDY World_Num    ; Y = World_Num
 
     LDA FortressFXBase_ByWorld,Y    ; Get base index for this world
-    ADD Map_DoFortressFX        ; Add specific index
+    CLC
+    ADC Map_DoFortressFX        ; Add specific index
     TAY      ; -> 'Y'
 
     ; Reassign Map_DoFortressFX to the retrieved slot index
@@ -1719,7 +1732,8 @@ PRG010_C8CD:
 
     ; 32 bytes to get to the next row (bottom half of map tile getting changed)
     LDA Temp_Var12
-    ADD #32
+    CLC
+    ADC #32
     STA Temp_Var12
     LDA Temp_Var11
     ADC #$00
@@ -1790,7 +1804,8 @@ PRG010_C8CD:
     TAY      ; -> 'Y'
 
     LDA Tile_Mem_Addr,Y ; Get low byte of address to tile memory for the specified screen
-    ADD #$f0        ; Offset to map level
+    CLC
+    ADC #$f0        ; Offset to map level
     STA Temp_Var15     ; -> Temp_Var15
 
     LDA Tile_Mem_Addr+1,Y   ; Get high byte of address to tile memory for the specified screen
@@ -1890,12 +1905,14 @@ PRG010_C9F7:
     LDY #(MAPOBJ_TOTAL-1)   ; Y = (MAPOBJ_TOTAL-1) (For all map objects)
 PRG010_CA09:
     LDA Map_Object_ActY,Y
-    ADD #$08    ; +8
+    CLC
+    ADC #$08    ; +8
     AND #$f0    ; Align to grid
     STA Map_Objects_Y,Y  ; -> Map object Y
 
     LDA Map_Object_ActX,Y
-    ADD #$08    ; +8
+    CLC
+    ADC #$08    ; +8
     AND #$f0    ; Align to grid
     STA Map_Objects_XLo,Y    ; -> Map object X
 
@@ -2009,7 +2026,8 @@ PRG010_CAA0:
 Map_Do_Borders:
     LDX Map_ScrollOddEven  ; X = Map_ScrollOddEven
     LDA Scroll_ColumnL ; A = Scroll_ColumnL
-    ADD PRG010_CAA0,X   ; Add a value based on the value of Map_ScrollOddEven (0 for not entering, 1 for entering; 2 was used in Japanese version only showing the level)
+    CLC
+    ADC PRG010_CAA0,X   ; Add a value based on the value of Map_ScrollOddEven (0 for not entering, 1 for entering; 2 was used in Japanese version only showing the level)
     PHA         ; Save A
     AND #$f0        ; Screen only
     LSR A
@@ -2017,7 +2035,8 @@ Map_Do_Borders:
     LSR A           ; A >> 2 screen index
     TAY         ; Y = A
     LDA Tile_Mem_Addr,Y ; Beginning of tiles we're going to modify
-    ADD #$f0        ; Add $f0 to it??
+    CLC
+    ADC #$f0        ; Add $f0 to it??
 
     ; Store address into [<Map_Tile_AddrH][Map_Tile_AddrL]
     STA Map_Tile_AddrL
@@ -2044,7 +2063,8 @@ PRG010_CACF:
     STA Temp_Var2      ; Store this into Temp_Var2
 
     TYA
-    ADD #15
+    CLC
+    ADC #15
     TAY         ; Y += 15 (next row)
 
     LDA (Map_Tile_AddrL),Y  ; Get this tile
@@ -2071,7 +2091,8 @@ PRG010_CACF:
     INX      ; X++
 
     LDA Temp_Var5
-    ADD #32
+    CLC
+    ADC #32
     STA Temp_Var5   ; Temp_Var5 += 32
 
     AND #$f0     ; Only keep upper four bits of Temp_Var5
@@ -2329,7 +2350,8 @@ Map_PanRight:
     LDY Map_ScrollOddEven       ; Y = Map_ScrollOddEven
 
     LDA Scroll_ColumnL
-    ADD Scroll_ColumnLOff,Y
+    CLC
+    ADC Scroll_ColumnLOff,Y
     STA Scroll_ColumnL
 
     AND #$f0
@@ -2391,7 +2413,8 @@ PRG010_CC98:
 
     ; Temp_Var1 += 16
     LDA Temp_Var1
-    ADD #$10
+    CLC
+    ADC #$10
     STA Temp_Var1
 
     AND #$f0
@@ -2806,7 +2829,8 @@ PRG010_CEE4:
     BEQ PRG010_CEF4         ; If not in canoe, jump to PRG010_CEF4
 
     ; Otherwise, in canoe...
-    ADD #MapMove_DeltaDiff      ; Add MapMove_DeltaDiff to World_Map_Dir (use canoe values)
+    CLC
+    ADC #MapMove_DeltaDiff      ; Add MapMove_DeltaDiff to World_Map_Dir (use canoe values)
     INC World_Map_Move,X       ; Soften the map move reduction by adding on back
 
 PRG010_CEF4:
@@ -2814,10 +2838,12 @@ PRG010_CEF4:
 
     ; Move Player as according to specified delta
     LDA World_Map_Y,X
-    ADD MapMove_DeltaY,Y
+    CLC
+    ADC MapMove_DeltaY,Y
     STA World_Map_Y,X
     LDA World_Map_X,X
-    ADD MapMove_DeltaX,Y
+    CLC
+    ADC MapMove_DeltaX,Y
     STA World_Map_X,X
     LDA World_Map_XHi,X
     ADC MapMove_DeltaXHi,Y
@@ -2950,18 +2976,21 @@ Map_DrawPlayer:
     ; Update Player's sprite Y position!
     STA Sprite_RAM+$8C
     STA Sprite_RAM+$90
-    SUB #16          ; Subtract 16 for upper half
+    SEC
+    SBC #16          ; Subtract 16 for upper half
     STA Sprite_RAM+$84
     STA Sprite_RAM+$88
 
 PRG010_D012:
     LDA World_Map_X,X   ; A = Player's X position
-    SUB Horz_Scroll     ; Made relative to the horizontal scroll
+    SEC
+    SBC Horz_Scroll     ; Made relative to the horizontal scroll
 
     ; Update Player's sprite X position!
     STA Sprite_RAM+$87
     STA Sprite_RAM+$8F
-    ADD #8           ; Add 8 for right half
+    CLC
+    ADC #8           ; Add 8 for right half
     STA Sprite_RAM+$8B
     STA Sprite_RAM+$93
 
@@ -2974,7 +3003,8 @@ PRG010_D012:
     AND #$08    ; On 8 ticks, off 8 ticks
     BEQ PRG010_D037 ;
     TXA
-    ADD #(Map_Power_Pats_F2-Map_Power_Pats_F1)
+    CLC
+    ADC #(Map_Power_Pats_F2-Map_Power_Pats_F1)
     TAX     ; X Offset to second frame
 
 PRG010_D037:
@@ -3146,7 +3176,8 @@ Map_No_Pan:
     BMI PRG010_D16F     ; If they're deceased, jump to PRG010_D16F
 
     LDA World_Map_X,X  ; A = Other player's X coord
-    SUB Horz_Scroll    ; Made relative to the screen
+    SEC
+    SBC Horz_Scroll    ; Made relative to the screen
     BEQ PRG010_D16F     ; If relatively 0, jump to PRG010_D16F
 
     LDA World_Map_XHi,X    ; A = Other player's X Hi byte
@@ -3162,8 +3193,10 @@ Map_No_Pan:
     LDA #$03
     STA Sprite_RAM+$96
     LDA World_Map_X,X
-    SUB Horz_Scroll
-    ADD #$04
+    SEC
+    SBC Horz_Scroll
+    CLC
+    ADC #$04
     STA Sprite_RAM+$97
 
 PRG010_D16F:
@@ -3252,11 +3285,13 @@ PRG010_D1B2:
     STA Sprite_RAM+11,Y
 
     LDA Temp_Var1
-    ADD #16
+    CLC
+    ADC #16
     STA Temp_Var1   ; Temp_Var1 += 16
 
     TYA
-    SUB #12
+    SEC
+    SBC #12
     TAY      ; Y -= 12 (3 sprites backward)
     BPL PRG010_D1B2  ; While Y >= 0, loop!
 
@@ -3292,7 +3327,8 @@ Map_GetTile:
     STA Temp_Var1      ; Temp_Var1 = World_Map_X / 16 (the current column of the current screen)
 
     LDA World_Map_Y,X
-    SUB #16
+    SEC
+    SBC #16
     AND #$f0
     ORA Temp_Var1      ; Temp_Var1 now holds the X column in the lower 4-bits and the Y row in the upper 4-bits
 
@@ -3475,11 +3511,13 @@ PRG010_D2E1:
 
     LDX Player_Current
     LDA World_Map_Y,X
-    ADD Map_CanoeCheckYOff,Y
+    CLC
+    ADC Map_CanoeCheckYOff,Y
     STA Temp_Var1      ; Temp_Var1 = Player's Y on map plus an appropriate offset to search for canoe
 
     LDA World_Map_X,X
-    ADD Map_CanoeCheckXOff,Y
+    CLC
+    ADC Map_CanoeCheckXOff,Y
     STA Temp_Var2      ; Temp_Var2 is like Temp_Var1, for X
 
     LDA World_Map_XHi,X
@@ -3595,11 +3633,13 @@ MapTile_Get_By_Offset:  ; $D369
     LDX Player_Current  ; X = Player_Current
 
     LDA World_Map_Y,X  ; A = player's current Y position on-map
-    ADD Search_YOff,Y   ; Offset Player's Y based on current search direction
+    CLC
+    ADC Search_YOff,Y   ; Offset Player's Y based on current search direction
     STA Temp_Var15     ; Store into Temp_Var15
 
     LDA World_Map_X,X  ; A = player's current X position on-map
-    ADD Search_XOff,Y   ; Offset Player's X based on current search direction
+    CLC
+    ADC Search_XOff,Y   ; Offset Player's X based on current search direction
     STA Temp_Var16 ; Store into Temp_Var16
 
     LDA World_Map_XHi,X    ; A = player's current X Hi position on-map
@@ -3665,11 +3705,13 @@ PRG010_D3C6:
     INX      ; Otherwise, X += 2
 PRG010_D3CD:
     LDA Map_W8D_XOff    ; A = Map_W8D_XOff
-    ADD Map_W8D_XOffTable,X ; Add appropriate offset for here
+    CLC
+    ADC Map_W8D_XOffTable,X ; Add appropriate offset for here
     STA Map_W8D_X       ; Store result into Map_W8D_X
 
     LDA Map_W8D_YOff
-    SUB #16
+    SEC
+    SBC #16
     STA Map_W8D_Y       ; Map_W8D_Y = Map_W8D_YOff - 16
     JMP PRG010_D40B     ; Jump to PRG010_D40B
 
@@ -3688,11 +3730,13 @@ PRG010_D3F1:
     INX         ; Otherwise, X += 2
 PRG010_D3F8:
     LDA Map_W8D_YOff
-    ADD Map_W8D_YOffTable,X
+    CLC
+    ADC Map_W8D_YOffTable,X
     STA Map_W8D_Y       ; Map_W8D_Y = Map_W8D_Y + Y offset
 
     LDA Map_W8D_XOff
-    SUB #16
+    SEC
+    SBC #16
     STA Map_W8D_X       ; Map_W8D_X = Map_W8D_XOff - 16
 
 PRG010_D40B:
@@ -3776,7 +3820,8 @@ PRG010_D472:
 
     ; Address offset to next 8x8 pattern
     LDA Map_W8D_VAddrL2
-    ADD Temp_Var6
+    CLC
+    ADC Temp_Var6
     STA Map_W8D_VAddrL2
     LDA Map_W8D_VAddrH2
     ADC #$00
@@ -3790,7 +3835,8 @@ PRG010_D472:
 
     ; Offset to next row
     LDA Map_W8D_RC
-    ADD Temp_Var7
+    CLC
+    ADC Temp_Var7
     STA Map_W8D_RC
 
 PRG010_D495:
@@ -3837,7 +3883,8 @@ W8D_GetNext8x8:
     JSR TileLayout_GetBaseAddr   ; Set Temp_Var13/14 to layout pointer, and reload Y = Temp_Var11 (the tile)
 
     LDA Map_W8D_TileOff ; In-tile offset
-    ADD Temp_Var14
+    CLC
+    ADC Temp_Var14
     STA Temp_Var14     ; Temp_Var14 += Map_W8D_TileOff
 
     LDA (Temp_Var13),Y  ; Load this 8x8 pattern of tile

@@ -194,9 +194,11 @@ PRG008_A0CC:
 
 PRG008_A0E7:
     LDA Player_Y
-    ADD Temp_Var1  ; Y offset
+    CLC
+    ADC Temp_Var1  ; Y offset
     AND #$F0    ; align to grid
-    ADD #$02    ; +2
+    CLC
+    ADC #$02    ; +2
 
 PRG008_A0F1:
     STA Splash_Y     ; 147 or above formula -> Splash_Y
@@ -339,7 +341,8 @@ PRG008_A17F:
     ; Makes for "wobbly" raising of the airship at least..
     LDA Counter_Wiggly
     AND #$F0
-    SUB #$90
+    SEC
+    SBC #$90
     STA Counter_Wiggly
 
     JSR Player_Update    ; WHERE THE PLAYER DOES EVERYTHING!! (Except touch other objects)
@@ -363,7 +366,8 @@ PRG008_A1C1:
 
     ; Otherwise... Score_Earned += 5(0) points
     LDA Score_Earned
-    ADD #$05
+    CLC
+    ADC #$05
     STA Score_Earned
 
     INC Coins_Earned     ; One more coin earned!
@@ -633,7 +637,8 @@ LevelInit_Airship_Board:
     STA Player_X       ; Player_X = $90
 
     LDA Vert_Scroll
-    ADD #$80
+    CLC
+    ADC #$80
     STA Player_Y       ; Player_Y = Vert_Scroll + $80
 
     ; Carry into Player_YHi if needed
@@ -963,7 +968,8 @@ PRG008_A4B1:
     TAY         ; index value -> 'Y'
     LDA VibrationOffset,Y   ; Get offset
     PHA         ; Save it
-    ADD Level_VertScroll
+    CLC
+    ADC Level_VertScroll
     STA Level_VertScroll    ; Level_VertScroll += offset
     PLA         ; Restore it
 
@@ -1098,7 +1104,8 @@ PRG008_A55B:
 PRG008_A55E:
     LDX Graphics_BufCnt
     TXA
-    ADD #$06
+    CLC
+    ADC #$06
     STA Graphics_BufCnt  ; Graphics_BufCnt += 6 more bytes coming in...
 
     ; Going to send in a palette update
@@ -1504,7 +1511,8 @@ PRG008_A77E:
     STA Player_LowClearance
 
     ; This makes the Player "slide" when he's in a space too narrow
-    ADD Player_X
+    CLC
+    ADC Player_X
     STA Player_X    ; Player_X += 1
     BCC PRG008_A7AD  ; If not carry, jump to PRG008_A7AD
     INC Player_XHi  ; Otherwise, apply carry
@@ -1654,7 +1662,8 @@ PRG008_A827:
     LDY Level_TilesetIdx     ; Y = Level_TilesetIdx
 
     LDA #TILEA_DOOR2
-    SUB Temp_Var1
+    SEC
+    SBC Temp_Var1
     BEQ PRG008_A83F  ; If tile is DOOR2's tile, jump to PRG008_A83F
 
     ; Only fortresses can use DOOR1
@@ -1701,7 +1710,8 @@ PRG008_A852:
 
 PRG008_A864:
     TYA
-    ADD Player_X    ; Add offset to Player_X if needed
+    CLC
+    ADC Player_X    ; Add offset to Player_X if needed
     AND #$F0     ; Lock to nearest column (place directly in doorway)
     STA Player_X    ; Update Player_X
 
@@ -1832,7 +1842,8 @@ PRG008_A8F9:
 
     ; Otherwise, apply it
     LDA Player_XVel
-    ADD Player_SlideRate
+    CLC
+    ADC Player_SlideRate
     STA Player_XVel
 
 PRG008_A906:
@@ -1843,7 +1854,8 @@ PRG008_A906:
 
     ; Otherwise, apply it AGAIN
     LDA Player_XVel
-    SUB Player_SlideRate
+    SEC
+    SBC Player_SlideRate
     STA Player_XVel
 
 PRG008_A916:
@@ -1905,7 +1917,8 @@ PRG008_A94C:
     LDY Player_InWater
     BEQ PRG008_A956  ; If Player is not under water, jump to PRG008_A956
 
-    ADD #$07     ; Otherwise, add 7 (underwater code pointers)
+    CLC
+    ADC #$07     ; Otherwise, add 7 (underwater code pointers)
 
 PRG008_A956:
     ASL A        ; 2-byte pointer
@@ -2216,7 +2229,8 @@ PRG008_AAAB:
 
 PRG008_AABF:
     LDA Frog_BaseFrame,X
-    ADD Frog_FrameOffset,Y
+    CLC
+    ADC Frog_FrameOffset,Y
     BNE PRG008_AAD2
 
 PRG008_AAC8:
@@ -2386,7 +2400,8 @@ PRG008_AB83:
     ASL A
     ASL A
     ASL A
-    ADD #$40
+    CLC
+    ADC #$40
     TAY      ; Y = ((selected top speed - 1) << 3) + $40 ??
     BNE PRG008_AB9E  ; And as long as that's not zero, jump to PRG008_AB9E
 
@@ -2462,7 +2477,8 @@ PRG008_ABD3:
     ; Player moving leftward
 
     LDA #$00
-    SUB Player_XAccelPseudoFrac,Y ; Negate value from Player_XAccelPseudoFrac[Y]
+    SEC
+    SBC Player_XAccelPseudoFrac,Y ; Negate value from Player_XAccelPseudoFrac[Y]
     STA Temp_Var1    ; -> Temp_Var1
 
     LDA Player_XAccelMain,Y ; Get Player_XAccelMain[Y]
@@ -2487,7 +2503,8 @@ PRG008_ABEB:
 
 PRG008_ABF5:
     LDA Temp_Var1
-    ADD Counter_Wiggly  ; actual value not used, looking for a semi-random carry
+    CLC
+    ADC Counter_Wiggly  ; actual value not used, looking for a semi-random carry
 
     LDA Player_XVel
     ADC Temp_Var2
@@ -2605,7 +2622,8 @@ PRG008_AC73:
     TAX  ; X = Magnitude of Player's X Velocity >> 4 (the "whole" part)
 
     LDA Player_RootJumpVel      ; Get initial jump velocity
-    SUB Player_SpeedJumpInc,X   ; Subtract a tiny bit of boost at certain X Velocity speed levels
+    SEC
+    SBC Player_SpeedJumpInc,X   ; Subtract a tiny bit of boost at certain X Velocity speed levels
     STA Player_YVel        ; -> Y velocity
 
     LDA #$01
@@ -2663,7 +2681,8 @@ PRG008_ACC8:
 
 PRG008_ACCD:
     TYA
-    ADD Player_YVel
+    CLC
+    ADC Player_YVel
     STA Player_YVel ; Player_YVel += Y
 
     LDA Player_WagCount
@@ -2773,7 +2792,8 @@ PRG008_AD45:
     ; Swimming speed the rest of the time
 
     LDA Player_YVel
-    SUB #PLAYER_SWIM_YVEL    ; A = Player_YVel - PLAYER_SWIM_YVEL
+    SEC
+    SBC #PLAYER_SWIM_YVEL    ; A = Player_YVel - PLAYER_SWIM_YVEL
 
 PRG008_AD4A:
     STA Player_YVel ; Set Player_YVel appropriately
@@ -2808,14 +2828,16 @@ PRG008_AD5C:
     CPY #-8
     BGE PRG008_AD73  ; If Player sprite is a bit high up, jump to PRG008_AD73
 
-    ADD #$10
+    CLC
+    ADC #$10
     STA Player_YVel ; Player_YVel += $10
 
 PRG008_AD73:
     LDY #PLAYER_SWIMSTART_YVEL   ; Y = PLAYER_SWIMSTART_YVEL
 
 PRG008_AD75:
-    ADD #PLAYER_SWIM_YVEL
+    CLC
+    ADC #PLAYER_SWIM_YVEL
     CMP #PLAYER_MAXSPEED
     BLT PRG008_AD7E  ; If result is less than Player's max speed, jump to PRG008_AD7E
 
@@ -2899,7 +2921,8 @@ PRG008_ADCB:
     LDY Player_Suit ; Y = Player_Suit
     BNE PRG008_ADD2  ; If Player is not small, jump to PRG008_ADD2
 
-    ADD #$06     ; For small, A = 11
+    CLC
+    ADC #$06     ; For small, A = 11
 
 PRG008_ADD2:
     TAY      ; Y = 5 or 11
@@ -3004,7 +3027,8 @@ PRG008_AE26:
 
     ; In short, cycle through power-up 0-6 (all power ups)
     LDA Player_Suit
-    ADD #$01
+    CLC
+    ADC #$01
     STA Player_QueueSuit
     CMP #(PLAYERSUIT_LAST+1)    ; +1 because it's by Player_QueueSuit
     BLS PRG008_AE47         ; If not the last suit, jump to PRG008_AE47
@@ -3036,7 +3060,8 @@ PRG008_AE58:
     ; Player not in water...
 
     LDA Player_XVel
-    ADD #$01
+    CLC
+    ADC #$01
     CMP #$03
     BLT PRG008_AE90  ; If (Player_XVel + 1) < 3, jump to PRG008_AE90
 
@@ -3172,7 +3197,8 @@ PRG008_AF05:
     PLA      ; Restore Counter_1 >> 1
 
     AND #$03     ; Cap 0 - 3
-    ADD #PF_SOMERSAULT_BASE  ; Add base somersault frame
+    CLC
+    ADC #PF_SOMERSAULT_BASE  ; Add base somersault frame
     STA Player_Frame ; Update Player_Frame!
 
 PRG008_AF0F:
@@ -3290,7 +3316,8 @@ PRG008_AF87:
 
     PLA      ; Restore (0 - 2)
 
-    ADD Temp_Var1   ; Add base index
+    CLC
+    ADC Temp_Var1   ; Add base index
     TAY      ; -> 'Y'
 
     LDA Player_TwisterSpinFrames,Y   ; Get appropriate spin frame
@@ -3347,7 +3374,8 @@ PRG008_AFCD:
 
     ; Fall fast as statue
     LDA Player_YVel
-    ADD #$07
+    CLC
+    ADC #$07
     STA Player_YVel
 
 PRG008_AFE0:
@@ -3485,10 +3513,12 @@ PRG008_B072:
     LDY Player_YVel
     BMI PRG008_B079  ; If Player Y velocity < 0, jump to PRG008_B079
 
-    ADD #$03     ; Otherwise, add 3 (apex, when just running out of power, flying steady)
+    CLC
+    ADC #$03     ; Otherwise, add 3 (apex, when just running out of power, flying steady)
 
 PRG008_B079:
-    ADD Temp_Var1   ; Add specific frame offset
+    CLC
+    ADC Temp_Var1   ; Add specific frame offset
     TAY      ; A -> Y
     LDA Player_TailWagFlyFrames,Y    ; Get correct frame
     STA Player_Frame ; And set it!
@@ -3517,7 +3547,8 @@ PRG008_B095:
 
     ; Otherwise add 'Y', which gives a slow acceleration up to that speed when in air as raccoon
     TYA
-    ADD Player_XVel
+    CLC
+    ADC Player_XVel
     STA Player_XVel
 
 PRG008_B09F:
@@ -3642,7 +3673,8 @@ Player_ShootAnim:
     LDY Player_InAir
     BEQ PRG008_B118  ; If Player is mid air, jump to PRG008_B118
 
-    ADD #(Player_FireInAir - Player_FireOnGround)    ; Otherwise, offset to "on ground" frames
+    CLC
+    ADC #(Player_FireInAir - Player_FireOnGround)    ; Otherwise, offset to "on ground" frames
 
 PRG008_B118:
     TAY      ; A -> Y
@@ -3681,7 +3713,8 @@ PRG008_B12F:
     LDA Level_AScrlPosH
     PHA      ; Save Level_AScrlPosH
 
-    SUB Horz_Scroll
+    SEC
+    SBC Horz_Scroll
     STA Level_ScrollDiffH    ; Difference between horizontal scroll and Level_AScrlPosH
 
     PLA      ; Restore Level_AScrlPosH
@@ -3700,14 +3733,16 @@ PRG008_B150:
     ; No raster effects or horizontal auto scroll not desired
 
     LDA Player_X
-    SUB Horz_Scroll
+    SEC
+    SBC Horz_Scroll
     BPL PRG008_B195  ; If Player_X >= Horz_Scroll, jump to PRG008_B195
 
     LDA Horz_Scroll_Hi
     STA Temp_Var1      ; Temp_Var1 = Horz_Scroll_Hi
 
     LDA #$80
-    ADD Horz_Scroll
+    CLC
+    ADC Horz_Scroll
     STA Temp_Var2   ; Temp_Var2 = $80 + Horz_Scroll
     BCC PRG008_B166  ; If no carry, jump to PRG008_B166
 
@@ -3719,13 +3754,15 @@ PRG008_B166:
     BLS PRG008_B1CE  ; If Player_XHi < Temp_Var1 (Horizontal scroll as appropriate when adding $80), jump to PRG008_B1CE
 
     LDA Player_X
-    SUB Temp_Var2
+    SEC
+    SBC Temp_Var2
     BEQ PRG008_B1CE  ; If Player_X = Temp_Var2 ($80 + Horz_SCroll), jump to PRG008_B1CE
     BMI PRG008_B1CE  ; If Player_X < Temp_Var2 ($80 + Horz_SCroll), jump to PRG008_B1CE
 
     STA Level_ScrollDiffH    ; Result stored into Level_ScrollDiffH
 
-    ADD Horz_Scroll
+    CLC
+    ADC Horz_Scroll
     STA Horz_Scroll     ; Horz_Scroll += Level_ScrollDiffH
     BCC PRG008_B181     ; If no carry, jump to PRG008_B181
     INC Horz_Scroll_Hi  ; Otherwise, apply carry
@@ -3749,7 +3786,8 @@ PRG008_B195:
     STA Temp_Var1      ; Temp_Var1 = Horz_Scroll_Hi
 
     LDA #$70
-    ADD Horz_Scroll
+    CLC
+    ADC Horz_Scroll
     STA Temp_Var2      ; Temp_Var2 = $70 + Horz_Scroll
     BCC PRG008_B1A4     ; If no carry, jump to PRG008_B1A4
     INC Temp_Var1       ; Otherwise, apply carry
@@ -3760,12 +3798,14 @@ PRG008_B1A4:
     BLS PRG008_B1CE     ; If Temp_Var1 < Player_XHi, jump to PRG008_B1CE
 
     LDA Player_X
-    SUB Temp_Var2
+    SEC
+    SBC Temp_Var2
     BPL PRG008_B1CE     ; If Player_X >= Temp_Var2, jump to PRG008_B1CE
 
     STA Level_ScrollDiffH   ; Store difference into Level_ScrollDiffH
 
-    ADD Horz_Scroll
+    CLC
+    ADC Horz_Scroll
     STA Horz_Scroll    ; Horz_Scroll += Level_ScrollDiffH
     BCS PRG008_B1BD     ; If carry set, jump to PRG008_B1BD
     DEC Horz_Scroll_Hi ; Otherwise, remove carry
@@ -3807,13 +3847,15 @@ PRG008_B1E3:
 
     LDY #$00     ; Y = 0 (offset of Player_XHi)
 
-    SUB Player_X
+    SEC
+    SBC Player_X
     BPL PRG008_B1EE  ; If Player_SpriteX >= Player_X, jump to PRG008_B1EE
 
     LDY #$ff     ; Y = $FF (offset of Player_XHi, sign extended high part of negative)
 
 PRG008_B1EE:
-    ADD Player_X
+    CLC
+    ADC Player_X
     STA Player_X    ; Player_X += difference between this and Player_SpriteX
     BCC PRG008_B1F6  ; If no carry, jump to PRG008_B1F6
 
@@ -3821,7 +3863,8 @@ PRG008_B1EE:
 
 PRG008_B1F6:
     TYA      ; A = Y ("high" part offset)
-    ADD Player_XHi  ; Apply high adjustment
+    CLC
+    ADC Player_XHi  ; Apply high adjustment
     STA Player_XHi  ; And store it!
 
     LDA Player_XVel
@@ -3861,7 +3904,8 @@ AutoScroll_CalcPlayerY:
     LDA Level_AScrlPosV
     PHA      ; Save "Level_AScrlPosV"
 
-    SUB Vert_Scroll
+    SEC
+    SBC Vert_Scroll
     STA Level_ScrollDiffV    ; Level_ScrollDiffV = difference of current scroll position from Level_AScrlPosV
 
     PLA         ; Restore "Level_AScrlPosV"
@@ -3881,7 +3925,8 @@ AutoScroll_CalcPlayerY:
     DEC Player_YHi ; Player_YHi--
 
 PRG008_B23C:
-    ADD Player_Y
+    CLC
+    ADC Player_Y
     STA Player_Y    ; Player_Y = Level_ScrollDiffV + Player_Y
 
     BCC PRG008_B245  ; If no carry, jump to PRG008_B245
@@ -3924,7 +3969,8 @@ PRG008_B258:
     ; Free vertical scrolling allowed
 
     LDA Player_Y
-    SUB Level_VertScroll
+    SEC
+    SBC Level_VertScroll
     STA Temp_Var1      ; Temp_Var1 = Player_Y - Level_VertScroll (difference between Player_Y and vertical scroll)
 
     LDA Player_YHi
@@ -3932,7 +3978,8 @@ PRG008_B258:
     BMI PRG008_B272  ; If (Player_YHi - Level_VertScrollH) < 0, jump to PRG008_B272
 
     LDA Temp_Var1
-    SUB #$30
+    SEC
+    SBC #$30
     BCS PRG008_B284  ; If there was no borrow, jump to PRG008_B284
 
     ; Minimum vertical scroll delta is -3
@@ -3945,7 +3992,8 @@ PRG008_B272:
 PRG008_B274:
     STA Level_ScrollDiffV ; Store as vertical difference
 
-    ADD Vert_Scroll   ; Add Vert_Scroll
+    CLC
+    ADC Vert_Scroll   ; Add Vert_Scroll
     BCS PRG008_B281    ; If carry occurred, jump to PRG008_B281
 
     LDA #$00
@@ -3956,12 +4004,14 @@ PRG008_B281:
 
 PRG008_B284:
     LDA Temp_Var1
-    SUB #$58
+    SEC
+    SBC #$58
     BCC PRG008_B2A0  ; If borrow occurred, jump to PRG008_B2A0
 
     STA Level_ScrollDiffV   ; Store as vertical difference
 
-    ADD Vert_Scroll
+    CLC
+    ADC Vert_Scroll
     BCS PRG008_B297  ; If carry occurred, jump to PRG008_B297
 
     CMP #$ef
@@ -4005,7 +4055,8 @@ PRG008_B2AB:
     STA Temp_Var2
 
     LDA Player_Y
-    SUB Level_VertScroll
+    SEC
+    SBC Level_VertScroll
     TAY      ; Y = Player_Y - Level_VertScroll
 
     LDA Player_YHi
@@ -4013,7 +4064,8 @@ PRG008_B2AB:
     BNE PRG008_B345  ; If Player_YHi <> Level_VertScrollH, jump to PRG008_B345 (RTS)
 
     TYA      ; A = Player_Y - Level_VertScroll
-    SUB #$30
+    SEC
+    SBC #$30
     BCS PRG008_B2F9  ; If no borrow occurred, jump to PRG008_B2F9
 
     ; Minimum vertical scroll delta value is -3
@@ -4026,7 +4078,8 @@ PRG008_B2AB:
 PRG008_B2D8:
     STA Level_ScrollDiffV    ; Set difference
 
-    ADD Level_VertScroll
+    CLC
+    ADC Level_VertScroll
     STA Level_VertScroll     ; Level_VertScroll += Level_ScrollDiffV
 
     LDA #$00
@@ -4058,7 +4111,8 @@ PRG008_B2F9:
 PRG008_B304:
     STA Level_ScrollDiffV    ; Store vertical difference
 
-    ADD Level_VertScroll
+    CLC
+    ADC Level_VertScroll
     STA Level_VertScroll     ; Level_VertScroll += Level_ScrollDiffV
 
     LDA #$00
@@ -4238,8 +4292,10 @@ Player_GetTileAndSlope:
     BNE PRG008_B3F7  ; If Player is above top of screen, jump to PRG008_B3F7
 
     LDA Player_Y
-    ADD Temp_Var10     ; Temp_Var10 is the Y offset
-    SUB Level_VertScroll    ; Make relative to Vertical Scroll
+    CLC
+    ADC Temp_Var10     ; Temp_Var10 is the Y offset
+    SEC
+    SBC Level_VertScroll    ; Make relative to Vertical Scroll
 
     CMP #160
     BLT PRG008_B3F7  ; If result < 160, jump to PRG008_B3F7
@@ -4262,7 +4318,8 @@ PRG008_B3F7:
     STA Temp_Var13  ; Temp_Var13 = Player_YHi
 
     LDA Temp_Var10  ; Temp_Var10 is the Y offset
-    ADD Player_Y
+    CLC
+    ADC Player_Y
     STA Temp_Var14  ; Temp_Var14 = Temp_Var10 + Player_Y
 
     BCC PRG008_B406  ; If no carry, jump to PRG008_B406
@@ -4300,7 +4357,8 @@ PRG008_B419:
 
 PRG008_B423:
     LDA Player_X
-    ADD Temp_Var11
+    CLC
+    ADC Temp_Var11
     STA Temp_Var16  ; Temp_Var16 = Player_X + Temp_Var11
     BCC PRG008_B42E  ; If no carry, jump to PRG008_B42E
 
@@ -4336,7 +4394,8 @@ PRG008_B442:
     STA Temp_Var13  ; Temp_Var13 = Player_YHi
 
     LDA Temp_Var10
-    ADD Player_Y
+    CLC
+    ADC Player_Y
     STA Temp_Var14  ; Temp_Var14 = Temp_Var10 + Player_Y
     BCC PRG008_B451  ; If there's no carry, jump to PRG008_B451
 
@@ -4352,7 +4411,8 @@ PRG008_B451:
 
 PRG008_B458:
     LDA Player_X
-    ADD Temp_Var11
+    CLC
+    ADC Temp_Var11
     STA Temp_Var16  ; Temp_Var16 = Player_X + Temp_Var11
 
     STY Temp_Var10  ; Temp_Var10 = Y
@@ -4440,7 +4500,8 @@ PRG008_B4B2:
 
     ; Otherwise, add 16 to index
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
 
 PRG008_B4BD:
@@ -4451,7 +4512,8 @@ PRG008_B4BD:
 
     ; If on the right half, add 8 to index
     TYA
-    ADD #$08
+    CLC
+    ADC #$08
     TAY
 
 PRG008_B4CA:
@@ -4522,7 +4584,8 @@ PRG008_B511:
 
 PRG008_B517:
     LDA PRG008_B3AC,X
-    ADD Player_X    ; Add appropriate offset to Player_X
+    CLC
+    ADC Player_X    ; Add appropriate offset to Player_X
 
     AND #$0f
     BEQ PRG008_B53B  ; If Player is on new tile, jump to PRG008_B53B
@@ -4533,7 +4596,8 @@ PRG008_B517:
     DEC Player_XHi  ; When negative, decrement the "Hi" component
 
 PRG008_B526:
-    ADD Player_X    ; Add +1/-1 to Player_X
+    CLC
+    ADC Player_X    ; Add +1/-1 to Player_X
     STA Player_X    ; Update Player_X
 
     BCC PRG008_B52F  ; If no carry, jump to PRG008_B52F
@@ -4612,10 +4676,13 @@ PRG008_B57E:
     BEQ PRG008_B59C     ; If did not use "high" Y last call to Player_GetTileAndAttr, jump to PRG008_B59C
 
     LDA Player_Y       ; Get Player Y
-    SUB Level_VertScroll    ; Make scroll relative
+    SEC
+    SBC Level_VertScroll    ; Make scroll relative
     AND #$F0        ; Nearest 16
-    ADD #$01        ; +1
-    ADD Level_VertScroll    ; Make un-relative
+    CLC
+    ADC #$01        ; +1
+    CLC
+    ADC Level_VertScroll    ; Make un-relative
     STA Player_Y       ; Set Player_Y!
 
     LDA #$00
@@ -4953,7 +5020,8 @@ PRG008_B6E4:
 
 PRG008_B6EF:
     LDA Level_Tile_GndL,X    ; Get tile index
-    SUB Level_ActionTiles,Y
+    SEC
+    SBC Level_ActionTiles,Y
     CMP Level_ActionTiles_Range,Y
     BCC PRG008_B701  ; If the tile is in range, jump to PRG008_B701!
 
@@ -4963,7 +5031,8 @@ PRG008_B6FB:
     JMP PRG008_B78B  ; Otherwise, jump to PRG008_B78B
 
 PRG008_B701:
-    ADD Level_ActionTiles_OffFix,Y   ; Add an offset fix to this tile
+    CLC
+    ADC Level_ActionTiles_OffFix,Y   ; Add an offset fix to this tile
     STA Temp_Var6       ; -> Temp_Var6
 
     LDA Level_ActionTiles_TIHitBit,X     ; Get bitfield value appropriate for this tile detect index
@@ -5255,12 +5324,14 @@ PRG008_B84E:
     SBC Level_VertScroll
     STA BrickBust_YUpr   ; Store upper brick segment Y
 
-    ADD #$08
+    CLC
+    ADC #$08
     STA BrickBust_YLwr   ; Store lower brick segment Y
 
     ; X
     LDA Temp_Var16
-    SUB Horz_Scroll
+    SEC
+    SBC Horz_Scroll
     STA BrickBust_X  ; Store X base coordinate
 
     LDA #$00
@@ -5332,7 +5403,8 @@ PRG008_B8C9:
 PRG008_B8D3:
     LDA Temp_Var14  ; Get Y Low
     AND #$F0     ; Align to tile grid
-    SUB #16      ; Above hit tile
+    SEC
+    SBC #16      ; Above hit tile
     PHP      ; Save processor status
 
     CPY #$00
@@ -5402,7 +5474,8 @@ LATP_CoinCommon:
 LATP_GetCoinAboveBlock:
     LDA Temp_Var14
     PHA      ; Save Temp_Var14 (Y Lo)
-    SUB #16
+    SEC
+    SBC #16
     STA Temp_Var14  ; Temp_Var14 -= 16 (get tile above)
 
     STX Temp_Var5   ; Backup X into Temp_Var5
@@ -5509,7 +5582,8 @@ PRG008_B994:
 
     ; Object's Y = Temp_Var14 - 16 (aligns to one tile above the initator's tile detect Y)
     LDA Temp_Var14
-    SUB #16
+    SEC
+    SBC #16
     BCS PRG008_B9AF
     DEC Objects_YHi,X  ; Apply carry if needed
 PRG008_B9AF:
@@ -5526,7 +5600,8 @@ PRG008_B9AF:
     AND #$e0     ; Keep value sane
     STA Objects_X,X
 
-    SUB Horz_Scroll
+    SEC
+    SBC Horz_Scroll
     TAY      ; Y = screen scroll relative X
 
     LDA Objects_XHi,X
@@ -5569,7 +5644,8 @@ PRG008_B9E5:
 
     ; Player is on left half of tile
     TYA
-    ADD #$08
+    CLC
+    ADC #$08
     TAY      ; Y += 8
 
 PRG008_B9F2:
@@ -5643,10 +5719,12 @@ PRG008_BA2C:
 
 PRG008_BA38:
     LDA Player_Y
-    ADD PlayerY_HeightOff,X ; Add appropriate offset to where the top of the Player's "head" should be
+    CLC
+    ADC PlayerY_HeightOff,X ; Add appropriate offset to where the top of the Player's "head" should be
     JSR Negate   ; Negate this value
     AND #$0f     ; But keep only lower 4 bits (essentially, we calculated 15 - offset)
-    ADD Player_Y    ; Add this with Player_Y
+    CLC
+    ADC Player_Y    ; Add this with Player_Y
     BCC PRG008_BA4A  ; If no carry, jump to PRG008_BA4A
 
     INC Player_YHi  ; Otherwise, apply carry
@@ -5672,7 +5750,8 @@ PRG008_BA58:
 
     LDA Player_Y
     AND #$F0        ; Tile grid aligned Y
-    ADD Slope_CorrectL,Y    ; Add appropriate offset based on Player's relative vertical position within tile
+    CLC
+    ADC Slope_CorrectL,Y    ; Add appropriate offset based on Player's relative vertical position within tile
     STA Player_Y       ; Update Player Y
 
     ; Apply carry as needed
@@ -5687,7 +5766,8 @@ PRG008_BA69:
     LDY Player_Suit
     BEQ PRG008_BA73  ; If Player is small, jump to PRG008_BA73
 
-    ADD #(TileAttrAndQuad_OffsSloped_Sm - TileAttrAndQuad_OffsSloped)   ; Otherwise, add 16 to height at this point on slope (NOTE: Ducking included!)
+    CLC
+    ADC #(TileAttrAndQuad_OffsSloped_Sm - TileAttrAndQuad_OffsSloped)   ; Otherwise, add 16 to height at this point on slope (NOTE: Ducking included!)
 
 PRG008_BA73:
     TAY      ; Y = A
@@ -5717,7 +5797,8 @@ PRG008_BA77:
 
 PRG008_BA92:
     LDA PRG008_B3B0,X ; Get appropriate offset
-    ADD Player_X    ; Add Player_X
+    CLC
+    ADC Player_X    ; Add Player_X
     AND #$0f     ; Make tile relative
     BEQ PRG008_BABC  ; If result = 0, jump to PRG008_BABC
 
@@ -5727,7 +5808,8 @@ PRG008_BA92:
     DEC Player_XHi  ; Otherwise, Player_XHi--
 
 PRG008_BAA1:
-    ADD Player_X    ; Add Player_X to offset
+    CLC
+    ADC Player_X    ; Add Player_X to offset
     STA Player_X    ; Update Player_X
 
     BCC PRG008_BAAA  ; If no carry, jump to PRG008_BAAA
@@ -5763,7 +5845,8 @@ PRG008_BABC:
 
 PRG008_BAC7:
     LDA Player_X
-    ADD TileAttrAndQuad_OffsSloped+1
+    CLC
+    ADC TileAttrAndQuad_OffsSloped+1
     AND #$0f
     STA Temp_Var1       ; Temp_Var1 = (Player_X + [TileAttrAndQuad_OffsSloped+1]) & $0F (offset locked across tile)
 
@@ -5776,7 +5859,8 @@ PRG008_BAC7:
     LSR A
     LSR A
     LSR A
-    ADD Level_GndLUT_Addr+1
+    CLC
+    ADC Level_GndLUT_Addr+1
     STA Level_GndLUT_Addr+1
 
     ; Lower 4 bits of "shape" index value shifted up (so $0-$F * $10)
@@ -5853,7 +5937,8 @@ PRG008_BB1B:
 
 PRG008_BB27:
     LDA Player_Y        ; Get Player Y
-    ADD PlayerY_HeightOff,X  ; Add appropriate offset based on ducking or not
+    CLC
+    ADC PlayerY_HeightOff,X  ; Add appropriate offset based on ducking or not
     AND #$0f        ; Make Y relative to current tile
     STA Temp_Var1       ; -> Temp_Var1
 
@@ -5867,7 +5952,8 @@ PRG008_BB27:
     LSR A
     STA Temp_Var2       ; Temp_Var2 = ceiling slope height
 
-    SUB Temp_Var1
+    SEC
+    SBC Temp_Var1
     BMI PRG008_BB68  ; If Temp_Var1 (relative vertical position on tile) > Temp_Var2 (height at this point on slope), jump to PRG008_BB68 (RTS)
 
     INC Player_HitCeiling    ; Flag Player as having hit head off this sloped ceiling
@@ -5897,7 +5983,8 @@ PRG008_BB52:
     BNE PRG008_BB68  ; If Player_LowClearance is set, jump to PRG008_BB68 (RTS)
 
 PRG008_BB5F:
-    ADD Player_Y
+    CLC
+    ADC Player_Y
     STA Player_Y    ; Add to Player_Y
 
     BCC PRG008_BB68  ; If no carry, jump to PRG008_BB68 (RTS)
@@ -5926,7 +6013,8 @@ PRG008_BB69:
 
     LDA Player_Y
     AND #$0f        ; Get Player's vertical position within tile
-    SUB (Level_GndLUT_Addr),Y    ; NOTE: This makes an assumption that the would-be ceiling component is always zero!!
+    SEC
+    SBC (Level_GndLUT_Addr),Y    ; NOTE: This makes an assumption that the would-be ceiling component is always zero!!
     BMI PRG008_BB1A  ; If 'A' (relative vertical position on tile) > (height at this point on slope), jump to PRG008_BB1A (RTS)
 
 PRG008_BB7E:
@@ -5943,7 +6031,8 @@ PRG008_BB7E:
 
     LDA Player_Y
     AND #$F0
-    ADD Temp_Var1  ; Slope height adjustment
+    CLC
+    ADC Temp_Var1  ; Slope height adjustment
     STA Player_Y    ; Set Player's position on slope!
 
     BCC PRG008_BB9A  ; If no carry, jump to PRG008_BB9A
@@ -6009,7 +6098,8 @@ PRG008_BBBF:
 
 PRG008_BBE0:
     TXA      ; Effect on velocity -> 'A'
-    ADD Player_Slide
+    CLC
+    ADC Player_Slide
     STA Player_Slide ; Apply effect to Player_Slide
 
     ; Absolute value of Player_Slide
@@ -6225,7 +6315,8 @@ PRG008_BCC4:
     STX Temp_Var3       ; Store pipe mode -> Temp_Var3
 
     LDA #TILE1_PIPETB2_R
-    SUB Temp_Var1
+    SEC
+    SBC Temp_Var1
     CMP #$04        ; Looking to compare the pipe tile against any of the vertical pipe 1 & 2 end tiles
 
     LDY LevelJctBQ_Flag
@@ -6243,7 +6334,8 @@ PRG008_BCD6:
     BPL PRG008_BCE8  ; If bit 7 is clear (TILE3_PIPETB5_L/R disabled), jump to PRG008_BCE8
 
     LDA #TILE3_PIPETB5_R
-    SUB Temp_Var1
+    SEC
+    SBC Temp_Var1
     CMP #$02
     LDY #$06     ; Y = 6
     BCC PRG008_BCFA  ; If tile was in range (Pipe 5 left/right), jump to PRG008_BCFA
@@ -6256,7 +6348,8 @@ PRG008_BCE8:
     LDA #TILE8_SCENPIPE_ENDVR
 
 PRG008_BCF1:
-    SUB Temp_Var1
+    SEC
+    SBC Temp_Var1
     CMP #$02
     BCS PRG008_BD4B  ; If this pipe tile wasn't in range EITHER, jump to PRG008_BD4B
 
@@ -6298,7 +6391,8 @@ PRG008_BD1F:
     AND #$0f
     PHA      ; Save Player's relative X across tile
 
-    ADD PRG008_BC43,Y ; Add appropriate offset
+    CLC
+    ADC PRG008_BC43,Y ; Add appropriate offset
     AND #$10     ; Check if on "odd" tile (only true on Player_X 16, 48, 80, etc.) AKA right tile
     BNE PRG008_BD30  ; If so, jump to PRG008_BD30
 
@@ -6308,8 +6402,10 @@ PRG008_BD1F:
 
 PRG008_BD30:
     PLA      ; Restore Player's relative X across tile
-    ADD Temp_Var2   ; 0 or 16, left or right tile
-    SUB #3
+    CLC
+    ADC Temp_Var2   ; 0 or 16, left or right tile
+    SEC
+    SBC #3
     CMP #10
     BGE PRG008_BD4B  ; If Player_X >= 10 after subtracting 3 (??), jump to PRG008_BD4B
 
@@ -6345,7 +6441,8 @@ PRG008_BD59:
     BEQ PRG008_BD73  ; If value is zero, jump to PRG008_BD73
 
     ; Otherwise...
-    SUB Level_Tile_GndL,X    ; Subtract value we just retrieved
+    SEC
+    SBC Level_Tile_GndL,X    ; Subtract value we just retrieved
     CMP #$02
     BGE PRG008_BD70  ; If tile is >= 2, this is not a conveyor tile, jump to PRG008_BD70
 
@@ -6371,7 +6468,8 @@ PRG008_BD75:
     BEQ PRG008_BD96  ; If specified value is $FF, no spikes here, jump to PRG008_BD96
 
     ; Otherwise...
-    SUB Level_Tile_Head,X
+    SEC
+    SBC Level_Tile_Head,X
     CMP #$02
     BLT PRG008_BD89  ; If this is a spike tile, jump to PRG008_BD89
     DEX      ; X--
@@ -6442,7 +6540,8 @@ PRG008_BDCB:
     LDA Level_Tile_Head,X   ; Get tile
     PHA      ; Save tile
 
-    SUB PlantInfest_PiranhaTiles,Y
+    SEC
+    SBC PlantInfest_PiranhaTiles,Y
     CMP #$01
     PLA      ; Restore tile
     BLT PRG008_BDE3  ; If you just hit the piranha that's fully extended, you get hurt!
@@ -6485,12 +6584,14 @@ PRG008_BDFD:
     LDA Level_Tile_GndL,X
     TAY      ; Tile -> 'Y'
 
-    SUB #TILE12_SNOWBLOCK_UL
+    SEC
+    SBC #TILE12_SNOWBLOCK_UL
     CMP #$03
     BLT PRG008_BE10  ; If Player is on top of snow block, jump to PRG008_BE10
 
     TYA      ; Restore tile -> 'A'
-    SUB #TILE12_GROUND_L
+    SEC
+    SBC #TILE12_GROUND_L
     CMP #$03
     BGE PRG008_BE16  ; If Player is not on bottom ground, jump to PRG008_BE16
 
@@ -6500,7 +6601,8 @@ PRG008_BE10:
 
 PRG008_BE16:
     TYA      ; Restore tile -> 'A'
-    SUB #TILE12_LARGEICEBLOCK_UL
+    SEC
+    SBC #TILE12_LARGEICEBLOCK_UL
     CMP #$05
     BLT PRG008_BE26  ; If Player is touching any of the small or large ice blocks, jump to PRG008_BE26
 
@@ -6530,7 +6632,8 @@ PRG008_BE31:
 PRG008_BE3A:
     LDA Level_Tile_GndL,Y
 
-    SUB #TILE1_WBLOCKTH
+    SEC
+    SBC #TILE1_WBLOCKTH
     CMP #$03
     BLT PRG008_BE4E  ; If Player is on a big white block, jump to PRG008_BE4E
 
@@ -6566,7 +6669,8 @@ PRG008_BE4E:
     STA Player_YVel     ; Halt Player vertically
 
     LDA Player_Y
-    ADD #$06
+    CLC
+    ADC #$06
     STA Player_Y       ; Force Player down by 6 pixels (fall)
 
     INC Player_InAir    ; Set Player as in air
@@ -6630,7 +6734,8 @@ PRG008_BEAC:
     STA Player_SandSink  ; Set as Player_SandSink value
 
     LDA Player_Y
-    SUB Player_SandSink  ; Get difference between Player_Y and top of quicksand
+    SEC
+    SBC Player_SandSink  ; Get difference between Player_Y and top of quicksand
 
     LDY #-$20    ; Y = -$20 (escape jump vel)
     TAX      ; difference -> 'X'
@@ -6774,7 +6879,8 @@ PRG008_BF49:
     TAX
 
     LDA Player_X
-    ADD PipeEnter_XYOffs,X   ; Add appropriate X offset
+    CLC
+    ADC PipeEnter_XYOffs,X   ; Add appropriate X offset
     CPX #$04
     BGS PRG008_BF65     ; If pipe movement is up/down, jump to PRG008_BF65
 
@@ -6791,7 +6897,8 @@ PRG008_BF65:
     BEQ PRG008_BF75  ; If Player is small, jump to PRG008_BF75
 
 PRG008_BF71:
-    ADD PipeEnter_XYOffs+1,X ; Add appropriate Y offset
+    CLC
+    ADC PipeEnter_XYOffs+1,X ; Add appropriate Y offset
 
 PRG008_BF75:
     AND #$F0     ; Align Player_Y to grid
@@ -6799,7 +6906,8 @@ PRG008_BF75:
     CPX #$04
     BLS PRG008_BF7E  ; If left/right pipe, jump to PRG008_BF7E
 
-    SUB #$01     ; Move Player up one pixel
+    SEC
+    SBC #$01     ; Move Player up one pixel
 
 PRG008_BF7E:
     STA Pipe_PlayerY ; Set Pipe_PlayerY
@@ -6875,7 +6983,8 @@ Player_ApplyVelocity:
     BNE PRG008_BFBE     ; If we're not doing the X velocity, jump to PRG008_BFBE
 
     ; X Velocity only:
-    ADD Player_XVelAdj  ; Add Player_XVelAdj
+    CLC
+    ADC Player_XVelAdj  ; Add Player_XVelAdj
 
 PRG008_BFBE:
     PHA      ; Save result
@@ -6912,7 +7021,8 @@ PRG008_BFD3:
 
     ; Accumulating fractional component
     LDA Player_XVelFrac,X
-    ADD Temp_Var12
+    CLC
+    ADC Temp_Var12
     STA Player_XVelFrac,X
 
     ; Apply velocity to X if there's carry

@@ -90,7 +90,8 @@ PRG009_A03E:
 
     ; Set Y at Player's Y - 8
     LDA Vs_PlayerY,X
-    SUB #$08
+    SEC
+    SBC #$08
     STA Vs_xUpY,X
 
     LDA Vs_LivesReward,Y
@@ -100,7 +101,8 @@ PRG009_A03E:
     STA Vs_xUpLives,X
 
     ; Add to Player's lives
-    ADD Player_Lives,X
+    CLC
+    ADC Player_Lives,X
     STA Player_Lives,X
 
     PLA      ; Restore awarded lives value
@@ -164,7 +166,8 @@ PRG009_A0C2:
 
     ; Set "x Up" sprite Y
     LDA Vs_xUpY,X
-    SUB Vs_xUpCnt,X
+    SEC
+    SBC Vs_xUpCnt,X
     STA Sprite_RAM+$00,Y
     STA Sprite_RAM+$04,Y
 
@@ -173,7 +176,8 @@ PRG009_A0C2:
     STA Sprite_RAM+$03,Y
 
     ; Right "x Up" sprite X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$07,Y
 
     ; Attributes for "x Up" sprite
@@ -295,18 +299,21 @@ PRG009_A146:
 PRG009_A158:
 
     ; Set left card sprite X
-    ADD Card_XOffset,X  ; Add offset for this card
+    CLC
+    ADC Card_XOffset,X  ; Add offset for this card
     STA Sprite_RAM+$D3,Y
 
     ; Set right card sprite X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$D7,Y
 
 PRG009_A165:
 
     ; Temp_Var1 += 8 (two sprites over)
     LDA Temp_Var1
-    ADD #$08
+    CLC
+    ADC #$08
     STA Temp_Var1
 
     DEC Temp_Var2   ; Temp_Var2-- (Player's previous card)
@@ -353,7 +360,8 @@ PRG009_A188:
 
     LDY Temp_Var16  ; Y = Temp_Var16 (current Player index)
     LDA Vs_PlayerCoinStatBaseVRAM,Y  ; Get base VRAM offset for coin
-    ADD Vs_PlayerCoins,Y     ; Offset to specific coin they just got
+    CLC
+    ADC Vs_PlayerCoins,Y     ; Offset to specific coin they just got
     STA Graphics_Buffer-4,X  ; Set this as the VRAM low
 
     DEX         ; X--
@@ -767,7 +775,8 @@ PRG009_A39F:
 PRG009_A3AD:
     LDA Inventory_Cards,Y
     TAY      ; Y = current card face
-    ADD #(VSOBJID_MUSHROOMCARD-1)
+    CLC
+    ADC #(VSOBJID_MUSHROOMCARD-1)
     STA Vs_ObjectId,X   ; Set proper object ID for the card
 
     ; Set Y Velocity of card
@@ -1070,7 +1079,8 @@ PRG009_A4EA:
     CMP #$18
     BGS PRG009_A506  ; If Player X Velocity >= $18, jump to PRG009_A506
 
-    ADD #$01     ; Otherwise, +1 to X Velocity
+    CLC
+    ADC #$01     ; Otherwise, +1 to X Velocity
 
 PRG009_A506:
     JMP PRG009_A543  ; Jump to PRG009_A543 (set Player X velocity)
@@ -1084,12 +1094,14 @@ PRG009_A509:
     BEQ PRG009_A51B  ; If Player X Velocity = $0C, jump to PRG009_A51B
     BGS PRG009_A518  ; If Player X Velocity > $0C, jump to PRG009_A518
 
-    ADD #$01     ; +1 to X Velocity
+    CLC
+    ADC #$01     ; +1 to X Velocity
 
     JMP PRG009_A543  ; Jump to PRG009_A543 (set Player X velocity)
 
 PRG009_A518:
-    SUB #$01     ; Player going too fast, -1 to X Velocity
+    SEC
+    SBC #$01     ; Player going too fast, -1 to X Velocity
 
 PRG009_A51B:
     JMP PRG009_A543  ; Jump to PRG009_A543 (set Player X velocity)
@@ -1108,7 +1120,8 @@ PRG009_A51E:
     CMP #-$17
     BLS PRG009_A52E  ; If Player X Velocity < -$17, jump to PRG009_A52E
 
-    SUB #$01     ; Otherwise, -1 to X Velocity
+    SEC
+    SBC #$01     ; Otherwise, -1 to X Velocity
 
 PRG009_A52E:
     JMP PRG009_A543  ; Jump to PRG009_A543 (set Player X velocity)
@@ -1122,12 +1135,14 @@ PRG009_A531:
     BEQ PRG009_A543  ; If Player's X velocity = -$0C, jump to PRG009_A543
     BLS PRG009_A540  ; If Player's X velocity < -$0C, jump to PRG009_A540
 
-    SUB #$01     ; -1 to X Velocity
+    SEC
+    SBC #$01     ; -1 to X Velocity
 
     JMP PRG009_A543  ; Jump to PRG009_A543 (set Player X velocity)
 
 PRG009_A540:
-    ADD #$01     ; Player going too fast, +1 to X Velocity
+    CLC
+    ADC #$01     ; Player going too fast, +1 to X Velocity
 
 PRG009_A543:
     ; Set Player X velocity
@@ -1150,7 +1165,8 @@ PRG009_A555:
 
     LDA Vs_PlayerY,X    ; Get Player Y
     AND #<~%00000111     ; Align to nearest 8
-    ADD Vs_PlayerYOff,X ; Apply Y offset
+    CLC
+    ADC Vs_PlayerYOff,X ; Apply Y offset
     STA Vs_PlayerY,X    ; -> Player Y
 
     LDA #$00
@@ -1253,7 +1269,8 @@ PRG009_A5D1:
 
     ; Player is moving to the left...
 
-    ADD #$01     ; +1 to X Velocity (slow down)
+    CLC
+    ADC #$01     ; +1 to X Velocity (slow down)
 
     STA Vs_PlayerXVel,X  ; Update X velocity
     JMP PRG009_A5ED  ; Jump to PRG009_A5ED
@@ -1262,7 +1279,8 @@ PRG009_A5E7:
 
     ; Player is moving to the right...
 
-    SUB #$01     ; -1 to X Velocity (slow down)
+    SEC
+    SBC #$01     ; -1 to X Velocity (slow down)
     STA Vs_PlayerXVel,X  ; Update X velocity
 
 PRG009_A5ED:
@@ -1329,7 +1347,8 @@ PRG009_A61D:
 
     LDA Vs_PlayerY,X
     AND #$f0    ; Align to grid
-    ADD #14     ; +14
+    CLC
+    ADC #14     ; +14
     STA Vs_PlayerY,X
 
 PRG009_A644:
@@ -1353,10 +1372,12 @@ PRG009_A650:
     BMI PRG009_A65C  ; If Player is pressing A, jump to PRG009_A65C
 
 PRG009_A659:
-    ADD #$03    ; +3 to Y velocity
+    CLC
+    ADC #$03    ; +3 to Y velocity
 
 PRG009_A65C:
-    ADD #$02     ; +2 to Y velocity
+    CLC
+    ADC #$02     ; +2 to Y velocity
     STA Vs_PlayerYVel,X  ; Update Y velocity
 
 PRG009_A662:
@@ -1406,7 +1427,8 @@ PRG009_A689:
 
     ; Add to Vs_PlayerWalkCnt based on how fast Player is moving
     LDA Vs_PlayerWalkCnt,X
-    ADD Vs_WalkCntRate,Y
+    CLC
+    ADC Vs_WalkCntRate,Y
     STA Vs_PlayerWalkCnt,X
     BCC PRG009_A69B  ; If didn't overflow, jump to PRG009_A69B
 
@@ -1487,7 +1509,8 @@ VsPlayer_Climbing:
     LDY #-$01    ; Y = -1 (Player is on left half of tile)
 PRG009_A6F6:
     TYA
-    ADD Vs_PlayerX,X
+    CLC
+    ADC Vs_PlayerX,X
     STA Vs_PlayerX,X    ; Update Player X
 
 PRG009_A6FE:
@@ -1698,7 +1721,8 @@ PRG009_A7E4:
     STY Temp_Var16  ; Backup 'Y'
 
     LDA Vs_PlayerY,X    ; Get Player/Object's Y
-    ADD Vs_DetStatLoopYOff,Y    ; Y offset for this loop
+    CLC
+    ADC Vs_DetStatLoopYOff,Y    ; Y offset for this loop
     AND #$f0        ; Align to grid
     STA Temp_Var1      ; -> Temp_Var1
 
@@ -1711,12 +1735,14 @@ PRG009_A7E4:
 
     ; Y += 6
     TYA
-    ADD #$06
+    CLC
+    ADC #$06
     TAY
 
 PRG009_A801:
     LDA Vs_PlayerX,X     ; Get Player/Object's X
-    ADD Vs_DetStatLoopXOff,Y     ; Apply X offset for this loop
+    CLC
+    ADC Vs_DetStatLoopXOff,Y     ; Apply X offset for this loop
     STA Temp_Var2       ; -> Temp_Var2
 
     JSR Vs_GetTileAndCheckSolid  ; Get appropriate tile near Player/Object
@@ -1772,7 +1798,8 @@ PRG009_A828:
     STA Vs_PlayerBlkHitY,X   ; -> Vs_PlayerBlkHitY
 
     LDA Vs_PlayerX,X
-    ADD #$08     ; +8 (centering)
+    CLC
+    ADC #$08     ; +8 (centering)
     AND #$f0     ; Align to grid
     STA Vs_PlayerBlkHitX,X   ; -> Vs_PlayerBlkHitX
 
@@ -1992,11 +2019,13 @@ Vs_EraseLastTile:
     LDA Temp_Var3  ; A = Temp_Var3 (last detected tile offset)
     ASL A       ; Shift left
     AND #%00011111  ; Mask out column value, left shifted
-    ADD Temp_Var5  ; Add Temp_Var5
+    CLC
+    ADC Temp_Var5  ; Add Temp_Var5
 
     ; Set VRAM low addresses
     STA Graphics_Buffer+$01,Y   ; Upper row
-    ADD #32             ; +32 bytes to next to row
+    CLC
+    ADC #32             ; +32 bytes to next to row
     STA Graphics_Buffer+$05,Y   ; Lower row
 
     ; Set VRAM high addresses
@@ -2020,7 +2049,8 @@ Vs_EraseLastTile:
 
     ; +8 to graphics buffer counter
     TYA
-    ADD #$08
+    CLC
+    ADC #$08
     STA Graphics_BufCnt
 
     RTS      ; Return
@@ -2061,7 +2091,8 @@ Vs_ObjectCollideAgainstWorld:
 
     ; Vs_CollideAgainstWorld supports objects when X >= 2
     TXA
-    ADD #$02
+    CLC
+    ADC #$02
     TAX
 
     JSR Vs_CollideAgainstWorld   ; Collide object against world
@@ -2105,7 +2136,8 @@ PRG009_A9E3:
     ; Set left and right sprite Xs
     LDA Vs_PlayerX,X
     STA Sprite_RAM+$23,Y
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$27,Y
 
     ; Set left and right sprite Ys
@@ -2237,7 +2269,8 @@ VsPlayer_BounceOffOtherSnd:
 
 PRG009_AA95:
     LDA Vs_PlayerY
-    SUB Vs_PlayerY+1 ; Calculate difference between Mario and Luigi's Y
+    SEC
+    SBC Vs_PlayerY+1 ; Calculate difference between Mario and Luigi's Y
     PHP      ; Save CPU status
 
     BPL PRG009_AAA4  ; If difference is not negative, jump to PRG009_AAA4
@@ -2338,7 +2371,8 @@ PRG009_AB15:
     ; Set proper Player directions as a result
     TYA
     AND #$01
-    ADD #$01
+    CLC
+    ADC #$01
     STA Vs_PlayerDir+1
     EOR #$03
     STA Vs_PlayerDir
@@ -2360,7 +2394,8 @@ VsPlayer_CalcBoundBox:
 
     ; Temp_Var1+Y = Mario/Luigi's Y + 2 (top)
     LDA Vs_PlayerY,X
-    ADD #$02
+    CLC
+    ADC #$02
     STA Temp_Var1,Y
 
     ; Temp_Var3+Y = 14 (bottom offset)
@@ -2369,7 +2404,8 @@ VsPlayer_CalcBoundBox:
 
     ; Temp_Var2+Y = Mario/Luigi's X + 4 (left)
     LDA Vs_PlayerX,X
-    ADD #$04
+    CLC
+    ADC #$04
     STA Temp_Var2,Y
 
     ; Temp_Var4+Y = 8 (right offset)
@@ -2389,11 +2425,14 @@ Vs_CheckBoxCollision:
     LDX #$01     ; X = 1 (do both bounding boxes)
 PRG009_AB51:
     LDA Temp_Var5,X
-    SUB Temp_Var1,X
-    ADD Temp_Var7,X
+    SEC
+    SBC Temp_Var1,X
+    CLC
+    ADC Temp_Var7,X
     STA Temp_Var9
     LDA Temp_Var3,X
-    ADD Temp_Var7,X
+    CLC
+    ADC Temp_Var7,X
     CMP Temp_Var9
     BCC PRG009_AB67  ; If did not impact, jump to PRG009_AB67
 
@@ -2717,7 +2756,8 @@ PRG009_AD02:
 
     ; Calculate the Sprite RAM offset
     TXA
-    ADD Vs_ObjectSprRAMSel
+    CLC
+    ADC Vs_ObjectSprRAMSel
     TAY
     LDA Vs_ObjectSprRAMOffsets,Y
     STA Vs_ObjectSprRAMOff
@@ -3035,7 +3075,8 @@ PRG009_AEA1:
     STA Sprite_RAM+$01,Y
 
     ; Set right coin twinkle sprite pattern
-    ADD #$02     ; +2
+    CLC
+    ADC #$02     ; +2
     STA Sprite_RAM+$05,Y
 
     LDX Vs_CurIndex  ; X = object index
@@ -3046,11 +3087,13 @@ PRG009_AEA1:
 
     ; Set left sprite X
     LDA Vs_ObjectsX,X
-    SUB #$04
+    SEC
+    SBC #$04
     STA Sprite_RAM+$03,Y
 
     ; Set right sprite X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$07,Y
 
     ; Set sprite attributes
@@ -3064,7 +3107,8 @@ PRG009_AEE8:
     LDA Vs_ObjectAnimCnt,X
     LSR A
     LSR A
-    ADD Vs_CurIndex ; keeps it interesting
+    CLC
+    ADC Vs_CurIndex ; keeps it interesting
     AND #$03
     TAY      ; Y = 0 to 3
 
@@ -3146,7 +3190,8 @@ PRG009_AF40:
 
     ; Vs_ObjectAnimCnt += 4
     LDA Vs_ObjectAnimCnt,X
-    ADD #$04
+    CLC
+    ADC #$04
     STA Vs_ObjectAnimCnt,X
 
     JMP PRG009_AF7C  ; Jump to PRG009_AF7C
@@ -3654,11 +3699,13 @@ PRG009_B19F:
 
     ; Left sprite X
     LDA Vs_ObjectsX,X
-    ADD Vs_ObjectXOff
+    CLC
+    ADC Vs_ObjectXOff
     STA Sprite_RAM+$03,Y
 
     ; Right sprite X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$07,Y
 
     ; Clears Vs_ObjectXOff
@@ -3795,7 +3842,8 @@ Vs_ObjectBumpOffOthers:
 
     ; This limits how intensely we run this routine
     TXA
-    ADD Counter_1
+    CLC
+    ADC Counter_1
     LSR A
     BCC PRG009_B264  ; If carry not set, jump to PRG009_B264 (RTS)
 
@@ -3966,7 +4014,8 @@ VsPlayer_CalcObjBoundBox:
 
     ; Temp_Var1+Y = Object's Y + 6 (top)
     LDA Vs_ObjectsY,X
-    ADD #$06
+    CLC
+    ADC #$06
     STA Temp_Var1,Y
 
     ; Temp_Var3+4 = 4 (bottom offset)
@@ -3975,7 +4024,8 @@ VsPlayer_CalcObjBoundBox:
 
     ; Temp_Var2+Y = Object's X + 2 (left)
     LDA Vs_ObjectsX,X
-    ADD #$02
+    CLC
+    ADC #$02
     STA Temp_Var2,Y
 
     ; Temp_Var4+Y = 12 (for enemies) or 5 (otherwise)  (right offset)
@@ -4015,7 +4065,8 @@ PRG009_B365:
 
     ; This limits how intensely we run this routine
     TXA
-    ADD Counter_1
+    CLC
+    ADC Counter_1
     LSR A
     BCS PRG009_B34C  ; If carry set, jump to PRG009_B34C (RTS)
 
@@ -4088,11 +4139,13 @@ PRG009_B3AB:
 
     ; Player has another coin!
     LDA Vs_PlayerCoins,Y
-    ADD #$01
+    CLC
+    ADC #$01
     STA Vs_PlayerCoins,Y
 
     LDA Vs_PlayerCoins
-    ADD Vs_PlayerCoins+1
+    CLC
+    ADC Vs_PlayerCoins+1
     CMP #$05
     BNE PRG009_B3ED  ; If not all 5 coins have been found (in [?] block game), jump to PRG009_B3ED
 
@@ -4238,11 +4291,13 @@ PRG009_B460:
 
     ; Player gets a coin for this
     LDA Vs_PlayerCoins,Y
-    ADD #$01
+    CLC
+    ADC #$01
     STA Vs_PlayerCoins,Y
 
     LDA Vs_PlayerCoins
-    ADD Vs_PlayerCoins+1
+    CLC
+    ADC Vs_PlayerCoins+1
     CMP #$05
     BEQ PRG009_B4AF  ; If all five enemies have been kicked off, jump to PRG009_B4AF
 
@@ -4327,7 +4382,8 @@ PRG009_B4DF:
 
     ; Give card
     LDA Vs_ObjectId,X
-    SUB #(VSOBJID_MUSHROOMCARD - 1) ; -1 because "0" is none, "1" is Mushroom card, etc.
+    SEC
+    SBC #(VSOBJID_MUSHROOMCARD - 1) ; -1 because "0" is none, "1" is Mushroom card, etc.
     STA Inventory_Cards,Y
 
 PRG009_B4F4:
@@ -4560,14 +4616,16 @@ PRG009_B5F5:
 
     ; Set POW block sprite Ys
     LDA #Vs_POW_Y
-    SUB Vert_Scroll
+    SEC
+    SBC Vert_Scroll
     STA Sprite_RAM+$10
     STA Sprite_RAM+$14
 
     ; Set POW block sprite Xs
     LDA #Vs_POW_X
     STA Sprite_RAM+$13
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$17
 
     LDA Vs_POWHits
@@ -4607,7 +4665,8 @@ PRG009_B62D:
     LDA #16
     STA Temp_Var8
     LDY Vs_POWHits
-    SUB Vs_POWHeight,Y
+    SEC
+    SBC Vs_POWHeight,Y
     STA Temp_Var7
 
     JSR Vs_CheckBoxCollision
@@ -4618,7 +4677,8 @@ PRG009_B62D:
     LDA Vs_POWHeight,Y
     STA Vs_PlayerYOff,X
     LDA Vs_PlayerY,X
-    SUB Vs_PlayerYOff,X
+    SEC
+    SBC Vs_PlayerYOff,X
 
     CMP #(Vs_POW_Y - 11)
     BGE PRG009_B67A  ; If Player is lower than the top of POW block, jump to PRG009_B67A
@@ -4639,7 +4699,8 @@ PRG009_B67A:
     ; Player is lower than top of POW block...
 
     LDA Vs_PlayerY,X
-    ADD Vs_PlayerYOff,X
+    CLC
+    ADC Vs_PlayerYOff,X
     CMP #(Vs_POW_Y + 9)
     BLT PRG009_B6AD  ; If Player is too low, jump to PRG009_B6AD
 
@@ -4659,7 +4720,8 @@ PRG009_B67A:
 
     ; Ensure Player is beneath POW block
     LDA #(Vs_POW_Y + 17)
-    SUB Vs_PlayerYOff,X
+    SEC
+    SBC Vs_PlayerYOff,X
     STA Vs_PlayerY,X
 
     ; Player "sticks" to POW block for a moment
@@ -4768,7 +4830,8 @@ PRG009_B720:
 
     ; Accelerate fireball vertically
     LDA Vs_ObjectYVel,X
-    ADD Vs_FireballYVelAccel,Y
+    CLC
+    ADC Vs_FireballYVelAccel,Y
     STA Vs_ObjectYVel,X
 
     CMP Vs_FireballYVelLimit,Y
@@ -4831,7 +4894,8 @@ Vs_BumpBlocksUpdateAndDraw:
 PRG009_B78B:
     STX Vs_CurIndex ; Update current index
     TXA
-    ADD Vs_ObjectSprRAMSel
+    CLC
+    ADC Vs_ObjectSprRAMSel
     TAY  ; Y = Sprite RAM offset
 
     ; Get Sprite RAM offset
@@ -4882,7 +4946,8 @@ Vs_BumpBlockUpdateAndDraw:
 
     ; Vs_PlayerBlkHitYVel += 5
     LDA Vs_PlayerBlkHitYVel,X
-    ADD #$05
+    CLC
+    ADC #$05
     STA Vs_PlayerBlkHitYVel,X
 
 PRG009_B7DA:
@@ -4891,7 +4956,8 @@ PRG009_B7DA:
     ; Set bump block sprite Xs
     LDA Vs_PlayerBlkHitX,X
     STA Sprite_RAM+$03,Y
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$07,Y
 
     ; Set bump block sprite Ys
@@ -4961,11 +5027,13 @@ PRG009_B822:
 
     ASL A       ; Shift left
     AND #%00011111  ; Mask out column value, left shifted
-    ADD Temp_Var5  ; Add Temp_Var5
+    CLC
+    ADC Temp_Var5  ; Add Temp_Var5
 
     ; Set VRAM low addresses
     STA Graphics_Buffer+$01,Y   ; Upper row
-    ADD #32             ; +32 bytes to next to row
+    CLC
+    ADC #32             ; +32 bytes to next to row
     STA Graphics_Buffer+$06,Y   ; Lower row
 
     ; Set VRAM high addresses
@@ -4994,7 +5062,8 @@ PRG009_B822:
 
     ; +10 to graphics buffer counter
     TYA
-    ADD #$0A
+    CLC
+    ADC #$0A
     STA Graphics_BufCnt
 
     RTS      ; Return
@@ -5002,17 +5071,20 @@ PRG009_B822:
 
 Vs_BumpBlockApplyYVel:
     TXA
-    ADD #(Vs_PlayerBlkHitYVel - Vs_PlayerYVel)  ; Offset to bump block Y Velocity
+    CLC
+    ADC #(Vs_PlayerBlkHitYVel - Vs_PlayerYVel)  ; Offset to bump block Y Velocity
     BPL PRG009_B888
 
 Vs_ObjectApplyXVel:
     TXA
-    ADD #(Vs_ObjectXVel - Vs_ObjectYVel + 2)    ; +2 so to get passed the Vs_PlayerXVel vars
+    CLC
+    ADC #(Vs_ObjectXVel - Vs_ObjectYVel + 2)    ; +2 so to get passed the Vs_PlayerXVel vars
     BPL PRG009_B888
 
 Vs_ObjectApplyYVel:
     TXA
-    ADD #$02    ; +2 so to get passed the Vs_PlayerYVel vars
+    CLC
+    ADC #$02    ; +2 so to get passed the Vs_PlayerYVel vars
 
 PRG009_B888:
     TAX     ; Update X
@@ -5026,7 +5098,8 @@ PRG009_B888:
 Vs_ApplyXVel:
     ; Update X velocity instead of Y velocity
     TXA
-    ADD #(Vs_PlayerXVel - Vs_PlayerYVel)
+    CLC
+    ADC #(Vs_PlayerXVel - Vs_PlayerYVel)
     TAX
 
     JSR Vs_ApplyYVel     ; Really apply X velocity!
@@ -5040,7 +5113,8 @@ Vs_ApplyYVel:
     ASL A
     ASL A
     ASL A           ; Fractional part shifted up
-    ADD Vs_PlayerYVelFrac,X
+    CLC
+    ADC Vs_PlayerYVelFrac,X
     STA Vs_PlayerYVelFrac,X ; Add to Player/Object's vel fractional accumulator
 
     PHP      ; Save CPU status
@@ -5488,7 +5562,8 @@ PRG009_BC7C:
 
     ; Accelerate horizontal auto scroll velocity
     LDA AScroll_VelAccel,Y
-    ADD Level_AScrlHVel
+    CLC
+    ADC Level_AScrlHVel
     STA Level_AScrlHVel
 
     PLA      ; Restore movement
@@ -5498,7 +5573,8 @@ PRG009_BC7C:
 
     ; Accelerate vertical auto scroll velocity
     LDA AScroll_VelAccel,Y
-    ADD Level_AScrlVVel
+    CLC
+    ADC Level_AScrlVVel
     STA Level_AScrlVVel
 
     ; Level_AScrlTimer = 4
@@ -5576,7 +5652,8 @@ PRG009_BCE0:
 
     ; Move Player along as scroll occurs; simulates that the tank is rolling at the Player
     LDA Player_X
-    ADD Level_AScrlHVelCarry
+    CLC
+    ADC Level_AScrlHVelCarry
     STA Player_X
 
     BCC PRG009_BCF1  ; If no carry, jump to PRG009_BCF1
@@ -5609,7 +5686,8 @@ PRG009_BCF1:
 PRG009_BD0E:
 
     ; Apply carry to Player's X
-    ADD Player_X
+    CLC
+    ADC Player_X
     STA Player_X
     TYA
     ADC Player_XHi
@@ -5709,7 +5787,8 @@ AutoScroll_SpikeCeiling:
     BEQ PRG009_BD95  ; If auto scroll vertical velocity is at its limit, jump to PRG009_BD95
 
     ; Accelerate spiked ceiling!
-    ADD ASFloat_VelAccel,Y
+    CLC
+    ADC ASFloat_VelAccel,Y
     STA Level_AScrlVVel
 
 PRG009_BD95:
@@ -5784,7 +5863,8 @@ PRG009_BDDB:
 
     ; Temp_Var10 = Player X + 8
     LDA Player_X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Temp_Var10
 
     LDA Player_XHi
@@ -5796,7 +5876,8 @@ PRG009_BDDB:
     LDA Tile_Mem_Addr,Y
     STA Temp_Var1
     LDA Tile_Mem_Addr+1,Y
-    ADD Temp_Var3
+    CLC
+    ADC Temp_Var3
     STA Temp_Var2
 
     ; Compute row/column offset
@@ -5820,7 +5901,8 @@ PRG009_BDDB:
     CMP #$ff
     BEQ PRG009_BE2B     ; If there's no spikes here, jump to PRG009_BE2B
 
-    SUB Temp_Var1
+    SEC
+    SBC Temp_Var1
     CMP #$02
     BGE PRG009_BE2B     ; If this is not the spike tile, jump to PRG009_BE2B
 
@@ -5861,7 +5943,8 @@ AutoScroll_Floating:
     CMP ASFloat_VVelLimit,Y
     BEQ PRG009_BE5C  ; If auto scroll vertical velocity is at its limit, jump to PRG009_BE5C
 
-    ADD ASFloat_VelAccel,Y   ; Add to vertical velocity
+    CLC
+    ADC ASFloat_VelAccel,Y   ; Add to vertical velocity
     STA Level_AScrlVVel  ; Update vertical velocity
 
 PRG009_BE5C:
@@ -5984,7 +6067,8 @@ PRG009_BEEC:
 
     ; Level_AScrlPosH += 4
     LDA Level_AScrlPosH
-    ADD #$04
+    CLC
+    ADC #$04
     STA Level_AScrlPosH
 
     BCC PRG009_BF01  ; If no carry, jump to PRG009_BF01
@@ -6029,7 +6113,8 @@ AutoScroll_ApplyHVel:
     ASL A
     ASL A
     ASL A           ; Fractional part shifted up
-    ADD Level_AScrlHVelFrac,X
+    CLC
+    ADC Level_AScrlHVelFrac,X
     STA Level_AScrlHVelFrac,X   ; Add to auto scroll's velocity fractional accumulator
 
     PHP      ; Save CPU state

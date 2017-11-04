@@ -87,7 +87,8 @@ PRG026_A0A6:
     LDX Player_Current  ; X = Player_Current
     BEQ PRG026_A0C3     ; If Player_Current = 0 (Mario), jump to PRG026_A0C3
 
-    ADD #(Inventory_Items2 - Inventory_Items)    ; Offset for Luigi's items
+    CLC
+    ADC #(Inventory_Items2 - Inventory_Items)    ; Offset for Luigi's items
 
 PRG026_A0C3:
     TAX         ; X = A (InvStart_Item + offset)
@@ -117,7 +118,8 @@ Inventory_Close:
     STA Graphics_Buffer+4,X     ; Terminator
 
     LDA Graphics_BufCnt
-    ADD #$04
+    CLC
+    ADC #$04
     STA Graphics_BufCnt ; Graphics_BufCnt += 4
 
     INY         ; Y++
@@ -171,7 +173,8 @@ PRG026_A135:
     STA Pal_Data+3      ; And also the MASTER palette buffer
 
     LDA Graphics_BufCnt
-    ADD #$07
+    CLC
+    ADC #$07
     STA Graphics_BufCnt ; Pal_Data += 7
 
     INC InvFlip_Counter ; InvFlip_Counter = 3
@@ -443,7 +446,8 @@ PRG026_A2E4:
     BNE PRG026_A2E4     ; While Y <> end of update data, loop!
 
     LDA Graphics_BufCnt
-    ADD #12
+    CLC
+    ADC #12
     STA Temp_Var13     ; Temp_Var13 = Offset to 12 bytes in from where we started the graphics buffer
     DEX
     STX Graphics_BufCnt ; Update Graphics_BufCnt with where the buffer actually is
@@ -452,7 +456,8 @@ PRG026_A2E4:
     AND #$07
     TAX
     DEX         ; X = (InvFlip_Frame & 7) - 1
-    SUB #$04        ; A = (InvFlip_Frame & 7) - 4
+    SEC
+    SBC #$04        ; A = (InvFlip_Frame & 7) - 4
     CMP #$02
     BGE PRG026_A30C     ; If A >= 2, jump to PRG026_A30C
     JSR Inventory_DrawItemsOrCards      ; Otherwise, JSR to Inventory_DrawItemsOrCards
@@ -495,7 +500,8 @@ PRG026_A336:
     STA Temp_Var14     ; Store this into Temp_Var14 (offset to first pattern in card layout)
 
     LDA Temp_Var13     ; A = 12 bytes into the graphics buffer we just did
-    ADD #$0d
+    CLC
+    ADC #$0d
     STA Temp_Var13     ; Temp_Var13 += $D
 
     LDA #$02        ; A = 2
@@ -510,7 +516,8 @@ PRG026_A344:
     LDA #(Inventory_Items2 - Inventory_Items)   ; Luigi's inventory
 
 PRG026_A34D:
-    ADD InvStart_Item   ; Offset to the starting item
+    CLC
+    ADC InvStart_Item   ; Offset to the starting item
     STA Temp_Var14     ; Store this into Temp_Var14 (offset to first pattern in item layout)
     LDA #$06        ; Number of items to display minus one
 
@@ -564,7 +571,8 @@ PRG026_A37F:
 
 PRG026_A38B:
     LDA Temp_Var13     ; X = Temp_Var13 (offset into the graphics buffer)
-    ADD #$03
+    CLC
+    ADC #$03
     STA Temp_Var13     ; Temp_Var13 += 3 (2 for the power-up, 1 for spacing)
     INC Temp_Var14 ; Next item!
     DEC Temp_Var11     ; One less item left to display...
@@ -693,7 +701,8 @@ PRG026_A436:
     STA Sound_QLevel1   ; Play item select sound
 
     LDA InvStart_Item   ; A = InvStart_Item
-    ADD InvItem_AddSub,Y    ; +/- 7 based on up/down
+    CLC
+    ADC InvItem_AddSub,Y    ; +/- 7 based on up/down
 
     STA InvStart_Item   ; Update InvStart_Item
     CMP InvItem_IndexOOR,Y
@@ -708,7 +717,8 @@ PRG026_A45B:
     LDA Player_Current  ; A = Player_Current
     BEQ PRG026_A468     ; If Player_Current = 0 (Mario), jump to PRG026_A468
     TXA         ; A = InvStart_Item
-    ADD #(Inventory_Items2 - Inventory_Items)    ; Offset to Luigi's items
+    CLC
+    ADC #(Inventory_Items2 - Inventory_Items)    ; Offset to Luigi's items
     TAX         ; X = offset to item
 
 PRG026_A468:
@@ -765,11 +775,13 @@ PRG026_A4A7:
 
 PRG026_A4B4:
     LDA InvHilite_Item
-    ADD InvItem_RightLeft,X ; Inc/Dec InvHilite_Item appropriately
+    CLC
+    ADC InvItem_RightLeft,X ; Inc/Dec InvHilite_Item appropriately
     STA InvHilite_Item  ; Update InvHilite_Item
 
     LDA InvHilite_X
-    ADD InvItem_NextPrior,X ; Add/Sub to highlight X as appropriate
+    CLC
+    ADC InvItem_NextPrior,X ; Add/Sub to highlight X as appropriate
     STA InvHilite_X     ; Update InvHilite_X
 
     CMP InvItem_HiliteOORX,X
@@ -783,14 +795,16 @@ PRG026_A4B4:
 
 PRG026_A4D9:
     LDA InvHilite_Item
-    ADD InvStart_Item
+    CLC
+    ADC InvStart_Item
     TAY         ; Y = InvHilite_Item + InvStart_Item
     LDA Player_Current  ; A = Player_Current
     BEQ PRG026_A4EB     ; If Player_Current = 0 (Mario), jump to PRG026_A4EB
 
     ; Luigi...
     TYA
-    ADD #(Inventory_Items2 - Inventory_Items)
+    CLC
+    ADC #(Inventory_Items2 - Inventory_Items)
     TAY         ; Y = InvHilite_Item + InvStart_Item + Luigi offset
 
 PRG026_A4EB:
@@ -806,13 +820,15 @@ PRG026_A4F6:
 
 PRG026_A4FC:
     LDA InvHilite_Item
-    ADD InvStart_Item
+    CLC
+    ADC InvStart_Item
     TAY         ; Y = InvHilite_Item + InvStart_Item
 
     LDA Player_Current
     BEQ PRG026_A50E     ; If Player_Current = 0 (Mario), jump to PRG026_A50E
     TYA
-    ADD #(Inventory_Items2 - Inventory_Items)
+    CLC
+    ADC #(Inventory_Items2 - Inventory_Items)
     TAY         ; Y += Luigi offset
 
 PRG026_A50E:
@@ -917,13 +933,15 @@ InvItem_PerPowerUp_Palette2:
 
 Inv_UseItem_Powerup:
     LDA InvHilite_Item
-    ADD InvStart_Item
+    CLC
+    ADC InvStart_Item
     TAY         ; Y = InvHilite_Item + InvStart_Item (currently highlighted item)
 
     LDA Player_Current
     BEQ PRG026_A5C8     ; If Player_Current = 0 (Mario), jump to PRG026_A5C8
     TYA
-    ADD #(Inventory_Items2 - Inventory_Items)    ; Offset to Luigi's items
+    CLC
+    ADC #(Inventory_Items2 - Inventory_Items)    ; Offset to Luigi's items
     TAY         ; Y, offset to Luigi
 
 PRG026_A5C8:
@@ -936,7 +954,8 @@ PRG026_A5C8:
     LDA Player_Current
     BEQ PRG026_A5D9     ; If Player_Current = 0 (Mario), jump to PRG026_A5D9
     TYA
-    ADD #(InvItem_PerPowerUp_Palette2-InvItem_PerPowerUp_Palette)       ; Offset for Luigi
+    CLC
+    ADC #(InvItem_PerPowerUp_Palette2-InvItem_PerPowerUp_Palette)       ; Offset for Luigi
     TAY
 
 PRG026_A5D9:
@@ -986,18 +1005,21 @@ Inv_UseItem_ShiftOver:
     STA Temp_Var15     ; Temp_Var15 = 27 (last index of items to shift)
 
     LDA InvHilite_Item
-    ADD InvStart_Item
+    CLC
+    ADC InvStart_Item
     TAY         ; Y = InvHilite_Item + InvStart_Item
 
     LDA Player_Current
     BEQ PRG026_A638     ; If Player_Current = 0 (Mario), jump to PRG026_A638
 
     LDA #27
-    ADD #(Inventory_Items2 - Inventory_Items)   ; This could've been done as a constant, but oh well!
+    CLC
+    ADC #(Inventory_Items2 - Inventory_Items)   ; This could've been done as a constant, but oh well!
     STA Temp_Var15     ; Temp_Var15 += Luigi items offset (last index of Luigi items to shift)
 
     TYA
-    ADD #(Inventory_Items2 - Inventory_Items)
+    CLC
+    ADC #(Inventory_Items2 - Inventory_Items)
     TAY         ; Y += Luigi items offset
 
     ; This loop "removes" the used item by backing the other items over it
@@ -1019,7 +1041,8 @@ PRG026_A64B:
     LDA Player_Current
     BEQ PRG026_A65A     ; If Player_Current = 0, jump to PRG026_A65A
     TYA
-    ADD #(Inventory_Items2 - Inventory_Items)
+    CLC
+    ADC #(Inventory_Items2 - Inventory_Items)
     TAY         ; Y is Offset to Luigi's items
 
 PRG026_A65A:
@@ -1028,7 +1051,8 @@ PRG026_A65A:
 
     ; If Player used first item on row, this backs it up one row
     LDA InvStart_Item
-    SUB #$07
+    SEC
+    SBC #$07
     STA InvStart_Item   ; InvStart_Item -= 7
     JMP PRG026_A64B     ; Jump to PRG026_A64B
 
@@ -1091,7 +1115,8 @@ PRG026_A6BF:
     JSR MapTile_Get_By_Offset   ; Get map tile nearby player (on page 10)
 
     ; Rock tiles:
-    SUB #TILE_ROCKBREAKH     ; Offset to rock tiles
+    SEC
+    SBC #TILE_ROCKBREAKH     ; Offset to rock tiles
     CMP #$02     ; See if value is less than 2 (rock to break)
     BLT PRG026_A6D2  ; If rock, jump to PRG026_A6D2
 
@@ -1121,7 +1146,8 @@ PRG026_A6D2:
 
     TYA
     AND #$f0
-    ADD #$10    ; Decouple a Y
+    CLC
+    ADC #$10    ; Decouple a Y
     STA MapPoof_Y
     STA Temp_Var1  ; Temp_Var1 = MapPoof_Y
 
@@ -1153,7 +1179,8 @@ PRG026_A6D2:
     STA Graphics_Buffer+5,Y
     LDA Temp_Var16
     STA Graphics_Buffer+1,Y
-    ADD #$01
+    CLC
+    ADC #$01
     STA Graphics_Buffer+6,Y
     LDA #$82
     STA Graphics_Buffer+2,Y
@@ -1172,7 +1199,8 @@ PRG026_A6D2:
     STA Graphics_Buffer+10,Y
 
     TYA
-    ADD #10
+    CLC
+    ADC #10
     STA Graphics_BufCnt ; Graphics_BufCnt += 10 (bytes added to buffer)
 
     ; Play rock crumbling sound
@@ -1195,7 +1223,8 @@ Inv_UseItem_WarpWhistle:
     LDY Player_Current  ; Y = Player_Current
     LDX #$00        ; X = 0 (Wind comes from the left)
     LDA World_Map_X,Y   ; Get Player's X position on Map
-    SUB Horz_Scroll    ; Offset it by the horizontal scroll
+    SEC
+    SBC Horz_Scroll    ; Offset it by the horizontal scroll
     CMP #$80
     BGE PRG026_A771
     LDX #$01        ; Wind comes from the right
@@ -1256,7 +1285,8 @@ Map_Poof_Tiles:
 
 Map_Poof_Update:
     LDA MapPoof_Y
-    SUB #$08        ; Center Map Poof
+    SEC
+    SBC #$08        ; Center Map Poof
 
     ; Four pieces with identical Y
     STA Sprite_RAM+$60
@@ -1265,7 +1295,8 @@ Map_Poof_Update:
     STA Sprite_RAM+$6C
 
     ; Four pieces with identical Y (offset 16 from the above)
-    ADD #16
+    CLC
+    ADC #16
     STA Sprite_RAM+$70
     STA Sprite_RAM+$74
     STA Sprite_RAM+$78
@@ -1273,15 +1304,18 @@ Map_Poof_Update:
 
     LDY #$00        ; Y = 0
     LDA MapPoof_X
-    SUB Horz_Scroll    ; Offset poof effect based on horizontal scroll
-    SUB #$08        ; Center horizontally
+    SEC
+    SBC Horz_Scroll    ; Offset poof effect based on horizontal scroll
+    SEC
+    SBC #$08        ; Center horizontally
 
     ; This will loop through to position each piece of the poof sprite
     ; horizontally, spaced 8 pixels apart.
 PRG026_A7EA:
     STA Sprite_RAM+$63,Y    ; Upper and...
     STA Sprite_RAM+$73,Y    ; ... lower sprites with same X coordinate
-    ADD #$08        ; X coordinate += 8 (next poof sprite over)
+    CLC
+    ADC #$08        ; X coordinate += 8 (next poof sprite over)
     INY
     INY
     INY
@@ -1371,13 +1405,15 @@ PRG026_A876:
     STY Sprite_RAM+$00  ; Store 'Y' position into left half
     STY Sprite_RAM+$04  ; Store 'Y' position into right half
     LDA InvStart_Item
-    ADD InvHilite_Item  ; A = InvStart_Item + InvHilite_Item
+    CLC
+    ADC InvHilite_Item  ; A = InvStart_Item + InvHilite_Item
     TAY         ; Y = A
 
     LDA Player_Current
     BEQ PRG026_A88E     ; If Player_Current = 0 (Mario), jump to PRG026_A88E
     TYA
-    ADD #(Inventory_Items2 - Inventory_Items)
+    CLC
+    ADC #(Inventory_Items2 - Inventory_Items)
     TAY         ; Y += Luigi items offset
 
 PRG026_A88E:
@@ -1410,7 +1446,8 @@ PRG026_A88E:
 PRG026_A8B8:
     LDA InvHilite_X
     STA Sprite_RAM+$03  ; Highlight X for left
-    ADD #$08        ; +8
+    CLC
+    ADC #$08        ; +8
     STA Sprite_RAM+$07  ; Highlight X for right
     RTS         ; Return...
 
@@ -1465,7 +1502,8 @@ PRG026_A8E2:
     LDX Player_Current  ; X = Player_Current
     BEQ PRG026_A8FF     ; If Player_Current = 0 (Mario), jump to PRG026_A8FF
     TYA         ;
-    ADD #$40        ;
+    CLC
+    ADC #$40        ;
     TAY         ; Y += $40 for Luigi (Luigi's clear bits are 64 ahead of Mario's)
 
 PRG026_A8FF:
@@ -1544,7 +1582,8 @@ PRG026_A936:
     ; X = Scroll_LastDir = 0 (Screen last moved right)
 
     LDA Scroll_ColumnR
-    SUB #16
+    SEC
+    SBC #16
     STA Scroll_ColumnR ; Scroll_ColumnR -= 16 (pretend we have a whole screen to the right to update)
 
     JMP PRG026_A989  ; Jump to PRG026_A989
@@ -1554,7 +1593,8 @@ PRG026_A982:
     ; X = Scroll_LastDir = 1 (Screen last moved left)
 
     LDA Scroll_ColumnL
-    ADD #16
+    CLC
+    ADC #16
     STA Scroll_ColumnL ; Scroll_ColumnL += 16 (pretend we have a whole screen to the left to update)
 
 PRG026_A989:
@@ -1877,7 +1917,8 @@ PRG026_AAF9:
 
     ; Enough room to center horizontally left of the Player!
     LDA Player_X
-    SUB #$80
+    SEC
+    SBC #$80
     STA Horz_Scroll
 
     ; Carried into Horz_Scroll_Hi if need be
@@ -2022,7 +2063,8 @@ PRG026_ABB8:
 
     BCS PRG026_ABC5  ; If carry is set (fade out), jump to PRG026_ABC5 (fade out needs the colors as they're to be targeted!)
 
-    SUB #$30     ; Otherwise, A -= $30 (darkest shade of this color)
+    SEC
+    SBC #$30     ; Otherwise, A -= $30 (darkest shade of this color)
     BCS PRG026_ABC5  ; If we didn't go "less than black", jump to PRG026_ABC5
     LDA #$0f     ; Otherwise, A = $F (black)
 
@@ -2072,7 +2114,8 @@ PRG026_ABF8:
 PRG026_AC07:
     CMP Pal_Data,Y   ; Compare this against the target palette byte
     BEQ PRG026_AC12  ; If we reached the target, jump to PRG026_AC12
-    ADD #$10     ; Otherwise, add $10 (brighter)
+    CLC
+    ADC #$10     ; Otherwise, add $10 (brighter)
 
 PRG026_AC0F:
     STA Palette_Buffer,Y     ; Update the buffer!
@@ -2129,7 +2172,8 @@ PRG026_AC37:
     LDY #31
 PRG026_AC4B:
     LDA Palette_Buffer,Y    ; Get this color
-    SUB #16         ; Subtract 16 from it
+    SEC
+    SBC #16         ; Subtract 16 from it
     BPL PRG026_AC55     ; If we didn't go below zero, jump to PRG026_AC55
 
     LDA #$0f        ; Otherwise, set it to safe minimum
@@ -2300,7 +2344,8 @@ PRG026_AD26:
 PRG026_AD2B:
     ; After covering 32 bytes, reset
     LDA Map_EntTran_VAddrL
-    SUB #32
+    SEC
+    SBC #32
     STA Map_EntTran_VAddrL  ; Map_EntTran_VAddrL -= 32
     DEY         ; Y--
     BPL PRG026_ACFF     ; While Y >= 0, loop! (and reset VRAM address, since autoincrement needs reset too)
@@ -2358,7 +2403,8 @@ Border_Top:
 
     ; Otherwise... Map_EntTran_BVAddrH/L += 33 (causes it to shift over, creating the diagonals)
     LDA Map_EntTran_BVAddrL,X
-    ADD #33
+    CLC
+    ADC #33
     STA Map_EntTran_BVAddrL,X
     LDA Map_EntTran_BVAddrH,X
     ADC #$00
@@ -2369,7 +2415,8 @@ PRG026_AD94:
     ; 31st byte, top
     ; Map_EntTran_BVAddrH/L += 1
     LDA Map_EntTran_BVAddrL,X
-    ADD #$01
+    CLC
+    ADC #$01
     STA Map_EntTran_BVAddrL,X
     LDA Map_EntTran_BVAddrH,X
     ADC #$00
@@ -2381,7 +2428,8 @@ Border_Right:
 
     ; Map_EntTran_BVAddrH/L += 31
     LDA Map_EntTran_BVAddrL,X
-    ADD #31
+    CLC
+    ADC #31
     STA Map_EntTran_BVAddrL,X
     LDA Map_EntTran_BVAddrH,X
     ADC #$00
@@ -2393,7 +2441,8 @@ Border_Bottom:
 
     ; Map_EntTran_BVAddrH/L -= 31 (causes it to shift over, creating the diagonals)
     LDA Map_EntTran_BVAddrL,X
-    SUB #31
+    SEC
+    SBC #31
     STA Map_EntTran_BVAddrL,X
     LDA Map_EntTran_BVAddrH,X
     SBC #$00
@@ -2408,7 +2457,8 @@ Border_Left:
 
     ; Map_EntTran_BVAddrH/L += 33
     LDA Map_EntTran_BVAddrL,X
-    ADD #33
+    CLC
+    ADC #33
     STA Map_EntTran_BVAddrL,X
     LDA Map_EntTran_BVAddrH,X
     ADC #$00
@@ -2527,7 +2577,8 @@ PRG026_AE92:
 
     ; Map_EntTran_BVAddrH/L -= 33
     LDA Map_EntTran_BVAddrL,X
-    SUB #33
+    SEC
+    SBC #33
     STA Map_EntTran_BVAddrL,X
     LDA Map_EntTran_BVAddrH,X
     SBC #$00
@@ -2544,7 +2595,8 @@ PRG026_AEA6:
 
     ; Map_EntTran_BVAddrL -= $40
     LDA Map_EntTran_BVAddrL,X
-    SUB #$40
+    SEC
+    SBC #$40
     STA Map_EntTran_BVAddrL,X
 
 PRG026_AEBB:
@@ -2569,7 +2621,8 @@ PRG026_AED7:
 
     ; Map_EntTran_BVAddrH/L -= 31
     LDA Map_EntTran_BVAddrL,X
-    SUB #31
+    SEC
+    SBC #31
     STA Map_EntTran_BVAddrL,X
     LDA Map_EntTran_BVAddrH,X
     SBC #$00
@@ -2585,7 +2638,8 @@ PRG026_AEE8:
 
     ; Map_EntTran_BVAddrL -= $40
     LDA Map_EntTran_BVAddrL,X
-    SUB #$40
+    SEC
+    SBC #$40
     STA Map_EntTran_BVAddrL,X
 
 PRG026_AEFD:
@@ -2611,7 +2665,8 @@ BorderOut_Bottom:
 PRG026_AF1C:
     ; Map_EntTran_BVAddrH/L += 31
     LDA Map_EntTran_BVAddrL,X
-    ADD #31
+    CLC
+    ADC #31
     STA Map_EntTran_BVAddrL,X
     LDA Map_EntTran_BVAddrH,X
     ADC #$00
@@ -2662,7 +2717,8 @@ PRG026_AF70:
 
     ; Map_EntTran_BVAddrH/L -= 33
     LDA Map_EntTran_BVAddrL,X
-    SUB #33
+    SEC
+    SBC #33
     STA Map_EntTran_BVAddrL,X
     LDA Map_EntTran_BVAddrH,X
     SBC #$00
@@ -2682,7 +2738,8 @@ PRG026_AF87:
     STA Map_EntTran_BVAddrH,X   ; Map_EntTran_BVAddrH = $23
 
     LDA Map_EntTran_BVAddrL,X
-    SUB #$40
+    SEC
+    SBC #$40
     STA Map_EntTran_BVAddrL,X   ; Map_EntTran_BVAddrL -= $40
 
 PRG026_AF9C:
@@ -2797,7 +2854,8 @@ PRG026_B00A:
 
     ; Add to graphics buffer count
     TXA
-    ADD #$06
+    CLC
+    ADC #$06
     STA Graphics_BufCnt
 
     RTS      ; Return
@@ -2832,18 +2890,21 @@ PRG026_B056:
     ; LSD; 'Y' will count the loops, and thus be the MSD
     CMP #10
     BMI PRG026_B061  ; When A is under 10, jump to PRG026_B061
-    SUB #10      ; A -= 10 (find the LSD)
+    SEC
+    SBC #10      ; A -= 10 (find the LSD)
     INY      ; Y++ (form the MSD)
     JMP PRG026_B056  ; Loop again...
 
 PRG026_B061:
-    ADD #$f0        ; Offset the LSD to the appropriate tile
+    CLC
+    ADC #$f0        ; Offset the LSD to the appropriate tile
     STA StatusBar_LivesL    ; Store into StatusBar_LivesL
     TYA         ; Most significant digit -> A
     BNE PRG026_B06C     ; Anything but zero, jump to PRG026_B06C
     LDA #$0E        ; Otherwise, use blank tile instead of leading zero
 PRG026_B06C:
-    ADD #$f0        ; Offset to appropriate tile
+    CLC
+    ADC #$f0        ; Offset to appropriate tile
     STA StatusBar_LivesH    ; Store into StatusBar_LivesH
     RTS      ; Return
 
@@ -2858,17 +2919,20 @@ StatusBar_Fill_Coins:
     LDA #Inventory_Coins-Inventory_Items        ; A = $22 (offset to Mario's coins)
     LDX Player_Current  ; X = Player_Current
     BEQ PRG026_B07D     ; If Player_Current = 0 (Mario), jump to PRG026_B07D
-    ADD #(Inventory_Coins2-Inventory_Items)-(Inventory_Coins-Inventory_Items)   ; Otherwise, A = $45 (offset to Luigi's coins)
+    CLC
+    ADC #(Inventory_Coins2-Inventory_Items)-(Inventory_Coins-Inventory_Items)   ; Otherwise, A = $45 (offset to Luigi's coins)
 PRG026_B07D:
     LDY #$00        ; Y = 0 (for loop at PRG026_B09F)
     TAX         ; X = $22 / $45
     LDA Inventory_Items,X   ; Getting this player's coins, not items, but Nintendo used this offset, so...
-    ADD Coins_Earned    ; Add in any coins earned
+    CLC
+    ADC Coins_Earned    ; Add in any coins earned
     STA Inventory_Items,X   ; Store total
     CMP #100
     BLT PRG026_B09F     ; If coin total is < 100, jump to PRG026_B09F
 
-    SUB #100        ; Take 100 away
+    SEC
+    SBC #100        ; Take 100 away
     STA Inventory_Items,X   ; Store new total
 
     LDX Player_Current  ; X = Player_Current
@@ -2885,19 +2949,22 @@ PRG026_B07D:
 PRG026_B09F:
     CMP #10
     BMI PRG026_B0AA
-    SUB #10
+    SEC
+    SBC #10
     INY     ; Y will be the most significant digit by virtue of loop counting
     JMP PRG026_B09F
 
 PRG026_B0AA:
     LDX Graphics_BufCnt ; X = Graphics_BufCnt
-    ADD #$f0        ; With 'A' as the lower coin digit, this adds $F0 to it to make the respective 0-9 tile
+    CLC
+    ADC #$f0        ; With 'A' as the lower coin digit, this adds $F0 to it to make the respective 0-9 tile
     STA StatusBar_CoinL ; Store into StatusBar_CoinL
     TYA         ; A = Y (most significant digit)
     BNE PRG026_B0B8     ; If it's anything but zero, jump to PRG026_B0B8
     LDA #Temp_Var15     ; Otherwise, we're going to use a blank, instead of a leading zero
 PRG026_B0B8:
-    ADD #$f0        ; Offset to proper MSD tile
+    CLC
+    ADC #$f0        ; Offset to proper MSD tile
     STA StatusBar_CoinH ; Store into StatusBar_CoinH
 
     LDA #$00
@@ -2954,7 +3021,8 @@ PRG026_B0EC:
 
     ; Update Graphics_BufCnt
     LDA Graphics_BufCnt
-    ADD #$04
+    CLC
+    ADC #$04
     STA Graphics_BufCnt
 
     RTS      ; Return
@@ -3023,7 +3091,8 @@ PRG026_B13E:
 
     ; Update buffer count appropriately
     LDA Graphics_BufCnt
-    ADD #$05
+    CLC
+    ADC #$05
     STA Graphics_BufCnt
     RTS      ; Return
 
@@ -3046,7 +3115,8 @@ PRG026_B172:    .byte $0F, $42, $3F
 
 StatusBar_Fill_Score:
     LDA Player_Score+2  ; Get least significant byte of score
-    ADD Score_Earned    ; Add in any earned points
+    CLC
+    ADC Score_Earned    ; Add in any earned points
     STA Player_Score+2  ; Store into least significant digit
     STA Temp_Var1      ; Keep LSD in Temp_Var1
 
@@ -3070,7 +3140,8 @@ PRG026_B19A:
     LDA Temp_Var1   ; Get LSD -> A
 
     ; I haven't taken time yet to discern this magic yet
-    SUB PRG026_B16C,X
+    SEC
+    SBC PRG026_B16C,X
     STA Temp_Var1
     LDA Temp_Var2
     SBC PRG026_B166,X
@@ -3089,7 +3160,8 @@ PRG026_B1B8:
     LDA Temp_Var1
 
     ; I haven't taken time yet to discern this magic yet
-    ADD PRG026_B16C,X
+    CLC
+    ADC PRG026_B16C,X
     STA Temp_Var1
     LDA Temp_Var2
     ADC PRG026_B166,X
@@ -3099,7 +3171,8 @@ PRG026_B1B8:
     STA Temp_Var3
 
     LDA Score_Temp
-    ADD #$f0        ; A = Score_Temp + $F0 (tile to display)
+    CLC
+    ADC #$f0        ; A = Score_Temp + $F0 (tile to display)
     STA StatusBar_Score,Y   ; Store it as next digit
 
     LDA #$00        ; A = 0
@@ -3197,7 +3270,8 @@ PRG026_B242:
 
     ; Update graphics buffer count
     TYA
-    ADD #$09
+    CLC
+    ADC #$09
     STA Graphics_BufCnt
 
     RTS      ; Return
@@ -3324,7 +3398,8 @@ PRG026_B2C4:
     ; back to zero and we begin again...
     INY      ; Y++
     TYA      ; A = Y
-    ADD Video_Upd_AddrL
+    CLC
+    ADC Video_Upd_AddrL
     STA Video_Upd_AddrL
     LDA Video_Upd_AddrH
     ADC #$00
@@ -3425,7 +3500,8 @@ PRG026_B363:
     LDA Scroll_AttrStrip,X  ; Get next attribute byte
     STA PPU_VRAM_DATA   ; Commit it!
     TYA
-    ADD #$08
+    CLC
+    ADC #$08
     TAY         ; Y += 8
     BCC PRG026_B384     ; If we haven't overflowed, jump to PRG026_B384
 
@@ -3537,7 +3613,8 @@ TileChng_VRAMCommit:
 
     ; Set VRAM address at base +32
     LDA TileChng_VRAM_L
-    ADD #32     ; +32 to jump to next line
+    CLC
+    ADC #32     ; +32 to jump to next line
     STY PPU_VRAM_ADDR
     STA PPU_VRAM_ADDR
 
@@ -3691,7 +3768,8 @@ PRG026_B4EE:
 PRG026_B4F5:
     ; Update graphics buffer count
     LDA Graphics_BufCnt
-    ADD #$21
+    CLC
+    ADC #$21
     STA Graphics_BufCnt
 
     RTS      ; Return

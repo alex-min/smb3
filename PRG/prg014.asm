@@ -148,7 +148,8 @@ LoadLevel_Generator_TS18:
     LSR A
     LSR A
     LSR A           ; A = upper 4 bits of LL_ShapeDef shifted down
-    ADD PRG014_C424,X   ; Add multiple of 15
+    CLC
+    ADC PRG014_C424,X   ; Add multiple of 15
     TAX
     DEX
     TXA      ; A = ((LL_ShapeDef >> 4) + PRG023_A419[X]) - 1
@@ -214,7 +215,8 @@ LeveLoad_FixedSizeGen_TS18:
     LDA Temp_Var15
     AND #%11100000
     LSR A
-    ADD LL_ShapeDef
+    CLC
+    ADC LL_ShapeDef
     TAX         ; Resultant index is put into 'X'
     JSR DynJump
 
@@ -290,7 +292,8 @@ PRG014_C59E:
 
     ; +16 bytes to next row
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
 
     DEX      ; X--
@@ -328,7 +331,8 @@ PRG014_C5BD:
     BNE PRG014_C5BD  ; Every other tile, jump to PRG014_C5BD
 
     LDA TileAddr_Off
-    ADD #16     ; +16 to next row
+    CLC
+    ADC #16     ; +16 to next row
     TAY      ; -> 'Y'
 
     TXA
@@ -372,7 +376,8 @@ PRG014_C5FB:
 
     ; Go to next row
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
 
     CPX #(Vs_StatusBarTiles_End - Vs_StatusBarTiles)
@@ -392,7 +397,8 @@ LoadLevel_Door1:
 
     ; Move to next row by adding 16 to tile offset
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -415,7 +421,8 @@ LoadLevel_Door2:
 
     ; Move to next row by adding 16 to tile offset
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -452,7 +459,8 @@ LoadLevel_VGroundPipeRun:
     STA Temp_Var2
 
     LDA LL_ShapeDef
-    SUB #$90
+    SEC
+    SBC #$90
     AND #$f0
     LSR A
     LSR A
@@ -494,7 +502,8 @@ PRG014_C688:
 
     ; Go to next row by adding 16 bytes
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -516,7 +525,8 @@ PRG014_C688:
 LoadLevel_VCeilingPipeRun:
     LDA LL_ShapeDef
     PHA     ; Save LL_ShapeDef
-    SUB #$c0
+    SEC
+    SBC #$c0
     AND #$f0
     LSR A
     LSR A
@@ -552,7 +562,8 @@ PRG014_C6C0:
 
     ; Move to next row by adding 16 bytes to Map_Tile_Addr
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -624,7 +635,8 @@ PRG014_C735:
 
     ; Go to next row by adding 16 to Map_Tile_Addr
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -666,7 +678,8 @@ LL_HorzPipe:
 
 LoadLevel_HRightWallPipeRun:
     LDA LL_ShapeDef
-    SUB #$e0
+    SEC
+    SBC #$e0
     LSR A
     LSR A
     LSR A
@@ -710,7 +723,8 @@ PRG014_C79E:
 
     ; Go to next row by adding 16 to tile offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -753,7 +767,8 @@ LoadLevel_HLeftWallPipeRun:
     STA Temp_Var2
 
     LDA LL_ShapeDef
-    SUB #$10
+    SEC
+    SBC #$10
     LSR A
     LSR A
     LSR A
@@ -787,7 +802,8 @@ PRG014_C7F7:
 
     ; Go to next row by adding 16 to tile offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -888,7 +904,8 @@ PRG014_C875:
 
     ; Go to next row by adding 16 to tile offset
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -946,7 +963,8 @@ PRG014_C8C2:
     ; Add $1B0 to the offset (move over an entire screen)
     ; and update the backup values!
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -1044,7 +1062,8 @@ LoadLevel_EndGoalDecoSquare:
 
     ; Add 64 to tile offset and advance 4 more rows
     LDA Map_Tile_AddrL
-    ADD #64
+    CLC
+    ADC #64
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1119,7 +1138,8 @@ LL_PowerBlocks:
 LoadLevel_PowerBlock:
     ; The index we came in on is in 'X', which starts at 16
     TXA
-    SUB #16
+    SEC
+    SBC #16
     TAX      ; Now 'X' is relative index, 0 - 24
 
     LDY TileAddr_Off ; Y = TileAddr_Off
@@ -1156,7 +1176,8 @@ PRG014_CB00:
 
     ; Y -= 16 (go to previous row)
     TYA
-    SUB #16
+    SEC
+    SBC #16
     TAY
     LDA Map_Tile_AddrH
     SBC #$00
@@ -1181,7 +1202,8 @@ LoadLevel_Blocks:
 
 LoadLevel_BlockRun:
     LDA LL_ShapeDef
-    SUB #16
+    SEC
+    SBC #16
     LSR A
     LSR A
     LSR A
@@ -1328,7 +1350,8 @@ PRG014_CBCD:
 
     ; Otherwise, Temp_Var4 += 2 (changes bush tops to "front" tops, or changes "front" tops to the lower part?)
     LDA Temp_Var4
-    ADD #$02
+    CLC
+    ADC #$02
     STA Temp_Var4
 
     JMP PRG014_CC00     ; Jump to PRG014_CC00 (place the bush tile)
@@ -1355,7 +1378,8 @@ PRG014_CC04:
 
     ; Go to next row by adding 16 to address
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1406,7 +1430,8 @@ PRG014_CC44:
 
     ; Next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1433,7 +1458,8 @@ PRG014_CC5E:
 
     ; Next row by adding 16, to the right 1 via LoadLevel_NextColumn
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     STA TileAddr_Off
     LDA Map_Tile_AddrH
@@ -1463,7 +1489,8 @@ PRG014_CC7E:
 
     ; Move up and to the right
     TYA
-    SUB #16
+    SEC
+    SBC #16
     TAY
     STA TileAddr_Off
     LDA Map_Tile_AddrH
@@ -1495,7 +1522,8 @@ PRG014_CCA0:
 
     ; Down one row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1506,7 +1534,8 @@ PRG014_CCA0:
 
     ; Down one row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1537,7 +1566,8 @@ PRG014_CCD2:
 
     ; Down one row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1548,7 +1578,8 @@ PRG014_CCD2:
 
     ; Down one row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1562,7 +1593,8 @@ PRG014_CCD2:
 
     ; Move back one screen by subtracting $1B0 from Map_Tile_Addr
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     SBC #$01
@@ -1617,7 +1649,8 @@ LoadLevel_Lava:
 
     ; Level_LayPtr_Addr++
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -1658,7 +1691,8 @@ PRG014_CD56:
 
     ; Go to next row by adding 16 to tile offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1728,7 +1762,8 @@ PRG014_CDAC:
 PRG014_CDB3:
     ; Go to next row by adding 16 to tile offset
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1749,7 +1784,8 @@ PRG014_CDCD:
     ; Back up one row by subtracting 16 (because we're sitting on
     ; the non BGBRICK tile that we hit!)
     TYA
-    SUB #16
+    SEC
+    SBC #16
     TAY
     LDA Map_Tile_AddrH
     SBC #$00
@@ -1777,7 +1813,8 @@ PRG014_CDCD:
 
     ; Otherwise, need to move over to the next screen (+$1B0)
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1       ; Update Map_Tile_AddrL backup
     LDA Map_Tile_AddrH
@@ -1805,7 +1842,8 @@ PRG014_CE05:
 PRG014_CE0D:
     ; Go to next row by adding 16 to tile offset
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1842,7 +1880,8 @@ PRG014_CE38:
 
     ; Otherwise, need to move over to the next screen (+$1B0)
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1       ; Update Map_Tile_AddrL backup
     LDA Map_Tile_AddrH
@@ -1901,7 +1940,8 @@ PRG014_CE70:
 
     ; Go to next row by adding 16 to tile offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -1948,7 +1988,8 @@ LoadLevel_Cannon:
 
     ; Go to next row by adding 16 to tile offset
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1962,7 +2003,8 @@ LoadLevel_Cannon:
 
     ; Go to next row by adding 16 to tile offset
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1977,7 +2019,8 @@ PRG014_CED7:
 
     ; Go to next row by adding 16 to tile offset
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -2007,7 +2050,8 @@ LoadLevel_CCBridge:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$40
+    SEC
+    SBC #$40
     LSR A
     LSR A
     LSR A
@@ -2039,7 +2083,8 @@ PRG014_CF0C:
 
     ; Go to next offset row by adding 16, carry to Map_Tile_AddrH if needed...
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -2093,7 +2138,8 @@ LoadLevel_TopDecoBlocks:
 
     ; Level_LayPtr_Addr++
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -2108,7 +2154,8 @@ LoadLevel_TopDecoBlocks:
     LDA LL_ShapeDef
     PHA      ; Push LL_ShapeDef
 
-    SUB #$60
+    SEC
+    SBC #$60
     LSR A
     LSR A
     LSR A
@@ -2153,7 +2200,8 @@ PRG014_CF9F:
 
     ; Go to next offset row by adding 16, carry to Map_Tile_AddrH if needed...
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -2239,7 +2287,8 @@ LoadLevel_Conveyor:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$50
+    SEC
+    SBC #$50
     LSR A
     LSR A
     LSR A
@@ -2403,7 +2452,8 @@ PRG014_D0A8:
     ; Temp_Var12: 0-3 (entrance index), selects a root color offset from LL_BigBlock_Top_ColorOff
     ; Temp_Var13: Gets root color, so we get 0, 3, 6, 9
     LDX Temp_Var12
-    ADD LL_BigBlock_Top_ColorOff,X  ; Offset to specified color
+    CLC
+    ADC LL_BigBlock_Top_ColorOff,X  ; Offset to specified color
     STA Temp_Var13         ; Temp_Var13 = LL_BigBlock_Top_ColorOff[X] --> 0, 3, 6, 9
     TAX             ; X = Temp_Var13
 
@@ -2439,7 +2489,8 @@ PRG014_D0D8:
     ; Move back one row of tiles
     ; Subtracts 16 from 'Y', updating Map_Tile_AddrH if needed
     TYA
-    SUB #16
+    SEC
+    SBC #16
     TAY
     LDA Map_Tile_AddrH
     SBC #$00
@@ -2469,7 +2520,8 @@ PRG014_D0D8:
 
     ; Add $1B0 to address (go to next screen) and update Temp_Var3/4 backup
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var3
     LDA Map_Tile_AddrH
@@ -2642,7 +2694,8 @@ LoadLevel_FloatingBigBlock:
     ; uglier way to do this than just take the index we came in with,
     ; like the "big brother" generator function did!
     LDA LL_ShapeDef
-    SUB #$50
+    SEC
+    SBC #$50
     PHA     ; Push LL_ShapeDef - $50
 
     AND #$f0
@@ -2670,7 +2723,8 @@ PRG014_D1CA:
 
     ; Offset loop counter with color value
     LDA Temp_Var5
-    ADD LL_BigBlock_Top_ColorOff,X
+    CLC
+    ADC LL_BigBlock_Top_ColorOff,X
 
     TAX         ; X = A (colorized block)
 
@@ -2706,7 +2760,8 @@ PRG014_D1E0:
 
     ; Go down to next row (+16 to TileAddr_Off with carry to Map_Tile_AddrH, if needed)
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -2744,7 +2799,8 @@ PRG014_D22B:
     CMP #10
     BLT PRG014_D23A  ; If random number < 10, jump to PRG014_D23A (mod 9 essentially)
 
-    SUB #9      ; If random number was 10, subtract 9
+    SEC
+    SBC #9      ; If random number was 10, subtract 9
 
 PRG014_D23A:
     STA Temp_Var15  ; Random number 0-9
@@ -2758,7 +2814,8 @@ PRG014_D23A:
 
     ; Otherwise, X += $20 (random 0 to $EF)
     TXA
-    ADD #$20
+    CLC
+    ADC #$20
     TAX
 
 PRG014_D24B:
@@ -2770,7 +2827,8 @@ PRG014_D24B:
     BNE PRG014_D257  ; If this random value is not 3, jump to PRG014_D257 (mod 3 essentially)
 
     ; Otherwise, if 3, subtract 2 (make 0)
-    SUB #2
+    SEC
+    SBC #2
 
 PRG014_D257:
     PHA      ; Save 'A' (Random value of 0-2)
@@ -2908,7 +2966,8 @@ PRG014_D2CC:
 
     ; Go to next offset row by adding 16, carry to Map_Tile_AddrH if needed...
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -2955,7 +3014,8 @@ LoadLevel_GroundRun:
 
     ; Level_LayPtr_Addr += 1
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -2971,7 +3031,8 @@ LoadLevel_GroundRun:
     PHA      ; Push LL_ShapeDef
 
     ; In short, Y = 0 or 1, depending on whether we were called by index 11 or 12
-    SUB #$c0
+    SEC
+    SBC #$c0
     LSR A
     LSR A
     LSR A
@@ -3021,7 +3082,8 @@ PRG014_D354:
 
     ; Go to next row by adding 16 and updating Map_Tile_AddrH if carried
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -3110,7 +3172,8 @@ PRG014_D3C0:
 
     ; Next row by adding 16 and updating Map_Tile_AddrH if carry
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -3129,7 +3192,8 @@ LoadLevel_TileMemNextRow:
     ; Y = TileAddr_Off
 
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY      ; Y += 16
 
     LDA Map_Tile_AddrH
@@ -3161,7 +3225,8 @@ PRG014_D410:
 
     ; Move forward half screen or one screen by adding $B0 / $1B0
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     ADC Temp_Var10
@@ -3251,7 +3316,8 @@ LoadLevel_Slope45T2B:
     STA Temp_Var4   ; Temp_Var4 = lower 4 bits of LL_ShapeDef (diagonal length of slope)
 
     PLA      ; Restore LL_ShapeDef
-    SUB #$10
+    SEC
+    SBC #$10
     AND #$c0
     CLC
     ROL A
@@ -3285,7 +3351,8 @@ PRG014_D497:
 
     ; Go to next row by adding 16 to tile offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -3328,7 +3395,8 @@ LoadLevel_Slope45B2T:
     STA Temp_Var4   ; Temp_Var4 = lower 4 bits of LL_ShapeDef (diagonal length of slope)
 
     PLA      ; Restore LL_ShapeDef
-    SUB #$10
+    SEC
+    SBC #$10
     AND #$c0
     CLC
     ROL A
@@ -3366,7 +3434,8 @@ PRG014_D4EF:
 
     ; Go to next row by adding 15 to tile offset (we're always one column too far..)
     LDA TileAddr_Off
-    ADD #15
+    CLC
+    ADC #15
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -3380,7 +3449,8 @@ PRG014_D4EF:
 
     ; Move back one screen by subtracting $1B0
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -3390,7 +3460,8 @@ PRG014_D4EF:
 
     ; Jump to the right side
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -3430,7 +3501,8 @@ LoadLevel_Slope45T2BCeiling:
     STA Temp_Var3   ; Temp_Var3 = lower 4 bits of LL_ShapeDef (diagonal length of slope)
 
     PLA      ; Restore LL_ShapeDef
-    SUB #$10
+    SEC
+    SBC #$10
     AND #$c0
     CLC
     ROL A
@@ -3464,7 +3536,8 @@ PRG014_D56B:
 
     ; Go to next row by adding 16 to tile offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -3479,7 +3552,8 @@ PRG014_D56B:
 
     ; Move forward one screen by adding $1B0
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -3527,7 +3601,8 @@ LoadLevel_Slope45B2TCeiling:
     STA Temp_Var3   ; Temp_Var3 = lower 4 bits of LL_ShapeDef (diagonal length of slope)
 
     PLA      ; Restore LL_ShapeDef
-    SUB #$10
+    SEC
+    SBC #$10
     AND #$c0
     CLC
     ROL A
@@ -3560,7 +3635,8 @@ PRG014_D5DD:
 
     ; Go to next row by adding 16 to tile offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -3605,7 +3681,8 @@ LoadLevel_Slope225T2B:
 
     PLA         ; Restore LL_ShapeDef
 
-    SUB #$10
+    SEC
+    SBC #$10
     AND #$c0
     CLC
     ROL A
@@ -3649,7 +3726,8 @@ PRG014_D642:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -3696,7 +3774,8 @@ LoadLevel_Slope225B2T:
 
     PLA         ; Restore LL_ShapeDef
 
-    SUB #$10
+    SEC
+    SBC #$10
     AND #$c0
     CLC
     ROL A
@@ -3738,7 +3817,8 @@ PRG014_D6B8:
 
     ; Go to next row by adding 14 to tile offset (always over by 2)
     LDA TileAddr_Off
-    ADD #14
+    CLC
+    ADC #14
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -3752,7 +3832,8 @@ PRG014_D6B8:
 
     ; Move back one screen by subtracting $1B0
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -3761,7 +3842,8 @@ PRG014_D6B8:
 
     ; Jump to the right side
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -3806,7 +3888,8 @@ LoadLevel_Slope225T2BCeiling:
 
     PLA         ; Restore LL_ShapeDef
 
-    SUB #$10
+    SEC
+    SBC #$10
     AND #$c0
     CLC
     ROL A
@@ -3849,7 +3932,8 @@ PRG014_D748:
     LDA TileAddr_Off
 
     ; Go to next row
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -3865,7 +3949,8 @@ PRG014_D748:
 
     ; Go to next screen by adding $1B0
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -3917,7 +4002,8 @@ LoadLevel_Slope225B2TCeiling:
 
     PLA         ; Restore LL_ShapeDef
 
-    SUB #$10
+    SEC
+    SBC #$10
     AND #$c0
     CLC
     ROL A
@@ -3958,7 +4044,8 @@ PRG014_D7CC:
 
     ; Go to next row by adding 16 to offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -3989,7 +4076,8 @@ LoadLevel_VertGroundL:
 
     PLA      ; Restore LL_ShapeDef
 
-    SUB #$d0
+    SEC
+    SBC #$d0
     LSR A
     LSR A
     LSR A
@@ -4003,7 +4091,8 @@ PRG014_D811:
 
     ; Go to next row by adding 16 to tile offset
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -4027,12 +4116,14 @@ LoadLevel_VertGroundR:
 
     PLA      ; Restore LL_ShapeDef
 
-    SUB #$d0
+    SEC
+    SBC #$d0
     LSR A
     LSR A
     LSR A
     LSR A
-    ADD #3      ; switches to the left edge tiles
+    CLC
+    ADC #3      ; switches to the left edge tiles
     TAX      ; X = relative index
     LDY TileAddr_Off     ; Y = TileAddr_Off
     JMP PRG014_D811  ; Jump to PRG014_D811
@@ -4063,7 +4154,8 @@ LoadLevel_DecoGround:
 
     ; Level_LayPtr_Addr++
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -4083,7 +4175,8 @@ LoadLevel_DecoGround:
 
     PLA      ; Restore LL_ShapeDef
 
-    SUB #$40
+    SEC
+    SBC #$40
     LSR A
     LSR A
     LSR A
@@ -4124,7 +4217,8 @@ PRG014_D8A2:
     STA Map_Tile_AddrH
 
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -4158,7 +4252,8 @@ LoadLevel_DecoCeiling:
 
     ; Level_LayPtr_Addr++
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -4171,7 +4266,8 @@ LoadLevel_DecoCeiling:
     STA Temp_Var2
 
     LDA LL_ShapeDef
-    SUB #$a0
+    SEC
+    SBC #$a0
     LSR A
     LSR A
     LSR A
@@ -4207,7 +4303,8 @@ PRG014_D903:
 
     ; Move ahead one row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -4258,7 +4355,8 @@ LoadLevel_BGOrWater:
 
     ; Level_LayPtr_Addr++
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -4273,7 +4371,8 @@ LoadLevel_BGOrWater:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$10
+    SEC
+    SBC #$10
     LSR A
     LSR A
     LSR A
@@ -4325,7 +4424,8 @@ PRG014_D9AB:
 
     ; Go to next row by adding 16 to tile offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -4357,7 +4457,8 @@ PRG014_D9CA:
 
 LoadLevel_FillBackground:
     LDA LL_ShapeDef
-    SUB #$0d
+    SEC
+    SBC #$0d
     TAX      ; X = relative index
 
     LDY TileAddr_Off     ; Y = TileAddr_Off
@@ -4374,7 +4475,8 @@ LoadLevel_FillBackground:
 
 PRG014_D9E1:
     TYA
-    SUB #$c0
+    SEC
+    SBC #$c0
     TAY
     JMP PRG014_D9F3  ; Jump to PRG014_D9F3
 
@@ -4421,7 +4523,8 @@ PRG014_DA19:
 
     ; +16 to next line
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     BCC PRG014_DA2A
     LDA Map_Tile_AddrH
@@ -4566,7 +4669,8 @@ PRG014_DAC1:
     STA Map_Tile_AddrH
 
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -4598,7 +4702,8 @@ LoadLevel_Tunnel:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$10
+    SEC
+    SBC #$10
     AND #$f0
     LSR A
     LSR A
@@ -4800,7 +4905,8 @@ PRG014_DD67:
 
     ; Go to next row by adding 16 to tile offset and also the TileAddr_Off
     TYA
-    ADD #16
+    CLC
+    ADC #16
     STA Temp_Var6
     LDA Map_Tile_AddrH
     ADC #$00
@@ -4896,12 +5002,14 @@ PRG014_DF41:
 
     ; Map_Tile_AddrH++
     LDA Map_Tile_AddrH
-    ADD #$01
+    CLC
+    ADC #$01
     STA Map_Tile_AddrH
 
     ; Temp_Var2++ (move ahead 256 bytes)
     LDA Temp_Var2
-    ADD #$01
+    CLC
+    ADC #$01
     STA Temp_Var2
 
 PRG014_DF5C:
@@ -4942,8 +5050,10 @@ LoadLevel_CheckBGHMem:
     ; Otherwise...
     LDA LL_ShapeDef
     AND #$0f        ; Take lower 4 bits of ShapeDef (the original width)
-    SUB Temp_Var3      ; Subtract Temp_Var3 (the remaining width)
-    ADD Temp_Var16     ; Add in the second value read
+    SEC
+    SBC Temp_Var3      ; Subtract Temp_Var3 (the remaining width)
+    CLC
+    ADC Temp_Var16     ; Add in the second value read
     TAY         ; Y = original width - remaining width + Temp_Var16
 
 PRG014_DF8C
@@ -4959,7 +5069,8 @@ PRG014_DF8C
 
     ; Otherwise, Temp_Var14 += $40 (use second set for "alternate" level)
     LDA Temp_Var14
-    ADD #$40
+    CLC
+    ADC #$40
     STA Temp_Var14
 
 PRG014_DFA1:
@@ -4986,7 +5097,8 @@ LoadLevel_NextColumn:
 
     ; Otherwise, need to move over to the next screen (+$1B0)
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     ADC #$01

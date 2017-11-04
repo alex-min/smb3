@@ -375,7 +375,8 @@ TAndK_DrawDiagBox2:
     STA Graphics_Buffer+1,X
 
     ; Jump to next video row
-    ADD #$20    ; 32 bytes to next row
+    CLC
+    ADC #$20    ; 32 bytes to next row
     STA ToadTalk_VL
     BCC PRG027_A264
     INC ToadTalk_VH  ; Apply carry
@@ -584,7 +585,8 @@ PRG027_A4B9:
 
     ; Update Graphics_BufCnt
     TYA
-    ADD #$04
+    CLC
+    ADC #$04
     STA Graphics_BufCnt
 
     ; Store VRAM low address
@@ -851,7 +853,8 @@ PRG027_A659:
     BNE PRG027_A66C  ; Periodically jump to PRG027_A66C
 
     LDA CineKing_WandFrame
-    ADD Wand_FrameAdd,Y
+    CLC
+    ADC Wand_FrameAdd,Y
     AND #$07
     STA CineKing_WandFrame
 
@@ -923,7 +926,8 @@ PRG027_A69D:
     STA Sprite_RAM+$43
 
     ; Right wand sprite X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$47
 
 PRG027_A6CD:
@@ -992,7 +996,8 @@ KingWand_ApplyVel:
     ASL A
     ASL A
     ASL A           ; Fractional part shifted up
-    ADD CineKing_WandXVel_Frac,X
+    CLC
+    ADC CineKing_WandXVel_Frac,X
     STA CineKing_WandXVel_Frac,X    ; Add to object's vel fractional accumulator
 
     PHP      ; Save CPU state
@@ -1048,7 +1053,8 @@ TAndK_PlayerFallLandDraw:
 PRG027_A749:
 
     ; +4 to Player Y
-    ADD #$04
+    CLC
+    ADC #$04
     STA Player_Y
 
     BCC PRG027_A752  ; If no carry, jump to PRG027_A752
@@ -1930,7 +1936,8 @@ PRG027_B90F:
 
     BCS PRG027_B91C  ; If carry is set (fade out), jump to PRG027_B91C (fade out needs the colors as they're to be targeted!)
 
-    SUB #$30     ; Otherwise, A -= $30 (darkest shade of this color)
+    SEC
+    SBC #$30     ; Otherwise, A -= $30 (darkest shade of this color)
     BCS PRG027_B91C  ; If we didn't go "less than black", jump to PRG027_B91C
     LDA #$0f     ; Otherwise, A = $F (black)
 
@@ -1998,7 +2005,8 @@ PRG027_ABF8:
 PRG027_B970:
     CMP Pal_Data,Y   ; Compare this against the target palette byte
     BEQ PRG027_B97B  ; If we reached the target, jump to PRG027_B97B
-    ADD #$10     ; Otherwise, add $10 (brighter)
+    CLC
+    ADC #$10     ; Otherwise, add $10 (brighter)
 
 PRG027_B978:
     STA Palette_Buffer,Y     ; Update the buffer!
@@ -2051,7 +2059,8 @@ PRG027_B99A:
     LDY #31
 PRG027_B9AE:
     LDA Palette_Buffer,Y    ; Get this color
-    SUB #16         ; Subtract 16 from it
+    SEC
+    SBC #16         ; Subtract 16 from it
     BPL PRG027_B9B8     ; If we didn't go below zero, jump to PRG027_B9B8
 
     LDA #$0f        ; Otherwise, set it to safe minimum

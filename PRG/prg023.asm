@@ -141,7 +141,8 @@ LoadLevel_Generator_TS10:
     LSR A
     LSR A
     LSR A           ; A = upper 4 bits of LL_ShapeDef shifted down
-    ADD PRG023_A419,X   ; Add multiple of 15
+    CLC
+    ADC PRG023_A419,X   ; Add multiple of 15
     TAX
     DEX
     TXA      ; A = ((LL_ShapeDef >> 4) + PRG023_A419[X]) - 1
@@ -229,7 +230,8 @@ LeveLoad_FixedSizeGen_TS10:
     LDA Temp_Var15
     AND #%11100000
     LSR A
-    ADD LL_ShapeDef
+    CLC
+    ADC LL_ShapeDef
     TAX         ; Resultant index is put into 'X'
     JSR DynJump
 
@@ -345,7 +347,8 @@ LoadLevel_WoodBodyLong:
     LDX #$00     ; X = 0
 
     LDA LL_ShapeDef
-    SUB #$20
+    SEC
+    SBC #$20
     LSR A
     LSR A
     LSR A
@@ -377,7 +380,8 @@ PRG023_A582:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -392,7 +396,8 @@ PRG023_A582:
 PRG023_A598:
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -485,7 +490,8 @@ PRG023_A5F6:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -500,7 +506,8 @@ PRG023_A611:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -514,7 +521,8 @@ PRG023_A611:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -622,7 +630,8 @@ PRG023_A695:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -661,7 +670,8 @@ PRG023_A6BC:
 PRG023_A6C0:
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -734,7 +744,8 @@ PRG023_A6FE:
 PRG023_A702:
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -793,7 +804,8 @@ PRG023_A73B:
 PRG023_A73F:
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -830,7 +842,8 @@ LoadLevel_WoodFloor:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$e0
+    SEC
+    SBC #$e0
     LSR A
     LSR A
     LSR A
@@ -855,7 +868,8 @@ PRG023_A782:
 
     ; Go to next row by adding 16 -- WARNING: Not protected!
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
 
     DEC Temp_Var3       ; Temp_Var3--
@@ -1208,7 +1222,8 @@ LoadLevel_WoodTipsUnderside:
     LDY TileAddr_Off ; Y = TileAddr_Off
 
     LDA LL_ShapeDef
-    SUB #$0a
+    SEC
+    SBC #$0a
     TAX      ; X = relative index
 
     LDA LL_WoodTipsUnderside,X  ; Wooden tips and underside left tile
@@ -1624,7 +1639,8 @@ LoadLevel_MiniShip:
     STA Temp_Var2
 
     LDA LL_ShapeDef
-    SUB #$01
+    SEC
+    SBC #$01
     TAX      ; X = relative index
 
     LDA LL_W8MiniShipRows,X  ; Get number of rows for this ship
@@ -1675,7 +1691,8 @@ PRG023_ABAD:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1695,7 +1712,8 @@ LL23_GetLayoutByte_AndBackup:
     STA Temp_Var3          ; -> Temp_Var3
 
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -1719,7 +1737,8 @@ LL23_ReturnTileAndNextRow:
     STA Map_Tile_AddrH
 
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH

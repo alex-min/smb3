@@ -153,7 +153,8 @@ LoadLevel_Generator_TS4_TS12:
     LSR A
     LSR A
     LSR A           ; A = upper 4 bits of LL_ShapeDef shifted down
-    ADD PRG017_A427,X   ; Add multiple of 15
+    CLC
+    ADC PRG017_A427,X   ; Add multiple of 15
     TAX
     DEX
     TXA      ; A = ((LL_ShapeDef >> 4) + PRG015_A419[X]) - 1
@@ -240,7 +241,8 @@ LeveLoad_FixedSizeGen_TS4_TS12:
     LDA Temp_Var15
     AND #%11100000
     LSR A
-    ADD LL_ShapeDef
+    CLC
+    ADC LL_ShapeDef
     TAX         ; Resultant index is put into 'X'
     JSR DynJump
 
@@ -298,7 +300,8 @@ LL_PlatformPuller:
 
 LoadLevel_PlatformPuller:
     LDA LL_ShapeDef
-    SUB #$06
+    SEC
+    SBC #$06
     TAX      ; X = relative index
 
     LDY TileAddr_Off     ; Y = TileAddr_Off
@@ -393,7 +396,8 @@ PRG017_A57F:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Temp_Var2
     ADC #$00
@@ -631,7 +635,8 @@ LoadLevel_IceBlocks:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$10
+    SEC
+    SBC #$10
     LSR A
     LSR A
     LSR A
@@ -818,7 +823,8 @@ PRG017_A764:
 
     ; Jump to previous row by subtracting 16 from tile offset
     TYA
-    SUB #16
+    SEC
+    SBC #16
     TAY
     LDA Map_Tile_AddrH
     SBC #$00
@@ -849,7 +855,8 @@ PRG017_A776:
 
     ; Jump to next row by adding 16 to offset
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -888,7 +895,8 @@ LoadLevel_GetLayoutByte:
     TAX             ; -> 'X'
 
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -906,7 +914,8 @@ LL17_ReturnTileAndNextRow:
 
     ; Go to next row by adding 16 to tile offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH

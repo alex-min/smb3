@@ -151,7 +151,8 @@ LoadLevel_Generator_TS3:
     LSR A
     LSR A
     LSR A           ; A = upper 4 bits of LL_ShapeDef shifted down
-    ADD PRG016_A425,X   ; Add multiple of 15
+    CLC
+    ADC PRG016_A425,X   ; Add multiple of 15
     TAX
     DEX
     TXA      ; A = ((LL_ShapeDef >> 4) + PRG015_A419[X]) - 1
@@ -260,7 +261,8 @@ LeveLoad_FixedSizeGen_TS3:
     LDA Temp_Var15
     AND #%11100000
     LSR A
-    ADD LL_ShapeDef
+    CLC
+    ADC LL_ShapeDef
     TAX         ; Resultant index is put into 'X'
     JSR DynJump
 

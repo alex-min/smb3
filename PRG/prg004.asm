@@ -526,7 +526,8 @@ PRG004_A2E6:
     LDA Counter_1
     LSR A
     AND #$01
-    ADD #$05
+    CLC
+    ADC #$05
     STA Objects_Frame,X
 
     JSR Object_ApplyXVel     ; Apply X velocity
@@ -538,7 +539,8 @@ PRG004_A2E6:
     LDA Objects_Y,X
     PHA      ; Save Object Y
 
-    ADD Objects_TargetingYVal,X
+    CLC
+    ADC Objects_TargetingYVal,X
     STA Objects_Y,X
 
     JSR Object_WorldDetectN1    ; Detect against world
@@ -1147,7 +1149,8 @@ PRG004_A5C2:
     LDA Objects_Y,X
     PHA      ; Save Hammer Bro Y
 
-    ADD #$08
+    CLC
+    ADC #$08
     STA Objects_Y,X ; Hammer Bro Y += 8
 
     LDA Objects_YHi,X
@@ -1284,7 +1287,8 @@ ObjInit_Thwomp:
 Thwomp_Center:
     ; center the X
     LDA Objects_X,X
-    ADD #$04
+    CLC
+    ADC #$04
     STA Objects_X,X
 
 PRG004_A676:
@@ -1315,7 +1319,8 @@ Thwomp_WaitForPlayer
     JSR Level_ObjCalcXDiffs
 
     LDA Temp_Var16
-    ADD #$24
+    CLC
+    ADC #$24
     CMP #$50
     BGE PRG004_A6A6  ; If Player is too far away, jump to PRG004_A6A6 (RTS)
 
@@ -1407,7 +1412,8 @@ Thwomp_Draw:
 
     ; The right sprites appear +16 away from Thwomp's left
     LDA Objects_SpriteX,X
-    ADD #16
+    CLC
+    ADC #16
     STA Sprite_RAM+$13,Y
     STA Sprite_RAM+$17,Y
 
@@ -1426,7 +1432,8 @@ PRG004_A718:
     LSR Temp_Var1
     BCS PRG004_A722  ; If sprite is vertically off-screen, jump to PRG004_A722
 
-    ADD #16
+    CLC
+    ADC #16
     STA Sprite_RAM+$14,Y     ; Set lower Sprite Y
 
 PRG004_A722:
@@ -1490,12 +1497,14 @@ ThwompLR_WaitForPlayer:
     JSR Level_ObjCalcXDiffs
 
     LDA Temp_Var16
-    ADD #$70
+    CLC
+    ADC #$70
     CMP #$e8
     BGE PRG004_A78B  ; If Player is too far from Thwomp, jump to PRG004_A78B (RTS)
 
     LDA Level_ObjectID,X
-    SUB #OBJ_THWOMPLEFTSLIDE
+    SEC
+    SBC #OBJ_THWOMPLEFTSLIDE
     STA Temp_Var1       ; Temp_Var1 = 0 if left sliding Thwomp, or 1 if right sliding Thwomp
 
     CPY Temp_Var1
@@ -1543,7 +1552,8 @@ PRG004_A79E:
     BEQ PRG004_A7B1     ; If Thwomp's X velocity is at its limit, jump to PRG004_A7B1
 
     ; Accelerate!
-    ADD ThwompLR_XVelAccel,Y
+    CLC
+    ADC ThwompLR_XVelAccel,Y
     STA Objects_XVel,X
 
 PRG004_A7B1:
@@ -1582,7 +1592,8 @@ SlideThwomp_InitYVel:   .byte $10, $10, $F0
 
 ObjInit_ThwompUDSlide:
     LDA Level_ObjectID,X
-    SUB #OBJ_THWOMPUPDOWN
+    SEC
+    SBC #OBJ_THWOMPUPDOWN
     TAY      ; Y = relative Thwomp index
 
     ; Set initial X velocity
@@ -1717,7 +1728,8 @@ PRG004_A843:
 
     ; Accelerate!
     LDA Objects_YVel,X
-    ADD OrangeCheep_Accel,Y
+    CLC
+    ADC OrangeCheep_Accel,Y
     STA Objects_YVel,X
 
     CMP OrangeCheep_Limit,Y
@@ -1830,7 +1842,8 @@ PRG004_A8DD:
     LDA Objects_Y,X
     PHA      ; Save Object Y
 
-    ADD #$08
+    CLC
+    ADC #$08
     STA Objects_Y,X     ; Object Y += 8
 
     LDA Objects_YHi,X
@@ -2030,12 +2043,14 @@ FireBro_SpitFire:
 
     ; Fireball at X + 4
     LDA Objects_X,X
-    ADD #$04
+    CLC
+    ADC #$04
     STA SpecialObj_XLo,Y
 
     ; Fireball at Y + 3
     LDA Objects_Y,X
-    ADD #$03
+    CLC
+    ADC #$03
     STA SpecialObj_YLo,Y
     LDA Objects_YHi,X
     ADC #$00
@@ -2186,7 +2201,8 @@ PRG004_AA8C:
     LSR A        ; Divide by 4
 
 PRG004_AA94:
-    ADD #$01
+    CLC
+    ADC #$01
     ADC Objects_YVel,X ; Add a fraction of the absolute value of the Y velocity
     STA Objects_YVel,X ; Set new Y velocity
 
@@ -2350,7 +2366,8 @@ HeavyBro_Draw:
 
     ; X += 8
     LDA Objects_X,X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Objects_X,X
     LDA Objects_XHi,X
     ADC #$00
@@ -2382,7 +2399,8 @@ PRG004_AB79:
 
     ; Temp_Var2 = Sprite X
     LDA Objects_SpriteX,X
-    ADD Giant_HXOff,Y
+    CLC
+    ADC Giant_HXOff,Y
     STA Temp_Var2
 
     LDY Object_SprRAM,X  ; Y = Sprite_RAM offset
@@ -2406,7 +2424,8 @@ PRG004_ABA2:
     LSR Temp_Var1
     BCS PRG004_ABAC  ; If this sprite is vertically off-screen, jump to PRG004_ABAC
 
-    ADD #16     ; +16 for lower sprite
+    CLC
+    ADC #16     ; +16 for lower sprite
     STA Sprite_RAM+$14,Y     ; Set lower sprite Y
 
 PRG004_ABAC:
@@ -2725,7 +2744,8 @@ PRG004_AD29:
 
     ; Set Lakitu's X equal to two screens behind
     LDA Horz_Scroll
-    SUB #$00
+    SEC
+    SBC #$00
     STA Objects_X,X
     LDA Horz_Scroll_Hi
     SBC #$02    ; Two screens back
@@ -2796,7 +2816,8 @@ PRG004_AD74:
     BEQ PRG004_AD8D  ; If Lakitu is at X Velocity limit, jump to PRG004_AD8D
 
     ; Acclerate
-    ADD Lakitu_XVelAccel,Y
+    CLC
+    ADC Lakitu_XVelAccel,Y
     STA Objects_XVel,X
 
 PRG004_AD8D:
@@ -2861,7 +2882,8 @@ PRG004_ADC2:
     SBC #16     ; Subtract 16 ticks
     LSR A       ; Divide by 2
     EOR #%00000111  ; Flip the lowest 3 bits
-    ADD #$01    ; +1
+    CLC
+    ADC #$01    ; +1
     SBC #16     ; Subtract 16 again
     STA Temp_Var1  ; -> Temp_Var1
 
@@ -2885,7 +2907,8 @@ PRG004_ADF1:
     BEQ PRG004_ADFE  ; If this Lakitu cloud sprite is vertically off-screen, jump to PRG004_ADFE
 
     ; Otherwise, set Lakitu's left sprite Y
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA Sprite_RAM+$08,Y
 
 PRG004_ADFE:
@@ -2894,7 +2917,8 @@ PRG004_ADFE:
     BEQ PRG004_AE0B  ; If this Lakitu cloud sprite is vertically off-screen, jump to PRG004_AE0B
 
     ; Otherwise, set Lakitu's right sprite Y
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA Sprite_RAM+$0C,Y
 
 PRG004_AE0B:
@@ -3002,7 +3026,8 @@ PRG004_AE58:
     LDA #-$10   ; A = -$10 (move left)
 
 PRG004_AE89:
-    ADD Temp_Var1   ; Add the divided screen difference
+    CLC
+    ADC Temp_Var1   ; Add the divided screen difference
     STA Objects_XVel,Y   ; Set the object's X velocity
 
     RTS      ; Return
@@ -3136,7 +3161,8 @@ ParaGoomba_Draw:
     CMP #$f8
     BEQ PRG004_AF31  ; If this sprite is vertically off-screen, jump to PRG004_AF31
 
-    SUB #10
+    SEC
+    SBC #10
     STA Sprite_RAM+$08,Y
 
 PRG004_AF31:
@@ -3146,19 +3172,22 @@ PRG004_AF31:
     CMP #$f8
     BEQ PRG004_AF3E  ; If this sprite is vertically off-screen, jump to PRG004_AF3E
 
-    SUB #10
+    SEC
+    SBC #10
     STA Sprite_RAM+$0C,Y
 
 PRG004_AF3E:
 
     ; Left wing sprite X
     LDA Sprite_RAM+$03,Y
-    SUB #$02
+    SEC
+    SBC #$02
     STA Sprite_RAM+$0B,Y
 
     ; Right wing sprite X
     LDA Sprite_RAM+$07,Y
-    ADD #$02
+    CLC
+    ADC #$02
     STA Sprite_RAM+$0F,Y
 
     ; Left wing attribute
@@ -3383,7 +3412,8 @@ PRG004_B04E:
     CMP Paragoomba_XVelLimit,Y
     BEQ PRG004_B05B     ; If Paragoomba is at his X velocity limit, jump to PRG004_B05B
 
-    ADD Paragoomba_XVelAccel,Y
+    CLC
+    ADC Paragoomba_XVelAccel,Y
     STA Objects_XVel,X  ; Accelerate Paragoomba
 
 PRG004_B05B:
@@ -3417,7 +3447,8 @@ Paragoomba_SpawnMicroGoomba:
 
     ; Microgoomba Y
     LDA Objects_Y,X
-    ADD #$04
+    CLC
+    ADC #$04
     STA SpecialObj_YLo,Y
     LDA Objects_YHi,X
     ADC #$00
@@ -3425,7 +3456,8 @@ Paragoomba_SpawnMicroGoomba:
 
     ; Microgoomba X
     LDA Objects_X,X
-    ADD #$04
+    CLC
+    ADC #$04
     STA SpecialObj_XLo,Y
 
     ; Microgoomba X/YVel = 0
@@ -3465,7 +3497,8 @@ PRG004_B0BD:
     LDY Objects_Var1,X
     BEQ PRG004_B0CC  ; If Var1 = 0, jump to PRG004_B0CC
 
-    ADD #$03     ; A = 3 or 4
+    CLC
+    ADC #$03     ; A = 3 or 4
 
 PRG004_B0CC:
     STA Objects_Frame,X  ; Set object frame
@@ -3528,7 +3561,8 @@ PRG004_B0FE:
 
     ; Accelerate Y Velocity
     LDA Objects_YVel,X
-    ADD SpikeCheep_YAccel,Y
+    CLC
+    ADC SpikeCheep_YAccel,Y
     STA Objects_YVel,X
 
     CMP SpikeCheep_YLimit,Y
@@ -3634,7 +3668,8 @@ PRG004_B193:
 
     ; Accelerate towards target
     LDA Objects_XVel,X
-    ADD BulletBill_XAccel,Y
+    CLC
+    ADC BulletBill_XAccel,Y
     STA Objects_XVel,X
 
     CMP #$00
@@ -3682,7 +3717,8 @@ PRG004_B1D3:
     PHA      ; Save Sprite_RAM offset
 
     ; +8
-    ADD #$08
+    CLC
+    ADC #$08
     STA Object_SprRAM,X
 
     JSR GroundTroop_DrawNormal  ; Draw Bullet Bill
@@ -3774,11 +3810,13 @@ ObjInit_SpikeCheep:
 
     ; Var10 = initial X - 48 (left limit)
     LDA Objects_X,X
-    SUB #48
+    SEC
+    SBC #48
     STA Objects_Var10,X
 
     ; Var11 = initial X + 48 (right limit)
-    ADD #96
+    CLC
+    ADC #96
     STA Objects_Var11,X
 
     RTS      ; Return
@@ -3909,7 +3947,8 @@ PRG004_B2C1:
 
     ; Accelerate!
     LDA Objects_XVel,X
-    ADD ParaTroopaFly_Accel,Y
+    CLC
+    ADC ParaTroopaFly_Accel,Y
     STA Objects_XVel,X
 
     CMP ParaTroopaFly_Limit,Y
@@ -3969,7 +4008,8 @@ ObjNorm_FlyingRedTroopa:
 
     ; Accelerate
     LDA Objects_YVel,X
-    ADD ParaTroopaFly_Accel,Y
+    CLC
+    ADC ParaTroopaFly_Accel,Y
     STA Objects_YVel,X
 
     CMP ParaTroopaFly_Limit,Y
@@ -4069,7 +4109,8 @@ PRG004_B3A5:
 
     ; Var7 += PRG004_B353[Y]
     LDA Objects_Var7,X
-    ADD PRG004_B353,Y
+    CLC
+    ADC PRG004_B353,Y
     STA Objects_Var7,X
 
     BCC PRG004_B3C7  ; If no carry, jump to PRG004_B3C7
@@ -4153,7 +4194,8 @@ PRG004_B40E:
     ; Essentially a version of Object_BumpOffOthers tuned to ground troop enemies (paying attention to Var1)
 GroundTroop_BumpOffOthers:
     TXA      ; object index -> 'A'
-    ADD Counter_1   ; Add counter
+    CLC
+    ADC Counter_1   ; Add counter
     LSR A        ; Shift low bit into carry
     BCS PRG004_B41A  ; Semi-randomly jump to PRG004_B41A
 
@@ -4326,7 +4368,8 @@ Troopa_Draw:
     ; room for the troopa's tip of the head above the body
     ; and for a wing (used if this is a paratroopa only)
     LDA Object_SprRAM,X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Object_SprRAM,X
 
     LDY Objects_Frame,X  ; Y = current frame
@@ -4368,7 +4411,8 @@ PRG004_B4FB:
     ; We use -8 Sprite_RAM offsets here because of the initial +8 before...
 
     ; -16 to get to tip of head
-    SUB #16
+    SEC
+    SBC #16
     STA Sprite_RAM-$08,Y     ; Store sprite Y
 
     ; Tip of Troopa's head pattern
@@ -4401,7 +4445,8 @@ PRG004_B520:
     BEQ PRG004_B55D  ; If sprite was found to be vertically off-screen, jump to PRG004_B55D
 
     ; The wing sprite is Y-8 from the body
-    SUB #$08
+    SEC
+    SBC #$08
     STA Sprite_RAM-$08,Y
 
     ; Temp_Var1 = $CD (pattern for wing up)
@@ -4443,7 +4488,8 @@ PRG004_B55D:
     BEQ PRG004_B56D  ; If left bottom of troopa is off-screen, jump to PRG004_B56D
 
     ; Left foot appears at Sprite Y + 16
-    ADD #16
+    CLC
+    ADC #16
     STA Sprite_RAM+$08,Y
 
 PRG004_B56D:
@@ -4452,7 +4498,8 @@ PRG004_B56D:
     BEQ PRG004_B57A  ; If right bottom of troopa is off-screen, jump to PRG004_B57A
 
     ; Right foot appears at Sprite Y + 16
-    ADD #16
+    CLC
+    ADC #16
     STA Sprite_RAM+$0C,Y
 
 PRG004_B57A:
@@ -4570,7 +4617,8 @@ PRG004_B5E7:
 
     ; Add 8 to X
     LDA Objects_X,X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Objects_X,X
     LDA Objects_XHi,X
     ADC #$00
@@ -4616,7 +4664,8 @@ PRG004_B638:
     ; Temp_Var2 = Sprite X
     LDA Objects_SpriteX,X
     SBC #$00
-    ADD Giant_HXOff,Y
+    CLC
+    ADC Giant_HXOff,Y
     STA Temp_Var2
 
     LDY Object_SprRAM,X  ; Y = Sprite_RAM offset
@@ -4631,7 +4680,8 @@ PRG004_B638:
     STA Temp_Var1
 
     LDA Objects_SpriteY,X
-    ADD #$08
+    CLC
+    ADC #$08
     LSR Temp_Var1
     BCS PRG004_B65E  ; If this sprite is vertically off-screen, jump to PRG004_B65E
 
@@ -4641,7 +4691,8 @@ PRG004_B65E:
     LSR Temp_Var1
     BCS PRG004_B668  ; If this sprite is vertically off-screen, jump to PRG004_B668
 
-    ADD #16         ; Lower sprite is +16 Y
+    CLC
+    ADC #16         ; Lower sprite is +16 Y
     STA Sprite_RAM+$14,Y     ; Set lower Sprite Y
 
 PRG004_B668:
@@ -4658,10 +4709,12 @@ PRG004_B668:
     LDA Sprite_RAM+$10,Y
     PHA
     LDA Sprite_RAM+$14,Y
-    SUB #$08
+    SEC
+    SBC #$08
     STA Sprite_RAM+$10,Y
     PLA
-    SUB #$08
+    SEC
+    SBC #$08
     STA Sprite_RAM+$14,Y
 
 PRG004_B68A:
@@ -4695,7 +4748,8 @@ PRG004_B6A9:
     STY Temp_Var4   ; Temp_Var4 = 0 or 4 (which sprite to use)
 
     TYA
-    ADD Object_SprRAM,X ; Set base offset
+    CLC
+    ADC Object_SprRAM,X ; Set base offset
 
     TAY
     LDA Sprite_RAM+$00,Y
@@ -4703,7 +4757,8 @@ PRG004_B6A9:
     CMP #$f8
     BEQ PRG004_B6BE  ; If sprite vertically not visible, jump to PRG004_B6BE
 
-    SUB #$08
+    SEC
+    SBC #$08
     STA Sprite_RAM+$00,Y
 
 PRG004_B6BE:
@@ -4712,7 +4767,8 @@ PRG004_B6BE:
     CMP #$f8
     BEQ PRG004_B6CB  ; If sprite vertically not visible, jump to PRG004_B6CB
 
-    SUB #$08
+    SEC
+    SBC #$08
     STA Sprite_RAM+$08,Y
 
 PRG004_B6CB:
@@ -4725,7 +4781,8 @@ PRG004_B6CB:
 
     LDA Temp_Var4
     EOR #$04     ; Use "other" sprite
-    ADD Object_SprRAM,X  ; Add base offset
+    CLC
+    ADC Object_SprRAM,X  ; Add base offset
     TAY      ; -> 'Y'
 
     ; Palette select 3
@@ -4836,7 +4893,8 @@ ObjInit_GiantRedPiranha:
     LDA #12     ; A = 12
 
 PRG004_B75A:
-    ADD Objects_X,X
+    CLC
+    ADC Objects_X,X
     STA Objects_X,X    ; Set centering X
 
     LDY #$21     ; Y = $21
@@ -4913,7 +4971,8 @@ GiantPiranha_Emerge:
     ; Var7 = original Y Hi
 
     LDA Objects_Var5,X     ; Original Y
-    SUB Objects_TargetingYVal,X ; subtract TargetingYVal
+    SEC
+    SBC Objects_TargetingYVal,X ; subtract TargetingYVal
     PHA             ; Save it
 
     LDA Objects_Var7,X
@@ -4931,7 +4990,8 @@ GiantPiranha_Emerge:
 
 GiantPiranha_Retract:
     LDA Objects_Y,X
-    ADD #$01
+    CLC
+    ADC #$01
     PHA      ; Save Y + 1
 
     LDA Objects_YHi,X
@@ -4978,7 +5038,8 @@ GiantPiranha_HideInPipe:
     JSR Level_ObjCalcXDiffs
 
     LDA Temp_Var16
-    ADD #$18
+    CLC
+    ADC #$18
     CMP #$31
     BGE PRG004_B7F0  ; If Player is not too close, jump to PRG004_B7F0
 
@@ -5003,7 +5064,8 @@ GiantPiranha_Draw:
     ASL Objects_SprHVis,X
 
     LDA Objects_X,X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Objects_X,X
     LDA Objects_XHi,X
     ADC #$00
@@ -5036,7 +5098,8 @@ PRG004_B849:
 
     ; Temp_Var2 = Sprite X + offset
     LDA Objects_SpriteX,X
-    ADD Giant_HXOff,Y
+    CLC
+    ADC Giant_HXOff,Y
     STA Temp_Var2
 
     LDY Object_SprRAM,X  ; Y = Sprite_RAM offset
@@ -5060,7 +5123,8 @@ PRG004_B872:
     LSR Temp_Var1
     BCS PRG004_B87C  ; If sprite is vertically off-screen, jump to PRG004_B87C
 
-    ADD #16
+    CLC
+    ADC #16
 
     STA Sprite_RAM+$14,Y     ; Set lower Sprite Y
 
@@ -5162,7 +5226,8 @@ PRG004_B8E8:
     LDX Temp_Var2       ; X = Temp_Var2 (input value)
 PRG004_B8F0:
     LDA Temp_Var12
-    ADD Temp_Var13
+    CLC
+    ADC Temp_Var13
     CMP Temp_Var14
     BLT PRG004_B8FD     ; If Temp_Var12 + Temp_Var13 < Temp_Var14, jump to PRG004_B8FD
 
@@ -5242,7 +5307,8 @@ PRG004_B938:
     STA Temp_Var3
 
     LDA Objects_SpriteY,X
-    SUB Temp_Var1
+    SEC
+    SBC Temp_Var1
 
     ASL Temp_Var3
     BCS PRG004_B959  ; If this sprite is horizontally off-screen, jump to PRG004_B959
@@ -5284,7 +5350,8 @@ PRG004_B96D:
     STA Sprite_RAM+$03,Y
 
     ; Set right sprite X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$07,Y
 
     ; Temp_Var1 = current flip bits
@@ -5312,7 +5379,8 @@ PRG004_B98D:
 
     ASL A        ; Multiply frame by 2
 
-    ADD ObjectGroup03_PatternStarts,X   ; Add in the base pattern set index
+    CLC
+    ADC ObjectGroup03_PatternStarts,X   ; Add in the base pattern set index
 
     TAX      ; Frame * 2 + Pattern Start -> 'X'
 
@@ -5357,11 +5425,13 @@ ObjInit_ChainChomp:
     STA ChainChomp_ChainX4,X
 
     ; Var10 = origin X - 44 (left limit)
-    SUB #44
+    SEC
+    SBC #44
     STA Objects_Var10,X
 
     ; Var 11 = origin X + 44 (right limit)
-    ADD #88
+    CLC
+    ADC #88
     STA Objects_Var11,X
 
     ; Fill in all of the following with the Chain Chomp's starting Y coordinate
@@ -5373,7 +5443,8 @@ ObjInit_ChainChomp:
     STA ChainChomp_ChainY4,X
 
     ; Var12 = origin Y - 56 (upper limit)
-    SUB #56
+    SEC
+    SBC #56
     STA Objects_Var12,X
 
     ; Var7 holds corresponding Y Hi
@@ -5609,9 +5680,11 @@ PRG004_BB07:
     STA Temp_Var4
 
     LDA Objects_Var13,X     ; Chain Chomp starting X
-    SUB Objects_X,X        ; Subtract current X (relative difference)
+    SEC
+    SBC Objects_X,X        ; Subtract current X (relative difference)
     JSR Modulus_ByTempVar4
-    ADD Objects_X,X        ; Add modulus result to Chain Chomp X
+    CLC
+    ADC Objects_X,X        ; Add modulus result to Chain Chomp X
     STA ChainChomp_ChainX1,X    ; Set Chain link 1 X
 
     ADC Temp_Var1          ; Apply same
@@ -5628,9 +5701,11 @@ PRG004_BB07:
     STA Temp_Var4
 
     LDA Objects_Var14,X     ; Chain Chomp starting Y
-    SUB Objects_Y,X        ; Subtract current Y (relative difference)
+    SEC
+    SBC Objects_Y,X        ; Subtract current Y (relative difference)
     JSR Modulus_ByTempVar4
-    ADD Objects_Y,X        ; Add modulus result to Chain Chomp Y
+    CLC
+    ADC Objects_Y,X        ; Add modulus result to Chain Chomp Y
     STA ChainChomp_ChainY1,X    ; Set Chain link 1 Y
 
     ADC Temp_Var1          ; Apply same
@@ -5643,7 +5718,8 @@ PRG004_BB07:
     STA ChainChomp_ChainY4,X    ; Set Chain link 4 Y
 
     LDA Object_SprRAM,X
-    ADD #$08     ; A = Sprite_RAM offset + 8 (two sprites over)
+    CLC
+    ADC #$08     ; A = Sprite_RAM offset + 8 (two sprites over)
 
     LDY Objects_YVel,X
     TAX      ; X = sprite RAM offset
@@ -5897,14 +5973,18 @@ PRG004_BC66:
 
     ; Temp_Var1 = Chain Chomp chain link Y made relative
     LDA ChainChomp_ChainY1,Y
-    SUB Level_VertScroll
-    ADD #$04
+    SEC
+    SBC Level_VertScroll
+    CLC
+    ADC #$04
     STA Temp_Var1
 
     ; Temp_Var2 = Chain Chomp
     LDA ChainChomp_ChainX1,Y
-    SUB Horz_Scroll
-    ADD #$04
+    SEC
+    SBC Horz_Scroll
+    CLC
+    ADC #$04
     STA Temp_Var2
 
     JSR ChainChomp_LinkVisibleTest
@@ -5913,7 +5993,8 @@ PRG004_BC66:
     ; Temp_Var14: Current chain sprite offset
     LDA Temp_Var14
     TAY         ; Sprite Offset -> 'Y'
-    SUB #$04
+    SEC
+    SBC #$04
     STA Temp_Var14      ; Temp_Var14 -= 4 (one sprite prior in memory)
 
     ; Chain Link Y
@@ -5962,43 +6043,51 @@ ChainChomp_MoveChain:
     ; Chain Chomp moving rightward version...
 
     LDA ChainChomp_ChainX1,X
-    ADD ChainChomp_XDelta,Y ; Add X Delta for direction
+    CLC
+    ADC ChainChomp_XDelta,Y ; Add X Delta for direction
     CMP Objects_X,X
     BGE PRG004_BD1F     ; If chain is beyong Chain Chomp, jump to PRG004_BD1F
 
     ; Apply velocity carry
     LDA ChainChomp_ChainX1,X
-    ADD Temp_Var2
+    CLC
+    ADC Temp_Var2
     STA ChainChomp_ChainX1,X
 
     LDA ChainChomp_ChainX2,X
-    ADD ChainChomp_XDelta,Y ; Add X Delta for direction
+    CLC
+    ADC ChainChomp_XDelta,Y ; Add X Delta for direction
     CMP ChainChomp_ChainX1,X
     BGE PRG004_BD1F     ; If chain link is beyond previous chain link, jump to PRG004_BD1F
 
     ; Apply velocity carry
     LDA ChainChomp_ChainX2,X
-    ADD Temp_Var2
+    CLC
+    ADC Temp_Var2
     STA ChainChomp_ChainX2,X
 
     LDA ChainChomp_ChainX3,X
-    ADD ChainChomp_XDelta,Y ; Add X Delta for direction
+    CLC
+    ADC ChainChomp_XDelta,Y ; Add X Delta for direction
     CMP ChainChomp_ChainX2,X
     BGE PRG004_BD1F     ; If chain link is beyond previous chain link, jump to PRG004_BD1F
 
     ; Apply velocity carry
     LDA ChainChomp_ChainX3,X
-    ADD Temp_Var2
+    CLC
+    ADC Temp_Var2
     STA ChainChomp_ChainX3,X
 
     LDA ChainChomp_ChainX4,X
-    ADD ChainChomp_XDelta,Y ; Add X Delta for direction
+    CLC
+    ADC ChainChomp_XDelta,Y ; Add X Delta for direction
     CMP ChainChomp_ChainX3,X
     BGE PRG004_BD1F     ; If chain link is beyond previous chain link, jump to PRG004_BD1F
 
     ; Apply velocity carry
     LDA ChainChomp_ChainX4,X
-    ADD Temp_Var2
+    CLC
+    ADC Temp_Var2
     STA ChainChomp_ChainX4,X
 
 PRG004_BD1F:
@@ -6009,43 +6098,51 @@ PRG004_BD22:
     ; Chain Chomp moving leftward version...
 
     LDA ChainChomp_ChainX1,X
-    SUB ChainChomp_XDelta,Y ; Add X Delta for direction
+    SEC
+    SBC ChainChomp_XDelta,Y ; Add X Delta for direction
     CMP Objects_X,X
     BLT PRG004_BD75     ; If chain is beyong Chain Chomp, jump to PRG004_BD75
 
     ; Apply velocity carry
     LDA ChainChomp_ChainX1,X
-    ADD Temp_Var2
+    CLC
+    ADC Temp_Var2
     STA ChainChomp_ChainX1,X
 
     LDA ChainChomp_ChainX2,X
-    SUB ChainChomp_XDelta,Y ; Add X Delta for direction
+    SEC
+    SBC ChainChomp_XDelta,Y ; Add X Delta for direction
     CMP ChainChomp_ChainX1,X
     BLT PRG004_BD75     ; If chain link is beyond previous chain link, jump to PRG004_BD75
 
     ; Apply velocity carry
     LDA ChainChomp_ChainX2,X
-    ADD Temp_Var2
+    CLC
+    ADC Temp_Var2
     STA ChainChomp_ChainX2,X
 
     LDA ChainChomp_ChainX3,X
-    SUB ChainChomp_XDelta,Y ; Add X Delta for direction
+    SEC
+    SBC ChainChomp_XDelta,Y ; Add X Delta for direction
     CMP ChainChomp_ChainX2,X
     BLT PRG004_BD75     ; If chain link is beyond previous chain link, jump to PRG004_BD75
 
     ; Apply velocity carry
     LDA ChainChomp_ChainX3,X
-    ADD Temp_Var2
+    CLC
+    ADC Temp_Var2
     STA ChainChomp_ChainX3,X
 
     LDA ChainChomp_ChainX4,X
-    SUB ChainChomp_XDelta,Y ; Add X Delta for direction
+    SEC
+    SBC ChainChomp_XDelta,Y ; Add X Delta for direction
     CMP ChainChomp_ChainX3,X
     BLT PRG004_BD75     ; If chain link is beyond previous chain link, jump to PRG004_BD75
 
     ; Apply velocity carry
     LDA ChainChomp_ChainX4,X
-    ADD Temp_Var2
+    CLC
+    ADC Temp_Var2
     STA ChainChomp_ChainX4,X
 
 
@@ -6056,43 +6153,51 @@ PRG004_BD75:
     ; Chain Chomp moving downward version...
 
     LDA ChainChomp_ChainY1,X
-    ADD ChainChomp_YDelta,Y ; Add Y Delta for direction
+    CLC
+    ADC ChainChomp_YDelta,Y ; Add Y Delta for direction
     CMP Objects_Y,X
     BGE PRG004_BDCC     ; If chain is beyond Chain Chomp, jump to PRG004_BDCC (RTS)
 
     ; Apply velocity carry
     LDA ChainChomp_ChainY1,X
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA ChainChomp_ChainY1,X
 
     LDA ChainChomp_ChainY2,X
-    ADD ChainChomp_YDelta,Y ; Add Y Delta for direction
+    CLC
+    ADC ChainChomp_YDelta,Y ; Add Y Delta for direction
     CMP ChainChomp_ChainY1,X
     BGE PRG004_BDCC     ; If chain is beyond Chain Chomp, jump to PRG004_BDCC (RTS)
 
     ; Apply velocity carry
     LDA ChainChomp_ChainY2,X
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA ChainChomp_ChainY2,X
 
     LDA ChainChomp_ChainY3,X
-    ADD ChainChomp_YDelta,Y ; Add Y Delta for direction
+    CLC
+    ADC ChainChomp_YDelta,Y ; Add Y Delta for direction
     CMP ChainChomp_ChainY2,X
     BGE PRG004_BDCC     ; If chain is beyond Chain Chomp, jump to PRG004_BDCC (RTS)
 
     ; Apply velocity carry
     LDA ChainChomp_ChainY3,X
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA ChainChomp_ChainY3,X
 
     LDA ChainChomp_ChainY4,X
-    ADD ChainChomp_YDelta,Y ; Add Y Delta for direction
+    CLC
+    ADC ChainChomp_YDelta,Y ; Add Y Delta for direction
     CMP ChainChomp_ChainY3,X
     BGE PRG004_BDCC     ; If chain is beyond Chain Chomp, jump to PRG004_BDCC (RTS)
 
     ; Apply velocity carry
     LDA ChainChomp_ChainY4,X
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA ChainChomp_ChainY4,X
 
 PRG004_BDCC:
@@ -6104,43 +6209,51 @@ PRG004_BDCD:
     ; Chain Chomp moving upward version...
 
     LDA ChainChomp_ChainY1,X
-    SUB ChainChomp_YDelta,Y ; Add Y Delta for direction
+    SEC
+    SBC ChainChomp_YDelta,Y ; Add Y Delta for direction
     CMP Objects_Y,X
     BLT PRG004_BE20     ; If chain is beyond Chain Chomp, jump to PRG004_BE20 (RTS)
 
     ; Apply velocity carry
     LDA ChainChomp_ChainY1,X
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA ChainChomp_ChainY1,X
 
     LDA ChainChomp_ChainY2,X
-    SUB ChainChomp_YDelta,Y ; Add Y Delta for direction
+    SEC
+    SBC ChainChomp_YDelta,Y ; Add Y Delta for direction
     CMP ChainChomp_ChainY1,X
     BLT PRG004_BE20     ; If chain is beyond Chain Chomp, jump to PRG004_BE20 (RTS)
 
     ; Apply velocity carry
     LDA ChainChomp_ChainY2,X
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA ChainChomp_ChainY2,X
 
     LDA ChainChomp_ChainY3,X
-    SUB ChainChomp_YDelta,Y ; Add Y Delta for direction
+    SEC
+    SBC ChainChomp_YDelta,Y ; Add Y Delta for direction
     CMP ChainChomp_ChainY2,X
     BLT PRG004_BE20     ; If chain is beyond Chain Chomp, jump to PRG004_BE20 (RTS)
 
     ; Apply velocity carry
     LDA ChainChomp_ChainY3,X
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA ChainChomp_ChainY3,X
 
     LDA ChainChomp_ChainY4,X
-    SUB ChainChomp_YDelta,Y ; Add Y Delta for direction
+    SEC
+    SBC ChainChomp_YDelta,Y ; Add Y Delta for direction
     CMP ChainChomp_ChainY3,X
     BLT PRG004_BE20     ; If chain is beyond Chain Chomp, jump to PRG004_BE20 (RTS)
 
     ; Apply velocity carry
     LDA ChainChomp_ChainY4,X
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA ChainChomp_ChainY4,X
 
 PRG004_BE20:

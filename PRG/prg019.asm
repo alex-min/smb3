@@ -159,7 +159,8 @@ LoadLevel_Generator_TS051113:
     LSR A
     LSR A
     LSR A           ; A = upper 4 bits of LL_ShapeDef shifted down
-    ADD PRG019_A42A,X   ; Add multiple of 15
+    CLC
+    ADC PRG019_A42A,X   ; Add multiple of 15
     TAX
     DEX
     TXA      ; A = ((LL_ShapeDef >> 4) + PRG015_A419[X]) - 1
@@ -242,7 +243,8 @@ LeveLoad_FixedSizeGen_TS051113:
     LDA Temp_Var15
     AND #%11100000
     LSR A
-    ADD LL_ShapeDef
+    CLC
+    ADC LL_ShapeDef
     TAX         ; Resultant index is put into 'X'
     JSR DynJump
 
@@ -312,7 +314,8 @@ LoadLevel_GiantBlock:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$10
+    SEC
+    SBC #$10
     LSR A
     LSR A
     LSR A
@@ -442,7 +445,8 @@ PRG019_A5D9:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -453,7 +457,8 @@ PRG019_A5D9:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -498,7 +503,8 @@ LL_MuncherAlternators:
 
 LoadLevel_MuncherAlternators
     LDA LL_ShapeDef
-    SUB #$00
+    SEC
+    SBC #$00
     TAX      ; X = relative index
 
     LDY TileAddr_Off        ; Y = TileAddr_Off
@@ -519,7 +525,8 @@ LoadLevel_MiniPipe_V:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$a0
+    SEC
+    SBC #$a0
     LSR A
     LSR A
     LSR A
@@ -543,7 +550,8 @@ PRG019_A64C:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -771,7 +779,8 @@ PRG019_A773:
 
     ; Otherwise, add $20 (becomes $10)
     TXA
-    ADD #$20
+    CLC
+    ADC #$20
     TAX
 
 PRG019_A78C:
@@ -782,7 +791,8 @@ PRG019_A78C:
     AND #$03
     CMP #$03
     BNE PRG019_A798
-    SUB #$02
+    SEC
+    SBC #$02
 
 PRG019_A798:
     PHA      ; Save value
@@ -853,7 +863,8 @@ LoadLevel_LongCloud_WB:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$c0
+    SEC
+    SBC #$c0
     AND #$f0
     LSR A
     LSR A
@@ -1198,7 +1209,8 @@ PRG019_A95F:
     STA Map_Tile_AddrH
 
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     DEY
@@ -1209,7 +1221,8 @@ PRG019_A95F:
 
     ; Go to previous screen by subtracting $1B0, updating Temp_Var1/2 backup
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -1227,7 +1240,8 @@ PRG019_A991:
     STY TileAddr_Off     ; TileAddr_Off = Y
 
     LDA Temp_Var3
-    ADD #$02
+    CLC
+    ADC #$02
     STA Temp_Var3   ; Temp_Var3 += 2
 
     TAX      ; X = A
@@ -1267,7 +1281,8 @@ LoadLevel_PrefabBGClouds2:
     STA Temp_Var2
 
     LDA LL_ShapeDef
-    SUB #$06
+    SEC
+    SBC #$06
     TAX      ; X = relative index
 
     LDA LL_LBGC2_Rows,X
@@ -1345,7 +1360,8 @@ LL19_GetLayoutByte_AndBackup:
     STA Temp_Var3          ; -> Temp_Var3
 
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -1369,7 +1385,8 @@ LL19_ReturnTileAndNextRow:
 
     ; Go to next row by adding 16 to tile offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH

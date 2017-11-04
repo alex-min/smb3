@@ -176,7 +176,8 @@ PRG012_A462:
     LDA #$02
     JSR Tile_Mem_ClearB
     TYA
-    ADD #$10
+    CLC
+    ADC #$10
     TAY
     LDA #$4e
     JSR Tile_Mem_ClearB
@@ -186,7 +187,8 @@ PRG012_A462:
 
     ; After these two, Map_Tile_Addr = Tile_Mem_Addr + $110
     LDA Tile_Mem_Addr
-    ADD #$10
+    CLC
+    ADC #$10
     STA Map_Tile_AddrL
 
     LDA Tile_Mem_Addr+1
@@ -222,7 +224,8 @@ PRG012_A498:
     ; This does a 16-bit addition of 144 to the
     ; address stored at [Temp_Var2][Temp_Var1]
     TYA
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA Temp_Var1
     LDA Temp_Var2
     ADC #$00
@@ -233,7 +236,8 @@ PRG012_A498:
     ; this needs to add a significant amount more ($1b0)
     ; to the Map_Tile_Addr
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     ADC #$01
@@ -312,7 +316,8 @@ PRG012_A514:
     ASL A
     ASL A
     ASL A        ; A = X * 16
-    ADD #$10     ; A += 16  (Thus: 16, 32, 48, 64, 80, 96, 112, 144; each row is another 16 bytes!)
+    CLC
+    ADC #$10     ; A += 16  (Thus: 16, 32, 48, 64, 80, 96, 112, 144; each row is another 16 bytes!)
     STA Temp_Var3   ; Store result into Temp_Var3
 
     TYA      ; A = Y (the current "column" of completion we're working on)
@@ -381,7 +386,8 @@ PRG012_A55C:
 
     ; Y += 16 (next tile row)
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
 
     JMP PRG012_A524  ; Jump to PRG012_A524
@@ -527,7 +533,8 @@ PRG012_B162:
 
     ; Add the page change (if any) to Temp_Var4 (applies same page change here)
     LDA Temp_Var4
-    ADD Temp_Var15
+    CLC
+    ADC Temp_Var15
     STA Temp_Var4
 
     LDA #$00
@@ -564,7 +571,8 @@ PRG012_B18B:
 
     ; Add the page change (if any) to Temp_Var2 (applies same page change here)
     LDA Temp_Var2
-    ADD Temp_Var15
+    CLC
+    ADC Temp_Var15
     STA Temp_Var2
 
     LDA World_Num
@@ -586,7 +594,8 @@ PRG012_B1A1:
 
     ; Add the page change (if any) to Temp_Var6 (applies same page change here)
     LDA Temp_Var6
-    ADD Temp_Var15
+    CLC
+    ADC Temp_Var15
     STA Temp_Var6
 
     TYA
@@ -613,7 +622,8 @@ PRG012_B1BB:
 
     ; Add the page change (if any) to Temp_Var6 (applies same page change here)
     LDA Temp_Var8
-    ADD Temp_Var15
+    CLC
+    ADC Temp_Var15
     STA Temp_Var8
 
     TXA
@@ -710,7 +720,8 @@ Map_DoEnterViaID:
     STA Temp_Var1      ; Temp_Var1 = World_Map_X / 16 (the current column of the current screen)
 
     LDA World_Map_Y,X
-    SUB #16
+    SEC
+    SBC #16
     AND #$f0
     ORA Temp_Var1      ; Temp_Var1 now holds the X column in the lower 4-bits and the Y row in the upper 4-bits
 

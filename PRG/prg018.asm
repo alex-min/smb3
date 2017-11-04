@@ -219,7 +219,8 @@ LoadLevel_Generator_TS678:
     LSR A
     LSR A
     LSR A           ; A = upper 4 bits of LL_ShapeDef shifted down
-    ADD PRG018_A483,X   ; Add multiple of 15
+    CLC
+    ADC PRG018_A483,X   ; Add multiple of 15
     TAX
     DEX
     TXA      ; A = ((LL_ShapeDef >> 4) + PRG015_A483[X]) - 1
@@ -307,7 +308,8 @@ LeveLoad_FixedSizeGen_TS678:
     LDA Temp_Var15
     AND #%11100000
     LSR A
-    ADD LL_ShapeDef
+    CLC
+    ADC LL_ShapeDef
     TAX         ; Resultant index is put into 'X'
     JSR DynJump
 
@@ -420,7 +422,8 @@ PRG018_A5C1:
 
     ; Go to next row by adding 16 to offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -521,7 +524,8 @@ PRG018_A62C:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -604,7 +608,8 @@ PRG018_A687:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -655,7 +660,8 @@ PRG018_A6CB:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -702,7 +708,8 @@ PRG018_A6FC:
 
     ; Go to next line by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -756,7 +763,8 @@ PRG018_A730:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -802,7 +810,8 @@ PRG018_A75A:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -905,7 +914,8 @@ LoadLevel_UnderwaterScenery:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$d0
+    SEC
+    SBC #$d0
     LSR A
     LSR A
     LSR A
@@ -931,7 +941,8 @@ PRG018_A7DE:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -969,7 +980,8 @@ LoadLevel_PipeElbows:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -1082,7 +1094,8 @@ PRG018_A86C:
     STA Map_Tile_AddrH
 
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
 
@@ -1154,7 +1167,8 @@ PRG018_A8BE:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1186,7 +1200,8 @@ LoadLevel_OrangeBlock:
 
     ; Level_LayPtr_Addr++
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -1234,7 +1249,8 @@ PRG018_A925:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1289,7 +1305,8 @@ PRG018_A970:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1337,7 +1354,8 @@ LoadLevel_WaterFill:
 
     ; Level_LayPtr_Addr++
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -1389,7 +1407,8 @@ PRG018_A9DB:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -1412,7 +1431,8 @@ LL_ArrowLifts:
 
 LoadLevel_ArrowLifts:
     LDA LL_ShapeDef
-    SUB #$04
+    SEC
+    SBC #$04
     TAX      ; X = relative index
 
     LDY TileAddr_Off     ; Y = TileAddr_Off
@@ -1461,7 +1481,8 @@ LoadLevel_LargeWater:
 
     STA Temp_Var3
     LDA #26     ; Full screen rows
-    SUB Temp_Var3
+    SEC
+    SBC Temp_Var3
     STA Temp_Var3  ; Temp_Var3 = $1a - lower 5 bits
 
     LDY TileAddr_Off     ; Y = TileAddr_Off
@@ -1498,7 +1519,8 @@ PRG018_AA55:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -1531,7 +1553,8 @@ PRG018_AA7F:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1582,7 +1605,8 @@ PRG018_AAA8:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1626,7 +1650,8 @@ PRG018_AAE8:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1686,7 +1711,8 @@ PRG018_AB0C:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1785,7 +1811,8 @@ PRG018_AB76:
 PRG018_AB77:    .byte $06, $07
 LoadLevel_18UNK_B:
     LDA LL_ShapeDef
-    SUB #$0e
+    SEC
+    SBC #$0e
     LSR A
     LSR A
     LSR A

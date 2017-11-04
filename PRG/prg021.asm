@@ -184,7 +184,8 @@ LoadLevel_Generator_TS2:
     LSR A
     LSR A
     LSR A           ; A = upper 4 bits of LL_ShapeDef shifted down
-    ADD PRG021_A455,X   ; Add multiple of 15
+    CLC
+    ADC PRG021_A455,X   ; Add multiple of 15
     TAX
     DEX
     TXA      ; A = ((LL_ShapeDef >> 4) + PRG015_A419[X]) - 1
@@ -267,7 +268,8 @@ LeveLoad_FixedSizeGen_TS2:
     LDA Temp_Var15
     AND #%11100000
     LSR A
-    ADD LL_ShapeDef
+    CLC
+    ADC LL_ShapeDef
     TAX
 
     JSR DynJump
@@ -327,7 +329,8 @@ LL_ShadowBrick:
 LoadLevel_ShadowBGBrick:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
-    SUB #$40
+    SEC
+    SBC #$40
     LSR A
     LSR A
     LSR A
@@ -407,7 +410,8 @@ PRG021_A5A0:
 
     ; Move to next row by adding 16 to tile offset
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -438,7 +442,8 @@ PRG021_A5C0:
 
     ; Otherwise, need to move over to the next screen (+$1B0)
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1       ; Update Map_Tile_AddrL backup
     LDA Map_Tile_AddrH
@@ -523,7 +528,8 @@ PRG021_A61A:
 
 PRG021_A61E:
     TYA
-    SUB #16
+    SEC
+    SBC #16
     TAY
     AND #$f0
     CMP #16
@@ -646,7 +652,8 @@ LL21_InitLongRun:
 
     ; Level_LayPtr_Addr++
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -675,7 +682,8 @@ LL21_LongRunNextRow:
 
     ; Go to next row by adding 16 to tile offset
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -796,7 +804,8 @@ LoadLevel21_Background:
 
     ; Level_LayPtr_Addr++
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -811,7 +820,8 @@ LoadLevel21_Background:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$20
+    SEC
+    SBC #$20
     LSR A
     LSR A
     LSR A
@@ -908,7 +918,8 @@ LoadLevel_BowserStatue:
 
     ; Go to next row by adding 16
     TYA
-    ADD #$10
+    CLC
+    ADC #$10
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -945,7 +956,8 @@ PRG021_A7CF:
 
     ; Otherwise, next row (NOT PROTECTED AGAINST OVERFLOW!)
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     TAY
     CPX #$04
     BNE PRG021_A7CF     ; If X <> 4 (end of the door), loop!

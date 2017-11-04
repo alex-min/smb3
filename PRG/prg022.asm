@@ -412,7 +412,8 @@ PRG022_C4B2:
 
     ; Temp_Var1 += 3
     TXA
-    ADD #$03
+    CLC
+    ADC #$03
     STA Temp_Var1
 
     LDX #$00     ; X = 0
@@ -441,7 +442,8 @@ PRG022_C4D2:
 
     ; TileAddr_Off += 16 (next row)
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
 
     LDA Temp_Var1
@@ -491,7 +493,8 @@ PRG022_C52A:
 
     ; Next tile row
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY ; -> 'Y'
 
@@ -604,7 +607,8 @@ PRG022_C5A0:
 
     ; Go to next row of tiles
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY      ; -> 'Y'
 
@@ -643,7 +647,8 @@ PRG022_C5CF:
 
     ; Next tile row
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY      ; -> 'Y'
 
@@ -744,7 +749,8 @@ PRG022_C633:
 
     ; Next row
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY      ; -> 'Y'
 
@@ -781,7 +787,8 @@ PRG022_C65A:
 
     ; Next row
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY      ; -> 'Y'
 
@@ -815,7 +822,8 @@ PRG022_C681:
 
     ; Next row
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY      ; -> 'Y'
 
@@ -829,7 +837,8 @@ PRG022_C681:
 
     ; Y += 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
 
     LDA BonusText_BaseH
@@ -861,7 +870,8 @@ PRG022_C6BA:
     STY Temp_Var10
 
     LDA BonusText_BaseL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA BonusText_BaseL
     LDA BonusText_BaseH
     ADC Temp_Var10
@@ -1169,7 +1179,8 @@ PRG022_C818:
 
     ; Temp_Var12 += 8
     LDA Temp_Var12
-    ADD #$08
+    CLC
+    ADC #$08
     STA Temp_Var12
 
     DEX      ; X--
@@ -1298,7 +1309,8 @@ PRG022_C8A0:
 Bonus_Init:
     ; Graphics_Queue values $8 to $C, inclusive, build the dialog box
     LDA Bonus_CurBufOffset
-    ADD #$08
+    CLC
+    ADC #$08
     STA Graphics_Queue
 
     INC Bonus_CurBufOffset   ; Bonus_CurBufOffset++
@@ -1396,7 +1408,8 @@ PRG022_C91D:
     ; Line break hit..
 
     LDA BonusText_VL
-    ADD #32     ; +32 to next row
+    CLC
+    ADC #32     ; +32 to next row
     TAY     ; -> 'Y'
 
     LDA BonusText_VH
@@ -1437,7 +1450,8 @@ PRG022_C941:
 
     ; Graphics_BufCnt += 4
     LDA Graphics_BufCnt
-    ADD #$04
+    CLC
+    ADC #$04
     STA Graphics_BufCnt
 
     INC BonusText_VL     ; BonusText_VL++ (next VRAM byte)
@@ -1537,7 +1551,8 @@ PRG022_C9B4:
 
     ; Graphics_BufCnt += $0C
     LDA Graphics_BufCnt
-    ADD #$0c
+    CLC
+    ADC #$0c
     STA Graphics_BufCnt
 
     RTS      ; Return
@@ -2032,7 +2047,8 @@ Bonus_DrawDie:
     STA Sprite_RAM+$FB
 
     ; Set right half of die X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Sprite_RAM+$FF
 
     RTS      ; Return
@@ -2098,7 +2114,8 @@ PRG022_CCC2:
     STA Graphics_Buffer+$04,Y
 
     LDA Graphics_BufCnt
-    ADD #$04
+    CLC
+    ADC #$04
     STA Graphics_BufCnt
 
     INC Bonus_UnusedVL
@@ -2133,7 +2150,8 @@ PRG022_CD03:
     BEQ PRG022_CD0E  ; If BonusDie_YVel = -$80, jump to PRG022_CD0E
 
     ; BonusDie_YVel -= $08
-    SUB #$08
+    SEC
+    SBC #$08
     STA BonusDie_YVel
 
 PRG022_CD0E:
@@ -2157,7 +2175,8 @@ PRG022_CD22:
 
     ; Add to die's velocity fractional accumulator
     LDA BonusDie_YVelFrac
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA BonusDie_YVelFrac
 
     ; Add appropriately to die's Y
@@ -2297,7 +2316,8 @@ PRG022_CDAE:
 
     ; Coins fall rate
     LDA Bonus_CoinsYVel,Y
-    ADD #$02
+    CLC
+    ADC #$02
     STA Bonus_CoinsYVel,Y
 
     DEY      ; Y--
@@ -2325,14 +2345,16 @@ BonusCoin_ApplyXVel:
 
     ; Offset to coin X velocity
     TYA
-    ADD #(Bonus_CoinsXVelFrac - Bonus_CoinsYVelFrac)
+    CLC
+    ADC #(Bonus_CoinsXVelFrac - Bonus_CoinsYVelFrac)
     TAY
 
     JSR BonusCoin_ApplyVel   ; Apply X velocity to coin
 
     ; Offset back
     TYA
-    SUB #(Bonus_CoinsXVelFrac - Bonus_CoinsYVelFrac)
+    SEC
+    SBC #(Bonus_CoinsXVelFrac - Bonus_CoinsYVelFrac)
     TAY
 
     RTS      ; Return
@@ -2374,7 +2396,8 @@ PRG022_CE09:
 
     ; Add to coin's velocity fractional accumulator
     LDA Bonus_CoinsYVelFrac,Y
-    ADD Temp_Var1
+    CLC
+    ADC Temp_Var1
     STA Bonus_CoinsYVelFrac,Y
 
     ; Add appropriately to coin's Y
@@ -2498,11 +2521,13 @@ PRG022_CE83:
 
     ; Temp_Var1 (Sprite Y) += 16
     LDA Temp_Var1
-    ADD #16
+    CLC
+    ADC #16
     STA Temp_Var1
 
     TYA
-    SUB #12     ; -12 (3 sprites prior)
+    SEC
+    SBC #12     ; -12 (3 sprites prior)
     TAY
 
     BPL PRG022_CE83  ; While Y >= 0, loop!
@@ -2894,7 +2919,8 @@ RouletteRow_Move:
 
     ; Roulette_Unused7A5F (value never used for anything) += Roulette_Unused7A5F_Delta
     LDA Roulette_Unused7A5F
-    ADD Roulette_Unused7A5F_Delta
+    CLC
+    ADC Roulette_Unused7A5F_Delta
     STA Roulette_Unused7A5F
 
     ; Something removed?
@@ -2921,7 +2947,8 @@ RouletteRow_WaitToStop:
 
 RouletteRow_Slow:
     LDA Roulette_Speed,X
-    ADD #$3f
+    CLC
+    ADC #$3f
     CMP #$7f
     BGE PRG022_D13A  ; If we have not reached a stop speed, jump to PRG022_D13A
 
@@ -2952,13 +2979,15 @@ PRG022_D151:
 
     ; Roulette_Speed += 4
     LDA Roulette_Speed,X
-    ADD #$04        ; Really +2, but it hits the -2 after this
+    CLC
+    ADC #$04        ; Really +2, but it hits the -2 after this
     STA Roulette_Speed,X
 
 PRG022_D15F:
     ; Roulette_Speed -= 2
     LDA Roulette_Speed,X
-    SUB #$02
+    SEC
+    SBC #$02
     STA Roulette_Speed,X
 
     JMP RouletteRow_Move     ; Move the Roulette rows and don't come back...
@@ -2979,7 +3008,8 @@ RouletteRow_HitLockPos:
 
     ; Lock row position
     LDA Roulette_Pos,X
-    ADD #$20
+    CLC
+    ADC #$20
     AND #$80
     STA Roulette_Pos,X
     LDA Roulette_PosHi,X
@@ -3006,7 +3036,8 @@ RouletteRow_LockDecide:
 
     ; Enforce the lock position
     LDA Roulette_Pos,X
-    ADD #$20
+    CLC
+    ADC #$20
     AND #$80
     STA Roulette_Pos,X
     STA Temp_Var1       ; -> Temp_Var1
@@ -3318,7 +3349,8 @@ PRG022_D314:
     LDY #31
 PRG022_D328:
     LDA Palette_Buffer,Y    ; Get this color
-    SUB #16         ; Subtract 16 from it
+    SEC
+    SBC #16         ; Subtract 16 from it
     BPL PRG022_D332     ; If we didn't go below zero, jump to PRG026_AC55
 
     LDA #$0f        ; Otherwise, set it to safe minimum
@@ -3367,7 +3399,8 @@ PRG022_D35C:
 
     ; Fractional accumulation
     LDA Roulette_PosFrac,X
-    ADD Temp_Var2
+    CLC
+    ADC Temp_Var2
     STA Roulette_PosFrac,X
 
     ; Add to Pos/Hi
@@ -3473,7 +3506,8 @@ PRG022_D58E:
 
     ; Temp_Var1 += 32 (next row of patterns)
     LDA Temp_Var1
-    ADD #32
+    CLC
+    ADC #32
     STA Temp_Var1
     BCC PRG022_D5A0  ; If no carry, jump to PRG022_D5A0
     INY      ; Otherwise, apply carry
@@ -3541,12 +3575,14 @@ PRG022_D5D8:
 
     ; Y += 6 (jump to next row only halfway across)
     TYA
-    ADD #$06
+    CLC
+    ADC #$06
     TAY
 
     ; Temp_Var1/2 += 32 (go to next row)
     LDA Temp_Var2
-    ADD #32     ; +32 next row
+    CLC
+    ADC #32     ; +32 next row
     BCC PRG022_D5F1 ; If no carry, jump to PRG022_D5F1
     INC Temp_Var1  ; Apply carry
 PRG022_D5F1:
@@ -3565,7 +3601,8 @@ PRG022_D5F1:
     DEC Temp_Var1
 
     LDA Temp_Var2
-    ADD #$46
+    CLC
+    ADC #$46
     STA Temp_Var2
 
     LDA Temp_Var5
@@ -3579,7 +3616,8 @@ PRG022_D5F1:
     BNE PRG022_D5C9
 PRG022_D61A:
     LDA Temp_Var2
-    ADD #$04
+    CLC
+    ADC #$04
     STA Temp_Var2
 
     LDY #$00
@@ -4200,12 +4238,14 @@ PRG022_D93E:
 
     ; Y += 6 (next card row in buffer commands)
     TYA
-    ADD #$06
+    CLC
+    ADC #$06
     TAY
 
     ; +32 to go to next pattern row
     LDA Card_VRAM_L
-    ADD #32
+    CLC
+    ADC #32
     STA Card_VRAM_L
     LDA Card_VRAM_H
     ADC #$00
@@ -4293,7 +4333,8 @@ PRG022_D9A9:
     CMP #CARD_1UP
     BLT PRG022_D9E0  ; If Temp_Var12 < CARD_1UP, jump to PRG022_D9E0
 
-    SUB #CARD_1UP
+    SEC
+    SBC #CARD_1UP
     TAY      ; Y = relative (0 = 1-up, 1 = 10 coin, 2 = 20 coin)
 
     ; Add the bottom text on 1-up, 10 coin, or 20 coin cards
@@ -4347,12 +4388,14 @@ PRG022_DA0C:
 
     ; Y += 6 (next card row in buffer commands)
     TYA
-    ADD #$06
+    CLC
+    ADC #$06
     TAY
 
     ; Card_VRAM_L/H += 32 (next row of patterns)
     LDA Card_VRAM_L
-    ADD #32
+    CLC
+    ADC #32
     STA Card_VRAM_L
     LDA Card_VRAM_H
     ADC #$00
@@ -4448,7 +4491,8 @@ PRG022_DA73:
 
     ; +32 for next row
     LDA Card_UnusedVH
-    ADD #32
+    CLC
+    ADC #32
     STA Card_UnusedVH
     LDA Card_UnusedVL
     ADC #$00
@@ -4491,7 +4535,8 @@ PRG022_DA73:
 
 PRG022_DAD6:
     LDA Card_UnusedAttr
-    ADD #$08
+    CLC
+    ADC #$08
     STA Card_UnusedAttr
 
     LDA PRG022_D777,X
@@ -4544,12 +4589,14 @@ PRG022_DB17:
 
     ; Y += 6 (next card row in buffer commands)
     TYA
-    ADD #$06
+    CLC
+    ADC #$06
     TAY
 
     ; +32 to go to next pattern row
     LDA Card_VRAM_L
-    ADD #32
+    CLC
+    ADC #32
     STA Card_VRAM_L
     LDA Card_VRAM_H
     ADC #$00
@@ -4681,14 +4728,16 @@ PRG022_DBAF:
 
     ; Card_Index -= 6 (one row up)
     LDA Card_Index
-    SUB #$06
+    SEC
+    SBC #$06
     STA Card_Index
 
     BCS PRG022_DBD9  ; If not below zero, jump to PRG022_DBD9
 
     ; Card_Index += 18 (return to bottom row)
     LDA Card_Index
-    ADD #18
+    CLC
+    ADC #18
     STA Card_Index
 
 PRG022_DBD9:
@@ -4698,7 +4747,8 @@ PRG022_DBD9:
 
     ; Card_Index += 6 (one row down)
     LDA Card_Index
-    ADD #$06
+    CLC
+    ADC #$06
     STA Card_Index
 
     LDA Card_Index
@@ -4707,7 +4757,8 @@ PRG022_DBD9:
 
     ; Card_Index -= 18 (return to top row)
     LDA Card_Index
-    SUB #18
+    SEC
+    SBC #18
     STA Card_Index
 
 PRG022_DBF8:
@@ -4790,7 +4841,8 @@ PRG022_DC52:
 
     ; Card_SelectX += 8
     LDA Card_SelectX
-    ADD #$08
+    CLC
+    ADC #$08
     STA Card_SelectX
 
     CPX #$04
@@ -4798,7 +4850,8 @@ PRG022_DC52:
 
     ; Card_SelectY += 16
     LDA Card_SelectY
-    ADD #16
+    CLC
+    ADC #16
     STA Card_SelectY
 
     ; Card_SelectX = Card_SelectXOrig
@@ -4809,7 +4862,8 @@ PRG022_DC52:
     JSR Card_DrawSelectSprite
 
     LDA Card_SelectX
-    ADD #24
+    CLC
+    ADC #24
     STA Card_SelectX
 
     ; Right edge sprite
@@ -4817,7 +4871,8 @@ PRG022_DC52:
 
     ; Card_SelectY += 16
     LDA Card_SelectY
-    ADD #16
+    CLC
+    ADC #16
     STA Card_SelectY
 
     ; Card_SelectX = Card_SelectXOrig
@@ -4829,7 +4884,8 @@ PRG022_DC8F:
 
     ; Card_SelectX += 8
     LDA Card_SelectX
-    ADD #$08
+    CLC
+    ADC #$08
     STA Card_SelectX
 
     CPX #$0a
@@ -4845,13 +4901,15 @@ CardFlip_Draw:
 
     ; Card starts at selection cursor +8
     LDA Card_CursorXs,X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Card_SelectX
     STA Card_SelectXOrig
 
     ; Card is at cursor Y
     LDA Card_CursorYs,X
-    ADD #$08
+    CLC
+    ADC #$08
     STA Card_SelectY
 
     LDX #$00        ; X = 0
@@ -4895,7 +4953,8 @@ PRG022_DCBF:
 
     ; Card_SelectX += 8
     LDA Card_SelectX
-    ADD #$08
+    CLC
+    ADC #$08
     STA Card_SelectX
 
     TXA
@@ -4904,7 +4963,8 @@ PRG022_DCBF:
 
     ; Card_SelectY += 16
     LDA Card_SelectY
-    ADD #16
+    CLC
+    ADC #16
     STA Card_SelectY
 
     ; Card_SelectX = Card_SelectXOrig
@@ -4932,7 +4992,8 @@ CardFlipSprite_GetPattern:
     LDX Card_FlipFrame  ; X = Card_FlipFrame
 
     LDA CardFlip_FrameDefOff,X  ; Get initial frame def offset
-    ADD Temp_Var11     ; Offset by current flip sprite
+    CLC
+    ADC Temp_Var11     ; Offset by current flip sprite
     TAX         ; -> 'X'
 
     LDA CardFlip_FrameDefs,X ; Get this sprite pattern
@@ -4977,7 +5038,8 @@ PRG022_DD4A:
 
 PRG022_DD56:
     TYA
-    ADD Card_CoinsToGive
+    CLC
+    ADC Card_CoinsToGive
     STA Card_CoinsToGive    ; Set coins to give
 
     ; Play coin sound

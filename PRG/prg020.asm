@@ -148,7 +148,8 @@ LoadLevel_Generator_TS9:
     LSR A
     LSR A
     LSR A           ; A = upper 4 bits of LL_ShapeDef shifted down
-    ADD PRG020_A423,X   ; Add multiple of 15
+    CLC
+    ADC PRG020_A423,X   ; Add multiple of 15
     TAX
     DEX
     TXA      ; A = ((LL_ShapeDef >> 4) + PRG020_A423[X]) - 1
@@ -238,7 +239,8 @@ LeveLoad_FixedSizeGen_TS9:
     LDA Temp_Var15
     AND #%11100000
     LSR A
-    ADD LL_ShapeDef
+    CLC
+    ADC LL_ShapeDef
     TAX         ; Resultant index is put into 'X'
     JSR DynJump
 
@@ -368,7 +370,8 @@ PRG020_A56B:
     JSR LL20_ReturnTileAndNextRow    ; Next row
 
     LDA Temp_Var4
-    ADD #$04
+    CLC
+    ADC #$04
     STA Temp_Var4  ; Temp_Var4 += 4 (next row of tiles)
 
     TAX
@@ -435,7 +438,8 @@ PRG020_A5C2:
     JSR LL20_ReturnTileAndNextRow    ; Next row
 
     LDA Temp_Var4
-    ADD #$06
+    CLC
+    ADC #$06
     STA Temp_Var4   ; Temp_Var4 += 6 (next row)
 
     TAX
@@ -506,7 +510,8 @@ PRG020_A62B:
     JSR LL20_ReturnTileAndNextRow    ; Next row
 
     LDA Temp_Var4
-    ADD #$08
+    CLC
+    ADC #$08
     STA Temp_Var4   ; Temp_Var4 += 8 (next row)
 
     TAX
@@ -535,7 +540,8 @@ PRG020_A64A:
 
     ; Go to next row by adding 16
     TYA
-    ADD #$10
+    CLC
+    ADC #$10
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -552,7 +558,8 @@ PRG020_A64A:
 
     ; Otherwise... jump to previous screen by subtracting $1B0
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     SBC #$01
@@ -654,7 +661,8 @@ PRG020_A6CC:
     JSR LL20_ReturnTileAndNextRow    ; Next row
 
     LDA Temp_Var4
-    ADD #$04
+    CLC
+    ADC #$04
     STA Temp_Var4  ; Temp_Var4 += 4
 
     TAX
@@ -720,7 +728,8 @@ PRG020_A723:
     JSR LL20_ReturnTileAndNextRow    ; Next row
 
     LDA Temp_Var4
-    ADD #$06
+    CLC
+    ADC #$06
     STA Temp_Var4   ; Temp_Var4 += 6
 
     TAX
@@ -789,7 +798,8 @@ PRG020_A78C:
     JSR LL20_ReturnTileAndNextRow    ; Next row
 
     LDA Temp_Var4
-    ADD #$08
+    CLC
+    ADC #$08
     STA Temp_Var4   ; Temp_Var4 += 8
 
     TAX
@@ -817,7 +827,8 @@ PRG020_A7AB:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -833,7 +844,8 @@ PRG020_A7AB:
 
     ; Go to previous screen by subtracting $1B0
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     SBC #$01
@@ -887,7 +899,8 @@ PRG020_A7F0:
 
     ; Go to next row by adding 16
     LDA Temp_Var8
-    ADD #16
+    CLC
+    ADC #16
     STA Temp_Var8
     TAY
     LDA Map_Tile_AddrH
@@ -908,7 +921,8 @@ PRG020_A7F0:
 
     ; Go to previous screen by subtracting $1B0
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -964,7 +978,8 @@ PRG020_A853:
 
     ; Move down TWO lines by adding 32
     LDA Temp_Var8
-    ADD #32
+    CLC
+    ADC #32
     STA Temp_Var8
     STA TileAddr_Off
 
@@ -984,7 +999,8 @@ PRG020_A853:
     ; Go to previous screen by subtracting $1B0
     STA Temp_Var7
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     SBC #$01
@@ -1042,7 +1058,8 @@ PRG020_A8B2:
 
     ; Move down THREE lines by adding 48
     LDA Temp_Var8
-    ADD #48
+    CLC
+    ADC #48
     STA Temp_Var8
     STA TileAddr_Off
 
@@ -1052,7 +1069,8 @@ PRG020_A8B2:
     BEQ PRG020_A8FB  ; On odd iterations of Temp_Var9, jump to PRG020_A8FB
 
     LDA TileAddr_Off
-    SUB #$03     ; Move left THREE columns
+    SEC
+    SBC #$03     ; Move left THREE columns
     TAY
     AND #$0f
     CMP #$0d
@@ -1061,7 +1079,8 @@ PRG020_A8B2:
     ; Go to previous screen by subtracting $1B0
     STA Temp_Var7
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     SBC #$01
@@ -1118,7 +1137,8 @@ PRG020_A913:
 
     ; Move down FOUR lines by adding 64
     LDA Temp_Var8
-    ADD #64
+    CLC
+    ADC #64
     STA Temp_Var8
     STA TileAddr_Off
 
@@ -1129,7 +1149,8 @@ PRG020_A913:
 
     LDA TileAddr_Off
 
-    SUB #$04     ; Move left FOUR columns
+    SEC
+    SBC #$04     ; Move left FOUR columns
     TAY
     AND #$0f
     CMP #$0e
@@ -1138,13 +1159,15 @@ PRG020_A913:
     ; Go to previous screen by subtracting $1B0
     STA Temp_Var7
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     SBC #$01
     STA Map_Tile_AddrH
     TYA
-    ADD #$04
+    CLC
+    ADC #$04
     AND #$f0
     ORA Temp_Var7
     TAY
@@ -1218,7 +1241,8 @@ PRG020_A991:
 PRG020_A995:
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1241,7 +1265,8 @@ LoadLevel_MiscDesertTiles:
     LDA LL_ShapeDef
     PHA      ; Save LL_ShapeDef
 
-    SUB #$20
+    SEC
+    SBC #$20
     LSR A
     LSR A
     LSR A
@@ -1297,7 +1322,8 @@ PRG020_A9DB:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1412,7 +1438,8 @@ PRG020_AA22:
 
     ; Go down FOUR rows by adding 64
     LDA TileAddr_Off
-    ADD #64
+    CLC
+    ADC #64
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
@@ -1457,7 +1484,8 @@ PRG020_AA72:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1483,7 +1511,8 @@ PRG020_AA72:
 
     ; Go to next screen by adding $1B0
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -1513,7 +1542,8 @@ PRG020_AAB6:
     STA (Map_Tile_AddrL),Y   ; Store into tile mem
 
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1567,7 +1597,8 @@ PRG020_AAE6:
 
     ; Go to next row by adding 16
     TYA
-    ADD #$10
+    CLC
+    ADC #$10
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -1623,7 +1654,8 @@ PRG020_AB0C:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     BCC PRG020_AB41  ; If haven't crossed offset boundary, jump to PRG020_AB41
@@ -1634,7 +1666,8 @@ PRG020_AB0C:
     STA Temp_Var2
 
     LDA Temp_Var15
-    ADD #16
+    CLC
+    ADC #16
     STA Temp_Var15 ; Temp_Var15 += 16
 
 PRG020_AB41:
@@ -1646,7 +1679,8 @@ PRG020_AB41:
 
     ; Go back to previous screen by subtracting $1B0
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -1722,7 +1756,8 @@ PRG020_AB9A:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     BCC PRG020_ABC2  ; If haven't crossed offset boundary, jump to PRG020_ABC2
 
@@ -1732,12 +1767,14 @@ PRG020_AB9A:
     STA Temp_Var2
 
     LDA Temp_Var15
-    ADD #16
+    CLC
+    ADC #16
     STA Temp_Var15      ; Temp_Var15 += 16
 
 PRG020_ABC2:
     LDA Temp_Var4
-    ADD #$04
+    CLC
+    ADC #$04
     STA Temp_Var4   ; Temp_Var4 += 4
 
     TAX
@@ -1755,7 +1792,8 @@ PRG020_ABC2:
     ; Go back one screen by subtracting $1B0
     STA Temp_Var7
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -1844,7 +1882,8 @@ PRG020_AC39:
     STA Map_Tile_AddrH
 
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     BCC PRG020_AC61  ; If offset boundary crossed, jump to PRG020_AC61
 
@@ -1854,12 +1893,14 @@ PRG020_AC39:
     STA Temp_Var2
 
     LDA Temp_Var15
-    ADD #16
+    CLC
+    ADC #16
     STA Temp_Var15      ; Temp_Var15 += 16
 
 PRG020_AC61:
     LDA Temp_Var4
-    ADD #$06
+    CLC
+    ADC #$06
     STA Temp_Var4       ; Temp_Var4 += 6
 
     TAX
@@ -1867,7 +1908,8 @@ PRG020_AC61:
     BNE PRG020_AC1D  ; If X <> 18, loop
 
     LDA TileAddr_Off
-    SUB #$03    ; Move THREE columns back
+    SEC
+    SBC #$03    ; Move THREE columns back
     AND #$0f
     CMP #$0d
     BCC PRG020_AC95  ; If haven't crossed screen boundary, jump to PRG020_AC95
@@ -1875,7 +1917,8 @@ PRG020_AC61:
     ; Go to previous screen by subtracting $1B0
     STA Temp_Var7
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -1969,7 +2012,8 @@ PRG020_ACDD:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     BCC PRG020_AD05     ; If haven't crossed offset boundary, jump to PRG020_AD05
 
@@ -1979,12 +2023,14 @@ PRG020_ACDD:
     STA Temp_Var2
 
     LDA Temp_Var15
-    ADD #16
+    CLC
+    ADC #16
     STA Temp_Var15      ; Temp_Var15 += 16
 
 PRG020_AD05:
     LDA Temp_Var4
-    ADD #$08
+    CLC
+    ADC #$08
     STA Temp_Var4   ; Temp_Var4 += 8
 
     TAX
@@ -1992,7 +2038,8 @@ PRG020_AD05:
     BNE PRG020_ACBD  ; If X <> 32, loop
 
     LDA TileAddr_Off
-    SUB #$04     ; Move back FOUR columns
+    SEC
+    SBC #$04     ; Move back FOUR columns
     TAY
     AND #$0f
     CMP #$0c
@@ -2001,7 +2048,8 @@ PRG020_AD05:
     ; Go to previous screen by subtracting $1B0
     STA Temp_Var7
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -2010,7 +2058,8 @@ PRG020_AD05:
     STA Temp_Var2
 
     TYA
-    ADD #$04
+    CLC
+    ADC #$04
     AND #$f0
     ORA Temp_Var7
     TAY
@@ -2072,7 +2121,8 @@ PRG020_AD64:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -2086,7 +2136,8 @@ PRG020_AD64:
 
     ; Go to next screen by adding $1B0
     LDA Map_Tile_AddrL
-    ADD #$b0
+    CLC
+    ADC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     ADC #$01
@@ -2106,7 +2157,8 @@ PRG020_AD9E:
     STA (Map_Tile_AddrL),Y   ; Store into tile mem
 
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -2196,7 +2248,8 @@ PRG020_ADF2:
 
     ; Add 16 and subtract 1 to move down one row and left one column
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     TAY
     DEY
     TYA
@@ -2206,7 +2259,8 @@ PRG020_ADF2:
 
     ; Jump to previous screen by subtracting $1B0
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     STA Temp_Var1
     LDA Map_Tile_AddrH
@@ -2247,7 +2301,8 @@ LoadLevel_CannonPlatform:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -2258,7 +2313,8 @@ LoadLevel_CannonPlatform:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -2272,7 +2328,8 @@ LoadLevel_CannonPlatform:
 
     ; Go to previous screen by subtracting $1B0
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     SBC #$01
@@ -2321,7 +2378,8 @@ LL_PipeworkXtra:    .byte TILE9_PIPEWORKS_JCT, TILE9_PIPEWORKS_CRACK
 
 LoadLevel_PipeworkXtra:
     LDA LL_ShapeDef
-    SUB #$07
+    SEC
+    SBC #$07
     TAX      ; X = relative index
 
     LDY TileAddr_Off     ; Y = TileAddr_Off
@@ -2349,7 +2407,8 @@ PRG020_AEA5:
 
     ; Go to next row by adding 16
     TYA
-    ADD #16
+    CLC
+    ADC #16
     TAY
     LDA Map_Tile_AddrH
     ADC #$00
@@ -2368,7 +2427,8 @@ PRG020_AEA5:
 
     ; Go to previous screen by subtracting $1B0
     LDA Map_Tile_AddrL
-    SUB #$b0
+    SEC
+    SBC #$b0
     STA Map_Tile_AddrL
     LDA Map_Tile_AddrH
     SBC #$01
@@ -2407,7 +2467,8 @@ LL20_GetLayoutByte_AndBackup:
 PRG020_AEEC:
     ; Level_LayPtr_Addr++
     LDA Level_LayPtr_AddrL
-    ADD #$01
+    CLC
+    ADC #$01
     STA Level_LayPtr_AddrL
     LDA Level_LayPtr_AddrH
     ADC #$00
@@ -2438,7 +2499,8 @@ LL20_ReturnTileAndNextRow:
 
     ; Go to next row by adding 16
     LDA TileAddr_Off
-    ADD #16
+    CLC
+    ADC #16
     STA TileAddr_Off
     TAY
     LDA Map_Tile_AddrH
