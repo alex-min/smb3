@@ -3511,7 +3511,7 @@ PRGROM_Change_C000: ; $FFD1
     .byte $00, $00, $6C, $56, $03, $00, $01, $0C, $01, $2D
 
     ; ASSEMBLER BOUNDARY CHECK, END OF $FFFA
-Bound_FFFA:    BoundCheck Bound_FFFA, $FFFA, PRG031: Vector space
+    .pad $FFFA
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; VECTORS

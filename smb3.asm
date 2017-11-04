@@ -64,13 +64,6 @@
 VU_VERT     = $80   ; Update in vertical (+32B) mode instead of horizontal (+1B) mode
 VU_REPEAT   = $40   ; Repeat following value several times instead of several raw values
 
-; Provides a compilation-failing boundary check
-.macro BoundCheck _1, _2, _3
-            if _1 > _2
-            fail _3 boundary exceeded (> _2)
-            endif
-        .endm
-
 ; Pads bytes to align to nearest 64 byte boundary for DMC samples
 ; SB: This would be useful for your own works, but I can't use
 ; it in the natively disassembly since the assembler pads zeroes
@@ -475,8 +468,7 @@ PAD_RIGHT   = $01
     Music_PatchAdrH:    .dsb 1   ; Music current patch address high byte
     Sound_Map_Off:      .dsb 1   ; Current "offset" within a map sound effect
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF ZERO PAGE PRE CONTEXT @ $74
-BoundZP_PreCtx:    BoundCheck BoundZP_PreCtx, $74, Zero Page
+    .pad $74
 
     ; NOTE: $75 - $F3 are context specific; see contexts below
 
@@ -499,8 +491,7 @@ BoundZP_PreCtx:    BoundCheck BoundZP_PreCtx, $74, Zero Page
 
     PPU_CTL1_Copy:      .dsb 1   ; Holds PPU_CTL1 register data
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF ZERO PAGE @ $100
-BoundZP:   BoundCheck BoundZP, $100, Zero Page
+    .pad $100
 
 ; NOTE: CONTEXT -- Page 0 RAM changes meaning depending on the "context", i.e. what state
 ; of the game we're currently in!  This means that variables are defined with overlapping
@@ -566,8 +557,7 @@ BoundZP:   BoundCheck BoundZP, $100, Zero Page
     Title_3GlowFlag:    .dsb 1   ; When non-zero, begins the "glowing" effect for the big '3'
     Title_3GlowIndex:   .dsb 1   ; Index into an array of colors to cause the big '3' on the title screen to glow
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF CONTEXT @ $F5
-BoundZP_Title: BoundCheck BoundZP_Title, $F5, Zero Page Title Screen Context
+    .pad $F5
 
 
 ; Ending-specific vars -- NOTE that Ending system uses some of the Title Screen code, so these variables overlap some of the above
@@ -729,8 +719,7 @@ BoundZP_Title: BoundCheck BoundZP_Title, $F5, Zero Page Title Screen Context
 
                 .dsb 7   ; $ED-$F3 unused
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF CONTEXT @ $F4
-BoundZP_Map:   BoundCheck BoundZP_Map, $F4, Zero Page World Map Context
+    .pad $F4
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -751,8 +740,7 @@ BoundZP_Map:   BoundCheck BoundZP_Map, $F4, Zero Page World Map Context
 
                 .dsb 41  ; $CB-$F3 unused
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF CONTEXT @ $F4
-BoundZP_Bonus: BoundCheck BoundZP_Bonus, $F4, Zero Page Bonus Context
+    .pad $F4
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -765,8 +753,7 @@ BoundZP_Bonus: BoundCheck BoundZP_Bonus, $F4, Zero Page Bonus Context
 
                 .dsb 125 ; $77-$F3 unused
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF CONTEXT @ $F4
-BoundZP_Vs:    BoundCheck BoundZP_Vs, $F4, Zero Page 2P Vs Context
+    .pad $F4
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ZERO PAGE RAM: GAMEPLAY CONTEXT
@@ -878,8 +865,7 @@ PLAYERSUIT_LAST     = PLAYERSUIT_HAMMER ; Marker for "last" suit (Debug cycler n
 
     Obj01_Flag:     .dsb 1   ; Not sure what Obj01 is!! This blocks its left/right handler logic.
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF CONTEXT @ $F4
-BoundZP_Game:  BoundCheck BoundZP_Game, $F4, Zero Page Gameplay Context
+    .pad $F4
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -931,8 +917,7 @@ SPR_BEHINDBG    = %00100000
 SPR_HFLIP   = %01000000
 SPR_VFLIP   = %10000000
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF SPRITE RAM
-Bound_SprRAM:  BoundCheck Bound_SprRAM, $0300, Sprite RAM
+    .pad $0300
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $03xx RAM (Largely graphics updating / control)
@@ -1058,7 +1043,7 @@ UPDATERASTER_32PIXSHOWSPR= $80  ; If NOT set, hides sprites that fall beneath th
     Map_Warp_PrevWorld: .dsb 1   ; The world you're coming FROM when warping (also used as output from warp zone what world you're going to)
 
     ; ASSEMBLER BOUNDARY CHECK, END OF $03xx
-Bound_0300:    BoundCheck Bound_0300, $0400, $03xx
+    .pad $0400
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1099,8 +1084,7 @@ Bound_0300:    BoundCheck Bound_0300, $0400, $03xx
     Map_W8D_Y:      .dsb 1
     Map_W8D_Idx:        .dsb 1
 
-    ; ASSEMBLER BOUNDARY CHECK, CONTEXT END OF $04D0
-BoundW8D_04D0: BoundCheck BoundW8D_04D0, $04D0, $04xx range World Map Entrance Transition context
+    .pad $04D0
 
     .base $0444
     ; Entrance transition; overlaps with above
@@ -1126,7 +1110,7 @@ BoundW8D_04D0: BoundCheck BoundW8D_04D0, $04D0, $04xx range World Map Entrance T
     Map_EntTran_InitValIdx: .dsb 1   ; Selects an index of values to initialize by
 
     ; ASSEMBLER BOUNDARY CHECK, CONTEXT END OF $04D0
-BoundET_04D0:  BoundCheck BoundET_04D0, $04D0, $04xx range World Map Entrance Transition context
+    .pad $04D0
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1260,8 +1244,7 @@ BONUS_UNUSED_2RETURN    = 7 ; MAY have been Koopa Troopa's "Prize" Game...
 
     ; $0444-$04CF unused in this context (excluding $0461 and $0462, see "$04xx RAM SOUND/MUSIC ENGINE")
 
-    ; ASSEMBLER BOUNDARY CHECK, CONTEXT END OF $04D0
-BoundBonus_04D0:   BoundCheck BoundBonus_04D0, $04D0, $04xx range Bonus context
+    .pad $04D0
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $04xx GAMEPLAY CONTEXT
@@ -1282,8 +1265,7 @@ BoundBonus_04D0:   BoundCheck BoundBonus_04D0, $04D0, $04xx range Bonus context
 
     ; $0429-$04CF unused in this context (excluding $0461 and $0462, see "$04xx RAM SOUND/MUSIC ENGINE")
 
-    ; ASSEMBLER BOUNDARY CHECK, CONTEXT END OF $04D0
-BoundGame_04D0:    BoundCheck BoundGame_04D0, $04D0, $04xx range Bonus context
+    .pad $04D0
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1455,7 +1437,7 @@ PAUSE_RESUMEMUSIC   = $02   ; Resume sound (resumes music)
     Music_Sq1TrkOff:    .dsb 1   ; Offset of square wave 1 track in currently playing index
 
     ; ASSEMBLER BOUNDARY CHECK, CONTEXT END OF $04D0
-BoundSound_0500:   BoundCheck BoundSound_0500, $0500, $04xx Sound Engine
+    .pad $0500
 
 
 
@@ -1480,8 +1462,7 @@ BoundSound_0500:   BoundCheck BoundSound_0500, $0500, $04xx Sound Engine
 
     ; $0525-$05FF unused
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF $0600
-BoundTS_0600:  BoundCheck BoundTS_0600, $0600, $05xx Title Screen context
+    .pad $0600
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $5xx MAP CONTEXT
@@ -1510,9 +1491,7 @@ BoundTS_0600:  BoundCheck BoundTS_0600, $0600, $05xx Title Screen context
 
 
     ; $059B-$05FF unused
-
-    ; ASSEMBLER BOUNDARY CHECK, END OF $0600
-BoundM_0600:   BoundCheck BoundM_0600, $0600, $05xx World Map context
+    .pad $0600
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $5xx BONUS GAME CONTEXT (see PRG022 for lots more info)
@@ -1526,8 +1505,7 @@ BoundM_0600:   BoundCheck BoundM_0600, $0600, $05xx World Map context
 
     ; $05E9-$05FF unused
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF $0600
-BoundBonus_0600:   BoundCheck BoundBonus_0600, $0600, $05xx World Map context
+    .pad $0600
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $5xx GAMEPLAY CONTEXT
@@ -1797,8 +1775,7 @@ ASCONFIG_HDISABLE   = $80   ; Disables horizontal auto scroll coordinate adjustm
     AScrlURDiag_WrapState_Copy: .dsb 1   ; Copy of AScrlURDiag_WrapState
     AScrlURDiag_WrapState:      .dsb 1
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF $0600
-BoundGame_0600:    BoundCheck BoundGame_0600, $0600, $05xx Gameplay context
+    .pad $0600
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1939,8 +1916,7 @@ OBJSTATE_POOFDEATH  = 8 ; "Poof" Death (e.g. Piranha death)
     CannonFire_Timer:   .dsb 8   ; $06E3-$06EA Cannon Fire timer, decrements to zero
     Objects_QSandCtr:   .dsb 8   ; $06EB-$06F2 When enemy has fallen into quicksand, increments until $90 which deletes it
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF $0700
-Bound_0700:    BoundCheck Bound_0700, $0700, $06xx RAM
+    .pad $0700
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2195,8 +2171,7 @@ RandomN = Random_Pool+1         ; Pull a random number from the sequence (NOTE: 
     Sound_Map_Off2:     .dsb 1   ; Same as Sound_Map_Off, used for the secondary track
     Sound_Unused7FF:    .dsb 1   ; Cleared once, never used otherwise
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF $0800
-Bound_0800:    BoundCheck Bound_0800, $0800, $07xx RAM
+    .pad $0800
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2385,8 +2360,7 @@ VSOBJID_KICKEDBLOCK = 11    ; Kicked block (from [?] block match)
     Vs_xUpLives:        .dsb 2   ; $69A9-$69AA Mario/Luigi "x Up" Lives amount (1, 2, 3, 5)
     Vs_SpawnCnt:        .dsb 1   ; Spawn counter; increments and triggers spawning
 
-    ; ASSEMBLER BOUNDARY CHECK, 2P VS END OF $7950
-Bound_7950:    BoundCheck Bound_7950, $7950, 2P VS RAM
+    .pad $7950
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2954,8 +2928,7 @@ SOBJ_POOF       = $16   ; Poof
     Roulette_Lives:         ; Number of lives you are rewarded from winning the Roulette (NOTE: Shared with first byte of Objects_IsGiant)
     Objects_IsGiant:    .dsb 8   ; $7FF7-$7FFE Set mainly for World 4 "Giant" enemies (but some others, like Bowser, also use it)
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF $8000
-Bound_8000:    BoundCheck Bound_8000, $8000, MMC3 SRAM
+    .pad $8000
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $7A01-$7A11 MMC3 SRAM as Cinematic for Wand Return (Post-Airship)
@@ -2983,8 +2956,7 @@ Bound_8000:    BoundCheck Bound_8000, $8000, MMC3 SRAM
     CineKing_WandXVel_Frac:     .dsb 1   ; Wand X velocity fractional accumulator
     CineKing_WandYVel_Frac:     .dsb 1   ; Wand Y velocity fractional accumulator
 
-    ; ASSEMBLER BOUNDARY CHECK, END OF $7A12
-Bound_7A12:    BoundCheck Bound_7A12, $7A12, Wand Return Cinematic Vars
+    .pad $7A12
 
     .ende
 
