@@ -3965,7 +3965,7 @@ Toad_DoToadText:
 PRG002_B451:
 
     LDY #$00        ; Y = 0
-    LDA [Temp_Var1],Y   ; Get character here
+    LDA (Temp_Var1),Y   ; Get character here
     TAY         ; -> 'Y'
     CPY #$FE
     BEQ PRG002_B468     ; If this is a "space", jump to PRG002_B468

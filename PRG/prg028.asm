@@ -1892,7 +1892,7 @@ M2BSegData1D:
 ; VScroll_TileQuads2Attrs:      ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     LDX Temp_Var8       ; X = Temp_Var8 (Scroll_AttrStrip offset)      ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
-    LDA [Map_Tile_AddrL],Y   ; Get the tile     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
+    LDA (Map_Tile_AddrL),Y   ; Get the tile     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
     ; "Quadrant" bits (6 and 7) are pushed in as attribute bits     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     ASL A       ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
@@ -1902,7 +1902,7 @@ M2BSegData1D:
 
     DEY      ; Y--      ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
-    LDA [Map_Tile_AddrL],Y   ; Get the tile     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
+    LDA (Map_Tile_AddrL),Y   ; Get the tile     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
     ; "Quadrant" bits (6 and 7) are pushed in as attribute bits     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     ASL A       ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
@@ -1954,7 +1954,7 @@ M2BSegData1D:
     PLA      ; Restore original value for Temp_Var13        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     STA Temp_Var13  ; Store it     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
-    LDA [Map_Tile_AddrL],Y   ; Get tile     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
+    LDA (Map_Tile_AddrL),Y   ; Get tile     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     STA Level_Tile  ; Store into Level_Tile        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
     RTS      ; Return       ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
@@ -2051,7 +2051,7 @@ PRG028_BEC3:        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     STA Temp_Var12      ; ... and copied into Temp_Var12       ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
     TAY         ; Y = current offset        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
-    LDA [Map_Tile_AddrL],Y  ; Get tile here     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
+    LDA (Map_Tile_AddrL),Y  ; Get tile here     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     STA Level_Tile ; Store into Level_Tile     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
     LDY Level_Tileset       ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
@@ -2066,7 +2066,7 @@ PRG028_BEDB:        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     STA Temp_Var1       ; Temp_Var1 = 0        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
     LDY Temp_Var12      ; Y = current offset in Tile Mem       ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
-    LDA [Map_Tile_AddrL],Y   ; Get tile here        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
+    LDA (Map_Tile_AddrL),Y   ; Get tile here        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     STA Temp_Var2       ; Store into Temp_Var2     ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
     AND #$c0        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
@@ -2095,7 +2095,7 @@ PRG028_BEDB:        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     SUB Tile_AttrTable,Y    ; Subtract the root tile value      ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     TAY         ; Y = result        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
-    LDA [Temp_Var3],Y       ; Get value         ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
+    LDA (Temp_Var3),Y       ; Get value         ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
     STA Player_Slopes,X    ; Store into Player_Slopes      ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY
 
 PRG028_BF0D:        ; UNUSED COPY FROM PRG030, DELETE DON'T MODIFY

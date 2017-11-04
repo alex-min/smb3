@@ -1400,7 +1400,7 @@ PRG000_C736:
 
     SUB Tile_AttrTable,Y    ; Subtract the root tile value
     TAY         ; -> 'Y'
-    LDA [Temp_Var3],Y   ; Get slope value
+    LDA (Temp_Var3),Y   ; Get slope value
     STA Level_Tile_Slope    ; -> Level_Tile_Slope
 
     LDX SlotIndexBackup    ; Restore X as object slot index
@@ -1573,7 +1573,7 @@ PRG000_C7FA:
     TAY         ; -> 'Y'
 
 PRG000_C82A:
-    LDA [Temp_Var1],Y   ; Get tile
+    LDA (Temp_Var1),Y   ; Get tile
 
     JSR PSwitch_SubstTileAndAttr     ; Substitute tile if P-Switch is active
 
@@ -4150,7 +4150,7 @@ ObjState_Initializing:
     STA Temp_Var1
     LDA ObjectGroup_InitJumpTable+1,Y
     STA Temp_Var2
-    JMP [Temp_Var1]  ; Dynamically jump to object's init routine
+    JMP (Temp_Var1)  ; Dynamically jump to object's init routine
 
     ; Set object's palette value
 ; $D3BC
@@ -4432,7 +4432,7 @@ Object_DoNormal:
     STA Temp_Var1
     LDA ObjectGroup_NormalJumpTable+1,Y
     STA Temp_Var2
-    JMP [Temp_Var1]  ; Dynamically jump to object's "normal" routine
+    JMP (Temp_Var1)  ; Dynamically jump to object's "normal" routine
 
 
 Object_DoHaltedAction:
@@ -5609,7 +5609,7 @@ Object_DoCollision:
     STA Temp_Var1
     LDA ObjectGroup_CollideJumpTable+1,Y
     STA Temp_Var2
-    JMP [Temp_Var1]  ; Jump to the acquired address!
+    JMP (Temp_Var1)  ; Jump to the acquired address!
 
     ; SB: Dead data: Specified frame of "suit lost" object
     ; to display when the cooresponding suit was lost (not
@@ -6245,7 +6245,7 @@ PRG000_DC91:
 
     PLA      ; Restore 'A' (tile index)
 
-    STA [Temp_Var1],Y ; Change tile as appropriate
+    STA (Temp_Var1),Y ; Change tile as appropriate
 
     RTS      ; Return
 

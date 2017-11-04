@@ -208,10 +208,10 @@ PRG012_A462:
 PRG012_A496:
     LDY #$00        ; Y = 0
 PRG012_A498:
-    LDA [Temp_Var1],Y   ; Get byte from tile layout
+    LDA (Temp_Var1),Y   ; Get byte from tile layout
     CMP #$ff
     BEQ PRG012_A4C1     ; If it's $FF (terminator), jump to PRG012_A4C1
-    STA [Map_Tile_AddrL],Y  ; Copy byte to RAM copy of tiles
+    STA (Map_Tile_AddrL),Y  ; Copy byte to RAM copy of tiles
     INY         ; Y++
 
     ; 144 supports a 16x9 map screen (the left and right columns
@@ -321,7 +321,7 @@ PRG012_A514:
     TAY      ; Y now holds the aforementioned offset
 
 PRG012_A524:
-    LDA [Map_Tile_AddrL],Y   ; Get this tile
+    LDA (Map_Tile_AddrL),Y   ; Get this tile
 
     STY Temp_Var5   ; Y -> Temp_Var5
     STA World_Map_Tile  ; -> World_Map_Tile
@@ -404,7 +404,7 @@ PRG012_A57C:
 
 PRG031_A581:
     LDY Temp_Var5       ; Y = Temp_Var5 (offset to tile)
-    STA [Map_Tile_AddrL],Y   ; Set proper completion tile!
+    STA (Map_Tile_AddrL),Y   ; Set proper completion tile!
 
 PRG012_A585:
     LSR Temp_Var2   ; Temp_Var2 >>= 1
@@ -500,7 +500,7 @@ PRG012_B10A:
 
     LDX Player_Current
     LDY World_Map_XHi,X
-    LDA [Temp_Var9],Y   ; get initial index based on the current "screen" of the map the Player was on
+    LDA (Temp_Var9),Y   ; get initial index based on the current "screen" of the map the Player was on
     TAY         ; Y = the aforementioned index
 
     LDA #$00
@@ -511,7 +511,7 @@ PRG012_B10A:
     ; The index remains in the 'Y' register at completion
     LDX Player_Current
 PRG012_B150:
-    LDA [Temp_Var1],Y
+    LDA (Temp_Var1),Y
     AND #$f0        ; Specifically only consider the "row" this specifies
     CMP World_Map_Y,X  ; Compare to the Player's Y position on the map
     BEQ PRG012_B162     ; If this byte matches your Y position on the map, jump to PRG012_B162
@@ -550,7 +550,7 @@ PRG012_B162:
 
     ; 'Y' was set by the last loop...
 PRG012_B17D:
-    CMP [Temp_Var3],Y   ; See if this position matches
+    CMP (Temp_Var3),Y   ; See if this position matches
     BEQ PRG012_B18B     ; If this matches, jump to PRG012_B18B
     INY         ; Y++
     BNE PRG012_B17D     ; While Y <> 0, loop!
@@ -572,7 +572,7 @@ PRG012_B18B:
     BNE PRG012_B1A1     ; If World_Num <> 8 (World 9), jump to PRG012_B1A1
 
     ; World 9 bypass
-    LDA [Temp_Var1],Y   ; Just goes to get the original value "type" ID, which in this case is world to enter
+    LDA (Temp_Var1),Y   ; Just goes to get the original value "type" ID, which in this case is world to enter
     AND #$0f
 
     ; Destination world is fed back out through Map_Warp_PrevWorld
@@ -580,7 +580,7 @@ PRG012_B18B:
     RTS      ; Return
 
 PRG012_B1A1:
-    LDA [Temp_Var1],Y
+    LDA (Temp_Var1),Y
     AND #$0f        ; Get "type" bits
     STA Level_Tileset   ; Store into Level_Tileset
 
@@ -603,11 +603,11 @@ PRG012_B1A1:
 PRG012_B1BB:
 
     ; Store address of object set into Level_ObjPtr_AddrL/H and Level_ObjPtrOrig_AddrL/H
-    LDA [Temp_Var5],Y
+    LDA (Temp_Var5),Y
     STA Level_ObjPtr_AddrL
     STA Level_ObjPtrOrig_AddrL
     INY
-    LDA [Temp_Var5],Y
+    LDA (Temp_Var5),Y
     STA Level_ObjPtr_AddrH
     STA Level_ObjPtrOrig_AddrH
 
@@ -630,11 +630,11 @@ PRG012_B1DC:
     STY Temp_Var16  ; Keep index in Temp_Var16
 
     ; Store address of object set into Level_LayPtr_AddrL/H and Level_LayPtrOrig_AddrL/H
-    LDA [Temp_Var7],Y
+    LDA (Temp_Var7),Y
     STA Level_LayPtr_AddrL
     STA Level_LayPtrOrig_AddrL
     INY
-    LDA [Temp_Var7],Y
+    LDA (Temp_Var7),Y
     STA Level_LayPtr_AddrH
     STA Level_LayPtrOrig_AddrH
 
@@ -716,7 +716,7 @@ Map_DoEnterViaID:
 
     TAY         ; Store this offset value into 'Y'
 
-    LDA [Map_Tile_AddrL],Y
+    LDA (Map_Tile_AddrL),Y
     STA World_Map_Tile
     RTS      ; Return
 
@@ -984,20 +984,20 @@ PRG012_B384:
     LDY Temp_Var16      ; Index of level entered
 
     ; Set Bonus_GameType (always 1 in actual game)
-    LDA [Temp_Var5],Y
+    LDA (Temp_Var5),Y
     STA Bonus_GameType
 
     ; Set Bonus_KTPrize (always irrelevant in actual game)
-    LDA [Temp_Var7],Y
+    LDA (Temp_Var7),Y
     STA Bonus_KTPrize
 
     INY      ; Y++
 
     ; Set Bonus_GameHost (always 0 in actual game)
-    LDA [Temp_Var5],Y
+    LDA (Temp_Var5),Y
     STA Bonus_GameHost
 
-    LDA [Temp_Var7],Y
+    LDA (Temp_Var7),Y
     ASL A
     TAY      ; -> 'Y'
 

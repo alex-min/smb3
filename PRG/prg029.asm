@@ -503,32 +503,32 @@ PRG029_CF2F:
     LDX Player_SprOff    ; X = Root offset where Player sprite should begin
 
     ; Store pattern in this Player sprite and go to next byte
-    LDA [Player_SprWorkL],Y
+    LDA (Player_SprWorkL),Y
     STA Sprite_RAM+$0D,X
     INY
 
     ; Store pattern in this Player sprite and go to next byte
-    LDA [Player_SprWorkL],Y
+    LDA (Player_SprWorkL),Y
     STA Sprite_RAM+$11,X
     INY
 
     ; Store pattern in this Player sprite and go to next byte
-    LDA [Player_SprWorkL],Y
+    LDA (Player_SprWorkL),Y
     STA Sprite_RAM+$15,X
     INY
 
     ; Store pattern in this Player sprite and go to next byte
-    LDA [Player_SprWorkL],Y
+    LDA (Player_SprWorkL),Y
     STA Sprite_RAM+$01,X
     INY
 
     ; Store pattern in this Player sprite and go to next byte
-    LDA [Player_SprWorkL],Y
+    LDA (Player_SprWorkL),Y
     STA Sprite_RAM+$05,X
     INY
 
     ; Store pattern in this Player sprite and go to next byte
-    LDA [Player_SprWorkL],Y
+    LDA (Player_SprWorkL),Y
     STA Sprite_RAM+$09,X
 
     LDA Player_FlipBits
@@ -1617,7 +1617,7 @@ Level_PipeTransitOrExit:
     STA Temp_Var1
     LDA Pipe_Move_JumpTable+1,Y
     STA Temp_Var2
-    JMP [Temp_Var1]
+    JMP (Temp_Var1)
 
 Player_Die_NotDying:
     RTS      ; Return
@@ -2064,7 +2064,7 @@ PRG029_D6BC:
     LDA Player_Die_JumpTable+1,Y
     STA Temp_Var2
 
-    JMP [Temp_Var1]  ; Jump to appropriate "Player is dying" routine...
+    JMP (Temp_Var1)  ; Jump to appropriate "Player is dying" routine...
 
 Player_Die_Dying:
     LDA Player_AboveTop
@@ -2578,7 +2578,7 @@ TileChng_OneTile:
 
     ; Change the tile to the proper target tile
     LDA OneTile_ChangeToTile,X
-    STA [Map_Tile_AddrL],Y
+    STA (Map_Tile_AddrL),Y
 
     ; X *= 4 (index into OneTile_ChangeToPatterns)
     TXA
@@ -2649,7 +2649,7 @@ TileChng_DoorAppear:
 
     ; Set upper tile of door
     LDA #TILEA_DOOR1
-    STA [Map_Tile_AddrL],Y
+    STA (Map_Tile_AddrL),Y
 
     ; +16 (next row of tiles)
     TYA
@@ -2664,7 +2664,7 @@ PRG029_DD77:
 
     ; Set lower tile of door
     LDA #TILEA_DOOR1
-    STA [Map_Tile_AddrL],Y
+    STA (Map_Tile_AddrL),Y
 
     LDY #$00     ; Y = 0
 
@@ -2744,13 +2744,13 @@ TileChng_ToadBoxOpen:
 
     ; Chest open tile upper left
     LDA #TILE7_CHEST_OPEN_UL
-    STA [Map_Tile_AddrL],Y
+    STA (Map_Tile_AddrL),Y
 
     INY      ; Y++
 
     ; Chest open tile upper right
     LDA #TILE7_CHEST_OPEN_UR
-    STA [Map_Tile_AddrL],Y
+    STA (Map_Tile_AddrL),Y
 
 
     LDY #$00     ; Y = 0
@@ -2884,7 +2884,7 @@ ChngTile_32x32:
 
     LDY Temp_Var5   ; Y = Temp_Var5 (row/column offset value)
 
-    LDA [Map_Tile_AddrL],Y   ; Get tile currently here
+    LDA (Map_Tile_AddrL),Y   ; Get tile currently here
     CMP #TILE10_4WAYCANNON_45_UL
     BEQ PRG029_DEF9  ; If cannon is at 45 degree position, jump to PRG029_DEF9
     BNE PRG029_DEF8  ; Otherwise, jump to PRG029_DEF8
@@ -3001,10 +3001,10 @@ PRG029_DF4C:
     LDX Temp_Var11  ; X = Temp_Var11
 
     LDA CBig_ChngTiles,X     ; Get tile
-    STA [Map_Tile_AddrL],Y   ; Set tile
+    STA (Map_Tile_AddrL),Y   ; Set tile
     INY      ; Next column
     LDA CBig_ChngTiles+1,X   ; Get tile
-    STA [Map_Tile_AddrL],Y   ; Set tile
+    STA (Map_Tile_AddrL),Y   ; Set tile
 
     ; Temp_Var5 += 16 (next tile row)
     LDA Temp_Var5

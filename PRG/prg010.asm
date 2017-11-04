@@ -1141,29 +1141,29 @@ PRG010_C5CC:
     STA Temp_Var16
 
     LDY Temp_Var1          ; Get offset to current 16x16 tile we want to grab
-    LDA [Map_Tile_AddrL],Y      ; Grab it!
+    LDA (Map_Tile_AddrL),Y      ; Grab it!
     TAY             ; Y = tile
 
     ; The 16x16 tile is laid out in four 256 byte sized "chunks" which define each 8x8
     ; in the order of upper-left, lower-left, upper-right, lower-right
 
     ; Upper-left
-    LDA [Temp_Var15],Y      ; Get first 8x8
+    LDA (Temp_Var15),Y      ; Get first 8x8
     STA Scroll_PatStrip,X       ; Store this 8x8 into the vertical strip
 
     ; Lower-left
     INC Temp_Var16     ; Jump to next layout chunk
-    LDA [Temp_Var15],Y      ; Get next 8x8
+    LDA (Temp_Var15),Y      ; Get next 8x8
     STA Scroll_PatStrip+1,X ; Store this 8x8 into vertical strip, next slot to the right
 
     ; Upper-right
     INC Temp_Var16     ; Jump to next layout chunk
-    LDA [Temp_Var15],Y      ; Get next 8x8
+    LDA (Temp_Var15),Y      ; Get next 8x8
     STA Scroll_PatStrip+$B,X    ; Store into vertical strip
 
     ; Lower-right
     INC Temp_Var16     ; Jump to next layout chunk
-    LDA [Temp_Var15],Y      ; Get next 8x8
+    LDA (Temp_Var15),Y      ; Get next 8x8
     STA Scroll_PatStrip+$C,X    ; Store into vertical strip
 
     LDA Temp_Var1
@@ -1807,7 +1807,7 @@ PRG010_C8CD:
 
     ; Replace the tile in-memory
     LDA FortressFX_MapTileReplace,X
-    STA [Temp_Var15],Y
+    STA (Temp_Var15),Y
 
 PRG010_C9A4:
     LDA Counter_1
@@ -2035,11 +2035,11 @@ Map_Do_Borders:
     LDX #$06        ; Otherwise, X = 6
 PRG010_CACF:
     LDY Temp_Var5      ; Y = Temp_Var5 (screen-relative column index)
-    LDA [Map_Tile_AddrL],Y  ; Get tile
+    LDA (Map_Tile_AddrL),Y  ; Get tile
     AND #$c0        ; Only keep its upper 2 bits ($00, $40, $80, $C0)
     STA Temp_Var1      ; Store this into Temp_Var1
     INY         ; Y++
-    LDA [Map_Tile_AddrL],Y  ; Get the next tile
+    LDA (Map_Tile_AddrL),Y  ; Get the next tile
     AND #$c0        ; Only keep its upper 2 bits ($00, $40, $80, $C0)
     STA Temp_Var2      ; Store this into Temp_Var2
 
@@ -2047,11 +2047,11 @@ PRG010_CACF:
     ADD #15
     TAY         ; Y += 15 (next row)
 
-    LDA [Map_Tile_AddrL],Y  ; Get this tile
+    LDA (Map_Tile_AddrL),Y  ; Get this tile
     AND #$c0        ; Only keep its upper 2 bits ($00, $40, $80, $C0)
     STA Temp_Var3      ; Store this into Temp_Var3
     INY         ; Y++
-    LDA [Map_Tile_AddrL],Y  ; Get this tile
+    LDA (Map_Tile_AddrL),Y  ; Get this tile
     AND #$c0        ; Only keep its upper 2 bits ($00, $40, $80, $C0)
     STA Temp_Var4      ; Store this into Temp_Var4
 
@@ -2365,7 +2365,7 @@ PRG010_CC7A:
 
     LDY Temp_Var1       ; Y = Temp_Var1
 
-    LDA [Map_Tile_AddrL],Y  ; Get tile
+    LDA (Map_Tile_AddrL),Y  ; Get tile
     TAY         ; -> 'Y'
 
     LDA Map_ScrollOddEven
@@ -2377,12 +2377,12 @@ PRG010_CC7A:
     INC Temp_Var16
 
 PRG010_CC98:
-    LDA [Temp_Var15],Y      ; Get this pattern
+    LDA (Temp_Var15),Y      ; Get this pattern
     STA Scroll_PatStrip+$20,X   ; Store into Scroll_PatStrip
 
     INC Temp_Var16         ; Temp_Var16++
 
-    LDA [Temp_Var15],Y      ; Get this pattern
+    LDA (Temp_Var15),Y      ; Get this pattern
     STA Scroll_PatStrip+$21,X   ; Store into Scroll_PatStrip
 
     ; X += 2
@@ -3298,7 +3298,7 @@ Map_GetTile:
 
     TAY         ; Store this offset value into 'Y'
 
-    LDA [Map_Tile_AddrL],Y
+    LDA (Map_Tile_AddrL),Y
     STA World_Map_Tile
     RTS      ; Return
 
@@ -3434,7 +3434,7 @@ PRG010_D2AD:
     ; Search to see if this is a valid to move over given the Player's direction et al.
     LDY #(Map_Object_Valid_Tiles2Check-1)
 PRG010_D2C1:
-    CMP [Temp_Var1],Y
+    CMP (Temp_Var1),Y
     BEQ PRG010_D336     ; If Player is going to travel over this particular valid tile, jump to PRG010_D336
     DEY         ; Y--
     BPL PRG010_D2C1     ; While Y >= 0, loop!
@@ -3626,7 +3626,7 @@ MapTile_Get_By_Offset:  ; $D369
     AND #$f0        ; Aligns Player's Y to a tile
     ORA Temp_Var16
     TAY         ; Y = (Temp_Var15 & 0xF0) | Temp_Var15 (offset to specific tile Player is at)
-    LDA [Map_Tile_AddrL],Y  ; Get this tile
+    LDA (Map_Tile_AddrL),Y  ; Get this tile
     RTS         ; Return!
 
     ; Offsets around Player for darkness effect
@@ -3840,7 +3840,7 @@ W8D_GetNext8x8:
     ADD Temp_Var14
     STA Temp_Var14     ; Temp_Var14 += Map_W8D_TileOff
 
-    LDA [Temp_Var13],Y  ; Load this 8x8 pattern of tile
+    LDA (Temp_Var13),Y  ; Load this 8x8 pattern of tile
     PHA      ; Save it
 
     ; Restore previous page @ A000

@@ -143,15 +143,15 @@ Map_Init:
 PRG011_A21B:
 
     ; Copy in the data relevant to this map object
-    LDA [Temp_Var11],Y
+    LDA (Temp_Var11),Y
     STA Map_Objects_Y,Y ; Y
-    LDA [Temp_Var13],Y
+    LDA (Temp_Var13),Y
     STA Map_Objects_XHi,Y   ; XHi
-    LDA [Temp_Var15],Y
+    LDA (Temp_Var15),Y
     STA Map_Objects_XLo,Y   ; XLo
-    LDA [Temp_Var9],Y
+    LDA (Temp_Var9),Y
     STA Map_Objects_IDs,Y   ; ID
-    LDA [Temp_Var7],Y
+    LDA (Temp_Var7),Y
     STA Map_Objects_Itm,Y   ; Item
 
     DEY      ; Y--
@@ -1798,7 +1798,7 @@ PRG011_AA58:
     ORA World_Map_Y,X
     TAY      ; -> 'Y'
 
-    LDA [Map_Tile_AddrL],Y   ; Get the tile here
+    LDA (Map_Tile_AddrL),Y   ; Get the tile here
     PHA      ; Save tile value
 
     AND #%11000000
@@ -1843,7 +1843,7 @@ PRG011_AA9C:
 
 PRG011_AAA7:
     LDA Map_CompleteTile,X  ; Get appropriate "complete" tile for this level
-    STA [Map_Tile_AddrL],Y  ; Set it in memory
+    STA (Map_Tile_AddrL),Y  ; Set it in memory
     STA World_Map_Tile ; ... as well as the tile detected
 
     JSR Map_MarkLevelComplete    ; Mark this level as complete!
@@ -2926,12 +2926,12 @@ PRG011_B17A:
     BGE PRG011_B1A2     ; If Map_Airship_Dest >= 6, jump to PRG011_B1A2
 
     ; Get and set the destination Y of the Airship travel
-    LDA [Temp_Var1],Y   ; Get the Y from the table
+    LDA (Temp_Var1),Y   ; Get the Y from the table
     STA Map_Object_ActY+1
     STA Map_Objects_Y+1
 
     ; Get and set the destination X of the Airship travel
-    LDA [Temp_Var3],Y   ; Get the X from the table
+    LDA (Temp_Var3),Y   ; Get the X from the table
     PHA         ; Save 'A'
 
     ; High part
@@ -2968,22 +2968,22 @@ PRG011_B1B3:
 PRG011_B1BD:
     LDA Map_Object_ActXH+1
     ORA Map_Object_ActX+1   ; A = Airship's current X with XHi OR'd into the low bits
-    CMP [Temp_Var3],Y   ; Check if airship is at X destination yet
+    CMP (Temp_Var3),Y   ; Check if airship is at X destination yet
     BNE PRG011_B1CE     ; If not, jump to PRG011_B1CE
 
     LDA Map_Object_ActY+1   ; A = Airship's Y
-    CMP [Temp_Var1],Y   ; Check if airship is at Y destination yet
+    CMP (Temp_Var1),Y   ; Check if airship is at Y destination yet
     BEQ PRG011_B21B     ; If it is, jump to PRG011_B21B
 
 PRG011_B1CE:
-    LDA [Temp_Var1],Y   ; Get Y destination from table
+    LDA (Temp_Var1),Y   ; Get Y destination from table
     STA Temp_Var5      ; Store into Temp_Var5
 
-    LDA [Temp_Var3],Y   ; Get X destination from table
+    LDA (Temp_Var3),Y   ; Get X destination from table
     AND #$0f        ; Only keep lower part (XHi)
     STA Temp_Var7      ; Store into Temp_Var7
 
-    LDA [Temp_Var3],Y   ; Get X destination from table
+    LDA (Temp_Var3),Y   ; Get X destination from table
     AND #$f0        ; Only keep higher part (X lo)
     STA Temp_Var6      ; Store into Temp_Var6
 
@@ -3047,22 +3047,22 @@ PRG011_B229:
     STA Map_Object_Data+1   ; Airship's data = 0 (facing direction)
     STA Map_Airship_Dir    ; Map_Airship_Dir = 0
 
-    LDA [Temp_Var1],Y   ; A = Airship Y destination
+    LDA (Temp_Var1),Y   ; A = Airship Y destination
     SUB Map_Object_ActY+1   ; Difference against its current Y
     STA Map_Airship_DY ; Store into Map_Airship_DY
 
-    LDA [Temp_Var3],Y   ; A = Airship X destination
+    LDA (Temp_Var3),Y   ; A = Airship X destination
     AND #$f0        ; Just the X Lo part
     SUB Map_Object_ActX+1   ; Difference to its current X Lo
     STA Map_Airship_DX ; Store into Map_Airship_DX
 
-    LDA [Temp_Var3],Y   ; A = Airship X destination
+    LDA (Temp_Var3),Y   ; A = Airship X destination
     AND #$0f        ; Just the X Hi part
     SBC Map_Object_ActXH+1  ; Difference to its current X Hi (taking into account the low too)
     STA Map_Airship_DXHi   ; Store into Map_Airship_DXHi
 
 
-    LDA [Temp_Var3],Y   ; Get airship X target
+    LDA (Temp_Var3),Y   ; Get airship X target
     AND #$0f        ; Only lower bits (hi part)
     CMP Map_Object_ActXH+1  ; Compare against its current X hi...
 
@@ -3071,7 +3071,7 @@ PRG011_B229:
     BMI PRG011_B266     ; Airship X Hi < target X Hi, jump to PRG011_B266
 PRG011_B25D:
     ; Airship X achieved
-    LDA [Temp_Var3],Y
+    LDA (Temp_Var3),Y
     AND #$f0
     CMP Map_Object_ActX+1
     BGE PRG011_B27D  ; If target X (aligned to grid) >= airship X , jump to PRG011_B27D
@@ -3098,7 +3098,7 @@ PRG011_B266:
 PRG011_B27D:
     ; Airship Hi > target X Hi or coming in from above...
 
-    LDA [Temp_Var1],Y
+    LDA (Temp_Var1),Y
     CMP Map_Object_ActY+1
     BGE PRG011_B292     ; If target Y >= current Y, jump to PRG011_B292
 
@@ -3368,11 +3368,11 @@ PRG011_B3D3:
     STA Temp_Var16
 
     LDY Temp_Var3      ; Y = Temp_Var3 (travel target)
-    LDA [Map_Tile_AddrL],Y  ; Get tile here
+    LDA (Map_Tile_AddrL),Y  ; Get tile here
 
     LDY #(Map_Object_Valid_Tiles2Check-1)   ; Check all possible travel-over tiles
 PRG011_B3EC:
-    CMP [Temp_Var15],Y
+    CMP (Temp_Var15),Y
     BEQ PRG011_B3F5     ; If this tile is valid to travel over, jump to PRG011_B3F5
     DEY      ; Y--
     BPL PRG011_B3EC  ; While Y >= 0, loop!
@@ -3389,7 +3389,7 @@ PRG011_B3F5:
     JSR Map_Object_March_PickTravel  ; Get next tile over, "landing zone"
 
     LDY Temp_Var3          ; Y = Temp_Var3 (travel target)
-    LDA [Map_Tile_AddrL],Y      ; Get tile here
+    LDA (Map_Tile_AddrL),Y      ; Get tile here
 
     LDY #(MOV_Landings2Check-1)
 PRG011_B406:
@@ -3981,7 +3981,7 @@ PRG011_B70E:    .byte 16, -16, 0, 0
     ORA Temp_Var16
     TAY  ; -> 'Y'
 
-    LDA [Map_Tile_AddrL],Y  ; Get tile
+    LDA (Map_Tile_AddrL),Y  ; Get tile
     RTS      ; Return
 
 

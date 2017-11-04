@@ -93,7 +93,7 @@ PRG007_A027:
     ORA Temp_Var5
     TAY ; -> 'Y'
 
-    LDA [Temp_Var1],Y   ; Get the tile here
+    LDA (Temp_Var1),Y   ; Get the tile here
 
     CMP #TILEA_BLOCKBUMP_CLEAR
     BNE PRG007_A070  ; If this is not a bumped block tile, jump to PRG007_A070
@@ -223,7 +223,7 @@ PRG007_A0DE:
     LDY #$00
     STY Temp_Var6
 
-    LDA [Temp_Var1],Y    ; Get tile here
+    LDA (Temp_Var1),Y    ; Get tile here
 
     CMP #TILE2_DONUTLIFT
     BNE PRG007_A113  ; If this is not donut lift tile, jump to PRG007_A113
@@ -1055,7 +1055,7 @@ PRG007_A506:
     TAY
 
 PRG007_A52D:
-    LDA [Temp_Var1],Y    ; Get the tile at the Player Projectile
+    LDA (Temp_Var1),Y    ; Get the tile at the Player Projectile
     JSR PSwitch_SubstTileAndAttr     ; Handle P-Switch changed tiles
     PHA      ; Save adjusted tile
 
@@ -1240,7 +1240,7 @@ PRG007_A5DC:
     SUB Tile_AttrTable,Y
     TAY      ; Y = tile made relative to solid set
 
-    LDA [Temp_Var3],Y
+    LDA (Temp_Var3),Y
     TAY      ; Y = slope offset for this tile
 
     LDA Slope_ObjectVel_Effect,Y
@@ -1837,7 +1837,7 @@ PRG007_A8BF:
     TAY      ; Y = this offset
 
 PRG007_A8F0:
-    LDA [Temp_Var1],Y ; Get the tile the bubble detects
+    LDA (Temp_Var1),Y ; Get the tile the bubble detects
 
     PHA      ; Save it
 
@@ -2938,7 +2938,7 @@ SObj_CheckHitSolid:
     ORA Temp_Var3
     TAY
 
-    LDA [Temp_Var1],Y ; Get the tile here
+    LDA (Temp_Var1),Y ; Get the tile here
     PHA      ; Save it
 
     ASL A

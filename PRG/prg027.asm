@@ -563,7 +563,7 @@ PRG027_A4B9:
 
     ; Get next character
     LDY #$00     ; Y = 0
-    LDA [Temp_Var1],Y
+    LDA (Temp_Var1),Y
 
     LDY Graphics_BufCnt  ; Y = current graphics buffer count
 
@@ -1421,7 +1421,7 @@ PRG027_ABAE:
     LDA Temp_Var4
     STA PPU_VRAM_ADDR
 
-    LDA [Temp_Var1],Y ; Get next character from letter body
+    LDA (Temp_Var1),Y ; Get next character from letter body
 
     INY      ; Y++ (next letter body character)
 
@@ -1786,7 +1786,7 @@ Setup_PalData:
     ; Copy 32 bytes of data into Pal_Data
     LDY #31  ; Y = 31 (32 bytes total, a whole bg/sprite palette set)
 PRG027_B85E:
-    LDA [Temp_Var1],Y
+    LDA (Temp_Var1),Y
     STA Pal_Data,Y
     DEY      ; Y--
     BPL PRG027_B85E  ; While Y >= 0, loop
@@ -1806,7 +1806,7 @@ PRG027_B86D:
 
     ; Loop to copy the 16 BG colors to Pal_Data
 PRG027_B877:
-    LDA [Temp_Var1],Y   ; Get byte of palette data
+    LDA (Temp_Var1),Y   ; Get byte of palette data
     STA Pal_Data,X      ; Store it into Pal_Data
     INY         ; Y++
     INX         ; X++
@@ -1822,7 +1822,7 @@ PRG027_B877:
 
     ; Loop to copy the 16 sprite colors to Pal_Data
 PRG027_B88A:
-    LDA [Temp_Var1],Y   ; Get byte of palette data
+    LDA (Temp_Var1),Y   ; Get byte of palette data
     STA Pal_Data,X      ; Store it into Pal_Data
     INY         ; Y++
     INX         ; X++

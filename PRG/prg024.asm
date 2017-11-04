@@ -778,7 +778,7 @@ PRG024_A545:
 
 PRG024_A548:        ; <-- originally PRG022_C548        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA Background_Tiles,X      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     INY      ; Y++ (next tile, DANGEROUS)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -852,7 +852,7 @@ PRG024_A59C:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 PRG024_A5A0:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ; Get tile for Player -> grid       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA Player_BonusTiles_Big,X     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     INY      ; Y++ (next grid tile, DANGEROUS!)     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INX      ; X++ (next Player tile)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -891,7 +891,7 @@ PRG024_A5CB:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 PRG024_A5CF:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA BonusUNKTALL_Tiles,X        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y         ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y         ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     INY      ; Y++ (next grid tile, DANGEROUS!)     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INX      ; X++      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -916,21 +916,21 @@ PRG024_A5CF:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Border upper left     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #TILE15_BORDER_UL       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Run of 14 middle tiles        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 PRG024_A5F0:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDA #TILE15_BORDER_UM       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     CPY #$0f        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BNE PRG024_A5F0     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Border upper right        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #TILE15_BORDER_UR       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 PRG024_A5FD:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -948,7 +948,7 @@ PRG024_A607:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #TILE15_BORDER_MR       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 PRG024_A60D:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y  ; Store appropriate middle border      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y  ; Store appropriate middle border      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     CPY #$9f        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BNE PRG024_A5FD  ; If Y <> $9F, loop!       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -957,21 +957,21 @@ PRG024_A60D:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Lower left border     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #TILE15_BORDER_LL       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Run of 14 middle tiles        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 PRG024_A618:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INY      ; Y++      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDA #TILE15_BORDER_LM       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     CPY #$af        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BNE PRG024_A618     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Lower right border        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #TILE15_BORDER_LR       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     RTS      ; Return       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -991,7 +991,7 @@ PRG024_A633:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Add prize box tile        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA QBoxOrange_Tiles,X      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     INY      ; Y++ (next tile, DANGEROUS)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INX      ; X++ (next prize box tile)        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1027,7 +1027,7 @@ PRG024_A65A:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Add prize box tile        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA QBoxBlue_Tiles,X        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [BonusText_BaseL],Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (BonusText_BaseL),Y     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     INY      ; Y++ (next tile, DANGEROUS)       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     INX      ; X++ (next prize box tile)        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1062,7 +1062,7 @@ PRG024_A67B:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
 PRG024_A681:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA #TILE15_BRICKFLOOR      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    STA [Map_Tile_AddrL],Y      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    STA (Map_Tile_AddrL),Y      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     INY      ; Y++  (NOT SAFE!)     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
@@ -1472,7 +1472,7 @@ PRG024_A82B:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Video_Misc_Updates2:
     LDY #$00        ; Start at offset 0
-    LDA [Video_Upd_AddrL],Y ; Get next byte from data
+    LDA (Video_Upd_AddrL),Y ; Get next byte from data
     BNE PRG024_A860     ; If not $00 (terminator), process it @ PRG024_A860
     RTS      ; Return
 
@@ -1481,11 +1481,11 @@ PRG024_A860:
 
     STA PPU_VRAM_ADDR   ; Store byte into video address high
     INY         ; Y++
-    LDA [Video_Upd_AddrL],Y ; Get next byte
+    LDA (Video_Upd_AddrL),Y ; Get next byte
     STA PPU_VRAM_ADDR   ; Store byte into video address low
 
     INY         ; Y++
-    LDA [Video_Upd_AddrL],Y ; Get next byte...
+    LDA (Video_Upd_AddrL),Y ; Get next byte...
 
     ASL A           ; Its uppermost bit dictates whether to use horizontal (1B) or vertical (32B) advancement
     PHA         ; Save A
@@ -1519,7 +1519,7 @@ PRG024_A888:
     INY      ; Y++
 
 PRG024_A88B:
-    LDA [Video_Upd_AddrL],Y ; Get next byte
+    LDA (Video_Upd_AddrL),Y ; Get next byte
     STA PPU_VRAM_DATA   ; Store into PPU
     DEX         ; X--
     BNE PRG024_A888     ; While X <> 0, loop!
@@ -5725,7 +5725,7 @@ PRG024_BCAE:
     ; Clearing RAM $7FFF through $6000
 PRG024_BCD4:
     LDA #$00
-    STA [Temp_Var1],Y
+    STA (Temp_Var1),Y
 
     DEY      ; Y--
     BNE PRG024_BCD4  ; While Y <> 0 (come full circle), loop
@@ -5958,7 +5958,7 @@ Ending2_PrepEndPic:
     LDX #$00     ; X = 0 (Ending_CmdBuffer index)
 PRG024_BDF0:
     ; Next command byte -> Temp_Var16
-    LDA [Temp_Var1],Y
+    LDA (Temp_Var1),Y
     STA Temp_Var16
 
     AND #$80
@@ -6119,7 +6119,7 @@ Ending2_AddSprites:
 
     ; Copy sprite data in
 PRG024_BEBE:
-    LDA [Temp_Var1],Y
+    LDA (Temp_Var1),Y
     STA Sprite_RAM,Y
 
     DEY      ; Y--

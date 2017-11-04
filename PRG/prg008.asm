@@ -577,7 +577,7 @@ Level_InitAction_Do:
     LDA #$00
     STA Level_InitAction    ; Level_InitAction = 0 (same memory gets used as Player_Slide after this!)
 
-    JMP [Temp_Var1]     ; Jump appropriately...
+    JMP (Temp_Var1)     ; Jump appropriately...
 
 
 LevelInit_StartSliding:
@@ -1926,7 +1926,7 @@ PRG008_A956:
     STA Temp_Var2
 
 
-    JMP [Temp_Var1]  ; Jump into the movement code!
+    JMP (Temp_Var1)  ; Jump into the movement code!
 
 PowerUpMovement_JumpTable:
     ; Ground movement code
@@ -5128,7 +5128,7 @@ PRG008_B7BA:
     LDA LATP_JumpTable+1,Y
     STA Temp_Var2
 
-    JMP [Temp_Var1]  ; Handle special block!
+    JMP (Temp_Var1)  ; Handle special block!
 
 LATP_JumpTable:
     .word LATP_None     ; 0 = None
@@ -5860,7 +5860,7 @@ PRG008_BB27:
     ; Ceiling slope impact
 
     ; The upper 4 bits hold the ceiling slope height value, so need to shift right by 4
-    LDA [Level_GndLUT_Addr],Y
+    LDA (Level_GndLUT_Addr),Y
     LSR A
     LSR A
     LSR A
@@ -5926,7 +5926,7 @@ PRG008_BB69:
 
     LDA Player_Y
     AND #$0f        ; Get Player's vertical position within tile
-    SUB [Level_GndLUT_Addr],Y    ; NOTE: This makes an assumption that the would-be ceiling component is always zero!!
+    SUB (Level_GndLUT_Addr),Y    ; NOTE: This makes an assumption that the would-be ceiling component is always zero!!
     BMI PRG008_BB1A  ; If 'A' (relative vertical position on tile) > (height at this point on slope), jump to PRG008_BB1A (RTS)
 
 PRG008_BB7E:
@@ -5937,7 +5937,7 @@ PRG008_BB7E:
 
     ; Ground slope impact
 
-    LDA [Level_GndLUT_Addr],Y
+    LDA (Level_GndLUT_Addr),Y
     AND #$0f        ; Lower 4 bits hold ground slope height
     STA Temp_Var1   ; Temp_Var1 = fractional slope value
 
