@@ -629,7 +629,7 @@ PRG000_C422:
     TYA      ; A = Y
     TAX      ; X = A = 1 or 2
 
-    LDA (TimeBonus_Score - 1),X  ; Get appropriate score bonus
+    LDA TimeBonus_Score - 1,X  ; Get appropriate score bonus
     STA Score_Earned        ; Push into score buffer
 
 PRG000_C42F:
