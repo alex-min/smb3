@@ -42,68 +42,68 @@
     .endm
 
 .macro ABS_LDA _1
-    .byte $AD, <_1, >_1
+    .byte $AD, <_1, $00
     .endm
 
 .macro ABS_LDA_X _1
-    .byte $BD, <_1, >_1
+    .byte $BD, <_1, $00
     .endm
 
 .macro ABS_STA _1
-    .byte $8D, <_1, >_1
+    .byte $8D, <_1, $00
     .endm
 
 .macro ABS_STA_X _1
-    .byte $9D, <_1, >_1
+    .byte $9D, <_1, $00
     .endm
 
 
 .macro ABS_LDY _1
-    .byte $AC, <_1, >_1
+    .byte $AC, <_1, $00
     .endm
 
 .macro ABS_LDY_X _1
-    .byte $BC, <_1, >_1
+    .byte $BC, <_1, $00
     .endm
 
 .macro ABS_STY _1
-    .byte $8C, <_1, >_1
+    .byte $8C, <_1, $00
     .endm
 
 .macro ABS_LDX _1
-    .byte $AE, <_1, >_1
+    .byte $AE, <_1, $00
     .endm
 
 .macro ABS_STX _1
-    .byte $8E, <_1, >_1
+    .byte $8E, <_1, $00
     .endm
 
 .macro ABS_SBC _1
-    .byte $ED, <_1, >_1
+    .byte $ED, <_1, $00
     .endm
 
 .macro ABS_SBC_X _1
-    .byte $FD, <_1, >_1
+    .byte $FD, <_1, $00
     .endm
 
 .macro ABS_ADC _1
-    .byte $6D, <_1, >_1
+    .byte $6D, <_1, $00
     .endm
 
 .macro ABS_ADC_X _1
-    .byte $7D, <_1, >_1
+    .byte $7D, <_1, $00
     .endm
 
 .macro ABS_INC _1
-    .byte $EE, <_1, >_1
+    .byte $EE, <_1, $00
     .endm
 
 .macro ABS_INC_X _1
-    .byte $FE, <_1, >_1
+    .byte $FE, <_1, $00
     .endm
 
 .macro ABS_ORA _1
-    .byte $0D, <_1, >_1
+    .byte $0D, <_1, $00
     .endm
 
 ; This is used in video update streams; since the video address register
