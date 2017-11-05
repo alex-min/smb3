@@ -33,7 +33,7 @@ Vs_CardAwardLives:
 
     JSR PRG009_A026
 
-    LDX #(Inventory_Cards2 - Inventory_Cards)   ; Offset to Luigi's cards
+    LDX #Inventory_Cards2 - Inventory_Cards   ; Offset to Luigi's cards
     LDY #$01     ; Y = 1
 
 PRG009_A026:
@@ -329,7 +329,7 @@ PRG009_A165:
     STA Temp_Var1
 
     ; Set Temp_Var2 as offset to Luigi's last card
-    LDY #(Inventory_Cards2 - Inventory_Cards + 2)
+    LDY #Inventory_Cards2 - Inventory_Cards + 2
     STY Temp_Var2
 
     JMP PRG009_A10E  ; Jump to PRG009_A10E
@@ -355,7 +355,7 @@ PRG009_A188:
     INX      ; X++ (next graphics buffer byte)
     INY      ; Y++ (next byte of command data)
 
-    CPY #(Vs_PlayerCoinStatCmds_End - Vs_PlayerCoinStatCmds)
+    CPY #Vs_PlayerCoinStatCmds_End - Vs_PlayerCoinStatCmds
     BNE PRG009_A188 ; While not the last byte of command data, loop!
 
     LDY Temp_Var16  ; Y = Temp_Var16 (current Player index)
@@ -739,7 +739,7 @@ Vs_PlayerPopCard:
     BEQ PRG009_A38E  ; If Player is Mario, jump to PRG009_A38E
 
     ; Set Y as offset to Luigi's third card
-    LDY #(Inventory_Cards2 - Inventory_Cards + 2)
+    LDY #Inventory_Cards2 - Inventory_Cards + 2
 
 PRG009_A38E:
 
@@ -776,7 +776,7 @@ PRG009_A3AD:
     LDA Inventory_Cards,Y
     TAY      ; Y = current card face
     CLC
-    ADC #(VSOBJID_MUSHROOMCARD-1)
+    ADC #VSOBJID_MUSHROOMCARD-1
     STA Vs_ObjectId,X   ; Set proper object ID for the card
 
     ; Set Y Velocity of card
@@ -1001,7 +1001,7 @@ VsPlayer_Normal:
     BNE PRG009_A4CF  ; If Vs_PlayerBumpTimer <> 0, jump to PRG009_A4CF
 
     LDA Controller1,X
-    AND #(PAD_UP | PAD_DOWN)
+    AND #PAD_UP | PAD_DOWN
     BEQ PRG009_A4CF  ; If Player is not pressing up or down, jump to PRG009_A4CF
 
     ; Player is pressing up or down...
@@ -1056,7 +1056,7 @@ PRG009_A4E4:
 
 PRG009_A4EA:
     LDA Controller1,X
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BEQ PRG009_A546  ; If Player is not pressing left or right, jump to PRG009_A546
 
     ; Player is pressing left or right...
@@ -1258,7 +1258,7 @@ PRG009_A5CE:
 
 PRG009_A5D1:
     LDA Controller1,X
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BNE PRG009_A5ED  ; If Player is pressing left or right, jump to PRG009_A5ED
 
     ; Player is not pressing left or right...
@@ -1490,7 +1490,7 @@ PRG009_A6D5:
 
 VsPlayer_Climbing:
     LDA Controller1,X
-    AND #(PAD_UP | PAD_DOWN)
+    AND #PAD_UP | PAD_DOWN
     BEQ PRG009_A6FE  ; If Player is pressing neither up nor down, jump to PRG009_A6FE
 
     ; Player is pressing UP or DOWN...
@@ -1515,7 +1515,7 @@ PRG009_A6F6:
 
 PRG009_A6FE:
     LDA Controller1,X
-    AND #(PAD_UP | PAD_DOWN)
+    AND #PAD_UP | PAD_DOWN
     BEQ PRG009_A734  ; If Player is pressing neither up nor down, jump to PRG009_A734
 
     ; Player is pressing UP or DOWN...
@@ -1555,7 +1555,7 @@ PRG009_A72E:
 
 PRG009_A734:
     LDA Controller1,X
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     STA Temp_Var1   ; Player pressing left/right -> Temp_Var1
 
     ; Player is pressing left/right while on the ladder...
@@ -1716,7 +1716,7 @@ Vs_CollideAgainstWorld:
     STA Vs_PlayerTileL,X
     STA Vs_PlayerTileU,X
 
-    LDY #(Vs_DetStatLoop_End - Vs_DetStatLoop - 1)
+    LDY #Vs_DetStatLoop_End - Vs_DetStatLoop - 1
 PRG009_A7E4:
     STY Temp_Var16  ; Backup 'Y'
 
@@ -2034,7 +2034,7 @@ Vs_EraseLastTile:
     STA Graphics_Buffer+$04,Y   ; Lower row
 
     ; Run length 2
-    LDA #(VU_REPEAT | 2)
+    LDA #VU_REPEAT | 2
     STA Graphics_Buffer+$02,Y   ; Upper row
     STA Graphics_Buffer+$06,Y   ; Lower row
 
@@ -3050,7 +3050,7 @@ PRG009_AE96:
 
     BGE PRG009_AEA1
 
-    LDA #(SPR_PAL3 | SPR_BEHINDBG)  ; Coin still emerging from fountain
+    LDA #SPR_PAL3 | SPR_BEHINDBG  ; Coin still emerging from fountain
 
 PRG009_AEA1:
     STA Sprite_RAM+$02,Y     ; Set coin attributes
@@ -4370,7 +4370,7 @@ Vs_GrabCardObject:
     LDA Temp_Var16
     BEQ PRG009_B4DF  ; If this is Mario, jump to PRG009_B4DF
 
-    LDY #(Inventory_Cards2 - Inventory_Cards)   ; Offset to Luigi's cards
+    LDY #Inventory_Cards2 - Inventory_Cards   ; Offset to Luigi's cards
 
 PRG009_B4DF:
 
@@ -4383,7 +4383,7 @@ PRG009_B4DF:
     ; Give card
     LDA Vs_ObjectId,X
     SEC
-    SBC #(VSOBJID_MUSHROOMCARD - 1) ; -1 because "0" is none, "1" is Mushroom card, etc.
+    SBC #VSOBJID_MUSHROOMCARD - 1 ; -1 because "0" is none, "1" is Mushroom card, etc.
     STA Inventory_Cards,Y
 
 PRG009_B4F4:
@@ -4680,7 +4680,7 @@ PRG009_B62D:
     SEC
     SBC Vs_PlayerYOff,X
 
-    CMP #(Vs_POW_Y - 11)
+    CMP #Vs_POW_Y - 11
     BGE PRG009_B67A  ; If Player is lower than the top of POW block, jump to PRG009_B67A
 
     ; Player is above top of POW block...
@@ -4701,7 +4701,7 @@ PRG009_B67A:
     LDA Vs_PlayerY,X
     CLC
     ADC Vs_PlayerYOff,X
-    CMP #(Vs_POW_Y + 9)
+    CMP #Vs_POW_Y + 9
     BLT PRG009_B6AD  ; If Player is too low, jump to PRG009_B6AD
 
     LDA Vs_PlayerYVel,X
@@ -4719,7 +4719,7 @@ PRG009_B67A:
     STA Vs_PlayerYVel,X
 
     ; Ensure Player is beneath POW block
-    LDA #(Vs_POW_Y + 17)
+    LDA #Vs_POW_Y + 17
     SEC
     SBC Vs_PlayerYOff,X
     STA Vs_PlayerY,X
@@ -4779,7 +4779,7 @@ PRG009_B6C9:
 
     ; Other sprite of fireball is H/V flipped
     LDA Sprite_RAM+$02,Y
-    EOR #(SPR_HFLIP | SPR_VFLIP)
+    EOR #SPR_HFLIP | SPR_VFLIP
     STA Sprite_RAM+$02,Y
     STA Sprite_RAM+$06,Y
 
@@ -5072,13 +5072,13 @@ PRG009_B822:
 Vs_BumpBlockApplyYVel:
     TXA
     CLC
-    ADC #(Vs_PlayerBlkHitYVel - Vs_PlayerYVel)  ; Offset to bump block Y Velocity
+    ADC #Vs_PlayerBlkHitYVel - Vs_PlayerYVel  ; Offset to bump block Y Velocity
     BPL PRG009_B888
 
 Vs_ObjectApplyXVel:
     TXA
     CLC
-    ADC #(Vs_ObjectXVel - Vs_ObjectYVel + 2)    ; +2 so to get passed the Vs_PlayerXVel vars
+    ADC #Vs_ObjectXVel - Vs_ObjectYVel + 2    ; +2 so to get passed the Vs_PlayerXVel vars
     BPL PRG009_B888
 
 Vs_ObjectApplyYVel:
@@ -5099,7 +5099,7 @@ Vs_ApplyXVel:
     ; Update X velocity instead of Y velocity
     TXA
     CLC
-    ADC #(Vs_PlayerXVel - Vs_PlayerYVel)
+    ADC #Vs_PlayerXVel - Vs_PlayerYVel
     TAX
 
     JSR Vs_ApplyYVel     ; Really apply X velocity!
@@ -5139,7 +5139,7 @@ PRG009_B8BB:
 
     ROL A        ; Essentially puts carry into 'A'
 
-    CPX #(Vs_PlayerXVel - Vs_PlayerYVel)
+    CPX #Vs_PlayerXVel - Vs_PlayerYVel
     BGE PRG009_B8CF  ; If this is the Player/Object X, then do not concern with the "high" part, jump to PRG009_B8CF (RTS)
 
     ROR A        ; Put carry bit back in place
@@ -5372,7 +5372,7 @@ CoinShip_CoinGlow:
     INC CoinShip_CoinGlowIdx     ; CoinShip_CoinGlowIdx++ (next palette color index)
 
     LDA CoinShip_CoinGlowIdx
-    CMP #(CoinShip_CoinGlow - AScroll_CoinShipCoinGlowPal)
+    CMP #CoinShip_CoinGlow - AScroll_CoinShipCoinGlowPal
     BLT PRG009_BBAC  ; If we haven't hit the end of the palette array yet, jump to PRG009_BBAC
 
     ; CoinShip_CoinGlowIdx = 0
@@ -5838,7 +5838,7 @@ PRG009_BDC9:
     STA Player_PartDetEn
 
     ; Enable display of 32 pixel partition and show sprites beneath the partition
-    LDA #(UPDATERASTER_32PIXPART | UPDATERASTER_32PIXSHOWSPR)
+    LDA #UPDATERASTER_32PIXPART | UPDATERASTER_32PIXSHOWSPR
 
 
 PRG009_BDD0:
@@ -5912,7 +5912,7 @@ PRG009_BE28:
 PRG009_BE2B:
 
     ; Auto scroll effects enabled, but no horizontal auto scroll
-    LDA #(ASCONFIG_ENABLE | ASCONFIG_HDISABLE)
+    LDA #ASCONFIG_ENABLE | ASCONFIG_HDISABLE
     STA Level_AScrlConfig
 
     RTS      ; Return

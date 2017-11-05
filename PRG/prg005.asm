@@ -776,7 +776,7 @@ PRG005_A3F3:
 
 PRG005_A402:
     ; Set palette select 3 and vertical flip for lower sprites
-    LDA #(SPR_VFLIP | SPR_PAL3)
+    LDA #SPR_VFLIP | SPR_PAL3
     STA Sprite_RAM+$0A,Y
     STA Sprite_RAM+$0E,Y
 
@@ -1013,7 +1013,7 @@ PRG005_A50D:
 
     BLT PRG005_A514  ; If Var4 < 3, jump to PRG005_A514
 
-    LDA #(SPR_HFLIP | SPR_VFLIP)     ; A = (Horizontal and Vertical flip, otherwise)
+    LDA #SPR_HFLIP | SPR_VFLIP     ; A = (Horizontal and Vertical flip, otherwise)
 
 PRG005_A514:
     STA Objects_FlipBits,X   ; Set proper flip
@@ -1164,14 +1164,14 @@ PRG005_A5C9:
     CPX #OBJ_FIREJET_RIGHT
     BNE PRG005_A5D8  ; If this is not a rightward fire jet, jump to PRG005_A5D8
 
-    LDA #(SPR_HFLIP | SPR_PAL1)  ; Use horizontal flip and palette select 1
+    LDA #SPR_HFLIP | SPR_PAL1  ; Use horizontal flip and palette select 1
 
 PRG005_A5D8:
     PLP      ; Restore process status
 
     BCC PRG005_A5DD  ; Periodically jump to PRG005_A5DD
 
-    ORA #(SPR_VFLIP | SPR_PAL1)  ; Apply vertical flip (and palette select 1, though that's needless)
+    ORA #SPR_VFLIP | SPR_PAL1  ; Apply vertical flip (and palette select 1, though that's needless)
 
 PRG005_A5DD:
     STA Sprite_RAM+$02,Y     ; Set sprite attribute
@@ -1429,7 +1429,7 @@ PRG005_A712:
     LDA #SPR_PAL2   ; Palette select 2
     STA Sprite_RAM+$0A,Y
 
-    LDA #(SPR_HFLIP | SPR_PAL2) ; Horizontal flip and Palette select 2
+    LDA #SPR_HFLIP | SPR_PAL2 ; Horizontal flip and Palette select 2
     STA Sprite_RAM+$0E,Y
 
     BNE PRG005_A738  ; Jump (technically always) to PRG005_A738
@@ -1444,10 +1444,10 @@ PRG005_A71E:
     STA Sprite_RAM+$0E,Y
 
 PRG005_A72E:
-    LDA #(SPR_VFLIP | SPR_PAL2) ; Vertical flip and Palette select 2
+    LDA #SPR_VFLIP | SPR_PAL2 ; Vertical flip and Palette select 2
     STA Sprite_RAM+$02,Y
 
-    LDA #(SPR_HFLIP | SPR_VFLIP | SPR_PAL2) ; Horizontal and vertical flip and palette select 2
+    LDA #SPR_HFLIP | SPR_VFLIP | SPR_PAL2 ; Horizontal and vertical flip and palette select 2
     STA Sprite_RAM+$06,Y
 
 PRG005_A738:
@@ -1858,7 +1858,7 @@ ObjNorm_AirshipPropellar:
     AND #$02
     BEQ PRG005_A929  ; 2 ticks on, 2 ticks off; jump to PRG005_A929
 
-    LDA #(SPR_VFLIP | SPR_PAL2)  ; palette select 2, vertically flipped
+    LDA #SPR_VFLIP | SPR_PAL2  ; palette select 2, vertically flipped
     STA Temp_Var3   ; -> Temp_Var3
 
     INX      ; X = 1
@@ -3432,7 +3432,7 @@ PRG005_B062:
 
     ; Second "up" arrow platform only
 
-    LDA #(SPR_HFLIP | SPR_PAL2)  ; Palette select 2 and horizontal flip
+    LDA #SPR_HFLIP | SPR_PAL2  ; Palette select 2 and horizontal flip
 
 PRG005_B08F:
     STA Sprite_RAM+$02,Y     ; Set sprite attribute
@@ -3673,7 +3673,7 @@ PRG005_B175:
     STA Player_InAir
 
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BNE PRG005_B1A7  ; If Player is not pressing left or right, jump to PRG005_B1A7 (RTS)
 
     JSR Fish_FixedYIfAppro   ; ?? Also a strange thing to call, would align parabeetles with the vertical scroll in a raster-effect
@@ -3934,7 +3934,7 @@ PRG005_B2C6:
 
 PRG005_B2E2:
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BNE PRG005_B2F4
 
     LDA Player_XVel
@@ -4705,7 +4705,7 @@ PRG005_B6BA:
     INY ; Makes this value agree with Player pressing left/right on pad
 
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     STA Temp_Var1   ; Temp_Var1 = non-zero if Player is pressing left or right
 
     LDA #$00    ; Halt Player if he presses direction "into" the Big ? Block
@@ -5215,7 +5215,7 @@ PRG005_B902:
 
     ; Trigger Level_Event
     SEC
-    SBC #(OBJ_CHEEPCHEEPBEGIN-1)    ; Base at 1
+    SBC #OBJ_CHEEPCHEEPBEGIN-1    ; Base at 1
     STA Level_Event         ; Set Level_Event
 
     RTS      ; Return
@@ -5716,7 +5716,7 @@ PRG005_BB30:
 
     ; This is never used, but actually cheep cheep swarms in a
     ; vertical pipe maze is really kinda cool!
-    SBC #(OBJ_CHEEPCHEEPBEGIN-1)
+    SBC #OBJ_CHEEPCHEEPBEGIN-1
     STA Level_Event  ; Store into Level_Event
     RTS      ; Return
 

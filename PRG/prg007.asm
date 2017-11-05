@@ -246,7 +246,7 @@ PRG007_A113:
     ; If not standing on some kind of arrow platform tile, jump to PRG007_A0DD (RTS)
     CMP #TILE8_ARROWLIFT_UPL
     BLT PRG007_A0DD
-    CMP #(TILE8_ARROWLIFT_RANDOMR+1)
+    CMP #TILE8_ARROWLIFT_RANDOMR+1
     BGE PRG007_A0DD
 
     SEC
@@ -266,7 +266,7 @@ PRG007_A12E:
     LDA Level_ObjectID,X
     CMP #OBJ_ARROWONE
     BLT PRG007_A146
-    CMP #(OBJ_ARROWANY+1)
+    CMP #OBJ_ARROWANY+1
     BGE PRG007_A146
 
     ; There's another arrow platform already active in this slot...
@@ -558,7 +558,7 @@ PRG007_A268:
     STA Sprite_RAM+$02,Y
 
     ; Set right sprite attribute
-    EOR #(SPR_HFLIP | SPR_VFLIP)
+    EOR #SPR_HFLIP | SPR_VFLIP
     STA Sprite_RAM+$06,Y
 
 PRG007_A2AE:
@@ -1544,7 +1544,7 @@ PRG007_A719:
 
 PRG007_A75F:
     STA Sprite_RAM+$02,Y    ; Set left sprite attributes
-    ORA #(SPR_HFLIP | SPR_VFLIP)
+    ORA #SPR_HFLIP | SPR_VFLIP
     STA Sprite_RAM+$06,Y     ; Set right sprite attributes
 
     LDX SlotIndexBackup     ; X = Player Projectile slot index
@@ -1675,7 +1675,7 @@ PRG007_A7F1:
     LDY #$7f     ; Y = $7F ("slow" mask value for idle underwater player)
 
     LDA Pad_Holding
-    AND #(PAD_A | PAD_LEFT | PAD_RIGHT)
+    AND #PAD_A | PAD_LEFT | PAD_RIGHT
     BEQ PRG007_A7FB  ; If Player is not pressing A, LEFT, or RIGHT (swim controls), jump to PRG007_A7FB
 
     LDY #$3f     ; Y = $3F ("fast" mask value for idle underwater player)
@@ -1728,7 +1728,7 @@ PRG007_A80D:
 
     INY      ; Otherwise, Y = 2 (down frog swim)
 
-    CMP #(PF_FROGSWIM_DOWNBASE+3)   ; This is actually 1 passed the end of frog suit swim frames
+    CMP #PF_FROGSWIM_DOWNBASE+3   ; This is actually 1 passed the end of frog suit swim frames
     BLT PRG007_A835  ; If within range of the last frog suit swim frame, jump to PRG007_A835
 
     LDY #$00     ; Otherwise, Y = 0
@@ -2093,7 +2093,7 @@ PRG007_A9D5:
     STA Sprite_RAM+$02,Y
 
     ; Set right splash sprite attributes
-    LDA #(SPR_PAL1 | SPR_HFLIP)
+    LDA #SPR_PAL1 | SPR_HFLIP
     STA Sprite_RAM+$06,Y
 
     LDA Splash_Counter,X
@@ -2824,7 +2824,7 @@ PRG007_AD54:
     STA Sprite_RAM+$02,Y
 
     ; Right half uses opposite flips
-    EOR #(SPR_HFLIP | SPR_VFLIP)
+    EOR #SPR_HFLIP | SPR_VFLIP
     STA Sprite_RAM+$06,Y
 
     LDA BrickBust_HEn,X
@@ -3584,7 +3584,7 @@ PRG007_B144:
     ASL A
     ASL A
     ASL A
-    AND #(SPR_HFLIP | SPR_VFLIP)
+    AND #SPR_HFLIP | SPR_VFLIP
 
     ; Set attributes
     ORA Temp_Var1       ; OR'd with palette
@@ -3605,7 +3605,7 @@ PRG007_B153:
     STA Sprite_RAM+$02,Y
 
     ; Set attributes on right sprite
-    LDA #(SPR_PAL3 | SPR_HFLIP)
+    LDA #SPR_PAL3 | SPR_HFLIP
     STA Sprite_RAM+$06,Y
 
     RTS      ; Return
@@ -4428,7 +4428,7 @@ PRG007_B588:
     STA Sprite_RAM+$02,Y
 
     ; Set opposite flips on right sprite
-    EOR #(SPR_HFLIP | SPR_VFLIP)
+    EOR #SPR_HFLIP | SPR_VFLIP
     STA Sprite_RAM+$06,Y
 
     LDA SpecialObj_Data,X
@@ -4637,7 +4637,7 @@ PRG007_B6A9:
     AND #$08
     BEQ PRG007_B6BC  ; 8 ticks on, 8 ticks off; jump to PRG007_B6BC
 
-    LDX #(SPR_PAL3 | SPR_HFLIP)
+    LDX #SPR_PAL3 | SPR_HFLIP
 
 PRG007_B6BC:
 
@@ -4652,7 +4652,7 @@ PRG007_B6BC:
     BPL PRG007_B6CE  ; If SpecialObj_Data > 0 (Microgoomba still alive), jump to PRG007_B6CE (RTS)
 
     ; Microgoomba is dead; vertically flip
-    LDA #(SPR_PAL3 | SPR_VFLIP)
+    LDA #SPR_PAL3 | SPR_VFLIP
     STA Sprite_RAM+$02,Y
 
 PRG007_B6CE:
@@ -5429,7 +5429,7 @@ PRG007_BAA6:
     STA Sprite_RAM+$02,Y
 
     ; Set puff attributes on right sprite
-    EOR #(SPR_HFLIP | SPR_VFLIP)
+    EOR #SPR_HFLIP | SPR_VFLIP
     STA Sprite_RAM+$06,Y
 
     LDA SpecialObj_Data,X
@@ -5762,7 +5762,7 @@ PRG007_BC4E:
 
 PRG007_BC55:
     CLC
-    ADC #(Cannons_CPXOff - CannonPoof_XOffs - CFIRE_HLCANNON)   ; Offset to proper array index for this Cannon Fire
+    ADC #Cannons_CPXOff - CannonPoof_XOffs - CFIRE_HLCANNON   ; Offset to proper array index for this Cannon Fire
     JMP PRG007_BE59  ; Jump to PRG007_BE59 (fire cannonball!)
 
 PRG007_BC5B:
@@ -6402,7 +6402,7 @@ PRG007_BF80:
 
     TYA     ; 0 or 1
     CLC
-    ADC #(Bill_CPXOff - CannonPoof_XOffs)
+    ADC #Bill_CPXOff - CannonPoof_XOffs
     STA Temp_Var1  ; -> Temp_Var1
 
     JSR CannonFire_NoiseAndSmoke     ; Play cannon fire noise and make smoke

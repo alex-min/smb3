@@ -361,7 +361,7 @@ PRG014_C5F4:
     LDY TileAddr_Off    ; Y = TileAddr_Off
 
     ; Temp_Var1 = tiles per row - 1
-    LDA #(((Vs_StatusBarTiles_End - Vs_StatusBarTiles) / 2) - 1)
+    LDA #((Vs_StatusBarTiles_End - Vs_StatusBarTiles) / 2) - 1
     STA Temp_Var1
 
 PRG014_C5FB:
@@ -380,7 +380,7 @@ PRG014_C5FB:
     ADC #16
     STA TileAddr_Off
 
-    CPX #(Vs_StatusBarTiles_End - Vs_StatusBarTiles)
+    CPX #Vs_StatusBarTiles_End - Vs_StatusBarTiles
     BNE PRG014_C5F4  ; If we have another row to do, loop!
 
     RTS      ; Return
@@ -596,7 +596,7 @@ LoadLevel_VTransitPipeRun:
     LDA Map_Tile_AddrH
     STA Temp_Var2
 
-    LDX #(LL_VertPipeTransit - LL_VertPipe) ; X is set to index of in-level transit pipe tile
+    LDX #LL_VertPipeTransit - LL_VertPipe ; X is set to index of in-level transit pipe tile
 
     LDA LL_ShapeDef
     AND #$0f
@@ -658,7 +658,7 @@ PRG014_C735:
     RTS      ; Return
 
 LoadLevel_VGroundPipe5Run:
-    LDX #(LL_VertPipe4 - LL_VertPipe)   ; Level_Tileset 3 or 14 (Hills or underground styles) have a fourth pipe
+    LDX #LL_VertPipe4 - LL_VertPipe   ; Level_Tileset 3 or 14 (Hills or underground styles) have a fourth pipe
 
     LDA LL_ShapeDef
     AND #$0f
@@ -1072,7 +1072,7 @@ LoadLevel_EndGoalDecoSquare:
     LDY #$00
     STY Temp_Var7   ; Temp_Var7 = 0
 
-    LDX #(LL_Goal_TSetListEnd - LL_Goal_TSetList - 1)
+    LDX #LL_Goal_TSetListEnd - LL_Goal_TSetList - 1
     LDA Level_Tileset    ; A = Level_Tileset
 
     ; Searching for an index into LL_Goal_TSetList which matches
@@ -1292,12 +1292,12 @@ LoadLevel_MidSizeBush:
     JMP PRG014_CBB9         ; Jump to PRG014_CBB9
 
 LoadLevel_SmallSizeBush:
-    LDX #(LL_Bush2 - LL_Bush1)  ; Starting index from LL_Bush1
+    LDX #LL_Bush2 - LL_Bush1  ; Starting index from LL_Bush1
     LDY #1              ; Bush width index
     JMP PRG014_CBB9         ; Jump to PRG014_CBB9
 
 LoadLevel_BigSizeBush:
-    LDX #(LL_Bush3 - LL_Bush1)  ; Starting index in LL_Bush1
+    LDX #LL_Bush3 - LL_Bush1  ; Starting index in LL_Bush1
     LDY #2              ; Bush width index
 
 PRG014_CBB9:
@@ -2619,7 +2619,7 @@ PRG014_D15E:
 
 
 PRG014_D15F:
-    LDX #(LL_BigBlock_EndShadowChks-LL_BigBlock_ShadowChks-1)
+    LDX #LL_BigBlock_EndShadowChks-LL_BigBlock_ShadowChks-1
 
     ; Searching for block corners to terminate shadow
     LDA (Map_Tile_AddrL),Y      ; Get this tile
@@ -4985,9 +4985,9 @@ LoadLevel_ThroneRoom:
     LDY TileAddr_Off     ; Y = TileAddr_Off
 
     ; Temp_Var1/2 point to LL_ThroneRoom
-    LDA #(LL_ThroneRoom & $FF)
+    LDA #LL_ThroneRoom & $FF
     STA Temp_Var1
-    LDA #(LL_ThroneRoom >> 8)
+    LDA #LL_ThroneRoom >> 8
     STA Temp_Var2
 
 PRG014_DF41:

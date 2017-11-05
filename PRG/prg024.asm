@@ -129,7 +129,7 @@ TAndK_DrawDiagBox:
     INC ToadTalk_VH  ; Apply carry
 PRG024_A0CD:
 
-    LDA #(DiagBox_R2 - DiagBox_R1)  ; run count per row
+    LDA #DiagBox_R2 - DiagBox_R1  ; run count per row
     STA Graphics_Buffer+2,X
     STA Temp_Var1       ; -> Temp_Var1
 
@@ -161,7 +161,7 @@ PRG024_A0DB:
     INC ToadTalk_CPos    ; Next row
 
     LDA ToadTalk_CPos
-    CMP #(DiagBox_RowOffs_End - DiagBox_RowOffs)
+    CMP #DiagBox_RowOffs_End - DiagBox_RowOffs
     BLT PRG024_A119  ; If row count < 8, jump to PRG024_A119
 
     ; Dialog box is complete
@@ -171,7 +171,7 @@ PRG024_A0DB:
     LDY Map_Objects_IDs
     BNE PRG024_A105  ; If the "HELP!" bubble is still present (haven't been on airship yet), jump to PRG024_A105
 
-    LDA #(KingHelpMsg2 - KingHelpMsg1)   ; ("Get the magic wand back from little koopa!")
+    LDA #KingHelpMsg2 - KingHelpMsg1   ; ("Get the magic wand back from little koopa!")
 
 PRG024_A105:
     STA ToadTalk_CPos    ; Set proper character position
@@ -425,7 +425,7 @@ PRG024_A39D:
     STA PatTable_BankSel+4
 
     ; Copy in the sprites for yelling Toad
-    LDY #(KingToad_Sprites_End - KingToad_Sprites - 1)
+    LDY #KingToad_Sprites_End - KingToad_Sprites - 1
 PRG024_A3A4:
     LDA KingToad_Sprites,Y
     STA Sprite_RAM+$40,Y
@@ -437,7 +437,7 @@ PRG024_A3A4:
     LDX KingToad_PatOffset,Y ; X = base offset into patterns for this frame
 
     ; Patch the patterns on the yelling Toad for the current frame
-    LDY #((KingToad_Sprites_End - KingToad_Sprites - 1) & ~3)
+    LDY #(KingToad_Sprites_End - KingToad_Sprites - 1) & ~3
 PRG024_A3B5:
     LDA KingToad_Patterns,X
     STA Sprite_RAM+$41,Y
@@ -829,7 +829,7 @@ PRG024_A548:        ; <-- originally PRG022_C548        ; UNUSED COPY FROM PRG02
 
     ; This loop tries to match the Player's power up with an index      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ; If nothing else, X = 0, which uses "Big"      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    LDX #(PlayerSuit_ToIndex_End - PlayerSuit_ToIndex - 1)      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDX #PlayerSuit_ToIndex_End - PlayerSuit_ToIndex - 1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDY Player_Current  ; Y = Player_Current        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA World_Map_Power,Y   ; Get current Player's power        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 PRG024_A589:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -877,7 +877,7 @@ PRG024_A5A0:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY      ; -> 'Y'       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDA Temp_Var3      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    CMP #(Player_BonusTiles_Raccoon - Player_BonusTiles_Big)        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    CMP #Player_BonusTiles_Raccoon - Player_BonusTiles_Big        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BNE PRG024_A59C  ; If we have more tiles to go, loop!       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     RTS      ; Return       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -914,7 +914,7 @@ PRG024_A5CF:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY      ; -> 'Y'       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    CPX #(BonusUNKTALL_Tiles_End - BonusUNKTALL_Tiles)      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    CPX #BonusUNKTALL_Tiles_End - BonusUNKTALL_Tiles      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BNE PRG024_A5CB  ; While X < number of tiles, loop!     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     RTS      ; Return       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1015,7 +1015,7 @@ PRG024_A633:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY      ; -> 'Y'       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    CPX #(QBoxOrange_Tiles_End - QBoxOrange_Tiles)      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    CPX #QBoxOrange_Tiles_End - QBoxOrange_Tiles      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BNE PRG024_A62F ; While tiles to go, loop!      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     RTS      ; Return       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1052,7 +1052,7 @@ PRG024_A65A:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA TileAddr_Off        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     TAY      ; -> 'Y'       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    CPX #(QBoxBlue_Tiles_End - QBoxBlue_Tiles)      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    CPX #QBoxBlue_Tiles_End - QBoxBlue_Tiles      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     BNE PRG024_A656 ; While tiles to go, loop!      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     RTS      ; Return       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1205,7 +1205,7 @@ PRG024_A6E2:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDY #$00     ; Y = 0        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    LDX #(HostToad_SpriteYs_End - HostToad_SpriteYs - 1)        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDX #HostToad_SpriteYs_End - HostToad_SpriteYs - 1        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 PRG024_A727:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Set Sprite Y of this sprite of the Toad Host      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1254,7 +1254,7 @@ PRG024_A727:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDY #$00     ; Y = 0        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    LDX #(HostTroopa_SpriteYs_End - HostTroopa_SpriteYs - 1)        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDX #HostTroopa_SpriteYs_End - HostTroopa_SpriteYs - 1        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 PRG024_A765:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Set Sprite Y of this sprite of the Koopa Troopa Host      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1304,7 +1304,7 @@ PRG024_A765:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     STA Temp_Var11     ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     LDY #$00     ; Y = 0        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
-    LDX #(HostHammerBro_SpriteYs_End - HostHammerBro_SpriteYs - 1)      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDX #HostHammerBro_SpriteYs_End - HostHammerBro_SpriteYs - 1      ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 PRG024_A7A5:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     ; Set Sprite Y of this sprite of the Hammer Bro Host        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
     LDA HostHammerBro_SpriteYs,X        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1357,7 +1357,7 @@ PRG024_A7A5:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Draw the game box first       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
-    LDX #(BonusGameBox_SpriteYs_End - BonusGameBox_SpriteYs - 1)        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
+    LDX #BonusGameBox_SpriteYs_End - BonusGameBox_SpriteYs - 1        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 PRG024_A7E1:        ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
 
     ; Set Sprite Y of this sprite       ; UNUSED COPY FROM PRG022, DELETE DON'T MODIFY
@@ -1572,7 +1572,7 @@ PRG024_A8BF:
 
 
     ; Clearing memory used by various title screen objects
-    LDX #(Title_ObjFrame - Title_MLAccelCnt + 6)
+    LDX #Title_ObjFrame - Title_MLAccelCnt + 6
 PRG024_A8C8:
     LDA #$00     ; A = 0
     STA Title_MLAccelCnt,X   ; Clear this byte
@@ -2319,8 +2319,8 @@ Title_Menu_1P2PCursorY:
 
 Title_Do1P2PMenu:
     LDA Controller2
-    AND #(PAD_A | PAD_B)
-    CMP #(PAD_A | PAD_B)
+    AND #PAD_A | PAD_B
+    CMP #PAD_A | PAD_B
     BNE PRG024_AC42  ; If Player 2 is not holding A+B, jump to PRG024_AC42
 
     ; NOTE: This probably WAS the debug menu activation...
@@ -2450,7 +2450,7 @@ PRG024_ACD7:
 
 PRG024_ACE2:
     LDA Pad_Input
-    AND #(PAD_UP | PAD_DOWN)
+    AND #PAD_UP | PAD_DOWN
     BEQ PRG024_ACFB  ; If Player is not pressing Up or Down, jump to PRG024_ACFB
 
     LSR A
@@ -3156,7 +3156,7 @@ Title_ApplyYVel:
     ; precision adding function as X or Y velocity... relies on all pertinent values
     ; to be exactly the same bytes apart...
     CLC
-    ADC #(Title_ObjYVel - Title_ObjXVel)
+    ADC #Title_ObjYVel - Title_ObjXVel
     TAX      ; X = (object index) + 8
 
     JSR Title_AddVel_toPos   ; Apply Y velocity
@@ -5337,7 +5337,7 @@ EndText_DrawDiagBox:
     BCC PRG024_BA87
     INC EndText_VH  ; Apply carry
 PRG024_BA87:
-    LDA #(PDiagBox_R2 - PDiagBox_R1)    ; run count per row
+    LDA #PDiagBox_R2 - PDiagBox_R1    ; run count per row
     STA Graphics_Buffer+2,X
     STA Temp_Var1       ; -> Temp_Var1
 
@@ -5369,7 +5369,7 @@ PRG024_BA94:
     INC EndText_CPos    ; Next row
 
     LDA EndText_CPos
-    CMP #(PDiagBox_RowOffs_End - PDiagBox_RowOffs)
+    CMP #PDiagBox_RowOffs_End - PDiagBox_RowOffs
     BLT PRG024_BAC8  ; If rows to go, jump to PRG024_BAC8 (RTS)
 
     LDY #$00     ; Y = 0
@@ -5710,7 +5710,7 @@ PRG024_BC5E:
     STA PatTable_BankSel+5
 
     ; Copy in sprite bytes to form THE END
-    LDY #(Ending2_THEEND_End - Ending2_THEEND - 1)
+    LDY #Ending2_THEEND_End - Ending2_THEEND - 1
 PRG024_BC6C:
     LDA Ending2_THEEND,Y
     STA Sprite_RAM,Y
@@ -5803,10 +5803,10 @@ PRG024_BCD4:
 
     ; P-Wings for everybody!
     LDX #$01     ; X = 1
-    LDY #(Inventory_Cards - Inventory_Items - 1)
+    LDY #Inventory_Cards - Inventory_Items - 1
 PRG024_BCE7:
 
-    LDA #(Inventory_Cards - Inventory_Items - 1)
+    LDA #Inventory_Cards - Inventory_Items - 1
     STA Temp_Var1
 
     LDA #$08     ; A = 8 (P-Wing)
@@ -5821,9 +5821,9 @@ PRG024_BCED:
     DEX      ; X--
     BMI PRG024_BD01  ; If X < 0, jump to PRG024_BD01
 
-    LDA #(Inventory_Cards - Inventory_Items - 1)
+    LDA #Inventory_Cards - Inventory_Items - 1
     CLC
-    ADC #(Inventory_Items2 - Inventory_Items)
+    ADC #Inventory_Items2 - Inventory_Items
 
     TAY      ; Reset 'Y'
     JMP PRG024_BCE7  ; Loop
@@ -6236,7 +6236,7 @@ Ending2_FadeIn:
     STA Ending2_TimerL
 
     ; Ending2_QueueCmd = $06
-    LDA #(Ending2_FadeOutQs_End - Ending2_FadeOutQs - 1)
+    LDA #Ending2_FadeOutQs_End - Ending2_FadeOutQs - 1
     STA Ending2_QueueCmd
 
     RTS      ; Return

@@ -2341,7 +2341,7 @@ LoadLevel_CannonPlatform:
     TAY
 
 PRG020_AE6E:
-    LDX #(LL_CannonPlatform_End - LL_CannonPlatform - 1)
+    LDX #LL_CannonPlatform_End - LL_CannonPlatform - 1
 
 PRG020_AE70:
     LDA LL_CannonPlatform,X  ; Get cannon platform block

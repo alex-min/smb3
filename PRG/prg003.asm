@@ -923,7 +923,7 @@ PRG003_A4A1:
     LDA #SPR_PAL3    ; palette selected 3
     BCC PRG003_A4D2  ; 16 ticks on, 16 ticks off; jump to PRG003_A4D2
 
-    LDA #(SPR_HFLIP | SPR_PAL3)  ; horizontal flip, palette select 3
+    LDA #SPR_HFLIP | SPR_PAL3  ; horizontal flip, palette select 3
 
 PRG003_A4D2:
     STA Sprite_RAM+$0A,Y     ; Set attribute
@@ -2969,7 +2969,7 @@ Star_Vel:
 Star_VelEnd
 
 Explode_Stars:
-    LDY #(Star_VelEnd - Star_Vel - 1)
+    LDY #Star_VelEnd - Star_Vel - 1
 
 PRG003_AEF1:
     ; Explosion star

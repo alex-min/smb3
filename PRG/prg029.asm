@@ -1917,7 +1917,7 @@ PRG029_D5DC:
 
     ; Direction is down or up
 
-    LDX #(Player_Y - Player_X)  ; Index Player's Y instead
+    LDX #Player_Y - Player_X  ; Index Player's Y instead
 
     LDA PipeTransit_YDelta,Y    ; Get delta
     BPL PRG029_D5FD         ; If it's not negative, jump to PRG029_D5FD
@@ -2728,7 +2728,7 @@ PRG029_DD80:
     INX      ; X++ (one more byte in the graphics buffer)
     INY      ; Y++ (next command byte)
 
-    CPY #(TileChng_DoorBufCmds_End - TileChng_DoorBufCmds)
+    CPY #TileChng_DoorBufCmds_End - TileChng_DoorBufCmds
     BNE PRG029_DD80 ; While more to commit, loop!
 
     LDX Graphics_BufCnt  ; X = Graphics_BufCnt
@@ -2776,7 +2776,7 @@ PRG029_DDA2:
     ; Add array size -1 to graphics buffer count
     LDA Graphics_BufCnt
     CLC
-    ADC #(TileChng_DoorBufCmds_End - TileChng_DoorBufCmds - 1)
+    ADC #TileChng_DoorBufCmds_End - TileChng_DoorBufCmds - 1
     STA Graphics_BufCnt
 
     RTS      ; Return
@@ -2817,7 +2817,7 @@ PRG029_DDEC:
     INX      ; X++ (one more byte in the graphics buffer)
     INY      ; Y++ (next command byte)
 
-    CPY #(TileChng_ToadBoxBufCmds_End - TileChng_ToadBoxBufCmds)
+    CPY #TileChng_ToadBoxBufCmds_End - TileChng_ToadBoxBufCmds
     BNE PRG029_DDEC ; While more to commit, loop!
 
     LDX Graphics_BufCnt  ; X = Graphics_BufCnt
@@ -2865,7 +2865,7 @@ PRG029_DE0E:
     ; Add array size -1 to graphics buffer count
     LDA Graphics_BufCnt
     CLC
-    ADC #(TileChng_ToadBoxBufCmds_End - TileChng_ToadBoxBufCmds - 1)
+    ADC #TileChng_ToadBoxBufCmds_End - TileChng_ToadBoxBufCmds - 1
     STA Graphics_BufCnt
 
     RTS      ; Return
@@ -3089,7 +3089,7 @@ PRG029_DF4C:
     ; Add array size -1 to graphics buffer count
     LDA Graphics_BufCnt
     CLC
-    ADC #(CBIG_BCSize - 1)
+    ADC #CBIG_BCSize - 1
     STA Graphics_BufCnt
 
     ; Level_ChgTileEvent = 0 (redundant!)

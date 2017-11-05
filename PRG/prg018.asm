@@ -446,7 +446,7 @@ PRG018_A5C1:
 
     ; If pipe left side crosses another pipe, use the crossing tile!
 LL_SceneryVPipe_CheckCrossL:
-    LDX #(LL_SceneryVPipe_CrossChk_End - LL_SceneryVPipe_CrossChk - 1)
+    LDX #LL_SceneryVPipe_CrossChk_End - LL_SceneryVPipe_CrossChk - 1
     LDA (Map_Tile_AddrL),Y   ; Get tile here
 PRG018_A5E3:
     CMP LL_SceneryVPipe_CrossChk,X
@@ -466,7 +466,7 @@ PRG018_A5F3:
 
     ; If pipe right side crosses another pipe, use the crossing tile!
 LL_SceneryVPipe_CheckCrossR:
-    LDX #(LL_SceneryVPipe_CrossChk_End - LL_SceneryVPipe_CrossChk - 1)
+    LDX #LL_SceneryVPipe_CrossChk_End - LL_SceneryVPipe_CrossChk - 1
     LDA (Map_Tile_AddrL),Y   ; Get tile here
 PRG018_A5F8:
     CMP LL_SceneryVPipe_CrossChk,X
@@ -547,7 +547,7 @@ LL_SceneryHPipe_CrossT: .byte TILE8_SCENPIPE_HT_VLC, TILE8_SCENPIPE_HT_VRC, TILE
 LL_SceneryHPipe_CrossB: .byte TILE8_SCENPIPE_HB_VLC, TILE8_SCENPIPE_HB_VRC, TILE8_SCENPIPE_HB_VMC
 
 LL_SceneryHPipe_CheckCross:
-    LDX #(LL_SceneryHPipe_CrossChk_End - LL_SceneryHPipe_CrossChk - 1)
+    LDX #LL_SceneryHPipe_CrossChk_End - LL_SceneryHPipe_CrossChk - 1
     LDA (Map_Tile_AddrL),Y   ; Get tile here
 PRG018_A655:
     CMP LL_SceneryHPipe_CrossChk,X  ; Is thie tile one of the standard vertical pipe tiles?

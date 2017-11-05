@@ -2619,7 +2619,7 @@ PRG002_AC50:
     BPL PRG002_AC50     ; While Temp_Var13 >= 0, loop!
 
     ; Temp_Var13 = 12
-    LDA #(WoodenPlat_ScanIndices_End - WoodenPlat_ScanIndices - 1)
+    LDA #WoodenPlat_ScanIndices_End - WoodenPlat_ScanIndices - 1
     STA Temp_Var13
 
     ; Temp_Var14 = Var5 (travel direction, offset of 0 or 8)
@@ -2882,7 +2882,7 @@ PRG002_ADD1:
     ADC Temp_Var2       ; Offset by Spike's X
     STA Temp_Var2       ; -> Temp_Var2
 
-    LDX #(SpikeBall_Patterns - ObjectGroup01_PatternSets)    ; Offset to patterns for spike ball
+    LDX #SpikeBall_Patterns - ObjectGroup01_PatternSets    ; Offset to patterns for spike ball
 
     ; Draw Spike's pre-thrown spike ball sprite at +8 to Spike's assigned Sprite_RAM offset
     LDA Temp_Var7
@@ -3266,7 +3266,7 @@ PRG002_AF96:
     TAY
 
     ; Draw sprite
-    LDX #(SpikeBall_Patterns - ObjectGroup01_PatternSets)    ; Offset to patterns for spike ball
+    LDX #SpikeBall_Patterns - ObjectGroup01_PatternSets    ; Offset to patterns for spike ball
     JSR Object_Draw16x16Sprite
 
     ; Set spike ball vertical flip periodically
@@ -3335,10 +3335,10 @@ PatooiePiranha_StartTileX:
 
     LDA Level_ObjectID,X     ; Get object ID
 
-    LDX #(ObjP2A - ObjectGroup01_PatternSets + $06)  ; If Patooie
+    LDX #ObjP2A - ObjectGroup01_PatternSets + $06  ; If Patooie
     CMP #OBJ_PATOOIE
     BEQ PRG002_B02A  ; If this is Patooie, jump to PRG002_B02A (RTS)
-    LDX #(ObjP46 - ObjectGroup01_PatternSets + $08)  ; If the piranha with spike ball
+    LDX #ObjP46 - ObjectGroup01_PatternSets + $08  ; If the piranha with spike ball
 PRG002_B02A:
     RTS      ; Return
 
@@ -3872,7 +3872,7 @@ Toad_DrawDiagBox:
     INC ToadTalk_VH  ; Apply carry
 PRG002_B2D5:
 
-    LDA #(TDiagBox_R2 - TDiagBox_R1)    ; run count per row
+    LDA #TDiagBox_R2 - TDiagBox_R1    ; run count per row
     STA Graphics_Buffer+2,X
     STA Temp_Var1       ; -> Temp_Var1
 
@@ -3906,7 +3906,7 @@ PRG002_B2E3:
     INC ToadTalk_CPos    ; Next row
 
     LDA ToadTalk_CPos
-    CMP #(TDiagBox_RowOffs_End - TDiagBox_RowOffs)
+    CMP #TDiagBox_RowOffs_End - TDiagBox_RowOffs
     BLT PRG002_B325  ; If row count < 8, jump to PRG002_B325 (RTS)
 
     ; Dialog box is complete
@@ -5400,7 +5400,7 @@ PRG002_BAF4:
     INY      ; Y = 1 or 2, depending on Player's relative position
 
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     STA Temp_Var1   ; Temp_Var1 is non-zero if Player is pressing left/right
 
     CPY Temp_Var1   ; Check if Player is pressing a direction favorable to his position
@@ -6032,10 +6032,10 @@ PRG002_BDF8:
     LDY #$00     ; Otherwise, Y = 0
 
 PRG002_BE07:
-    CPY #(Inventory_Cards2 - Inventory_Cards + $03)
+    CPY #Inventory_Cards2 - Inventory_Cards + $03
     BNE PRG002_BE0D  ; If Y <> Luigi's last card index, jump to PRG002_BE0D
 
-    LDY #(Inventory_Cards2 - Inventory_Cards)
+    LDY #Inventory_Cards2 - Inventory_Cards
 PRG002_BE0D:
     TYA
     STA Objects_Var2,X   ; Update Var2
@@ -6096,7 +6096,7 @@ PRG002_BE2E:
 Player_GetInventoryOffset:
     LDY Player_Current
     BEQ PRG002_BE4B
-    LDY #(Inventory_Items2 - Inventory_Items)
+    LDY #Inventory_Items2 - Inventory_Items
 PRG002_BE4B:
     RTS      ; Return
 

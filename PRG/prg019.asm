@@ -664,7 +664,7 @@ PRG019_A6F3:
     STY Temp_Var5      ; Temp_Var5 = 'Y' (backup)
 
     ; What's present is not sky and not cloud space, so we look for a replacement...
-    LDY #(LL_LBGCC_End - LL_LargeBGCloudChecks - 1)
+    LDY #LL_LBGCC_End - LL_LargeBGCloudChecks - 1
 PRG019_A70C:
     CMP LL_LargeBGCloudChecks,Y
     BEQ PRG019_A719         ; If this a tile in the table, jump to PRG019_A719
@@ -1124,7 +1124,7 @@ PRG019_A8FF:
     BEQ PRG019_A91C         ; If we got the TILE13_ROUNDCLOUDLAY_T tile, jump to PRG019_A91C
 
     ; Otherwise...
-    LDX #(LL_RoundCloudReplace - LL_RoundCloudSearch - 1)
+    LDX #LL_RoundCloudReplace - LL_RoundCloudSearch - 1
     LDA (Map_Tile_AddrL),Y      ; Get tile here
 PRG019_A90C:
     CMP LL_RoundCloudSearch,X

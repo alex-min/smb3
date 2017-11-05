@@ -341,7 +341,7 @@ PRG012_A524:
 
     ; Check if this tile is one of the completable event tiles
     ; $50 = Toad house  $E8 = Spade panel  $E6 = Hand trap (works anywhere!)  $BD = Enterable flower??  $E0 = Red Toad House
-    LDY #(MCT_END-Map_Completable_Tiles-1)      ; Y = 4
+    LDY #MCT_END-Map_Completable_Tiles-1      ; Y = 4
     LDA World_Map_Tile ; A = tile
 PRG012_A535:
     CMP Map_Completable_Tiles,Y
@@ -361,7 +361,7 @@ PRG012_A535:
 
 PRG012_A54A:
     ; Mini-fortresses or others here
-    LDX #(MRT_END-Map_Removable_Tiles-1)    ; X = 7
+    LDX #MRT_END-Map_Removable_Tiles-1    ; X = 7
 PRG031_A54C:
     CMP Map_Removable_Tiles,X   ; Check this tile
     BEQ PRG031_A556         ; If it matches this index, jump to PRG031_A556

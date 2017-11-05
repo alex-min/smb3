@@ -461,7 +461,7 @@ PRG011_A3BA:
     STA World_Num           ; World_Num = 8 (World 9)
 
     ; Clears out map objects
-    LDY #(MAPOBJ_TOTAL-1) ; Y = (MAPOBJ_TOTAL-1)
+    LDY #MAPOBJ_TOTAL-1 ; Y = (MAPOBJ_TOTAL-1)
     LDA #MAPOBJ_EMPTY ; A = MAPOBJ_EMPTY
 PRG011_A3D0:
     STA Map_Objects_IDs,Y
@@ -1180,7 +1180,7 @@ PRG011_A760:
 
     ; Checks all map objects to see if Player has died while in a map object
 
-    LDY #(MAPOBJ_TOTAL-1)   ; Y = (MAPOBJ_TOTAL-1)
+    LDY #MAPOBJ_TOTAL-1   ; Y = (MAPOBJ_TOTAL-1)
 PRG011_A762:
     LDA Map_Objects_IDs,Y
     BNE PRG011_A76D  ; If this map object slot is not empty, jump to PRG011_A76D
@@ -1702,7 +1702,7 @@ MO_DoLevelClear:
     ; Check if this one of the tiles that does not cause a Player to lose their turn
     JSR Map_GetTile     ; Get current tile Player is standing on
 
-    LDX #(Map_NoLoseTurnTiles_End - Map_NoLoseTurnTiles - 1)
+    LDX #Map_NoLoseTurnTiles_End - Map_NoLoseTurnTiles - 1
 PRG011_A9F0:
     CMP Map_NoLoseTurnTiles,X
     BEQ PRG011_A9FB  ; If this tile matches one of the "don't lose a turn" tiles, jump to PRG011_A9FB
@@ -1725,7 +1725,7 @@ PRG011_A9FE:
     ROL A
     TAY         ; Y = upper 2 bits of map tile shifted down; the "tile quadrant"
 
-    LDX #(Map_ForcePoofTiles_End - Map_ForcePoofTiles - 1)
+    LDX #Map_ForcePoofTiles_End - Map_ForcePoofTiles - 1
     LDA World_Map_Tile
 PRG011_AA0C:
     CMP Map_ForcePoofTiles,X
@@ -1989,7 +1989,7 @@ PRG011_AB1B:
     STA Sprite_RAM+$62
 
     ; Set right panel flip sprite attribute
-    LDA #(SPR_PAL3 | SPR_HFLIP)
+    LDA #SPR_PAL3 | SPR_HFLIP
     STA Sprite_RAM+$66
 
     ; Set left panel flip sprite X
@@ -2015,7 +2015,7 @@ PRG011_AB61:
 
     ; Here we check if Player was on top of a map object, thus assumed to be the cause of level entry, thus needs to be "completed."
 
-    LDY #(MAPOBJ_TOTAL - 1)  ; Y = (MAPOBJ_TOTAL - 1) (For all map objects)
+    LDY #MAPOBJ_TOTAL - 1  ; Y = (MAPOBJ_TOTAL - 1) (For all map objects)
     LDX Player_Current   ; X = Player_Current
 PRG011_AB6B:
     LDA Map_Objects_IDs,Y
@@ -2194,12 +2194,12 @@ Map_WhiteObjects_End
 MO_CheckForBonus:
 
     ; Temp_Var16 is our loop counter
-    LDA #(Map_WhiteObjects_End - Map_WhiteObjects - 1)
+    LDA #Map_WhiteObjects_End - Map_WhiteObjects - 1
     STA Temp_Var16
 
 PRG011_AC57:
     LDY Temp_Var16     ; Y = Temp_Var16
-    LDX #(MAPOBJ_TOTAL-1)   ; X = (MAPOBJ_TOTAL-1)
+    LDX #MAPOBJ_TOTAL-1   ; X = (MAPOBJ_TOTAL-1)
 
     LDA Map_WhiteObjects,Y
 PRG011_AC5E:
@@ -2508,7 +2508,7 @@ Map_Object_Do_All:
     LDA Map_NoLoseTurn
     BNE PRG011_ADF4  ; If Map_NoLoseTurn is set, jump to PRG011_ADF4 (RTS)
 
-    LDY #(MAPOBJ_TOTAL-1)   ; Total map objects which may exist on the map (only 8 are defined at start)
+    LDY #MAPOBJ_TOTAL-1   ; Total map objects which may exist on the map (only 8 are defined at start)
     STY Temp_Var13     ; Temp_Var13 = $0D
 
     LDA Map_Operation
@@ -3433,7 +3433,7 @@ PRG011_B3D3:
     LDY Temp_Var3      ; Y = Temp_Var3 (travel target)
     LDA (Map_Tile_AddrL),Y  ; Get tile here
 
-    LDY #(Map_Object_Valid_Tiles2Check-1)   ; Check all possible travel-over tiles
+    LDY #Map_Object_Valid_Tiles2Check-1   ; Check all possible travel-over tiles
 PRG011_B3EC:
     CMP (Temp_Var15),Y
     BEQ PRG011_B3F5     ; If this tile is valid to travel over, jump to PRG011_B3F5
@@ -3455,7 +3455,7 @@ PRG011_B3F5:
     LDY Temp_Var3          ; Y = Temp_Var3 (travel target)
     LDA (Map_Tile_AddrL),Y      ; Get tile here
 
-    LDY #(MOV_Landings2Check-1)
+    LDY #MOV_Landings2Check-1
 PRG011_B406:
     ; NOTE: For some reason, they were checking one byte prior to the actual
     ; LUT, but then they won't decrement 'Y' down to zero (so it stays within
@@ -3469,7 +3469,7 @@ PRG011_B40E:
     BNE PRG011_B406  ; While Y > 0, loop!
 
     LDX Temp_Var13         ; X = Temp_Var13
-    LDY #(Map_MarchXtraForbidTiles_End - Map_MarchXtraForbidTiles)
+    LDY #Map_MarchXtraForbidTiles_End - Map_MarchXtraForbidTiles
 PRG011_B415:
     ; NOTE: Like PRG011_B406, this loop doesn't hit index 0.  Wonder why??
     CMP Map_MarchXtraForbidTiles-1,Y
@@ -3808,23 +3808,23 @@ PRG011_B60A:
 
     ; Heh, they had to compare AFTER making it a multiple of 3... :P
 
-    CPX #(MAPOBJ_HAMMERBRO * 3)
+    CPX #MAPOBJ_HAMMERBRO * 3
     BLT PRG011_B628  ; If ID < MAPOBJ_HAMMERBRO (None, HELP, Airship), jump to PRG011_B628
 
     ; So not nothing, a "HELP" bubble, or the airship...
 
-    CPX #(MAPOBJ_CANOE * 3)
+    CPX #MAPOBJ_CANOE * 3
     BEQ PRG011_B628  ; If ID = MAPOBJ_CANOE, jump to PRG011_B628
 
     ; Not a canoe...
 
-    CPX #(MAPOBJ_BATTLESHIP * 3)
+    CPX #MAPOBJ_BATTLESHIP * 3
     BLT PRG011_B623  ; If ID < MAPOBJ_BATTLESHIP (Not a World 8 Tank / Battleship / Airship), jump to PRG011_B623
 
     ; Canoe was technically already eliminated, but it checks again anyway
     ; In any case, one of the World 8 battle implements
 
-    CPX #(MAPOBJ_CANOE * 3)
+    CPX #MAPOBJ_CANOE * 3
     BLT PRG011_B628  ; Otherwise, jump to PRG011_B628
 
 PRG011_B623:
@@ -4670,7 +4670,7 @@ Map_MarkLevelComplete:
     LDA Map_Player_SkidBack,X
     BNE PRG011_BA89  ; If Player skid back, we didn't complete this level, so jump to PRG011_BA89 (RTS)
 
-    LDY #(Map_CompleteY_End - Map_CompleteY - 1)
+    LDY #Map_CompleteY_End - Map_CompleteY - 1
     LDA World_Map_Y,X   ; Get Player's Map Y
 PRG011_BA41:
     CMP Map_CompleteY,Y
@@ -4921,7 +4921,7 @@ PRG011_BBAC:
     JSR Map_W8DarknessUpdate
 
 PRG011_BBBB:
-    LDY #(W8D_CircSprs_Unaligned - W8D_CircSprs)
+    LDY #W8D_CircSprs_Unaligned - W8D_CircSprs
 
     LDX Player_Current   ; X = Player_Current
 
@@ -4931,12 +4931,12 @@ PRG011_BBBB:
     LDA World_Map_X,X
     STA Temp_Var2
 
-    LDX #(W8D_CircSprs_Unaligned - W8D_CircSprs)
+    LDX #W8D_CircSprs_Unaligned - W8D_CircSprs
 
     AND #$0f     ; Get lower 4 bits of X
     BNE PRG011_BBD0  ; If Player is not perfectly aligned in column, jump to PRG011_BBD0
 
-    LDX #(W8D_CircSprs_Aligned - W8D_CircSprs)
+    LDX #W8D_CircSprs_Aligned - W8D_CircSprs
 
 PRG011_BBD0:
 
@@ -4972,7 +4972,7 @@ PRG011_BBD0:
 
     BMI PRG011_BC00  ; If out of sprites, jump to PRG011_BC00
 
-    CPX #(W8D_CircSprs_Unaligned - W8D_CircSprs)
+    CPX #W8D_CircSprs_Unaligned - W8D_CircSprs
     BNE PRG011_BBD0  ; If not at end of aligned circle sprites, loop
 
     LDX #$3c

@@ -603,7 +603,7 @@ PRG001_A2CB:
     BNE PRG001_A320  ; If Obj01_Flag <> 0, jump to PRG001_A320 (RTS)
 
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BNE PRG001_A2EB  ; If Player is pressing left or right, jump to PRG001_A2EB
 
 PRG001_A2D5:
@@ -1513,7 +1513,7 @@ PRG001_A746:
 
 PRG001_A757:
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BNE PRG001_A761  ; If Player is pressing left or right, jump to PRG001_A761
 
     ; Otherwise, halt Player movement
@@ -2924,7 +2924,7 @@ ObjHit_Card:
     ; Calculate which card you get
     LDA Level_ObjectID,X
     SEC
-    SBC #(OBJ_POWERUP_MUSHCARD-1)
+    SBC #OBJ_POWERUP_MUSHCARD-1
 
     ; Update the Player's card collection
     JSR Player_GetCardAndUpdate
@@ -4526,7 +4526,7 @@ PRG001_B5C1:
     STA Sprite_RAM-3,Y
 
     ; Horizontally flip with palette 1
-    LDA #(SPR_HFLIP | SPR_PAL1)
+    LDA #SPR_HFLIP | SPR_PAL1
     STA Sprite_RAM-2,Y
 
     ; There's no point to this; this restores the loop counter we
@@ -6050,7 +6050,7 @@ PRG001_BDDF:
     ; Otherwise, use the vertically flipped lookups
     TXA
     CLC
-    ADC #(Bowser_SprYVFlipped - Bowser_SprYNotVFlipped)
+    ADC #Bowser_SprYVFlipped - Bowser_SprYNotVFlipped
     TAX
 
 PRG001_BE1A:
@@ -6080,7 +6080,7 @@ PRG001_BE30:
     ; Otherwise, use the horizontally flipped lookups
     TXA
     CLC
-    ADC #(Bowser_SprXHFlipped - Bowser_SprXNotHFlipped)
+    ADC #Bowser_SprXHFlipped - Bowser_SprXNotHFlipped
     TAX
 
 PRG001_BE40:

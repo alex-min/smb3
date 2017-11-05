@@ -200,7 +200,7 @@ TAndK_WaitForA:
     BEQ PRG027_A151  ; If World_Num = 6 (World 7), jump to PRG027_A151
 
     ; Copy in the sprites that make up the Princess in the lower left corner of the letter
-    LDY #(Letter_PrincessSprites_End - Letter_PrincessSprites)
+    LDY #Letter_PrincessSprites_End - Letter_PrincessSprites
 PRG027_A148:
     LDA Letter_PrincessSprites-1,Y
     STA Sprite_RAM+$9F,Y
@@ -329,10 +329,10 @@ Letter_GiveIncludedItem:
     LDY Player_Current   ; Y = current Player index
     BEQ PRG027_A1EA  ; If Player is Mario, jump to PRG027_A1EA
 
-    LDY #(Inventory_Items2 - Inventory_Items)   ; Offset to Luigi's items
+    LDY #Inventory_Items2 - Inventory_Items   ; Offset to Luigi's items
 
 PRG027_A1EA:
-    LDX #(Inventory_Cards - Inventory_Items - 1)    ; X = total number of inventory items, -1
+    LDX #Inventory_Cards - Inventory_Items - 1    ; X = total number of inventory items, -1
 
 PRG027_A1EC:
     LDA Inventory_Items,Y
@@ -381,7 +381,7 @@ TAndK_DrawDiagBox2:
     BCC PRG027_A264
     INC ToadTalk_VH  ; Apply carry
 PRG027_A264:
-    LDA #(DiagBox2_R2 - DiagBox2_R1)    ; run count per row
+    LDA #DiagBox2_R2 - DiagBox2_R1    ; run count per row
     STA Graphics_Buffer+2,X
     STA Temp_Var1       ; -> Temp_Var1
 
@@ -413,7 +413,7 @@ PRG027_A272:
     INC ToadTalk_CPos    ; Next row
 
     LDA ToadTalk_CPos
-    CMP #(DiagBox_RowOffs_End - DiagBox_RowOffs)
+    CMP #DiagBox_RowOffs_End - DiagBox_RowOffs
     BLT PRG027_A2B3  ; If row count < 8, jump to PRG027_A2B3
 
     ; Dialog box is complete
@@ -764,7 +764,7 @@ WandAndToad_DrawAndUpdate:
 PRG027_A5F8:
 
     ; Copy in the base sprites for Toad and King
-    LDX #(KingAndToad_Sprites_End - KingAndToad_Sprites)
+    LDX #KingAndToad_Sprites_End - KingAndToad_Sprites
 PRG027_A5FA:
 
     LDA KingAndToad_Sprites-1,X
@@ -817,7 +817,7 @@ PRG027_A618:
     INY      ; Y++ (for "talking")
 
 PRG027_A63B:
-    LDX #((W2K_Pat - W1K_Pat) * 2 - 4)  ; All King sprites
+    LDX #(W2K_Pat - W1K_Pat) * 2 - 4  ; All King sprites
 
 PRG027_A63D:
 
@@ -1359,7 +1359,7 @@ EndWorldLetter_GenerateText:
 
     LDY Letter_HeaderOffset,X    ; Y = offset to "Greeting"
 
-    LDX #(Letter_VRAMLo_End - Letter_VRAMLo - 1)
+    LDX #Letter_VRAMLo_End - Letter_VRAMLo - 1
 PRG027_AB6F:
 
     ; Temp_Var1 = VRAM Low address
@@ -1410,7 +1410,7 @@ PRG027_AB96:
     STA Temp_Var2
 
     LDY #$00     ; Y = 0 (letter body offset)
-    LDX #(LetterRow_VRAM_H - LetterRow_VRAM_L - 1)   ; init X (letter body line index)
+    LDX #LetterRow_VRAM_H - LetterRow_VRAM_L - 1   ; init X (letter body line index)
 PRG027_ABA9:
     ; Temp_Var4 = VRAM low address starting for this line
     LDA LetterRow_VRAM_L,X

@@ -866,7 +866,7 @@ SndLev1_SuitLost2:
     BNE PRG028_A512  ; If this is not the "poof" sound, jump to PRG028_A512
 
     ; "Poof" sound effect
-    LDA #(SndLev1_DataPoof - SndLev1_Data)
+    LDA #SndLev1_DataPoof - SndLev1_Data
     BNE PRG028_A529  ; Jump (technically always) to PRG028_A529
 
 PRG028_A512:
@@ -874,7 +874,7 @@ PRG028_A512:
     BNE PRG028_A51A  ; If not unknown / lost sound, jump to PRG028_A51A
 
     ; Unknown / lost sound
-    LDA #(SndLev1_DataUnk - SndLev1_Data)
+    LDA #SndLev1_DataUnk - SndLev1_Data
     BEQ PRG028_A529  ; Jump (technically always) to PRG028_A529
 
 PRG028_A51A:
@@ -882,7 +882,7 @@ PRG028_A51A:
     BNE PRG028_A522  ; If not these sounds, jump to PRG028_A522
 
     ; Lost shoe sound
-    LDA #(SndLev1_DataLostShoe - SndLev1_Data)
+    LDA #SndLev1_DataLostShoe - SndLev1_Data
     BNE PRG028_A529  ; Jump (technically always) to PRG028_A529
 
 PRG028_A522:
@@ -890,14 +890,14 @@ PRG028_A522:
     BNE PRG028_A504  ; If any level 1 sounds are playing, jump to PRG028_A504
 
     ; Tail wag
-    LDA #(SndLev1_DataLongWag - SndLev1_Data)
+    LDA #SndLev1_DataLongWag - SndLev1_Data
 
 PRG028_A529:
     STA SFX_Counter2     ; Set SFX_Counter2 appropriately
 
     ; Filter out sound selection
     TYA
-    AND #(SND_LEVELPOOF | SND_LEVELTAILWAG | SND_LEVELSHOE)
+    AND #SND_LEVELPOOF | SND_LEVELTAILWAG | SND_LEVELSHOE
     STY SndCur_Level1
 
 SndLev1_SuitLost_Cont2:

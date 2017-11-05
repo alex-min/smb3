@@ -1142,10 +1142,10 @@ LoadLevel_4WayCannon90:
 ; Inserts a ceiling mounted 4-way cannon at 45 degrees
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 LoadLevel_4WayCannon45:
-    LDX #(LL_4WayCannon45 - LL_4WayCannon90)    ; 45 degrees aligned 4-way cannon
+    LDX #LL_4WayCannon45 - LL_4WayCannon90    ; 45 degrees aligned 4-way cannon
 
 PRG023_A8BF:
-    LDA #(LL_4WayCannon45 - LL_4WayCannon90)
+    LDA #LL_4WayCannon45 - LL_4WayCannon90
     STA Temp_Var3       ; Temp_Var3 = Number of tiles to copy
 
 PRG023_A8C3:
@@ -1183,7 +1183,7 @@ PRG023_A8CE:
 ; Inserts a "forward" wall mounted cannon
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 LoadLevel_WallCannonF:
-    LDX #(LL_WallCannonF - LL_4WayCannon90) ; Wall mounted cannon forward (like a slash)
+    LDX #LL_WallCannonF - LL_4WayCannon90 ; Wall mounted cannon forward (like a slash)
     JMP PRG023_A8ED  ; Jump to PRG023_A8ED
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1192,7 +1192,7 @@ LoadLevel_WallCannonF:
 ; Inserts a "backward" wall mounted cannon
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 LoadLevel_WallCannonB:
-    LDX #(LL_WallCannonB - LL_4WayCannon90) ; Wall mounted cannon backward (like a slash)
+    LDX #LL_WallCannonB - LL_4WayCannon90 ; Wall mounted cannon backward (like a slash)
 
 PRG023_A8ED:
     LDA #$04     ; #(LL_WallCannonB - LL_WallCannonF)
@@ -1207,7 +1207,7 @@ PRG023_A8ED:
 ; Inserts a metal square support
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 LoadLevel_MetalSquare:
-    LDX #(LL_SupportSqr - LL_4WayCannon90)  ; Metal support square
+    LDX #LL_SupportSqr - LL_4WayCannon90  ; Metal support square
     JMP PRG023_A8ED  ; Jump to PRG023_A8ED
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1502,7 +1502,7 @@ LL_TankPrefab2:
 ; One of the tanks, prefabricated
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 LoadLevel_TankPrefab2:
-    LDX #(LL_TankPrefab2 - LL_TankPrefab1)
+    LDX #LL_TankPrefab2 - LL_TankPrefab1
 
 PRG023_AA6D:
     ; Backup Map_Tile_AddrL/H into Temp_Var1/2

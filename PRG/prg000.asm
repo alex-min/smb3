@@ -567,7 +567,7 @@ PRG000_C3E7:
 ; Looks like maybe a leftover debug routine for some kind of "float around" mode maybe!!
 ; $C3EA
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     TAY      ; Y = 1 or 2
 
     ; Set Player X velocity directly??
@@ -577,7 +577,7 @@ PRG000_C3E7:
     LDA Pad_Holding
     LSR A
     LSR A
-    AND #((PAD_UP | PAD_DOWN) >> 2)
+    AND #(PAD_UP | PAD_DOWN) >> 2
     TAY      ; Y = 1 or 2
 
     ; Set Player Y velocity directly??
@@ -1251,7 +1251,7 @@ PRG000_C69C:
 ; current state of movement.  Handles entering/leaving water.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Object_GetAttrAndMoveTiles:
-    LDY #(OTDO_Water - Object_TileDetectOffsets)    ; Special offsets used for checking for water tiles
+    LDY #OTDO_Water - Object_TileDetectOffsets    ; Special offsets used for checking for water tiles
     JSR Object_DetectTile   ; Get tile here
 
     ASL A
@@ -1426,7 +1426,7 @@ PRG000_C76C:
 
     PLA      ; Restore Object_TileDetectOffsets index
 
-    CMP #(OTDO_G1R1 - Object_TileDetectOffsets)
+    CMP #OTDO_G1R1 - Object_TileDetectOffsets
     BNE PRG000_C78C  ; If not using Group 1 Row 1, jump to PRG000_C78C
 
     LDY Level_SlopeEn
@@ -1445,7 +1445,7 @@ PRG000_C76C:
     CPY #$00
     BEQ PRG000_C78C  ; If Y = 0 (object not on solid ground), jump to PRG000_C78C
 
-    LDY #(OTDO_G1Alt - Object_TileDetectOffsets)     ; Otherwise, use alternate wall detection offsets
+    LDY #OTDO_G1Alt - Object_TileDetectOffsets     ; Otherwise, use alternate wall detection offsets
     JMP PRG000_C791  ; Jump to PRG000_C791
 
     ;;;;;;;;;;;;;;;;;; END
@@ -1622,7 +1622,7 @@ PSwitch_SubstTileAndAttr:
     LDY Level_PSwitchCnt    ; Y = Level_PSwitchCnt
     BEQ PRG000_C85B     ; If P-Switch not active, jump to PRG000_C85B (RTS)
 
-    LDY #(PostPSwitchTile - PrePSwitchTile - 1)
+    LDY #PostPSwitchTile - PrePSwitchTile - 1
 PRG000_C84A:
     CMP PrePSwitchTile,Y
     BNE PRG000_C858     ; If this is not a match, jump to PRG000_C858
@@ -6424,7 +6424,7 @@ Object_ApplyYVel:
 Object_ApplyYVel_NoLimit:
     TXA
     CLC
-    ADC #(Objects_YVel - Objects_XVel)
+    ADC #Objects_YVel - Objects_XVel
     TAX      ; Offset to Y velocities
 
     JSR Object_AddVelFrac    ; Apply the velocity to the object's position
@@ -6731,7 +6731,7 @@ ToadHouse_GiveItem:
     LDY Player_Current
     BEQ PRG000_DDE7  ; If Player is Mario, jump to PRG000_DDE7
 
-    LDY #(Inventory_Items2 - Inventory_Items)    ; Y = offset to Luigi's items
+    LDY #Inventory_Items2 - Inventory_Items    ; Y = offset to Luigi's items
 
 PRG000_DDE7:
     LDX #$00        ; X = 0
@@ -6742,7 +6742,7 @@ PRG000_DDE9:
 
     INY      ; Y++ (next item slot)
     INX      ; X++ (counter)
-    CPX #(Inventory_Cards - Inventory_Items - 1)
+    CPX #Inventory_Cards - Inventory_Items - 1
     BLT PRG000_DDE9  ; While potential item slots remain, loop!
 
 PRG000_DDF4:

@@ -612,7 +612,7 @@ PRG010_C322:
     STA Graphics_Buffer
 
     ; Store run length
-    LDA #(GameOver_MLName_Len-1)
+    LDA #GameOver_MLName_Len-1
     STA Graphics_Buffer+2
 
     ; Store VRAM low address
@@ -627,7 +627,7 @@ PRG010_C322:
     ; Graphics_BufCnt += (GameOver_MLName_Len + 2)
     LDA Graphics_BufCnt
     CLC
-    ADC #(GameOver_MLName_Len + 2)
+    ADC #GameOver_MLName_Len + 2
     STA Graphics_BufCnt
 
     RTS      ; Return
@@ -879,7 +879,7 @@ PRG010_C481:
     BNE Map_DoOperation     ; If Map_Object_ActY <> 0, jump to Map_DoOperation
 
     ; For all objects $D - $0...
-    LDY #(MAPOBJ_TOTAL-1)
+    LDY #MAPOBJ_TOTAL-1
 PRG010_C488:
     ; Copy object's Y and XHi/Los into their display variables
     LDA Map_Objects_Y,Y
@@ -947,7 +947,7 @@ World5_Sky_AddCloudDeco:
     ; World 5 Sky only!
 
     ; Copy in the cloud sprite data
-    LDY #(World5_Sky_CloudDeco_End - World5_Sky_CloudDeco - 1)
+    LDY #World5_Sky_CloudDeco_End - World5_Sky_CloudDeco - 1
 PRG010_C4F0:
     LDA World5_Sky_CloudDeco,Y
     STA Sprite_RAM+$50,Y
@@ -1199,7 +1199,7 @@ PRG010_C609:
     STA Graphics_Buffer
     STA Graphics_Buffer+$B
 
-    LDA #(VU_VERT | 8)      ; 8 8x8s vertically applied
+    LDA #VU_VERT | 8      ; 8 8x8s vertically applied
     STA Graphics_Buffer+2
     STA Graphics_Buffer+$D
 
@@ -1409,7 +1409,7 @@ PRG010_C712:
 
 GameOver_DoMenu:
     LDA Pad_Input
-    AND #(PAD_UP | PAD_DOWN)
+    AND #PAD_UP | PAD_DOWN
     BEQ PRG010_C72B  ; If Player is pressing neither UP nor DOWN, jump to PRG010_C72B
 
     ; Play the bleep noise
@@ -1886,7 +1886,7 @@ MO_HammerBroMarch:
 PRG010_C9F2:
     JSR WorldMap_UpdateAndDraw  ; Update and draw map
 
-    LDY #(MAPOBJ_TOTAL-1)   ; Y = (MAPOBJ_TOTAL-1) (For all map objects)
+    LDY #MAPOBJ_TOTAL-1   ; Y = (MAPOBJ_TOTAL-1) (For all map objects)
 PRG010_C9F7:
     LDA Map_March_Count,Y
     BNE PRG010_CA2A     ; If march counter <> 0, jump to PRG010_CA2A (RTS)
@@ -1902,7 +1902,7 @@ PRG010_C9F7:
 
     INC Map_Operation    ; Map_Operation++ (the "Wait 8 ticks and proceed" state...)
 
-    LDY #(MAPOBJ_TOTAL-1)   ; Y = (MAPOBJ_TOTAL-1) (For all map objects)
+    LDY #MAPOBJ_TOTAL-1   ; Y = (MAPOBJ_TOTAL-1) (For all map objects)
 PRG010_CA09:
     LDA Map_Object_ActY,Y
     CLC
@@ -2189,7 +2189,7 @@ Map_DoVBorders:
     CMP #$02
     BNE PRG010_CBE0  ; If Map_DrawPanState <> 2, jump to PRG010_CBE0
 
-    LDY #(PRG010_CB6B_End - PRG010_CB6B - 1)
+    LDY #PRG010_CB6B_End - PRG010_CB6B - 1
 PRG010_CB8D:
     LDA PRG010_CB6B,Y    ; Get graphics buffer command byte
     STA Graphics_Buffer,Y    ; Store into graphics buffer
@@ -2252,8 +2252,8 @@ PRG010_CBDD:
     JMP Scroll_Map_SpriteBorder  ; Draw sprite border and don't come back!
 
 PRG010_CBE0:
-    LDY #(PRG010_CB39_End - PRG010_CB39 - 1)
-    LDX #(PRG010_CB39_End - PRG010_CB39 - 1)
+    LDY #PRG010_CB39_End - PRG010_CB39 - 1
+    LDX #PRG010_CB39_End - PRG010_CB39 - 1
 
     LDA Map_ScrollOddEven
     BEQ PRG010_CBEA  ; If Map_ScrollOddEven = 0, jump to PRG010_CBEA
@@ -2468,8 +2468,8 @@ Map_PanLeft:
     LSR A
     STA Temp_Var1
 
-    LDY #(PRG010_CB39_End - PRG010_CB39 - 1)
-    LDX #(PRG010_CB39_End - PRG010_CB39 - 1)
+    LDY #PRG010_CB39_End - PRG010_CB39 - 1
+    LDX #PRG010_CB39_End - PRG010_CB39 - 1
 
     LDA Map_ScrollOddEven
     BEQ PRG010_CCF7  ; If Map_ScrollOddEven = 0, jump to PRG010_CCF7
@@ -2618,7 +2618,7 @@ PRG010_CDDC:
     BNE PRG010_CD6E     ; If map is panning, jump to PRG010_CD6E (indirect to WorldMap_UpdateAndDraw)
 
     LDA Pad_Input
-    AND #(PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN)
+    AND #PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN
     BEQ PRG010_CDEC     ; If Player is not pushing up/down/left/right, jump to PRG010_CDEC
 
     LDA #SND_PLAYERBUMP
@@ -2645,7 +2645,7 @@ PRG010_CDEC:
     BLT PRG010_CE64     ; If tile is not in "enterable" range, jump to PRG010_CE64
 
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN)
+    AND #PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN
     BEQ PRG010_CE64     ; If Player has not been holding up/down/left/right, jump to PRG010_CE64
 
     ; Player is holding a direction...
@@ -2690,7 +2690,7 @@ PRG010_CE39:
     ; Player is wearing Judgem's cloud
 
     LDA Temp_Var4      ; Temp_Var4 = Pad_Holding (since Map_CheckDoMove)
-    AND #(PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN)
+    AND #PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN
     STA Map_PrevMoveDir ; Store the left/right/down/up of the move
 
     ; Restore the displayed power up to the Player's actual power up
@@ -3004,7 +3004,7 @@ PRG010_D012:
     BEQ PRG010_D037 ;
     TXA
     CLC
-    ADC #(Map_Power_Pats_F2-Map_Power_Pats_F1)
+    ADC #Map_Power_Pats_F2-Map_Power_Pats_F1
     TAX     ; X Offset to second frame
 
 PRG010_D037:
@@ -3295,7 +3295,7 @@ PRG010_D1B2:
     TAY      ; Y -= 12 (3 sprites backward)
     BPL PRG010_D1B2  ; While Y >= 0, loop!
 
-    LDY #(Map_BorderSprites_End - Map_BorderSprites - 1)
+    LDY #Map_BorderSprites_End - Map_BorderSprites - 1
 PRG010_D1F4:
     LDA Map_BorderSprites,Y
     STA Sprite_RAM+$6C,Y
@@ -3430,7 +3430,7 @@ PRG010_D296:
 
     LDY #$03        ; Y = 3
     LDA Temp_Var4      ; A = Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN)     ; Just up/down/left/right
+    AND #PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN     ; Just up/down/left/right
 
 PRG010_D29C:
     CMP Map_HoldPadDir,Y
@@ -3468,7 +3468,7 @@ PRG010_D2AD:
     JSR MapTile_Get_By_Offset   ; Get tile Player is going to move over (adjacent tile in travel direction)
 
     ; Search to see if this is a valid to move over given the Player's direction et al.
-    LDY #(Map_Object_Valid_Tiles2Check-1)
+    LDY #Map_Object_Valid_Tiles2Check-1
 PRG010_D2C1:
     CMP (Temp_Var1),Y
     BEQ PRG010_D336     ; If Player is going to travel over this particular valid tile, jump to PRG010_D336
@@ -3524,7 +3524,7 @@ PRG010_D2E1:
     ADC Map_CanoeCheckXHiOff,Y
     STA Temp_Var3      ; Temp_Var3 is like Temp_Var2, for X Hi
 
-    LDX #(MAPOBJ_TOTAL-1)   ; X = (MAPOBJ_TOTAL-1) (search all map objects)
+    LDX #MAPOBJ_TOTAL-1   ; X = (MAPOBJ_TOTAL-1) (search all map objects)
 PRG010_D306:
     LDY Map_Objects_IDs,X
     CPY #MAPOBJ_CANOE
@@ -3534,7 +3534,7 @@ PRG010_D306:
 
 PRG010_D310:
     ABS_LDA Pad_Input ; LDA Pad_Input
-    AND #(PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN)
+    AND #PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN
     BEQ PRG010_D31C     ; If Player is not pressing left/right/down/up, jump to PRG010_D31C (RTS)
 
     LDA #SND_PLAYERBUMP
@@ -3597,7 +3597,7 @@ PRG010_D349:
     STA World_Map_Move,X       ; Tell Player to move 'A' units
 
     LDA Temp_Var4          ; A = Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN) ; Just the left/right/down/up bits
+    AND #PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN ; Just the left/right/down/up bits
     STA World_Map_Dir,X        ; Store as movement direction!
     STA Map_PrevMoveDir     ; Store as previous move!
 

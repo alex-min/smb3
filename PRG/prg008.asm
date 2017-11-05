@@ -1415,7 +1415,7 @@ PRG008_A71C:
 
 PRG008_A72B:
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN)
+    AND #PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN
     CMP #PAD_DOWN
     BNE PRG008_A736     ; If Player is not just holding down, jump to PRG008_A736
 
@@ -1613,8 +1613,8 @@ PRG008_A7F1:
     STA Pad_Holding ; Strip out 'Up'
 
     TYA      ; A = original Pad_Holding
-    AND #(PAD_UP | PAD_A)
-    CMP #(PAD_UP | PAD_A)
+    AND #PAD_UP | PAD_A
+    CMP #PAD_UP | PAD_A
     BNE PRG008_A827  ; If Player is not pressing UP + A, jump to PRG008_A827
 
     ; Player wants to exit water!
@@ -1732,7 +1732,7 @@ PRG008_A86C:
     BNE PRG008_A898  ; If climbing flag is set, jump to PRG008_A898
 
     LDA Pad_Holding
-    AND #(PAD_UP | PAD_DOWN)
+    AND #PAD_UP | PAD_DOWN
     BEQ PRG008_A890  ; If Player is not pressing up or down, jump to PRG008_A890
 
     LDY Player_InAir
@@ -1759,7 +1759,7 @@ PRG008_A898:
     LDY #$10    ; Y = $10 (will be Y velocity down if Player is pressing down)
 
     LDA Pad_Holding
-    AND #(PAD_UP | PAD_DOWN)
+    AND #PAD_UP | PAD_DOWN
     BEQ PRG008_A8CA  ; If Player is not pressing up or down, jump to PRG008_A8CA
 
     ; Player is pressing UP or DOWN...
@@ -1797,7 +1797,7 @@ PRG008_A8CA:
     LDY #$10     ; Y = $10 (rightward X velocity)
 
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BEQ PRG008_A8DA  ; If Player is NOT pressing LEFT or RIGHT, jump to PRG008_A8DA
 
     AND #PAD_LEFT
@@ -1818,7 +1818,7 @@ PRG008_A8DA:
     BNE PRG008_A8EC  ; If Player is in air, jump to PRG008_A8EC
 
     LDA Pad_Holding
-    AND #(PAD_UP | PAD_DOWN)
+    AND #PAD_UP | PAD_DOWN
     BNE PRG008_A8EC  ; If Player is pressing UP or DOWN, jump to PRG008_A8EC
 
     STA Player_IsClimbing    ; Set climbing flag
@@ -2055,7 +2055,7 @@ PRG008_AA00:
 
     STA Player_XVel    ; Player_XVel = 0
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BEQ PRG008_AA1A  ; If Player is not pressing left/right, jump to PRG008_AA1A
 
     ; Play frog hop sound
@@ -2099,7 +2099,7 @@ Swim_Frog:
     LDX #$ff     ; X = $FF
 
     LDA Pad_Holding
-    AND #(PAD_UP | PAD_DOWN)
+    AND #PAD_UP | PAD_DOWN
     BEQ PRG008_AA61  ; If Player is NOT pressing up/down, jump to PRG008_AA61
 
     ;
@@ -2125,7 +2125,7 @@ PRG008_AA4D:
     ASL A        ; Double vertical speed
 
 PRG008_AA52:
-    CMP #(PLAYER_FROG_MAXYVEL+1)
+    CMP #PLAYER_FROG_MAXYVEL+1
     BLT PRG008_AA5C
 
     LDY Player_InAir
@@ -2154,7 +2154,7 @@ PRG008_AA6C:
 
 PRG008_AA6E:
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BEQ PRG008_AA84  ; If Player is not pressing left or right, jump to PRG008_AA84
 
     ; Player is pressing left/right...
@@ -2281,7 +2281,7 @@ PRG008_AAFF:
     BNE PRG008_AB25  ; If Player is mid air, jump to PRG008_AB25
 
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     STA Player_KuriboDir     ; Store left/right pad input -> Player_KuriboDir
     BEQ PRG008_AB25     ; If Player is not pressing left or right, jump to PRG008_AB25
     INC Player_InAir    ; Flag as in air (Kuribo's shoe bounces along)
@@ -2424,7 +2424,7 @@ PRG008_AB9E:
 
 PRG008_ABA6:
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BNE PRG008_ABB8  ; If Player is pressing LEFT or RIGHT, jump to PRG008_ABB8
 
     ; Player not pressing LEFT/RIGHT...
@@ -2520,7 +2520,7 @@ PRG008_AC01:
 ; Routine to control based on Player's left/right pad input underwater
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Player_UnderwaterHControl:
-    LDY #(Player_XAccelMain_UW - Player_XAccelMain) ; Y = index to appropriate under water values
+    LDY #Player_XAccelMain_UW - Player_XAccelMain ; Y = index to appropriate under water values
 
     LDA #%00001000
     STA Temp_Var14  ; Temp_Var14 = pretend like Player is definitely hitting UP
@@ -2978,7 +2978,7 @@ PRG008_ADE0:
 PRG008_AE03:
 
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BNE PRG008_AE11  ; If Player is pressing left or right, jump to PRG008_AE11
 
     ; Player NOT pressing left/right
@@ -2994,7 +2994,7 @@ PRG008_AE11:
     BNE PRG008_AE26  ; If Player is performing tail attack, jump to PRG008_AE26
 
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT)
+    AND #PAD_LEFT | PAD_RIGHT
     BEQ PRG008_AE26  ; If Player is NOT pressing left or right, jump to PRG008_AE26
 
     ; Player is pressing left/right
@@ -3021,7 +3021,7 @@ PRG008_AE26:
     BEQ PRG008_AE58  ; If Player is NOT pressing select, jump to PRG008_AE58
 
     LDA Pad_Holding
-    AND #(PAD_A | PAD_B)
+    AND #PAD_A | PAD_B
     BNE PRG008_AE50  ; If Player is holding A or B, jump to PRG008_AE50
 
 
@@ -3030,7 +3030,7 @@ PRG008_AE26:
     CLC
     ADC #$01
     STA Player_QueueSuit
-    CMP #(PLAYERSUIT_LAST+1)    ; +1 because it's by Player_QueueSuit
+    CMP #PLAYERSUIT_LAST+1    ; +1 because it's by Player_QueueSuit
     BLS PRG008_AE47         ; If not the last suit, jump to PRG008_AE47
     LDA #$00
 PRG008_AE47:
@@ -3107,7 +3107,7 @@ PRG008_AEA2:
     BNE PRG008_AEB1  ; If Player is mid air, jump to PRG008_AEB1
 
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT | PAD_UP)
+    AND #PAD_LEFT | PAD_RIGHT | PAD_UP
     BEQ PRG008_AEB6  ; If Player is not holding LEFT, RIGHT, or UP, jump to PRG008_AEB6
 
 PRG008_AEB1:
@@ -3443,7 +3443,7 @@ Player_DoClimbAnim:
     STA Player_Frame    ; Store into Player_Frame
 
     LDA Pad_Holding
-    AND #(PAD_UP | PAD_DOWN)
+    AND #PAD_UP | PAD_DOWN
     BEQ PRG008_B035  ; If Player is NOT pressing UP or DOWN, jump to PRG008_B035
 
     ; Every 8 ticks, flip Player horizontally
@@ -3674,7 +3674,7 @@ Player_ShootAnim:
     BEQ PRG008_B118  ; If Player is mid air, jump to PRG008_B118
 
     CLC
-    ADC #(Player_FireInAir - Player_FireOnGround)    ; Otherwise, offset to "on ground" frames
+    ADC #Player_FireInAir - Player_FireOnGround    ; Otherwise, offset to "on ground" frames
 
 PRG008_B118:
     TAY      ; A -> Y
@@ -4482,7 +4482,7 @@ PRG008_B4A2:
 PRG008_B4A5:
     ; Slopes not enabled...
 
-    LDY #(TileAttrAndQuad_OffsFlat_Sm - TileAttrAndQuad_OffsFlat) + 6   ; 6 = 3 * 2 (the offset we start on below) and work backwards from
+    LDY #TileAttrAndQuad_OffsFlat_Sm - TileAttrAndQuad_OffsFlat + 6   ; 6 = 3 * 2 (the offset we start on below) and work backwards from
 
     LDA Player_Suit
     BEQ PRG008_B4B2  ; If Player is small, jump to PRG008_B4B2
@@ -5626,13 +5626,13 @@ Slope_CorrectH: .byte $FF, $00  ; sign extension of next two values
 Slope_CorrectL: .byte -1, 16
 
 PRG000_B9D8:    ; <-- go back up from here
-        LDY #(TileAttrAndQuad_OffsSloped_Sm - TileAttrAndQuad_OffsSloped) + 6         ; Y = $16 (Player small or ducking)
+    LDY #TileAttrAndQuad_OffsSloped_Sm - TileAttrAndQuad_OffsSloped + 6         ; Y = $16 (Player small or ducking)
 
-        LDA Player_IsDucking
-        BNE PRG008_B9E5  ; If Player is ducking, jump to PRG008_B9E5
+    LDA Player_IsDucking
+    BNE PRG008_B9E5  ; If Player is ducking, jump to PRG008_B9E5
 
-        LDA Player_Suit
-        BEQ PRG008_B9E5  ; If Player is small, jump to PRG008_B9E5
+    LDA Player_Suit
+    BEQ PRG008_B9E5  ; If Player is small, jump to PRG008_B9E5
 
     LDY #$06     ; Y = $06 (Player not small, not ducking; 6 because of 3 * 2 = 6, based on X = 3 down below)
 
@@ -5767,7 +5767,7 @@ PRG008_BA69:
     BEQ PRG008_BA73  ; If Player is small, jump to PRG008_BA73
 
     CLC
-    ADC #(TileAttrAndQuad_OffsSloped_Sm - TileAttrAndQuad_OffsSloped)   ; Otherwise, add 16 to height at this point on slope (NOTE: Ducking included!)
+    ADC #TileAttrAndQuad_OffsSloped_Sm - TileAttrAndQuad_OffsSloped   ; Otherwise, add 16 to height at this point on slope (NOTE: Ducking included!)
 
 PRG008_BA73:
     TAY      ; Y = A
@@ -5898,7 +5898,7 @@ PRG008_BAF4:
     ; The tile being stepped off from does not necessarily need to be a slope-related tile.
 
     LDX #4      ; X = 4
-    LDY #(TileAttrAndQuad_OffsSlopeEdge - TileAttrAndQuad_OffsSloped)
+    LDY #TileAttrAndQuad_OffsSlopeEdge - TileAttrAndQuad_OffsSloped
     LDA Player_X
     AND #$0f
     CMP #$08
@@ -6090,7 +6090,7 @@ PRG008_BBBF:
     BNE PRG008_BC0D  ; If Player is wearing Kuribo's shoe, jump to PRG008_BC0D
 
     LDA Pad_Holding
-    AND #(PAD_DOWN | PAD_LEFT | PAD_RIGHT)  ; checking down/left/right
+    AND #PAD_DOWN | PAD_LEFT | PAD_RIGHT  ; checking down/left/right
     CMP #PAD_DOWN   ; but we only want down
     BNE PRG008_BC0D  ; If NOT only pressing ONLY down, jump to PRG008_BC0D
 
@@ -7056,7 +7056,7 @@ Player_ApplyYVelocity:
     STA Player_YVel ; Player_YVel = FALLRATE_MAX
 
 PRG008_BFF9:
-    LDX #(Player_YVel - Player_XVel) ; Do the Y velocity
+    LDX #Player_YVel - Player_XVel ; Do the Y velocity
     JSR Player_ApplyVelocity     ; Apply it!
 
     RTS      ; Return

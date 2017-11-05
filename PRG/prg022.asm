@@ -565,7 +565,7 @@ LoadLevel_BonusPlayer:
 
     ; This loop tries to match the Player's power up with an index
     ; If nothing else, X = 0, which uses "Big"
-    LDX #(PlayerSuit_ToIndex_End - PlayerSuit_ToIndex - 1)
+    LDX #PlayerSuit_ToIndex_End - PlayerSuit_ToIndex - 1
     LDY Player_Current  ; Y = Player_Current
     LDA World_Map_Power,Y   ; Get current Player's power
 PRG022_C589:
@@ -613,7 +613,7 @@ PRG022_C5A0:
     TAY      ; -> 'Y'
 
     LDA Temp_Var3
-    CMP #(Player_BonusTiles_Raccoon - Player_BonusTiles_Big)
+    CMP #Player_BonusTiles_Raccoon - Player_BonusTiles_Big
     BNE PRG022_C59C  ; If we have more tiles to go, loop!
 
     RTS      ; Return
@@ -652,7 +652,7 @@ PRG022_C5CF:
     STA TileAddr_Off
     TAY      ; -> 'Y'
 
-    CPX #(BonusUNKTALL_Tiles_End - BonusUNKTALL_Tiles)
+    CPX #BonusUNKTALL_Tiles_End - BonusUNKTALL_Tiles
     BNE PRG022_C5CB  ; While X < number of tiles, loop!
 
     RTS      ; Return
@@ -754,7 +754,7 @@ PRG022_C633:
     STA TileAddr_Off
     TAY      ; -> 'Y'
 
-    CPX #(QBoxOrange_Tiles_End - QBoxOrange_Tiles)
+    CPX #QBoxOrange_Tiles_End - QBoxOrange_Tiles
     BNE PRG022_C62F ; While tiles to go, loop!
 
     RTS      ; Return
@@ -792,7 +792,7 @@ PRG022_C65A:
     STA TileAddr_Off
     TAY      ; -> 'Y'
 
-    CPX #(QBoxBlue_Tiles_End - QBoxBlue_Tiles)
+    CPX #QBoxBlue_Tiles_End - QBoxBlue_Tiles
     BNE PRG022_C656 ; While tiles to go, loop!
 
     RTS      ; Return
@@ -946,7 +946,7 @@ HostToad_DrawSprites:
     STA Temp_Var11
 
     LDY #$00     ; Y = 0
-    LDX #(HostToad_SpriteYs_End - HostToad_SpriteYs - 1)
+    LDX #HostToad_SpriteYs_End - HostToad_SpriteYs - 1
 PRG022_C727:
 
     ; Set Sprite Y of this sprite of the Toad Host
@@ -995,7 +995,7 @@ HostTroopa_DrawSprites:
     STA Temp_Var11
 
     LDY #$00     ; Y = 0
-    LDX #(HostTroopa_SpriteYs_End - HostTroopa_SpriteYs - 1)
+    LDX #HostTroopa_SpriteYs_End - HostTroopa_SpriteYs - 1
 PRG022_C765:
 
     ; Set Sprite Y of this sprite of the Koopa Troopa Host
@@ -1046,7 +1046,7 @@ HostHammerBro_DrawSprites:
     STA Temp_Var11
 
     LDY #$00     ; Y = 0
-    LDX #(HostHammerBro_SpriteYs_End - HostHammerBro_SpriteYs - 1)
+    LDX #HostHammerBro_SpriteYs_End - HostHammerBro_SpriteYs - 1
 PRG022_C7A5:
     ; Set Sprite Y of this sprite of the Hammer Bro Host
     LDA HostHammerBro_SpriteYs,X
@@ -1101,7 +1101,7 @@ Draw_KTPrizeGameBox:
 
     ; Draw the game box first
 
-    LDX #(BonusGameBox_SpriteYs_End - BonusGameBox_SpriteYs - 1)
+    LDX #BonusGameBox_SpriteYs_End - BonusGameBox_SpriteYs - 1
 PRG022_C7E1:
 
     ; Set Sprite Y of this sprite
@@ -1267,7 +1267,7 @@ PRG022_C880:
     BLT PRG022_C8A0  ; If Bonus_GameState < 7, jump to PRG022_C8A0
 
     LDA Pad_Input
-    AND #(PAD_A | PAD_B)
+    AND #PAD_A | PAD_B
     BEQ PRG022_C8A0  ; If Player is pushing neither A nor B, jump to PRG022_C8A0
 
     ; Player pushing A or B...
@@ -1530,7 +1530,7 @@ PRG022_C9B4:
     INX      ; X++ (next graphics buffer byte)
 
     ; Run length to blank a line of dialog
-    LDA #(VU_REPEAT | $12)
+    LDA #VU_REPEAT | $12
     STA Graphics_Buffer+$00,X
 
     INX      ; X++ (next graphics buffer byte)
@@ -2039,7 +2039,7 @@ Bonus_DrawDie:
     STA Sprite_RAM+$FA
 
     ; Set right half of die attributes
-    LDA #(SPR_PAL3 | SPR_HFLIP | SPR_VFLIP)
+    LDA #SPR_PAL3 | SPR_HFLIP | SPR_VFLIP
     STA Sprite_RAM+$FE
 
     ; Set left half of die X
@@ -2346,7 +2346,7 @@ BonusCoin_ApplyXVel:
     ; Offset to coin X velocity
     TYA
     CLC
-    ADC #(Bonus_CoinsXVelFrac - Bonus_CoinsYVelFrac)
+    ADC #Bonus_CoinsXVelFrac - Bonus_CoinsYVelFrac
     TAY
 
     JSR BonusCoin_ApplyVel   ; Apply X velocity to coin
@@ -2354,7 +2354,7 @@ BonusCoin_ApplyXVel:
     ; Offset back
     TYA
     SEC
-    SBC #(Bonus_CoinsXVelFrac - Bonus_CoinsYVelFrac)
+    SBC #Bonus_CoinsXVelFrac - Bonus_CoinsYVelFrac
     TAY
 
     RTS      ; Return
@@ -2820,7 +2820,7 @@ Roulette_Init:
 
 Roulette_Run:
     LDA Pad_Input
-    AND #(PAD_A | PAD_B)
+    AND #PAD_A | PAD_B
     BEQ PRG022_D0DF  ; If Player is NOT pressing A or B, jump to PRG022_D0DF
 
     ; Player is pressing A or B...
@@ -3145,7 +3145,7 @@ PRG022_D224:
     ; At least one turn remaining ... (this is UNUSED!)
 
     LDA Pad_Holding
-    AND #(PAD_A | PAD_B | PAD_START)
+    AND #PAD_A | PAD_B | PAD_START
     BEQ PRG022_D237  ; If Player is not pressing A, B, or START, jump to PRG022_D237
 
     DEC Roulette_Turns   ; Roulette_Turns--
@@ -3665,7 +3665,7 @@ Card_InitDeck:
     BNE PRG022_D668  ; If you already have an N-Spade game in progress from before, jump to PRG022_D668
 
     ; Load in the initial set of cards
-    LDY #(Card_InitialSet_End - Card_InitialSet - 1)
+    LDY #Card_InitialSet_End - Card_InitialSet - 1
 PRG022_D659:
     LDA Card_InitialSet,Y    ; Get initial card
     STA Card_ActiveSet,Y     ; Store into card memory
@@ -4206,7 +4206,7 @@ PRG022_D902:
     RTS      ; Return
 
 Card_RenderFace:
-    LDY #(CardBase_BufCmds_End - CardBase_BufCmds - 1)
+    LDY #CardBase_BufCmds_End - CardBase_BufCmds - 1
 PRG022_D923:
     LDA CardBase_BufCmds,Y
     STA Graphics_Buffer+$00,Y
@@ -4356,7 +4356,7 @@ PRG022_D9E0:
 
 
 Card_RenderBack:
-    LDY #(CardBack_BufCmds_End - CardBack_BufCmds - 1)
+    LDY #CardBack_BufCmds_End - CardBack_BufCmds - 1
 PRG022_D9F1:
     LDA CardBack_BufCmds,Y      ; Get graphics buffer command
     STA Graphics_Buffer+$00,Y   ; Store into graphics buffer
@@ -4555,7 +4555,7 @@ PRG022_DAE2:
     RTS
 
 Card_Blackout:
-    LDY #(CardBlackout_BufCmds_End - CardBlackout_BufCmds - 1)
+    LDY #CardBlackout_BufCmds_End - CardBlackout_BufCmds - 1
 PRG022_DAF7:
     LDA CardBlackout_BufCmds,Y   ; Get buffer command
     STA Graphics_Buffer+$00,Y    ; Set in graphics buffer
@@ -4571,7 +4571,7 @@ PRG022_DAF7:
     LDA Card_VRAMLo,Y
     STA Card_VRAM_L
 
-    LDA #(CardBlackout_BufCmds_End - CardBlackout_BufCmds - 1)
+    LDA #CardBlackout_BufCmds_End - CardBlackout_BufCmds - 1
     STA Graphics_BufCnt
 
     LDY #$00     ; Y = 0
@@ -4711,7 +4711,7 @@ PRG022_DBA5:
 
 PRG022_DBAF:
     LDA Pad_Holding
-    AND #(PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN)
+    AND #PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN
     BEQ PRG022_DC1D  ; If Player is not pressing a direction, jump to PRG022_DC1D (RTS)
 
     ; Card_MoveDelay = 8
