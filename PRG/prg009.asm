@@ -433,7 +433,7 @@ PRG009_A1E4:
     BPL PRG009_A1E4  ; While X >= 0, loop
 
 PRG009_A1EA:
-    LDA Vs_State
+    ABS_LDA Vs_State ; LDA Vs_State
     JSR DynJump
 
     ; THESE MUST FOLLOW DynJump FOR THE DYNAMIC JUMP TO WORK!!
@@ -474,7 +474,7 @@ PRG009_A204:
     ORA #$91
     STA Vs_Random
 
-    INC Vs_State     ; Vs_State = 1
+    ABS_INC Vs_State ; INC Vs_State     ; Vs_State = 1
 
     LDY Map_2PVsGame ; Y = Map_2PVsGame (game style)
 
@@ -829,7 +829,7 @@ Vs_PlayerMove:
 PRG009_A3F3:
     STX Vs_CurIndex
 
-    LDA Vs_IsPaused
+    ABS_LDA Vs_IsPaused ; LDA Vs_IsPaused
     BNE PRG009_A40B  ; If 2P Vs is paused, jump to PRG009_A40B
 
     LDA Vs_PlayerCnt,X
@@ -884,11 +884,11 @@ PRG009_A431:
 
     ; Flag to exit to map!
     LDA #$01
-    STA Level_ExitToMap
+    ABS_STA Level_ExitToMap ; STA Level_ExitToMap
 
     ; Vs_State = 0
     LSR A
-    STA Vs_State
+    ABS_STA Vs_State ; STA Vs_State
 
     ; Do not return to caller!!
     PLA
@@ -2982,7 +2982,7 @@ Vs_Coin:
 
 PRG009_AE3A:
     LDA Vs_TimeToExit
-    ORA Vs_IsPaused
+    ABS_ORA Vs_IsPaused ; ORA Vs_IsPaused
     ORA Vs_ObjHaltTimer,X
     BNE PRG009_AE6C  ; If exiting, paused, or coin is halted, jump to PRG009_AE6C
 

@@ -1033,7 +1033,7 @@ PRG011_A698:
 
     LDA #$00
     STA Map_SkidBack
-    STA World_Map_Twirl,X    ; Twirling is done
+    ABS_STA_X World_Map_Twirl ; STA World_Map_Twirl,X   ; Twirling is done
     STA Map_Prev_XOff2,X
     STA Map_Prev_XHi2,X
 
@@ -4087,7 +4087,7 @@ PRG011_B74A:
     JMP WorldMap_UpdateAndDraw   ; Draw and update map and don't come back
 
 MapStarsIntro_DoStarFX:
-    LDA Map_StarFX_State
+    ABS_LDA Map_StarFX_State ; LDA Map_StarFX_State
     JSR DynJump
 
     .word MapStarsIntro_Init
@@ -4196,7 +4196,7 @@ PRG011_B800:
     LDA #$09
     STA Map_StarsConst9    ; Map_StarsConst9 = 9 (forever?)
 
-    INC Map_StarFX_State    ; Next state... (technically, +2 before it gets back)
+    ABS_INC Map_StarFX_State ; INC Map_StarFX_State    ; Next state... (technically, +2 before it gets back)
 
     LDX Map_StarsState
     CPX #$02
@@ -4287,7 +4287,7 @@ PRG011_B874:
     BNE PRG011_B8AF         ; If Map_StarsOutRad - 4 <> 0, jump to PRG011_B8AF
 
     LDA #$00
-    STA Map_StarFX_State        ; Map_StarFX_State = 0
+    ABS_STA Map_StarFX_State ; STA Map_StarFX_State        ; Map_StarFX_State = 0
     STA Map_StarsLandRad       ; Map_StarsLandRad = 0
 
     LDA Map_StarsState

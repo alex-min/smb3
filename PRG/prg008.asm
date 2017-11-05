@@ -353,7 +353,7 @@ PRG008_A17F:
     ORA Player_SuitLost ; ... just lost his suit ...
     ORA Player_StarOff  ; ... starman is wearing off ...
     ORA Player_Grow     ; ... is growing/shrinking ...
-    STA Player_HaltGame ; ... means he's halting the gameplay for now
+    ABS_STA Player_HaltGame ; STA Player_HaltGame ; ... means he's halting the gameplay for now
 
     BNE PRG008_A1C1     ; And if that's the case, jump to PRG008_A1C1
 
@@ -2630,7 +2630,7 @@ PRG008_AC73:
     STA Player_InAir ; Flag Player as mid air
 
     LDA #$00
-    STA Player_WagCount  ; Player_WagCount = 0
+    ABS_STA Player_WagCount ; STA Player_WagCount  ; Player_WagCount = 0
     STA Player_AllowAirJump  ; Player_AllowAirJump = 0
 
     LDA Player_Power
@@ -2824,7 +2824,7 @@ PRG008_AD5C:
     LDY Player_AboveTop
     BPL PRG008_AD73  ; If Player is not above top of screen, jump to PRG008_AD73
 
-    LDY Player_SpriteY
+    ABS_LDY Player_SpriteY ; LDY Player_SpriteY
     CPY #-8
     BGE PRG008_AD73  ; If Player sprite is a bit high up, jump to PRG008_AD73
 
@@ -3525,7 +3525,7 @@ PRG008_B079:
 
 PRG008_B082:
     LDA Player_FlyTime
-    ORA Player_WagCount
+    ABS_ORA Player_WagCount ; ORA Player_WagCount
     BEQ PRG008_B09F  ; If flying or fluttering, jump to PRG008_B09F (RTS)
 
     LDY #-1      ; Y = -1

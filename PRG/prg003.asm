@@ -473,7 +473,7 @@ ObjInit_TreasureBox:
 
     ; Update the palette!
     LDA #$06
-    STA Graphics_Queue
+    ABS_STA Graphics_Queue ; STA Graphics_Queue
 
     ; Timer = $1F (ticks until appearance)
     LDA #$1f
@@ -1787,7 +1787,7 @@ ObjNorm_BoomBoomQBall:
     LDA Objects_Var4,X
     STA Map_DoFortressFX
 
-    INC Level_ExitToMap  ; Flag to exit to map
+    ABS_INC Level_ExitToMap ; INC Level_ExitToMap  ; Flag to exit to map
 
 PRG003_A8FE:
     RTS      ; Return
@@ -4206,7 +4206,7 @@ PRG003_B578:
 
     LDX SlotIndexBackup         ; X = object slot index
 
-    LDA Player_IsDying
+    ABS_LDA Player_IsDying ; LDA Player_IsDying
     ORA Player_OffScreen
     BNE PRG003_B5C2  ; If Player is dead or off-screen, jump to PRG003_B5C2 (RTS)
 
@@ -4512,7 +4512,7 @@ PRG003_B6FD:
     LDA Counter_1
     AND #$0f        ; 0-15 counter value
     CLC
-    ADC Objects_SpriteY,X   ; Add 0-15 to SpriteY
+    ABS_ADC_X Objects_SpriteY ; ADC Objects_SpriteY,X   ; Add 0-15 to SpriteY
 
     ; Temp_Var1 (Sprite Y) = Temp_Var16 + Tornado_ScatterY[X] + Temp_Var9
     LDX Temp_Var16
@@ -4537,7 +4537,7 @@ PRG003_B6FD:
     LDA PRG003_B6B6,X ; A = PRG003_B6B6[X]
     CLC      ; Clear carry
     LDX SlotIndexBackup         ; X = object slot index
-    ADC Objects_SpriteX,X
+    ABS_ADC_X Objects_SpriteX ; ADC Objects_SpriteX,X
     CLC
     ADC Temp_Var10
     STA Temp_Var2
@@ -5854,7 +5854,7 @@ PRG003_BD2A:
     BNE PRG003_BD60  ; If Player is invincible by Starman, jump to PRG003_BD60 (RTS)
 
 Player_HurtIfNotDieOffBehind:
-    ORA Player_IsDying      ; If Player is dying...
+    ABS_ORA Player_IsDying ; ORA Player_IsDying      ; If Player is dying...
     ORA Player_OffScreen    ; ... off-screen ...
     ORA Player_Behind_En    ; ... or behind the scenes ...
     BNE PRG003_BD60     ; ... jump to PRG003_BD60 (RTS)

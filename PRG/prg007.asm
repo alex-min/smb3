@@ -1629,7 +1629,7 @@ PRG007_A7A2:
     LDX Player_IsDucking
     BNE PRG007_A7C6  ; If Player is ducking, jump to PRG007_A7C6
 
-    LDX Player_Suit
+    ABS_LDX Player_Suit ; LDX Player_Suit
     BNE PRG007_A7C9  ; If Player is not small, jump to PRG007_A7C9
 
 PRG007_A7C6:
@@ -4075,7 +4075,7 @@ PRG007_B3C2:
     STA Sprite_RAM+$01,Y
 
     LDA SpecialObj_Data,X
-    ORA Player_IsDying
+    ABS_ORA Player_IsDying ; ORA Player_IsDying
     ORA Player_OffScreen
     BNE PRG007_B445  ; If cannonon ball is already stomped, Player is dying, or Player is off-screen, jump to PRG007_B445 (RTS)
 
@@ -4912,7 +4912,7 @@ PRG007_B805:
     LDA Player_FlashInv ; If Player is flashing from being hit ...
     ORA Player_Statue   ; ... if Player is a statue ...
     ORA Player_HaltGame    ; ... if gameplay is halted ...
-    ORA Player_IsDying  ; ... Player is dying ...
+    ABS_ORA Player_IsDying ; ORA Player_IsDying  ; ... Player is dying ...
     ORA Player_OffScreen    ; ... Player is off-screen ...
     ORA Player_Behind_En    ; ... Player is legitimately hidden behind the scenes ...
     ORA Temp_Var14     ; ... or special object is not vertically on-screen ...
