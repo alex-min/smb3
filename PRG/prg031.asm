@@ -3522,7 +3522,7 @@ PRGROM_Change_C000: ; $FFD1
     .byte $00, $00, $6C, $56, $03, $00, $01, $0C, $01, $2D
 
     ; ASSEMBLER BOUNDARY CHECK, END OF $FFFA
-    .pad $FFFA
+    .pad $FFFA, $FF
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; VECTORS

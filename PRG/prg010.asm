@@ -3981,7 +3981,7 @@ PRG010_D535:
     ; to expand from the ending address above ($D542) up to the DMC data.  But the DMC
     ; data itself must not leave an alignment divisible by $40.
 
-    .pad $D800   ; <-- Modify to suit, but must align to an address evenly divisible by $40 (assembler needs an ALIGN directive!)
+    .pad $D800, $FF   ; <-- Modify to suit, but must align to an address evenly divisible by $40 (assembler needs an ALIGN directive!)
 DMC07:
     .byte $4A, $53, $55, $55, $55, $55, $55, $55, $55, $55, $AB, $4A, $55, $AA, $DA, $EE
     .byte $2D, $55, $82, $00, $01, $B5, $DD, $BE, $EF, $FB, $AE, $55, $97, $48, $00, $04
