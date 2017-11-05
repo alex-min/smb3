@@ -5297,7 +5297,7 @@ PRG024_BA19:
 
     ; Second ending timer = $10
     LDA #$10
-    STA Ending_Timer+1
+    ABS_STA Ending_Timer+1 ; STA Ending_Timer+1
 
     RTS      ; Return
 

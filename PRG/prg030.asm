@@ -4875,7 +4875,7 @@ PRG030_9AA5:
 
 TileLayoutPage_ByTileset:
     ; A000 page selected per-Level_Tileset...
-    .byte 11                ; 0     Tile_Layout_TS0             Map [11]
+    .byte 12                ; 0     Tile_Layout_TS0             Map [12]
     .byte 15                ; 1     Tile_Layout_TS1             Plains [15]
     .byte 21                ; 2     Tile_Layout_TS2             Mini fortress style [21]
     .byte 16                ; 3     Tile_Layout_TS3             Hills style [16]
